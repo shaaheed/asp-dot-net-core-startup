@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.Abstractions\Msi.Extensions.Persistence.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore\Msi.Extensions.Persistence.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Module.Identity.Entities\Module.Identity.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

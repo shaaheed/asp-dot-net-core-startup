@@ -1,0 +1,21 @@
+<!-- <button nz-button (click)="add()" nzType="primary">Add</button> -->
+<nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize"
+    [nzData]="listOfData">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.name }}</td>
+            <td>{{ data.code }}</td>
+            <td>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a>Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
+    <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\Module.Core.Persistence.EntityFramework\Module.Core.Persistence.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>

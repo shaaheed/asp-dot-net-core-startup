@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Web\Core.Web.csproj" />
+    <ProjectReference Include="..\Extensions\Msi.Extensions.DependencyInjection\Msi.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore.Sqlite\Msi.Extensions.Persistence.EntityFrameworkCore.Sqlite.csproj" />
+    <ProjectReference Include="..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore.SqlServer\Msi.Extensions.Persistence.EntityFrameworkCore.SqlServer.csproj" />
+    
+    <ProjectReference Include="..\Modules\Module.Sales\Module.Sales.csproj" />
+    <ProjectReference Include="..\Modules\Module.User\Module.Users.csproj" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0" />
+  </ItemGroup>
+
+
+</Project>

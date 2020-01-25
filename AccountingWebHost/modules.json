@@ -1,0 +1,18 @@
+[
+  {
+    "id": "Module.Core",
+    "version": "1.0.0"
+  },
+  //{
+  //  "id": "Module.Identity",
+  //  "version": "1.0.0"
+  //},
+  {
+    "id": "Module.Users",
+    "version": "1.0.0"
+  },
+  {
+    "id": "Module.Sales",
+    "version": "1.0.0"
+  }
+]

@@ -1,0 +1,41 @@
+<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+    
+    <nz-form-item>
+        <nz-form-control nzErrorTip="Please input group name">
+            <input [(ngModel)]="name" type="text" nz-input formControlName="name" placeholder="Group name" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="resource-box" *ngFor="let selectedResource of selectedResources">
+        <div class="resource-box-header">
+            <span>{{selectedResource.code}}</span>
+            <!-- <span>Add specific permission</span> -->
+            <i (click)="removeResource(selectedResource)" nz-icon nzType="close-circle"></i>
+        </div>
+        <nz-form-control class="resources-control">
+            <nz-select [nzLoading]="loading" formControlName="resource_{{selectedResource.code}}" nzMode="multiple"
+                nzPlaceHolder="Select {{selectedResource.code}} options"
+                [(ngModel)]="selectedResource.selectedOperations">
+                <nz-option *ngFor="let o of selectedResource.operations" [nzLabel]="o.code" [nzValue]="o.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-control>
+            <button style="width: 100%" nz-button nz-dropdown nzTrigger="click" nzType="default"
+                [nzDropdownMenu]="dropdownmenu">
+                <i nz-icon nzType="plus"></i>
+                Add Resource
+            </button>
+            <nz-dropdown-menu style="width: 100%" #dropdownmenu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li (click)="addResource(resource)" *ngFor="let resource of resources" nz-menu-item>
+                        {{resource.code}}</li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-form-control>
+    </nz-form-item>
+
+</form>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

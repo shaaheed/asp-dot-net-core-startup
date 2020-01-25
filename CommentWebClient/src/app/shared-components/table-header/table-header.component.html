@@ -1,0 +1,21 @@
+<!-- <div>
+    <h2 class="header-text">{{data.title}}</h2>
+</div> -->
+<div class="table-header">
+    <div class="header-left">
+        <!-- <i class="back" nz-icon nzType="arrow-left"></i> -->
+        <!-- <h2 class="header-text">{{data.title}}</h2> -->
+    </div>
+    <div class="header-middle">
+        <nz-input-group [nzPrefix]="prefixTemplate">
+            <input type="text" nz-input placeholder="Search" />
+        </nz-input-group>
+        <ng-template #prefixTemplate><i nz-icon nzType="search"></i></ng-template>
+    </div>
+    <div class="header-right">
+        <button *ngFor="let btn of data.buttons" nz-button (click)="btn.action()" [nzType]="btn.type">
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            {{btn.label}}
+        </button>
+    </div>
+</div>

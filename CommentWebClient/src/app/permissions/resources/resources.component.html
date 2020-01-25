@@ -1,0 +1,38 @@
+<div class="table-header">
+    <div class="header-left">
+        <i class="back" nz-icon nzType="arrow-left"></i>
+        <h2 class="header-text">Resources</h2>
+    </div>
+    <div class="header-middle">
+        <nz-input-group [nzPrefix]="prefixTemplate">
+            <input type="text" nz-input placeholder="Search" />
+        </nz-input-group>
+        <ng-template #prefixTemplate><i nz-icon nzType="search"></i></ng-template>
+    </div>
+    <div class="header-right">
+        <button nz-button (click)="sync()" nzType="default">Sync</button>
+        <button nz-button (click)="add()" nzType="primary">Add</button>
+    </div>
+</div>
+<div class="table-body">
+
+    <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize" [nzData]="listOfData">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{ data.code }}</td>
+                <td>
+                    <span *ngFor="let o of data.operations">
+                        <nz-tag [nzColor]="'blue'">{{o.code}}</nz-tag>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>

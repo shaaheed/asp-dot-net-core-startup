@@ -1,0 +1,41 @@
+<app-table-header [data]="tableHeader"></app-table-header>
+<div class="table-body">
+    <nz-table #basicTable nzShowSizeChanger [nzLoading]="loading" [nzTotal]="total" [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize" [nzData]="listOfData">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Resources</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{ data.name }}</td>
+                <td>
+                    <nz-tag [nzColor]="'blue'" *ngFor="let r of data.resources">
+                        {{r.code}}
+                        <span *ngIf="r.operationString">
+                            ({{ r.operationString }})
+                        </span>
+                    </nz-tag>
+                </td>
+                <td class="action-column">
+                    <span nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click">
+                        <i nz-icon nzType="ellipsis"></i>
+                    </span>
+                    <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="add(data)">
+                                <i nz-icon nzType="edit"></i>Edit
+                            </li>
+                            <li nz-menu-item (click)="delete(data)">
+                                <i nz-icon nzType="delete"></i>Delete
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
