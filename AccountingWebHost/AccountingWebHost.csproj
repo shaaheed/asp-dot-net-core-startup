@@ -7,8 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Core.Web\Core.Web.csproj" />
     <ProjectReference Include="..\Extensions\Msi.Extensions.DependencyInjection\Msi.Extensions.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore.Sqlite\Msi.Extensions.Persistence.EntityFrameworkCore.Sqlite.csproj" />
-    <ProjectReference Include="..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore.SqlServer\Msi.Extensions.Persistence.EntityFrameworkCore.SqlServer.csproj" />
     
     <ProjectReference Include="..\Modules\Module.Sales\Module.Sales.csproj" />
     <ProjectReference Include="..\Modules\Module.User\Module.Users.csproj" />
