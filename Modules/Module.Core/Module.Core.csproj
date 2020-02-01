@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
     <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
+    <ProjectReference Include="..\..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
     <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
     <ProjectReference Include="..\Module.Core.Persistence.EntityFramework\Module.Core.Persistence.EntityFramework.csproj" />
   </ItemGroup>

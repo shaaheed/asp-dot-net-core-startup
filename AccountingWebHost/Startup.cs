@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Core.Web.Modules;
-using Microsoft.AspNetCore.DataProtection;
-using System.IO;
 using Module.Core.Exceptions;
 using Msi.Extensions.Persistence.Abstractions;
 using Module.Core.Filters;
@@ -37,18 +35,13 @@ namespace AccountingWebHost
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("http://localhost:4200")
-                    .WithOrigins("https://asp-dot-net-core-startup.herokuapp.com")
+                    .WithOrigins("https://shaaheed.github.io")
                     .AllowCredentials();
                 });
             });
 
-
-            services.AddDataProtection()
-                .SetApplicationName("data_protection_app")
-                //.ProtectKeysWithCertificate()
-                .PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory()));
-
             //services.AddSwaggerService();
+            System.Console.WriteLine("Content Root Path - {0}", _env.ContentRootPath);
             services.AddModules(_env.ContentRootPath);
 
             services.Configure<DataContextOptions>(options =>

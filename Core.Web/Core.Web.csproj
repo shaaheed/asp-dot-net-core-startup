@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core.Events\Core.Events.csproj" />
     <ProjectReference Include="..\Core.Infrastructure\Core.Infrastructure.csproj" />
-    <ProjectReference Include="..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
+    <ProjectReference Include="..\Extensions\Msi.Extensions.Infrastructure\Msi.Extensions.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

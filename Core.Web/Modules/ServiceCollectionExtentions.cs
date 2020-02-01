@@ -20,9 +20,11 @@ namespace Core.Web.Modules
         public static IServiceCollection AddModules(this IServiceCollection services, string contentRootPath)
         {
             var modulesPath = Path.Combine(contentRootPath, ModulesFilename);
+            Console.WriteLine("Modules Path {0}", modulesPath);
             using (var reader = new StreamReader(modulesPath))
             {
                 string content = reader.ReadToEnd();
+                Console.WriteLine("Modules Content {0}", content);
                 List<ModuleData> modulesData = JsonConvert.DeserializeObject<List<ModuleData>>(content);
                 foreach (ModuleData module in modulesData)
                 {
