@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { AppInjector } from 'src/app/app.component';
-import { NzMessageService } from 'ng-zorro-antd';
-import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -17,14 +15,16 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                    console.log('event ->>>', event)
+                    if (!environment.production) {
+                        console.log('event ->>>', event);
+                    }
                 }
                 return event
             }),
             catchError((err: HttpErrorResponse) => {
-                console.log('error ->>>', err)
-                const messageService = AppInjector.get(NzMessageService);
-                const router = AppInjector.get(Router);
+                if (!environment.production) {
+                    console.log('error ->>>', err);
+                }
                 return throwError(err);
             })
         );

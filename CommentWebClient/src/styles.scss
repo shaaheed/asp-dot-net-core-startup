@@ -239,11 +239,11 @@ app-layout-default .menu-sidebar {
     justify-content: space-between;
 }
 
-.ant-menu-item-selected > a,
-.ant-menu-submenu-selected,
-.ant-menu-item-selected > a:hover {
-    font-weight: 600;
-}
+// .ant-menu-item-selected > a,
+// .ant-menu-submenu-selected,
+// .ant-menu-item-selected > a:hover {
+//     font-weight: 600;
+// }
 
 nz-header .ant-badge-count {
     min-width: 12px;
@@ -317,6 +317,10 @@ nz-header .ant-badge-count {
 
 .display-flex {
     display: flex;
+}
+
+.align-items-center {
+    align-items: center;
 }
 
 .color-gray {

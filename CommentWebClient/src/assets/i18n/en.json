@@ -63,5 +63,13 @@
     "notes": "Notes",
     "print": "Print",
     "download.pdf": "Download PDF",
-    "send.email": "Send Email"
+    "send.email": "Send Email",
+    "report": "Report",
+    "home": "Home",
+    "settings": "Settings",
+    "purchase": "Purchase",
+    "bills": "Bills",
+    "vendors": "Vendors",
+    "search": "Search",
+    "new.account": "New account"
 }

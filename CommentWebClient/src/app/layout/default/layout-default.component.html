@@ -1,44 +1,51 @@
 <nz-layout class="app-layout" [class.bn]="selectedLanguage == 'bn'">
   <div class="app-layout-body">
     <nz-header>
-      <div class="column">
-        <!-- <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-          </span> -->
+      <div class="organization cursor-pointer">
+        <div class="name-container" nz-dropdown [nzDropdownMenu]="orgMenu" nzTrigger="click">
+          <div class="image display-flex">
+            <nz-avatar class="shadow-m" nzIcon="bank"></nz-avatar>
+          </div>
+          <div class="name">
+            <span>Personal</span>
+            <i nz-icon nzType="down" nzTheme="outline"></i>
+          </div>
+        </div>
+        <nz-dropdown-menu #orgMenu="nzDropdownMenu">
+          <ul nz-menu class="organization-dropdown">
+            <li nz-menu-item>
+              <nz-avatar nzIcon="bank"></nz-avatar>
+              <span>Personal</span>
+            </li>
+            <li nz-menu-item>
+              <nz-avatar nzIcon="plus"></nz-avatar>
+              <span>{{'new.account'|translate}}</span>
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+      <div class="column search">
+        <nz-input-group [nzPrefix]="prefixIconSearch">
+          <input type="text" nz-input placeholder="{{'search'|translate}}" />
+        </nz-input-group>
+        <ng-template #prefixIconSearch>
+          <i nz-icon nzType="search"></i>
+        </ng-template>
       </div>
       <div class="column">
         <div>
-          <nz-select nzPlaceHolder="Select a language" (ngModelChange)="languageChanged($event)" [(ngModel)]="selectedLanguage">
+          <nz-select (ngModelChange)="languageChanged($event)"
+            [(ngModel)]="selectedLanguage">
             <nz-option nzLabel="English" nzValue="en"></nz-option>
             <nz-option nzLabel="Bangla" nzValue="bn"></nz-option>
           </nz-select>
         </div>
-        <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-          <nz-badge class="font-18" [nzCount]="count">
-            <i nz-icon nzType="bell"></i>
+        <div nz-dropdown>
+          <nz-badge class="font-18">
+            <i nz-icon nzType="bell" nzTheme="fill"></i>
           </nz-badge>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item>1st menu item</li>
-              <li nz-menu-item>2nd menu item</li>
-              <li nz-menu-divider></li>
-              <li nz-menu-item nzDisabled>disabled menu item</li>
-              <li nz-submenu nzTitle="sub menu">
-                <ul>
-                  <li nz-menu-item>3rd menu item</li>
-                  <li nz-menu-item>4th menu item</li>
-                </ul>
-              </li>
-              <li nz-submenu nzDisabled nzTitle="disabled sub menu">
-                <ul>
-                  <li nz-menu-item>3rd menu item</li>
-                  <li nz-menu-item>4th menu item</li>
-                </ul>
-              </li>
-            </ul>
-          </nz-dropdown-menu>
         </div>
-        <div nz-popover nzPopoverTrigger="click">
+        <div class="display-flex cursor-pointer" nz-popover nzPopoverTrigger="click">
           <nz-avatar nzIcon="user"></nz-avatar>
           <ng-template #contentTemplate>
             <a>Close</a>
@@ -48,14 +55,12 @@
     </nz-header>
     <nz-layout>
       <nz-sider class="menu-sidebar" nzCollapsible nzWidth="220px" nzBreakpoint="md" [nzTrigger]="null">
-        <!-- <div class="sidebar-logo">
-            <a href="https://ng.ant.design/" target="_blank">
-              <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
-              <h1>Comment Client</h1>
-            </a>
-          </div> -->
-        <ul nz-menu nzMode="inline">
-          <li nz-submenu nzTitle="{{'sales'|translate}}" nzIcon="tag">
+        <ul nz-menu nzMode="inline" [nzInlineCollapsed]="menuCollapsed">
+          <li nz-menu-item>
+            <i nz-icon nzType="home"></i>
+            <span>{{'home'|translate}}</span>
+          </li>
+          <li nz-submenu nzTitle="{{'sales'|translate}}" nzIcon="shopping" [nzOpen]="true">
             <ul>
               <li nz-menu-item nzMatchRouter>
                 <a routerLink="/invoices">
@@ -72,12 +77,31 @@
               </li>
             </ul>
           </li>
-          <!-- <li nz-menu-item nzTitle="Products" nzMatchRouter>
-            <a routerLink="/products">
-              <i nz-icon nzType="code-sandbox" nzTheme="outline"></i>
-              {{'products'|translate}}
-            </a>
-          </li> -->
+          <li nz-submenu nzTitle="{{'purchase'|translate}}" nzIcon="shopping-cart" [nzOpen]="true">
+            <ul>
+              <li nz-menu-item nzMatchRouter>
+                <a>
+                  {{'bills'|translate}}
+                </a>
+              </li>
+              <li nz-menu-item nzMatchRouter>
+                <a>
+                  {{'vendors'|translate}}
+                </a>
+              </li>
+              <li nz-menu-item nzMatchRouter>
+                <a>{{'products'|translate}}</a>
+              </li>
+            </ul>
+          </li>
+          <li nz-menu-item>
+            <i nz-icon nzType="bar-chart"></i>
+            <span>{{'report'|translate}}</span>
+          </li>
+          <li nz-menu-item>
+            <i nz-icon nzType="setting"></i>
+            <span>{{'settings'|translate}}</span>
+          </li>
         </ul>
       </nz-sider>
       <nz-content>

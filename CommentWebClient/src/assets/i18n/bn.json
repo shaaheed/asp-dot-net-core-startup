@@ -61,5 +61,13 @@
     "notes": "টীকা",
     "print": "প্রিন্ট",
     "download.pdf": "পিডিএফ ডাউনলোড করুন",
-    "send.email": "ইমেইল পাঠান"
+    "send.email": "ইমেইল পাঠান",
+    "report": "রিপোর্ট",
+    "home": "হোম",
+    "settings": "সেটিংস",
+    "purchase": "ক্রয়",
+    "bills": "রসিদ",
+    "vendors": "বিক্রেতা",
+    "search": "খুঁজুন",
+    "new.account": "নতুন অ্যাকাউন্ট"
 }
