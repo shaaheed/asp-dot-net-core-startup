@@ -41,7 +41,6 @@ namespace AccountingWebHost
             });
 
             //services.AddSwaggerService();
-            System.Console.WriteLine("Content Root Path - {0}", _env.ContentRootPath);
             services.AddModules(_env.ContentRootPath);
 
             services.Configure<DataContextOptions>(options =>

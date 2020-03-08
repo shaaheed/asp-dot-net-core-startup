@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.InvoicePayments
 
         public async Task<InvoicePaymentDetailsDto> Handle(GetInvoicePaymentQuery request, CancellationToken cancellationToken)
         {
-            var product = _unitOfWork.GetRepository<Invoice>()
+            var result = _unitOfWork.GetRepository<Invoice>()
                 .AsQueryable()
                 .Select(x => new InvoicePaymentDetailsDto
                 {
@@ -41,7 +41,7 @@ namespace Module.Sales.Domain.InvoicePayments
                     IssueDate = x.IssueDate
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
-            return product;
+            return await Task.FromResult(result);
         }
     }
 }

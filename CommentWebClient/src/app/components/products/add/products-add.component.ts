@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductsAddComponent extends FormComponent {
 
   loading: boolean = false;
+  noData: boolean = false;
 
   constructor(
     private productService: ProductsHttpService,
@@ -55,20 +56,20 @@ export class ProductsAddComponent extends FormComponent {
 
   requiredValidator(control: FormControl) {
     if (!control.value) {
-      return this.constructError('please.give.a.name');
+      return this.error('please.give.a.name');
     }
     else if (control.value.length < 3) {
-      return this.constructError('name.must.be.greater.than.3.letters');
+      return this.error('name.must.be.greater.than.3.letters');
     }
     return of(true);
   }
 
   priceValidator(control: FormControl) {
     if (!control.value) {
-      return this.constructError('please.give.a.price');
+      return this.error('please.give.a.price');
     }
     else if (isNaN(Number(control.value))) {
-      return this.constructError('price.must.be.numeric');
+      return this.error('price.must.be.numeric');
     }
     return of(true);
   }

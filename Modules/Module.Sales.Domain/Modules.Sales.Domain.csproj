@@ -8,6 +8,8 @@
     <ProjectReference Include="..\..\Core.Events\Core.Events.csproj" />
     <ProjectReference Include="..\..\Core.Infrastructure\Core.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.Abstractions\Msi.Extensions.Persistence.Abstractions.csproj" />
+    <ProjectReference Include="..\Module.Core.Domain\Module.Core.Domain.csproj" />
+    <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
     <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
   </ItemGroup>
 

@@ -11,14 +11,14 @@ export function invoke(fn: Function, ...args) {
     if (fn) fn(...args);
 }
 
-export function removeNullUndefinedProperty(o) {
+export function clean(o) {
     const _o = {}
     for (const k in o) {
         if (o.hasOwnProperty(k)) {
             const v = o[k];
             if (Array.isArray(v)) {
                 const arr = v.map(x => {
-                    return removeNullUndefinedProperty(x);
+                    return clean(x);
                 });
                 _o[k] = arr;
             }

@@ -1,0 +1,91 @@
+<nz-modal [(nzVisible)]="show" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleCancel()" class="box">
+
+    <ng-template #modalTitle>
+        <div class="block pad-v-12 pad-h-20 box-divider">
+            <div class="content">
+                <div class="header-container">
+                    <span class="header">
+                        {{ data.title }}
+                    </span>
+                    <span class="header-description margin-top-5">
+                        Record a payment you’ve already received, such as cash, cheque, or bank payment.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalContent>
+        <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
+            <div class="content">
+                <form nz-form [formGroup]="form">
+                    <nz-form-item class="field-container">
+                        <div><label>{{'payment.date'|translate}}</label></div>
+                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-date-picker formControlName="paymentDate" [nzFormat]="dateFormat"
+                                [nzPlaceHolder]="selectDateText|translate">
+                            </nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="field-container">
+                        <div><label>{{'amount'|translate }}</label></div>
+                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <input type="text" nz-input formControlName="amount" placeholder="{{'amount'|translate}}" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item class="field-container">
+                        <div><label>{{'payment.method'|translate}}</label></div>
+                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-select (ngModelChange)="paymentMethodSelectOnChange($event)" formControlName="paymentMethod"
+                                nzShowSearch nzAllowClear [nzPlaceHolder]="'payment.method'|translate">
+                                <nz-option *ngFor="let option of paymentMethods" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <!-- <nz-form-item class="field-container">
+                        <div>
+                            <label>{{'payment.account'|translate}}</label>
+                        </div>
+                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                            <nz-select (ngModelChange)="paymentAccountSelectOnChange($event)" formControlName="paymentAccount"
+                                nzShowSearch nzAllowClear [nzPlaceHolder]="'payment.account'|translate">
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item> -->
+                    <nz-form-item class="field-container">
+                        <div>
+                            <label>{{'memo'|translate}}</label>
+                        </div>
+                        <nz-form-control>
+                            <textarea nz-input formControlName="memo"
+                                placeholder="{{'memo'|translate}}"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="block footer pad-v-12 pad-h-20 box-divider">
+            <div class="column">
+                <button (click)="handleCancel()" nz-button class="btn-custom">
+                    {{'cancel'|translate}}
+                </button>
+                <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
+                    <span *ngIf="data.mode == 'add'">
+                        {{'add'|translate}}
+                    </span>
+                    <span *ngIf="data.mode == 'edit'">
+                        {{'update'|translate}}
+                    </span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

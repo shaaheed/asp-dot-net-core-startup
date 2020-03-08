@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from 
 import { of, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { NzSelectComponent } from 'ng-zorro-antd';
-import { forEachObj, removeNullUndefinedProperty } from 'src/services/utilities.service';
+import { forEachObj, clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { InvoiceService } from '../services/invoice.service';
 
@@ -16,6 +16,8 @@ export class InvoicesAddComponent extends FormComponent {
 
   mode: string = 'add';
   loading: boolean = true;
+  noData: boolean = false;
+
   selectDateText: string = 'select.date'
 
   subtotal: number = 0;
@@ -102,7 +104,7 @@ export class InvoicesAddComponent extends FormComponent {
         }
       })
     }
-    body = removeNullUndefinedProperty(body);
+    body = clean(body);
     this.submitForm(
       {
         request: this.invoiceService.add(body),
@@ -123,14 +125,14 @@ export class InvoicesAddComponent extends FormComponent {
 
   invoiceDateValidator(control: FormControl) {
     if (!control.value) {
-      return this.constructError('select.date');
+      return this.error('select.date');
     }
     return of(true);
   }
 
   paymentDueValidator(control: FormControl) {
     if (!control.value) {
-      return this.constructError('select.date');
+      return this.error('select.date');
     }
     return of(true);
   }
@@ -147,7 +149,7 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   productSelectOpenChange(e) {
-    if(!e){
+    if (!e) {
       this.clickedOnAddAnItemButton = false;
     }
   }
@@ -171,7 +173,7 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   customerSelectOpenChange(e) {
-    if(!e) {
+    if (!e) {
       this.clickedOnSelectCustomerButton = false;
     }
   }

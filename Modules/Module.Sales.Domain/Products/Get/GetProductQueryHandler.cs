@@ -32,7 +32,7 @@ namespace Module.Sales.Domain.Products
                     IsSale = x.IsSale
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
-            return product;
+            return await Task.FromResult(product);
         }
     }
 }

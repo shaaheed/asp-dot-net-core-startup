@@ -71,5 +71,18 @@
     "bills": "Bills",
     "vendors": "Vendors",
     "search": "Search",
-    "new.account": "New account"
+    "new.account": "New account",
+    "payment.date": "Payment date",
+    "payment.method": "Payment method",
+    "payment.account": "Payment account",
+    "memo": "Memo",
+    "accounting": "Accounting",
+    "tax": "Tax",
+    "chart.of.account": "Chart of account",
+    "transaction": "Transaction",
+    "add": "Add",
+    "amount.must.be.numeric": "Amount must be numeric",
+    "amount.is.required": "Amount is required",
+    "amount.exceeds": "Amount exceeds",
+    "total.amount": "Total amount"
 }

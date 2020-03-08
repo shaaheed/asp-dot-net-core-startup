@@ -1,9 +1,9 @@
 ﻿using Core.Infrastructure.Commands;
 using Module.Sales.Entities;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Extensions.Persistence.Abstractions;
+using Module.Payments.Entities;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
@@ -21,39 +21,27 @@ namespace Module.Sales.Domain.InvoicePayments
         public async Task<long> Handle(CreateInvoicePaymentCommand request, CancellationToken cancellationToken)
         {
 
-            var invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            var newInvoice = new Invoice
+            var paymentRepo = _unitOfWork.GetRepository<Payment>();
+            var payment = new Payment
             {
-                Status = InvoiceStatus.Unpaid,
-                IssueDate = DateTimeOffset.UtcNow,
-                PaymentDueDate = DateTimeOffset.UtcNow,
-                CustomerId = request.CustomerId
+                Amount = request.Amount,
+                PaymentDate = request.PaymentDate,
+                PaymentMethodId = request.PaymentMethodId,
+                Memo = request.Memo,
+                Reference = request.Reference
+            };
+            await paymentRepo.AddAsync(payment);
+            int result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var invoicePaymentRepo = _unitOfWork.GetRepository<InvoicePayment>();
+            var invoicePayment = new InvoicePayment
+            {
+                PaymentId = payment.Id,
+                InvoiceId = request.InvoiceId
             };
 
-            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
-            //var newLineItems = request.Items.Select(x => new LineItem
-            //{
-            //    Name = x.Name,
-            //    Description = x.Description,
-            //    ProductId = x.ProductId,
-            //    Quantity = x.Quantity,
-            //    Subtotal = x.Subtotal,
-            //    Total = x.Quantity * x.UnitPrice,
-            //    UnitPrice = x.UnitPrice
-            //});
-
-            //var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
-            //var newInvoiceLineItems = newLineItems.Select(x => new InvoiceLineItem
-            //{
-            //    Invoice = newInvoice,
-            //    LineItem = x
-            //});
-
-            //newInvoice.InvoiceLineItems = newInvoiceLineItems.ToList();
-            //newInvoice.Calculate();
-
-            //await invoiceRepo.AddAsync(newInvoice, cancellationToken);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await invoicePaymentRepo.AddAsync(invoicePayment);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return result;
         }

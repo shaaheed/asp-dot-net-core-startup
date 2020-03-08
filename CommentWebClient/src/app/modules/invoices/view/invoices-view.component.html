@@ -1,23 +1,24 @@
-<div class="box">
-    <div class="block header custom-tabs">
-        <nz-radio-group ngModel="invoice">
-            <label nz-radio-button nzValue="invoice">{{'invoice'|translate}}</label>
-            <label nz-radio-button nzValue="payments">{{'payments'|translate}}</label>
-            <label nz-radio-button nzValue="notes">{{'notes'|translate}}</label>
-            <label nz-radio-button nzValue="timeline">{{'timeline'|translate}}</label>
-        </nz-radio-group>
-    </div>
-</div>
+<app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
 
-<div class="box">
-    <nz-spin [nzSpinning]="loading">
+<div *ngIf="!loading">
+    
+    <div class="box invoice-top">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
-                    <div>
+                    <div class="display-flex align-items-center">
                         <span class="header">
                             {{ 'invoice'|translate }}
                             <span *ngIf="id">#{{id}}</span>
+                            for ${{model.total}}
+                        </span>
+                        <nz-tag class="status-badge paid" *ngIf="model.status">
+                            <span>{{model.status}}</span>
+                        </nz-tag>
+                    </div>
+                    <div>
+                        <span>
+                            Last saved 2 months ago
                         </span>
                     </div>
                     <div class="pad-t-15">
@@ -59,30 +60,22 @@
         </div>
         <div class="block bg-offset header-bottom pad-v-12 pad-h-20 box-divider display-flex">
             <div class="column v-divider">
-                <div class="title">{{'status'|translate}}</div>
-                <div class="content">
-                    <nz-tag nzColor='#d6ecff' *ngIf="model.status">
-                        <span class="color-gray">{{model.status}}</span>
-                    </nz-tag>
-                </div>
+                <div class="title">{{'total.amount'|translate}}</div>
+                <div class="content">${{model?.total}}</div>
             </div>
             <div class="column v-divider">
                 <div class="title">{{'customer'|translate}}</div>
                 <div class="content fw-600">
                     <a (click)="showCustomerDrawer()">sahidul@bitmascot.com</a>
                     <!-- <a (click)="showCustomerDrawer()" nz-popover nzPopoverTrigger="click"
-                        [nzPopoverContent]="contentTemplate">sahidul@bitmascot.com</a>
-                    <ng-template #contentTemplate>
-                        <a (click)="clickMe()">Close</a>
-                    </ng-template> -->
+                            [nzPopoverContent]="contentTemplate">sahidul@bitmascot.com</a>
+                        <ng-template #contentTemplate>
+                            <a (click)="clickMe()">Close</a>
+                        </ng-template> -->
                 </div>
             </div>
             <div class="column v-divider">
-                <div class="title">{{'total'|translate}}</div>
-                <div class="content">{{model?.total}}</div>
-            </div>
-            <div class="column v-divider">
-                <div class="title">{{'due'|translate}}</div>
+                <div class="title">{{'amount.due'|translate}}</div>
                 <div class="content">{{model?.amountDue}}</div>
             </div>
             <div class="column">
@@ -90,7 +83,170 @@
                 <div class="content">{{model?.issueDate|date}}</div>
             </div>
         </div>
-    </nz-spin>
+    </div>
+    <div class="box">
+        <div class="block header pad-v-12 pad-h-20 box-divider">
+            <div class="column content">
+                <div class="header-container">
+                    <span class="header">{{'details'|translate}}</span>
+                </div>
+            </div>
+            <div class="column">
+                <!-- <nz-button-group> -->
+                <button nz-button class="btn-custom">
+                    <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
+                    {{'download.pdf'|translate}}
+                </button>
+                <button nz-button class="btn-custom">
+                    <i nz-icon nzType="printer" nzTheme="outline"></i>
+                    {{'print'|translate}}
+                </button>
+                <button nz-button class="btn-custom">
+                    <i nz-icon nzType="mail" nzTheme="outline"></i>
+                    {{'send.email'|translate}}
+                </button>
+                <!-- </nz-button-group> -->
+            </div>
+        </div>
+        <div class="block bg-offset invoice-view box-divider">
+            <div class="content bg-white">
+                <div class="ribbon text-ellipsis tooltip-container">
+                    <div class="ribbon-inner ribbon-open">{{model.status}}</div>
+                </div>
+                <div class="invoice-template">
+                    <div class="head-space"></div>
+                    <div class="invoice-header">
+                        <div class="left">
+                            <div *ngIf="model" class="customer info-customer">
+                                <div class="mb-14">
+                                    <div>{{model?.customer?.name}}</div>
+                                    <div>{{model?.customer?.contact}}</div>
+                                    <div>{{model?.customer?.mobile}}</div>
+                                    <div>{{model?.customer?.email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="title font-28">
+                                <span>INVOICE</span>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td class="ta-right">
+                                        <span>{{'invoice.date'|translate}} :</span>
+                                    </td>
+                                    <td class="last">
+                                        <span>{{model?.issueDate|date}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ta-right">
+                                        <span>{{'payment.due'|translate}} :</span>
+                                    </td>
+                                    <td class="last">
+                                        <span>{{model?.paymentDueDate|date}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="invoice-items">
+                        <nz-table #basicTable nzHideOnSinglePage="true" class="hide-table-placeholder">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>{{'items'|translate}}</th>
+                                    <th>{{'description'|translate}}</th>
+                                    <th>{{'quantity'|translate}}</th>
+                                    <th>{{'price'|translate}}</th>
+                                    <th class="ta-right">{{'amount'|translate}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let data of model.items; let i = index">
+                                    <tr class="bg-white">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            {{ data?.name }}
+                                        </td>
+                                        <td>
+                                            <span>{{data?.description}}</span>
+                                        </td>
+                                        <td class="fit-cell">
+                                            <span>{{data?.quantity}}</span>
+                                        </td>
+                                        <td style="width: 160px;">
+                                            <span>{{data?.unitPrice}}</span>
+                                        </td>
+                                        <td class="ta-right">
+                                            <span>{{ data?.total }}</span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <tr class="bg-white ta-right invoice-bottom">
+                                    <td colspan="5">
+                                        {{'subtotal'|translate}}
+                                    </td>
+                                    <td>
+                                        {{subtotal}}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white fw-600 ta-right invoice-bottom">
+                                    <td colspan="5">{{'total'|translate}}</td>
+                                    <td>{{total}}</td>
+                                </tr>
+                                <tr class="bg-white ta-right invoice-bottom">
+                                    <td colspan="5">
+                                        {{'payments'|translate}}
+                                    </td>
+                                    <td>(-) {{model?.paymentAmount}}</td>
+                                </tr>
+                                <tr class="bg-white ta-right fw-600 invoice-bottom">
+                                    <td colspan="5">
+                                        {{'due'|translate}}
+                                    </td>
+                                    <td>{{total}}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-payments-add-modal [(show)]="showPaymentModal" [data]="paymentModalData"></app-payments-add-modal>
+
+    <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label>Name</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input placeholder="please enter cookbook name" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div nz-row>
+            <div nz-col nzSpan="24">
+                <nz-form-item>
+                    <nz-form-label>Food</nz-form-label>
+                    <nz-form-control>
+                        <nz-tag>potato</nz-tag>
+                        <nz-tag>eggplant</nz-tag>
+                        <nz-tag>+</nz-tag>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="button" (click)="closeCustomerDrawer()" class="ant-btn"
+                style="margin-right: 8px;"><span>Cancel</span></button>
+            <button type="button" (click)="closeCustomerDrawer()"
+                class="ant-btn ant-btn-primary"><span>Submit</span></button>
+        </div>
+    </nz-drawer>
 </div>
 
 <!-- <div class="box">
@@ -132,165 +288,3 @@
         </div>
     </div>
 </div> -->
-
-<div class="box">
-    <div class="block header pad-v-12 pad-h-20 box-divider">
-        <div class="column content">
-            <div class="header-container">
-                <span class="header">{{'details'|translate}}</span>
-            </div>
-        </div>
-        <div class="column">
-            <!-- <nz-button-group> -->
-            <button nz-button class="btn-custom">
-                <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
-                {{'download.pdf'|translate}}
-            </button>
-            <button nz-button class="btn-custom">
-                <i nz-icon nzType="printer" nzTheme="outline"></i>
-                {{'print'|translate}}
-            </button>
-            <button nz-button class="btn-custom">
-                <i nz-icon nzType="mail" nzTheme="outline"></i>
-                {{'send.email'|translate}}
-            </button>
-            <!-- </nz-button-group> -->
-        </div>
-    </div>
-    <div class="block bg-offset invoice-view box-divider">
-        <div class="content bg-white">
-            <div class="ribbon text-ellipsis tooltip-container">
-                <div class="ribbon-inner ribbon-open">{{model.status}}</div>
-            </div>
-            <div class="invoice-template">
-                <div class="head-space"></div>
-                <div class="invoice-header">
-                    <div class="left">
-                        <div *ngIf="model" class="customer info-customer">
-                            <div class="mb-14">
-                                <div>{{model?.customer?.name}}</div>
-                                <div>{{model?.customer?.contact}}</div>
-                                <div>{{model?.customer?.mobile}}</div>
-                                <div>{{model?.customer?.email}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="title font-28">
-                            <span>INVOICE</span>
-                        </div>
-                        <table>
-                            <tr>
-                                <td class="ta-right">
-                                    <span>{{'invoice.date'|translate}} :</span>
-                                </td>
-                                <td class="last">
-                                    <span>{{model?.issueDate|date}}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="ta-right">
-                                    <span>{{'payment.due'|translate}} :</span>
-                                </td>
-                                <td class="last">
-                                    <span>{{model?.paymentDueDate|date}}</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-items">
-                    <nz-table #basicTable nzHideOnSinglePage="true" class="hide-table-placeholder">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{{'items'|translate}}</th>
-                                <th>{{'description'|translate}}</th>
-                                <th>{{'quantity'|translate}}</th>
-                                <th>{{'price'|translate}}</th>
-                                <th class="ta-right">{{'amount'|translate}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let data of model.items; let i = index">
-                                <tr class="bg-white">
-                                    <td>{{i+1}}</td>
-                                    <td>
-                                        {{ data?.name }}
-                                    </td>
-                                    <td>
-                                        <span>{{data?.description}}</span>
-                                    </td>
-                                    <td style="width: 70px;">
-                                        <span>{{data?.quantity}}</span>
-                                    </td>
-                                    <td style="width: 160px;">
-                                        <span>{{data?.unitPrice}}</span>
-                                    </td>
-                                    <td class="ta-right">
-                                        <span>{{ data?.total }}</span>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                            <tr class="bg-white ta-right invoice-bottom">
-                                <td colspan="5">
-                                    {{'subtotal'|translate}}
-                                </td>
-                                <td>
-                                    {{subtotal}}
-                                </td>
-                            </tr>
-                            <tr class="bg-white fw-600 ta-right invoice-bottom">
-                                <td colspan="5">{{'total'|translate}}</td>
-                                <td>{{total}}</td>
-                            </tr>
-                            <tr class="bg-white ta-right invoice-bottom">
-                                <td colspan="5">
-                                    {{'payments'|translate}}
-                                </td>
-                                <td>(-) 0</td>
-                            </tr>
-                            <tr class="bg-white ta-right fw-600 invoice-bottom">
-                                <td colspan="5">
-                                    {{'due'|translate}}
-                                </td>
-                                <td>{{total}}</td>
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
-    <div nz-row>
-        <div nz-col nzSpan="24">
-            <nz-form-item>
-                <nz-form-label>Name</nz-form-label>
-                <nz-form-control>
-                    <input nz-input placeholder="please enter cookbook name" />
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-    </div>
-    <div nz-row>
-        <div nz-col nzSpan="24">
-            <nz-form-item>
-                <nz-form-label>Food</nz-form-label>
-                <nz-form-control>
-                    <nz-tag>potato</nz-tag>
-                    <nz-tag>eggplant</nz-tag>
-                    <nz-tag>+</nz-tag>
-                </nz-form-control>
-            </nz-form-item>
-        </div>
-    </div>
-    <div class="footer">
-        <button type="button" (click)="closeCustomerDrawer()" class="ant-btn"
-            style="margin-right: 8px;"><span>Cancel</span></button>
-        <button type="button" (click)="closeCustomerDrawer()"
-            class="ant-btn ant-btn-primary"><span>Submit</span></button>
-    </div>
-</nz-drawer>

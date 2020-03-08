@@ -11,6 +11,7 @@ namespace Msi.Extensions.Persistence.EntityFrameworkCore
             var builders = ExtensionManager.GetInstances<IModelBuilder>();
             foreach (IModelBuilder builder in builders)
             {
+                System.Console.WriteLine(builder.ToString());
                 builder.Build(modelBuilder);
             }
         }

@@ -7,5 +7,6 @@ namespace Module.Core.Entities
         public string Code3 { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }
+        public string Plural { get; set; }
     }
 }

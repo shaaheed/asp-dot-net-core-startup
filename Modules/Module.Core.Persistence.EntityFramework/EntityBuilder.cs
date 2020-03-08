@@ -1,5 +1,7 @@
 ﻿using Core.Interfaces.Entities;
 using Microsoft.EntityFrameworkCore;
+using Module.Core.Data;
+using Module.Core.Entities;
 using Msi.Extensions.Infrastructure;
 using Msi.Extensions.Persistence.EntityFrameworkCore;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace Module.Core.Persistence.EntityFramework
             {
                 modelBuilder.Entity(type).Ignore("PendingEvents");
             }
+            modelBuilder.Entity<Currency>().HasData(new CurrencySeed().GetSeeds());
         }
     }
 }

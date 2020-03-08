@@ -12,6 +12,7 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class ProductsComponent extends BaseComponent {
 
   loading: boolean = false;
+  noData: boolean = false;
   total: number = 100;
   pageIndex: number = 1;
   pageSize: number = 20;

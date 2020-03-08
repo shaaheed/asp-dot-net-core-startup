@@ -14,5 +14,9 @@
   {
     "id": "Module.Sales",
     "version": "1.0.0"
+  },
+  {
+    "id": "Module.Payments",
+    "version": "1.0.0"
   }
 ]

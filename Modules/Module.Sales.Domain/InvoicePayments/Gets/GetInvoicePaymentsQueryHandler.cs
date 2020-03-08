@@ -21,18 +21,23 @@ namespace Module.Sales.Domain.InvoicePayments
 
         public async Task<IEnumerable<InvoicePaymentDto>> Handle(GetInvoicePaymentsQuery request, CancellationToken cancellationToken)
         {
-            var products = _unitOfWork.GetRepository<Invoice>()
+            var results = _unitOfWork.GetRepository<InvoicePayment>()
                 .AsQueryable()
                 .Select(x => new InvoicePaymentDto
                 {
                     Id = x.Id,
-                    AmountDue = x.AmountDue,
-                    Total = x.GrandTotal,
-                    IssueDate = x.IssueDate,
-                    Status = x.Status.ToString()
+                    Amount = x.Payment.Amount,
+                    InvoiceId = x.InvoiceId,
+                    Memo = x.Payment.Memo,
+                    PaymentDate = x.Payment.PaymentDate,
+                    PaymentMethod = new Core.Domain.IdNameDto<long>
+                    {
+                        Id = x.PaymentId,
+                        Name = x.Payment.PaymentMethod.Name
+                    }
                 })
                 .ToList();
-            return products;
+            return await Task.FromResult(results);
         }
     }
 }

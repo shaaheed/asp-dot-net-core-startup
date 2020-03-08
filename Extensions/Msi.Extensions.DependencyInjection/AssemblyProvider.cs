@@ -49,7 +49,7 @@ namespace Msi.Extensions.DependencyInjection
 
         private void GetAssembliesFromDependencyContext(List<Assembly> assemblies)
         {
-            logger.LogInformation("Discovering and loading assemblies from DependencyContext");
+            //logger.LogInformation("Discovering and loading assemblies from DependencyContext");
 
             foreach (CompilationLibrary compilationLibrary in DependencyContext.Default.CompileLibraries)
             {
@@ -64,7 +64,7 @@ namespace Msi.Extensions.DependencyInjection
                         if (!assemblies.Any(a => string.Equals(a.FullName, assembly.FullName, StringComparison.OrdinalIgnoreCase)))
                         {
                             assemblies.Add(assembly);
-                            logger.LogInformation("Assembly '{0}' is discovered and loaded", assembly.FullName);
+                            //logger.LogInformation("Assembly '{0}' is discovered and loaded", assembly.FullName);
                         }
                     }
 

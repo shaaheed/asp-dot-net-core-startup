@@ -1,4 +1,5 @@
-<div class="box">
+<app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
+<div class="box" *ngIf="!loading && !noData">
     <div class="block header pad-v-12 pad-h-20 box-divider">
         <div class="column">
             <button nz-button class="btn-custom">
@@ -33,16 +34,16 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data" class="cursor-pointer" (click)="view(data)">
-                    <td>
-                        <nz-tag nzColor='#c7d3dc' *ngIf="data.status">{{data.status}}</nz-tag>
+                    <td class="fit-cell">
+                        <nz-tag class="status-badge paid" *ngIf="data.status">{{data.status}}</nz-tag>
                     </td>
-                    <td>
+                    <td class="fit-cell">
                         <div>{{ data.id }}</div>
                     </td>
                     <td>{{ data.customer?.name }}</td>
-                    <td>{{ data.due }}</td>
-                    <td>{{ data.total }}</td>
-                    <td>{{ data.date }}</td>
+                    <td>${{ data.amountDue }}</td>
+                    <td>${{ data.total }}</td>
+                    <td>{{ data.issueDate|date }}</td>
                     <td class="action-column">
                         <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button class="btn-custom">
                             <i nz-icon nzType="ellipsis"></i>

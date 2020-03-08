@@ -12,6 +12,7 @@ import { CustomerService } from 'src/services/customer.service';
 export class CustomersAddComponent extends FormComponent {
 
   loading: boolean = false;
+  noData: boolean = false;
 
   constructor(
     private customerService: CustomerService,
@@ -23,7 +24,7 @@ export class CustomersAddComponent extends FormComponent {
   ngOnInit(): void {
     this.onCheckMode = id => this.get(id);
     this.createForm({
-      name: [null, [], this.requiredValidator.bind(this)],
+      name: [null, [], this.customerNameValidator.bind(this)],
       email: [],
       mobile: [],
       contact: []
@@ -52,12 +53,12 @@ export class CustomersAddComponent extends FormComponent {
     );
   }
 
-  requiredValidator(control: FormControl) {
+  customerNameValidator(control: FormControl) {
     if (!control.value) {
-      return this.constructError('please.give.a.name');
+      return this.error('please.give.a.name');
     }
     else if (control.value.length < 3) {
-      return this.constructError('name.must.be.greater.than.3.letters');
+      return this.error('name.must.be.greater.than.3.letters');
     }
     return of(true);
   }

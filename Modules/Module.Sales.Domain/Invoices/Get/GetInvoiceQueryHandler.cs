@@ -21,7 +21,12 @@ namespace Module.Sales.Domain.Invoices
 
         public async Task<InvoiceDetailsDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var product = _unitOfWork.GetRepository<Invoice>()
+            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
+                .Where(x => x.InvoiceId == request.Id)
+                .Select(x => x.Payment.Amount)
+                .Sum();
+
+            var result = _unitOfWork.GetRepository<Invoice>()
                 .AsQueryable()
                 .Select(x => new InvoiceDetailsDto
                 {
@@ -49,10 +54,11 @@ namespace Module.Sales.Domain.Invoices
                         UnitPrice = i.LineItem.UnitPrice
                     }),
                     PaymentDueDate = x.PaymentDueDate,
-                    IssueDate = x.IssueDate
+                    IssueDate = x.IssueDate,
+                    PaymentAmount = invoicePaymentAmount
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
-            return product;
+            return await Task.FromResult(result);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Module.Payments.Domain
                     Id = x.Id
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
-            return payment;
+            return await Task.FromResult(payment);
         }
     }
 }

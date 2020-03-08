@@ -12,6 +12,7 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class InvoicesComponent extends BaseComponent {
 
   loading: boolean = false;
+  noData: boolean = false;
   total: number = 100;
   pageIndex: number = 1;
   pageSize: number = 20;
@@ -49,7 +50,7 @@ export class InvoicesComponent extends BaseComponent {
 
   gets() {
     this.loading = true;
-    this.invoiceService.gets().subscribe(
+    this.subscribe(this.invoiceService.gets(),
       (res: any[]) => {
         this.listOfData = res;
         this.loading = false;

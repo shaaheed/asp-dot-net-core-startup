@@ -1,13 +1,15 @@
 ﻿using Core.Infrastructure.Commands;
 using System;
-using System.Collections.Generic;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
     public class CreateInvoicePaymentCommand : ICommand<long>
     {
-        public long? CustomerId { get; set; }
-        public DateTime? IssueDate { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
+        public long InvoiceId { get; set; }
+        public decimal Amount { get; set; }
+        public string Reference { get; set; }
+        public long PaymentMethodId { get; set; }
+        public DateTimeOffset PaymentDate { get; set; }
+        public string Memo { get; set; }
     }
 }

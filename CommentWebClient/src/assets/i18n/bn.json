@@ -69,5 +69,18 @@
     "bills": "রসিদ",
     "vendors": "বিক্রেতা",
     "search": "খুঁজুন",
-    "new.account": "নতুন অ্যাকাউন্ট"
+    "new.account": "নতুন অ্যাকাউন্ট",
+    "payment.date": "পেমেন্ট তারিখ",
+    "payment.method": "পেমেন্ট পদ্ধতি",
+    "payment.account": "পেমেন্ট হিসাব",
+    "memo": "মেমো",
+    "accounting": "হিসাবরক্ষণ",
+    "tax": "শুল্ক",
+    "chart.of.account": "চার্ট অব অ্যাকাউন্ট",
+    "transaction": "লেনদেন",
+    "add": "Add",
+    "amount.must.be.numeric": "পরিমাণ অবশ্যই সংখ্যাসূচক হতে হবে",
+    "amount.is.required": "পরিমাণ প্রয়োজন",
+    "amount.exceeds": "পরিমাণ ছাড়িয়ে গেছে",
+    "total.amount": "সর্বমোট পরিমাণ"
 }

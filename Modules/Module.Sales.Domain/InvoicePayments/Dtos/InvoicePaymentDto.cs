@@ -1,4 +1,5 @@
-﻿using Module.Sales.Domain.Invoices;
+﻿using Module.Core.Domain;
+using Module.Sales.Domain.Invoices;
 using System;
 
 namespace Module.Sales.Domain.InvoicePayments
@@ -6,10 +7,11 @@ namespace Module.Sales.Domain.InvoicePayments
     public class InvoicePaymentDto
     {
         public long Id { get; set; }
-        public string Status { get; set; }
-        public InvoiceCustomerDto Customer { get; set; }
-        public decimal AmountDue { get; set; }
-        public decimal Total { get; set; }
-        public DateTimeOffset IssueDate { get; set; }
+        public long InvoiceId { get; set; }
+        public decimal Amount { get; set; }
+        public string Reference { get; set; }
+        public IdNameDto<long> PaymentMethod { get; set; }
+        public DateTimeOffset PaymentDate { get; set; }
+        public string Memo { get; set; }
     }
 }

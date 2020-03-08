@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.Invoices
 
         public async Task<IEnumerable<InvoiceDto>> Handle(GetInvoicesQuery request, CancellationToken cancellationToken)
         {
-            var products = _unitOfWork.GetRepository<Invoice>()
+            var results = _unitOfWork.GetRepository<Invoice>()
                 .AsQueryable()
                 .Select(x => new InvoiceDto
                 {
@@ -37,7 +37,7 @@ namespace Module.Sales.Domain.Invoices
                     Status = x.Status.ToString()
                 })
                 .ToList();
-            return products;
+            return await Task.FromResult(results);
         }
     }
 }

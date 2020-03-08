@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
+    <ProjectReference Include="..\Module.Payments.Domain\Module.Payments.Domain.csproj" />
+    <ProjectReference Include="..\Module.Payments.Persistence.EntityFramework\Module.Payments.Persistence.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>

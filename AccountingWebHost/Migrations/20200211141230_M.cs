@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AccountingWebHost.Migrations
 {
-    public partial class M1 : Migration
+    public partial class M : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,6 +154,24 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentProvider",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<long>(nullable: false),
+                    UpdatedBy = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    IsEnabled = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentProvider", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -376,6 +394,32 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentMethod",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<long>(nullable: false),
+                    UpdatedBy = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: true),
+                    IsEnable = table.Column<bool>(nullable: false),
+                    PaymentProviderId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentMethod", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentMethod_PaymentProvider_PaymentProviderId",
+                        column: x => x.PaymentProviderId,
+                        principalTable: "PaymentProvider",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LineItem",
                 columns: table => new
                 {
@@ -579,6 +623,33 @@ namespace AccountingWebHost.Migrations
                         principalTable: "StateOrProvince",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payment",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<long>(nullable: false),
+                    UpdatedBy = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: true),
+                    Amount = table.Column<decimal>(nullable: false),
+                    Reference = table.Column<string>(nullable: true),
+                    PaymentMethodId = table.Column<long>(nullable: true),
+                    PaymentDate = table.Column<DateTimeOffset>(nullable: false),
+                    Memo = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payment_PaymentMethod_PaymentMethodId",
+                        column: x => x.PaymentMethodId,
+                        principalTable: "PaymentMethod",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1133,6 +1204,21 @@ namespace AccountingWebHost.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "PaymentMethod",
+                columns: new[] { "Id", "Code", "CreatedAt", "CreatedBy", "IsEnable", "Name", "PaymentProviderId", "UpdatedAt", "UpdatedBy" },
+                values: new object[] { 1L, "bank_payment", null, 0L, true, "Bank payment", null, null, 0L });
+
+            migrationBuilder.InsertData(
+                table: "PaymentMethod",
+                columns: new[] { "Id", "Code", "CreatedAt", "CreatedBy", "IsEnable", "Name", "PaymentProviderId", "UpdatedAt", "UpdatedBy" },
+                values: new object[] { 2L, "cash", null, 0L, true, "Cash", null, null, 0L });
+
+            migrationBuilder.InsertData(
+                table: "PaymentMethod",
+                columns: new[] { "Id", "Code", "CreatedAt", "CreatedBy", "IsEnable", "Name", "PaymentProviderId", "UpdatedAt", "UpdatedBy" },
+                values: new object[] { 3L, "cheque", null, 0L, true, "Cheque", null, null, 0L });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CountryId",
                 table: "Address",
@@ -1227,6 +1313,16 @@ namespace AccountingWebHost.Migrations
                 name: "IX_Organization_TypeId",
                 table: "Organization",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payment_PaymentMethodId",
+                table: "Payment",
+                column: "PaymentMethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentMethod_PaymentProviderId",
+                table: "PaymentMethod",
+                column: "PaymentProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_OperationId",
@@ -1427,6 +1523,9 @@ namespace AccountingWebHost.Migrations
                 name: "Organization");
 
             migrationBuilder.DropTable(
+                name: "Payment");
+
+            migrationBuilder.DropTable(
                 name: "Permission");
 
             migrationBuilder.DropTable(
@@ -1475,6 +1574,9 @@ namespace AccountingWebHost.Migrations
                 name: "OrganizationType");
 
             migrationBuilder.DropTable(
+                name: "PaymentMethod");
+
+            migrationBuilder.DropTable(
                 name: "Tax");
 
             migrationBuilder.DropTable(
@@ -1494,6 +1596,9 @@ namespace AccountingWebHost.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "PaymentProvider");
 
             migrationBuilder.DropTable(
                 name: "ResourceGroup");

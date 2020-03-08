@@ -8,6 +8,7 @@ import { TableHeaderModule } from 'src/app/shared-components/table-header/table-
 import { CustomersAddRoutingModule } from './customers-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CustomerService } from 'src/services/customer.service';
+import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CustomerService } from 'src/services/customer.service';
     ReactiveFormsModule,
     NgZorroAntdModule,
     TableHeaderModule,
-    SharedModule
+    SharedModule,
+    BoxLoaderModule
   ],
   exports: [CustomersAddComponent],
   providers: [CustomerService]

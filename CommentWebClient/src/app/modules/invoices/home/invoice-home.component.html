@@ -1,0 +1,11 @@
+<div class="box">
+    <div class="block header custom-tabs">
+        <nz-radio-group [(ngModel)]="invoiceOption" (ngModelChange)="optionChanged($event)">
+            <label nz-radio-button nzValue="invoices">{{'invoice'|translate}}</label>
+            <label nz-radio-button nzValue="payments">{{'payments'|translate}}</label>
+            <label nz-radio-button nzValue="notes">{{'notes'|translate}}</label>
+            <label nz-radio-button nzValue="timeline">{{'timeline'|translate}}</label>
+        </nz-radio-group>
+    </div>
+</div>
+<router-outlet></router-outlet>

@@ -9,8 +9,8 @@ using Msi.Extensions.Persistence.EntityFrameworkCore.MySql;
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200125150417_M1")]
-    partial class M1
+    [Migration("20200211141230_M")]
+    partial class M
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -476,6 +476,141 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrganizationType");
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.Payment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Memo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTimeOffset>("PaymentDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("PaymentMethodId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.PaymentMethod", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("PaymentProviderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentProviderId");
+
+                    b.ToTable("PaymentMethod");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Code = "bank_payment",
+                            CreatedBy = 0L,
+                            IsEnable = true,
+                            Name = "Bank payment",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Code = "cash",
+                            CreatedBy = 0L,
+                            IsEnable = true,
+                            Name = "Cash",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Code = "cheque",
+                            CreatedBy = 0L,
+                            IsEnable = true,
+                            Name = "Cheque",
+                            UpdatedBy = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.PaymentProvider", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentProvider");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.AccountingCode", b =>
@@ -1615,6 +1750,20 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Organizations.Entities.OrganizationType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.Payment", b =>
+                {
+                    b.HasOne("Module.Payments.Entities.PaymentMethod", "PaymentMethod")
+                        .WithMany()
+                        .HasForeignKey("PaymentMethodId");
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.PaymentMethod", b =>
+                {
+                    b.HasOne("Module.Payments.Entities.PaymentProvider", "PaymentProvider")
+                        .WithMany()
+                        .HasForeignKey("PaymentProviderId");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>

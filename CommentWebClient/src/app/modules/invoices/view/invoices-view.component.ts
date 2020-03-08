@@ -5,7 +5,7 @@ import { InvoiceService } from '../services/invoice.service';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'app-invoices',
+  selector: 'app-invoices-view',
   templateUrl: './invoices-view.component.html',
   styleUrls: ['./invoices-view.component.scss']
 })
@@ -18,6 +18,8 @@ export class InvoicesViewComponent extends BaseComponent {
   total: any = "-";
   visible: boolean = true;
   showCustomer: boolean = false;
+  showPaymentModal: boolean = false;
+  paymentModalData: any = {}
 
   constructor(
     private modalService: NzModalService,
@@ -32,7 +34,14 @@ export class InvoicesViewComponent extends BaseComponent {
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
     this.id = snapshot.params.id
+    this.paymentModalData.invoiceId = this.id;
     this.get(this.id);
+
+    this.paymentModalData = {
+      title: `Add payment for invoice #` + this.id,
+      mode: 'add',
+      invoiceId: this.id
+    }
   }
 
   refresh() {
@@ -48,6 +57,7 @@ export class InvoicesViewComponent extends BaseComponent {
         if (res.items) {
           this.subtotal = res.items.reduce((a, c) => a + c.subtotal, 0);
           this.total = res.items.reduce((a, c) => a + c.total, 0);
+          this.paymentModalData.invoiceTotal = this.total;
         }
       },
       err => {
@@ -91,7 +101,7 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   payment() {
-    
+    this.showPaymentModal = true;
   }
 
   add() {

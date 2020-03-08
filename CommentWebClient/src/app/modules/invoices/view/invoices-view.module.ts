@@ -7,6 +7,8 @@ import { NzTableModule, NgZorroAntdModule, NzFormModule, NzToolTipModule } from 
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
+import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
+import { PaymentsAddModalModule } from '../payments-add-modal/payments-add-modal.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { InvoiceService } from '../services/invoice.service';
     NgZorroAntdModule,
     SharedModule,
     NzToolTipModule,
-    InvoicesViewRoutingModule
+    InvoicesViewRoutingModule,
+    PaymentsAddModalModule,
+    BoxLoaderModule
   ],
   exports: [InvoicesViewComponent],
   providers: [InvoiceService]

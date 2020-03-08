@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsHttpService } from 'src/services/http/products-http.service';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgZorroAntdModule,
     TableHeaderModule,
     SharedModule,
-    NzToolTipModule
+    NzToolTipModule,
+    BoxLoaderModule
   ],
   exports: [ProductsComponent],
   providers: [ProductsHttpService]

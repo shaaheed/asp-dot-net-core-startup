@@ -8,6 +8,7 @@ import { TableHeaderModule } from 'src/app/shared-components/table-header/table-
 import { InvoicesAddRoutingModule } from './invoices-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
+import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { InvoiceService } from '../services/invoice.service';
     NzDropDownModule,
     SharedModule,
     NzSelectModule,
+    BoxLoaderModule
   ],
   exports: [InvoicesAddComponent],
   providers: [InvoiceService]

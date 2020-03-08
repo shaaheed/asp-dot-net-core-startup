@@ -28,6 +28,18 @@ export class InvoiceService {
         return this.httpService.put(`invoices/${id}`, body);
     }
 
+    public getPayments(invoiceId) {
+        return this.httpService.get(`invoices/${invoiceId}/payments`);
+    }
+
+    public addPayment(invoiceId, body) {
+        return this.httpService.post(`invoices/${invoiceId}/payments`, body);
+    }
+
+    public editPayment(invoiceId, body) {
+        return this.httpService.put(`invoices/${invoiceId}/payments`, body);
+    }
+
     public getCustomers() {
         return this.httpService.get(`customers`);
     }

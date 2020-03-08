@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', component: InvoicesComponent },
   { path: 'create', loadChildren: () => import('../add/invoices-add.module').then(x => x.InvoicesAddModule) },
   { path: ':id/edit', loadChildren: () => import('../add/invoices-add.module').then(x => x.InvoicesAddModule) },
-  { path: ':id/view', loadChildren: () => import('../view/invoices-view.module').then(x => x.InvoicesViewModule) }
+  { path: ':id', loadChildren: () => import('../home/invoice-home.module').then(x => x.InvoiceHomeModule) }
 ];
 
 @NgModule({

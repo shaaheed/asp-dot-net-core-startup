@@ -41,6 +41,7 @@ namespace Module.Sales.Entities
         public string Note { get; set; }
 
         public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
+        public virtual ICollection<InvoicePayment> InvoicePayments { get; set; }
 
         public void Calculate()
         {

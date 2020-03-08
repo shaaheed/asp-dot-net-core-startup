@@ -7,6 +7,7 @@ namespace Module.Payments.Entities
     {
         public decimal Amount { get; set; }
         public string Reference { get; set; }
+        public long PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public DateTimeOffset PaymentDate { get; set; }
         //public long PaymentAccount { get; set; }

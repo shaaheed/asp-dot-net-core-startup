@@ -40,12 +40,6 @@ span.ant-table-column-title {
 }
 
 .ant-table {
-    .ant-tag {
-        @include tag-text-color;
-        border-radius: 10px;
-        margin-left: 2px;
-        line-height: 16px;
-    }
     .action-column {
         text-align: right;
         >span {
@@ -75,27 +69,67 @@ app-layout-default .menu-sidebar {
     background: none;
 }
 
+@mixin btn-shadow {
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+}
+
+@mixin btn-shadow-hover {
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+}
+
+@mixin btn-shadow-primary {
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+}
+
+@mixin btn-shadow-primary-hover {
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+}
+
 // Custom stripe button style
+.ant-pagination {
+    li {
+        font-weight: 500;
+        height: 28px;
+        line-height: 28px;
+        @include btn-shadow;
+        a {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    .ant-pagination-item {
+        border: none;
+    }
+}
+
+.ant-pagination-disabled a, .ant-pagination-disabled:hover a, .ant-pagination-disabled:focus a, .ant-pagination-disabled .ant-pagination-item-link, .ant-pagination-disabled:hover .ant-pagination-item-link, .ant-pagination-disabled:focus .ant-pagination-item-link {
+    border-color: unset;
+}
+.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+    border: unset;
+}
+
 .btn-custom {
     font-weight: 500;
     border: none;
     height: 28px;
     padding: 0 8px;
     &.ant-btn-default {
-        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+        @include btn-shadow
     }
     &.ant-btn-default:hover {
-        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+        @include btn-shadow-hover;
     }
     &.ant-btn-default {
         color: rgb(60, 66, 87);
     }
 
     &.ant-btn-primary {
-        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+        @include btn-shadow-primary;
     }
     &.ant-btn-primary:hover {
-        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+        @include btn-shadow-primary-hover;
     }
 }
 
@@ -128,6 +162,10 @@ app-layout-default .menu-sidebar {
 
 .pad-r-20 {
     padding-right: 20px;
+}
+
+.margin-top-5 {
+    margin-top: 5px;
 }
 
 .no-border {
@@ -169,6 +207,12 @@ app-layout-default .menu-sidebar {
                 .header {
                     font-size: 20px;
                     line-height: 28px;
+                    font-weight: normal;
+                }
+                .header-description {
+                    font-size: 14px;
+                    line-height: 18px;
+                    font-weight: normal;
                 }
             }
         }
@@ -182,12 +226,6 @@ app-layout-default .menu-sidebar {
             textarea {
                 max-width: 450px;
                 margin-top: 3px;
-            }
-            input:hover,
-            input:focus,
-            textarea:hover,
-            textarea:focus {
-                border: 1px solid #d9d9d9 !important;
             }
             label {
                 font-weight: 500;
@@ -215,6 +253,17 @@ app-layout-default .menu-sidebar {
     }
 }
 
+input[nz-input]:hover,
+input[nz-input]:focus,
+nz-picker input:hover,
+nz-picker input:focus,
+nz-select .ant-select-selection:hover,
+nz-select .ant-select-selection:focus,
+textarea:hover,
+textarea:focus {
+    border: 1px solid #d9d9d9 !important;
+}
+
 .shadow-m {
     @include box-shadow-m;
 }
@@ -238,12 +287,6 @@ app-layout-default .menu-sidebar {
 .space-between {
     justify-content: space-between;
 }
-
-// .ant-menu-item-selected > a,
-// .ant-menu-submenu-selected,
-// .ant-menu-item-selected > a:hover {
-//     font-weight: 600;
-// }
 
 nz-header .ant-badge-count {
     min-width: 12px;
@@ -429,4 +472,55 @@ nz-header .ant-badge-count {
         background-color: #268ddd;
         border-color: #1c72b4;
     }
+}
+
+.border-radius-5 {
+    border-radius: 5px !important;
+}
+
+.box {
+    &.box-loader {
+        .box-loader-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(30vh);
+            i {
+                @include edit-color;
+            }
+        }
+    }
+}
+
+.ant-modal-header,
+.ant-modal-body,
+.ant-modal-footer {
+    padding: 0;
+}
+
+.ant-tag {
+    padding-left: 8px;
+    padding-right: 8px;
+    &.status-badge {
+        border-radius: 10px;
+        border: none;
+        font-weight: 500;
+        &.paid, &.succeed {
+            background-color: #d6ecff;
+            color: #3d4eac;
+        }
+        &.failed {
+            background-color: #f8e5b9;
+            color: #983705;
+        }
+        &.unpaid {
+            background-color: #e3e8ee;
+            color: #4f566b;
+        }        
+    }
+}
+
+.fit-cell {
+    width: 1%;
+    white-space: nowrap;
 }

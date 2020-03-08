@@ -127,7 +127,7 @@ export class BaseComponent {
         }
     }
 
-    protected constructError(key: string) {
+    protected error(key: string) {
         return this._translate.get(key).pipe(
             map(res => {
                 return {
