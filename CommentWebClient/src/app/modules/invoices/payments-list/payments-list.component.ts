@@ -32,7 +32,7 @@ export class InvoicePaymentListComponent extends BaseComponent {
 
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
-    this.invoiceId = Number(snapshot.params.id)
+    this.invoiceId = snapshot.data.invoiceId;
     this.gets(this.invoiceId);
   }
 

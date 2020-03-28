@@ -13,13 +13,13 @@ export class InvoicesViewComponent extends BaseComponent {
 
   loading: boolean = false;
   model: any = {};
-  id: any = null;
   subtotal: any = "-";
   total: any = "-";
   visible: boolean = true;
   showCustomer: boolean = false;
   showPaymentModal: boolean = false;
   paymentModalData: any = {}
+  private invoiceId
 
   constructor(
     private modalService: NzModalService,
@@ -32,15 +32,16 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   ngOnInit() {
+
     const snapshot = this.activatedRoute.snapshot;
-    this.id = snapshot.params.id
-    this.paymentModalData.invoiceId = this.id;
-    this.get(this.id);
+    this.invoiceId = snapshot.data.invoiceId;
+    this.paymentModalData.invoiceId = this.invoiceId;
+    this.get(this.invoiceId);
 
     this.paymentModalData = {
-      title: `Add payment for invoice #` + this.id,
+      title: `Add payment for invoice #` + this.invoiceId,
       mode: 'add',
-      invoiceId: this.id
+      invoiceId: this.invoiceId
     }
   }
 

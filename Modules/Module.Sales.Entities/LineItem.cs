@@ -14,6 +14,8 @@ namespace Module.Sales.Entities
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public string Note { get; set; }
+
         public long? ProductId { get; set; }
         public Product Product { get; set; }
 

@@ -12,13 +12,12 @@ namespace Module.Core.Persistence.EntityFramework
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            var types = ExtensionManager.GetImplementations<IEntity>();
-            types = types.Where(x => x.Name != "BaseEntity");
+            var types = ExtensionManager.GetImplementations<IEntity>()
+                .Where(x => x.Name != "BaseEntity" && !x.Name.Contains("BaseEntityWithTypeId"));
             foreach (var type in types)
             {
                 modelBuilder.Entity(type).Ignore("PendingEvents");
             }
-            modelBuilder.Entity<Currency>().HasData(new CurrencySeed().GetSeeds());
         }
     }
 }

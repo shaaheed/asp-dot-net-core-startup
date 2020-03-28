@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Module.Core.Common\Module.Core.Common.csproj" />
     <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
   </ItemGroup>
 
 </Project>

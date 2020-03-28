@@ -45,7 +45,7 @@ export class InvoicesComponent extends BaseComponent {
   }
 
   view(model) {
-    this.router.navigateByUrl(`/invoices/${model.id}/view`);
+    this.router.navigateByUrl(`/invoices/${model.id}`);
   }
 
   gets() {

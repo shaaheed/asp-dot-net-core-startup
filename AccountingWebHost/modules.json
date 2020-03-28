@@ -3,20 +3,28 @@
     "id": "Module.Core",
     "version": "1.0.0"
   },
-  //{
-  //  "id": "Module.Identity",
-  //  "version": "1.0.0"
-  //},
+  {
+    "id": "Module.Permissions",
+    "version": "1.0.0"
+  },
   {
     "id": "Module.Users",
     "version": "1.0.0"
   },
   {
-    "id": "Module.Sales",
+    "id": "Module.Organizations",
+    "version": "1.0.0"
+  },
+  {
+    "id": "Module.Accounting",
     "version": "1.0.0"
   },
   {
     "id": "Module.Payments",
+    "version": "1.0.0"
+  },
+  {
+    "id": "Module.Sales",
     "version": "1.0.0"
   }
 ]

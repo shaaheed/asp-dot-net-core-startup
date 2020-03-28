@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Extensions.Persistence.Abstractions;
+using Module.Core.Domain;
 
 namespace Module.Sales.Domain.Invoices
 {
@@ -26,7 +27,7 @@ namespace Module.Sales.Domain.Invoices
                 .Select(x => new InvoiceDto
                 {
                     Id = x.Id,
-                    Customer = x.CustomerId != null ? new InvoiceCustomerDto
+                    Customer = x.CustomerId != null ? new IdNameDto<long>
                     {
                         Id = (long)x.CustomerId,
                         Name = x.Customer.FirstName

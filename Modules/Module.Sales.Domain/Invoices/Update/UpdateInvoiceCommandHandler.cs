@@ -29,6 +29,8 @@ namespace Module.Sales.Domain.Invoices
                 throw new NotFoundException("Invoice not found");
 
             invoice.CustomerId = request.CustomerId;
+            invoice.Note = request.Note;
+            invoice.Memo = request.Memo;
 
             var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
             var invoiceLineItemsToBeRemoved = invoiceLineItemsRepo.Where(x => x.InvoiceId == request.Id);
@@ -66,19 +68,12 @@ namespace Module.Sales.Domain.Invoices
                 .Select(x => x.Payment.Amount)
                 .Sum();
 
-            if(invoicePaymentAmount > 0)
-            {
-                invoice.Status = InvoiceStatus.Paid;
-            }
+            invoice.AddPayment(invoicePaymentAmount);
             
             if (invoicePaymentAmount > invoice.GrandTotal)
             {
                 // Over paid.
                 // TODO: Create credit note
-            }
-            else
-            {
-                invoice.AmountDue = invoice.GrandTotal - invoicePaymentAmount;
             }
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

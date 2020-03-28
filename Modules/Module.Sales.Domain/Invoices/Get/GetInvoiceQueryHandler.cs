@@ -55,7 +55,9 @@ namespace Module.Sales.Domain.Invoices
                     }),
                     PaymentDueDate = x.PaymentDueDate,
                     IssueDate = x.IssueDate,
-                    PaymentAmount = invoicePaymentAmount
+                    PaymentAmount = invoicePaymentAmount,
+                    Note = x.Note,
+                    Memo = x.Memo
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
             return await Task.FromResult(result);

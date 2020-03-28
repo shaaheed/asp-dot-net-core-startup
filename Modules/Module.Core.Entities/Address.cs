@@ -16,8 +16,10 @@ namespace Module.Core.Entities
         public string Phone { get; set; }
 
         public string AddressLine1 { get; set; }
-
         public string AddressLine2 { get; set; }
+        public string AddressLine3 { get; set; }
+        public string AddressLine4 { get; set; }
+        public string AddressLine5 { get; set; }
 
         public string City { get; set; }
 
@@ -35,6 +37,5 @@ namespace Module.Core.Entities
 
         public Country Country { get; set; }
 
-        //public IList<UserAddress> UserAddresses { get; set; } = new List<UserAddress>();
     }
 }

@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { RouterModule } from '@angular/router';
+import { InvoiceIdResolver } from './invoice-id.resolver';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,6 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   exports: [InvoiceHomeComponent],
-  providers: [InvoiceService]
+  providers: [InvoiceService, InvoiceIdResolver]
 })
 export class InvoiceHomeModule { }

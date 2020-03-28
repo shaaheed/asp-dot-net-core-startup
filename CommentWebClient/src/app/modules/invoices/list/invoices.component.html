@@ -34,14 +34,14 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data" class="cursor-pointer" (click)="view(data)">
-                    <td class="fit-cell">
-                        <nz-tag class="status-badge paid" *ngIf="data.status">{{data.status}}</nz-tag>
+                    <td class="fit-cell status-badge {{data.status.toLowerCase()}}">
+                        <nz-tag>{{data.status}}</nz-tag>
                     </td>
                     <td class="fit-cell">
                         <div>{{ data.id }}</div>
                     </td>
                     <td>{{ data.customer?.name }}</td>
-                    <td>${{ data.amountDue }}</td>
+                    <td>{{ data.amountDue == 0 ? '-' : '$' + data.amountDue }}</td>
                     <td>${{ data.total }}</td>
                     <td>{{ data.issueDate|date }}</td>
                     <td class="action-column">

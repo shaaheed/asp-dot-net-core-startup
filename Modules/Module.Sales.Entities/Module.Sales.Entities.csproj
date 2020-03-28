@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\Module.Accounting.Entities\Module.Accounting.Entities.csproj" />
     <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
     <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
   </ItemGroup>

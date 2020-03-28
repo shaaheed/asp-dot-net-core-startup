@@ -2,8 +2,10 @@
 using Core.Infrastructure.Queries;
 using Core.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Module.Core.Attributes;
 using Module.Sales.Domain.Invoices;
 using System.Threading.Tasks;
+using static Module.Sales.Common.Permissions;
 
 namespace Module.Sales.Controllers
 {
@@ -25,6 +27,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPost]
+        [RequirePermission(InvoiceCreate, InvoiceManage)]
         public async Task<ActionResult> Post([FromBody]CreateInvoiceCommand command)
         {
             var r = await _commandBus.SendAsync(command);
@@ -32,6 +35,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPut("{id}")]
+        [RequirePermission(InvoiceUpdate, InvoiceManage)]
         public async Task<ActionResult> Put(long id, [FromBody]UpdateInvoiceCommand command)
         {
             command.Id = id;
@@ -40,6 +44,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RequirePermission(InvoiceDelete, InvoiceManage)]
         public async Task<ActionResult> Delete(long id)
         {
             var command = new DeleteInvoiceCommand { Id = id };
@@ -48,6 +53,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet]
+        [RequirePermission(InvoiceList, InvoiceManage)]
         public async Task<ActionResult> Gets()
         {
             var products = await _queryBus.SendAsync(new GetInvoicesQuery());
@@ -55,6 +61,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet("{id}")]
+        [RequirePermission(InvoiceView, InvoiceManage)]
         public async Task<ActionResult> Get(long id)
         {
             var product = await _queryBus.SendAsync(new GetInvoiceQuery { Id = id });

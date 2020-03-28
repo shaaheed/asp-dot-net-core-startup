@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces.Entities;
+using Module.Accounting.Entities;
 using Module.Users.Entities;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,13 @@ namespace Module.Sales.Entities
         public DateTimeOffset PaymentDueDate { get; set; }
         public bool Pinned { get; set; }
         public string Note { get; set; }
+        public string Memo { get; set; }
+
+        public long? ChartOfAccountId { get; set; }
+        public ChartOfAccount ChartOfAccount { get; set; }
+
+        public long? ConvertedFromQouteId { get; set; }
+        public Qoute ConvertedFromQoute { get; set; }
 
         public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
         public virtual ICollection<InvoicePayment> InvoicePayments { get; set; }
@@ -51,6 +59,25 @@ namespace Module.Sales.Entities
             {
                 GrandTotal += item.LineItem.Total;
                 Subtotal += item.LineItem.Subtotal;
+            }
+        }
+
+        public void AddPayment(decimal paymentAmount)
+        {
+            if(GrandTotal == paymentAmount)
+            {
+                // Full payment
+                Status = InvoiceStatus.Paid;
+                AmountDue = 0;
+            }
+            else if (GrandTotal > paymentAmount)
+            {
+                Status = InvoiceStatus.Due;
+            }
+
+            if (paymentAmount <= GrandTotal)
+            {
+                AmountDue = GrandTotal - paymentAmount;
             }
         }
     }

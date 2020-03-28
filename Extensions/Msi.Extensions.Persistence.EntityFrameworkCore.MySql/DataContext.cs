@@ -13,6 +13,7 @@ namespace Msi.Extensions.Persistence.EntityFrameworkCore.MySql
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.EnableSensitiveDataLogging();
             base.OnConfiguring(optionsBuilder);
 
             if (string.IsNullOrEmpty(MigrationsAssembly))

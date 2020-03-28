@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\Module.Accounting.Common\Module.Accounting.Common.csproj" />
+    <ProjectReference Include="..\Module.Accounting.Entities\Module.Accounting.Entities.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

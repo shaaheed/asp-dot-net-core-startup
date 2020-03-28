@@ -2,8 +2,10 @@
 using Core.Infrastructure.Queries;
 using Core.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Module.Core.Attributes;
 using Module.Sales.Domain.InvoicePayments;
 using System.Threading.Tasks;
+using static Module.Sales.Common.Permissions;
 
 namespace Module.Sales.Controllers
 {
@@ -25,6 +27,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPost]
+        [RequirePermission(InvoicePaymentCreate, InvoicePaymentManage)]
         public async Task<ActionResult> Post([FromBody]CreateInvoicePaymentCommand command)
         {
             var r = await _commandBus.SendAsync(command);
@@ -32,6 +35,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPut("{id}")]
+        [RequirePermission(InvoicePaymentUpdate, InvoicePaymentManage)]
         public async Task<ActionResult> Put(long id, [FromBody]UpdateInvoicePaymentCommand command)
         {
             command.Id = id;
@@ -40,6 +44,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RequirePermission(InvoicePaymentDelete, InvoicePaymentManage)]
         public async Task<ActionResult> Delete(long id)
         {
             var command = new DeleteInvoicePaymentCommand { Id = id };
@@ -48,13 +53,16 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Gets()
+        [RequirePermission(InvoicePaymentList, InvoicePaymentManage)]
+        public async Task<ActionResult> Gets(long invoiceId)
         {
-            var products = await _queryBus.SendAsync(new GetInvoicePaymentsQuery());
+            var query = new GetInvoicePaymentsQuery { InvoiceId = invoiceId };
+            var products = await _queryBus.SendAsync(query);
             return Ok(products);
         }
 
         [HttpGet("{id}")]
+        [RequirePermission(InvoicePaymentView, InvoicePaymentManage)]
         public async Task<ActionResult> Get(long id)
         {
             var product = await _queryBus.SendAsync(new GetInvoicePaymentQuery { Id = id });

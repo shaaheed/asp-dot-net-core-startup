@@ -8,6 +8,9 @@
     <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
     <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
     <ProjectReference Include="..\..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
+    <ProjectReference Include="..\Module.Core.Common\Module.Core.Common.csproj" />
+    <ProjectReference Include="..\Module.Core.Data\Module.Core.Data.csproj" />
+    <ProjectReference Include="..\Module.Core.Domain\Module.Core.Domain.csproj" />
     <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
     <ProjectReference Include="..\Module.Core.Persistence.EntityFramework\Module.Core.Persistence.EntityFramework.csproj" />
   </ItemGroup>

@@ -14,12 +14,12 @@ namespace Module.Comment
     {
         private readonly RequestDelegate _next;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public ResponseMiddleware(
             RequestDelegate next,
             IUnitOfWork unitOfWork,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         {
             _next = next;
             _unitOfWork = unitOfWork;

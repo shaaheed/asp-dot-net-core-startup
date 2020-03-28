@@ -12,9 +12,11 @@
                             <span *ngIf="id">#{{id}}</span>
                             for ${{model.total}}
                         </span>
-                        <nz-tag class="status-badge paid" *ngIf="model.status">
-                            <span>{{model.status}}</span>
-                        </nz-tag>
+                        <span *ngIf="model.status" class="status-badge {{model.status.toLowerCase()}}">
+                            <nz-tag>
+                                <span>{{model.status}}</span>
+                            </nz-tag>
+                        </span>
                     </div>
                     <div>
                         <span>
@@ -60,13 +62,13 @@
         </div>
         <div class="block bg-offset header-bottom pad-v-12 pad-h-20 box-divider display-flex">
             <div class="column v-divider">
-                <div class="title">{{'total.amount'|translate}}</div>
+                <div class="title fw-500">{{'total.amount'|translate}}</div>
                 <div class="content">${{model?.total}}</div>
             </div>
             <div class="column v-divider">
-                <div class="title">{{'customer'|translate}}</div>
+                <div class="title fw-500">{{'customer'|translate}}</div>
                 <div class="content fw-600">
-                    <a (click)="showCustomerDrawer()">sahidul@bitmascot.com</a>
+                    <a (click)="showCustomerDrawer()">{{model?.customer?.name}}</a>
                     <!-- <a (click)="showCustomerDrawer()" nz-popover nzPopoverTrigger="click"
                             [nzPopoverContent]="contentTemplate">sahidul@bitmascot.com</a>
                         <ng-template #contentTemplate>
@@ -75,11 +77,11 @@
                 </div>
             </div>
             <div class="column v-divider">
-                <div class="title">{{'amount.due'|translate}}</div>
-                <div class="content">{{model?.amountDue}}</div>
+                <div class="title fw-500">{{'amount.due'|translate}}</div>
+                <div class="content">${{model?.amountDue}}</div>
             </div>
             <div class="column">
-                <div class="title">{{'date'|translate}}</div>
+                <div class="title fw-500">{{'issue.date'|translate}}</div>
                 <div class="content">{{model?.issueDate|date}}</div>
             </div>
         </div>

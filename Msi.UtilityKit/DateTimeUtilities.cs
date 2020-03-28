@@ -27,7 +27,7 @@ namespace Msi.UtilityKit
                 var datetimeStr = DateTime.Parse(isoDatetime).ToString("d/MM/yyyy h:mm:ss tt");
                 return datetimeStr;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return string.Empty;
             }

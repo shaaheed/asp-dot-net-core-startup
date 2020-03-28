@@ -7,7 +7,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
     <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
+    <ProjectReference Include="..\Module.Payments.Common\Module.Payments.Common.csproj" />
+    <ProjectReference Include="..\Module.Payments.Data\Module.Payments.Data.csproj" />
     <ProjectReference Include="..\Module.Payments.Domain\Module.Payments.Domain.csproj" />
+    <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
     <ProjectReference Include="..\Module.Payments.Persistence.EntityFramework\Module.Payments.Persistence.EntityFramework.csproj" />
   </ItemGroup>
 

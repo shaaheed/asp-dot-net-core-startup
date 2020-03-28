@@ -2,8 +2,10 @@
 using Core.Infrastructure.Queries;
 using Core.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Module.Core.Attributes;
 using Module.Sales.Domain.Customers;
 using System.Threading.Tasks;
+using static Module.Sales.Common.Permissions;
 
 namespace Module.Sales.Controllers
 {
@@ -25,6 +27,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPost]
+        [RequirePermission(CustomerCreate, CustomerManage)]
         public async Task<ActionResult> Post([FromBody]CreateCustomerCommand command)
         {
             var r = await _commandBus.SendAsync(command);
@@ -32,6 +35,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPut("{id}")]
+        [RequirePermission(CustomerUpdate, CustomerManage)]
         public async Task<ActionResult> Put(long id, [FromBody]UpdateCustomerCommand command)
         {
             command.Id = id;
@@ -40,6 +44,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RequirePermission(CustomerDelete, CustomerManage)]
         public async Task<ActionResult> Delete(long id)
         {
             var command = new DeleteCustomerCommand { Id = id };
@@ -48,6 +53,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet]
+        [RequirePermission(CustomerList, CustomerManage)]
         public async Task<ActionResult> Gets()
         {
             var products = await _queryBus.SendAsync(new GetCustomersQuery());
@@ -55,6 +61,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet("{id}")]
+        [RequirePermission(CustomerView, CustomerManage)]
         public async Task<ActionResult> Get(long id)
         {
             var product = await _queryBus.SendAsync(new GetCustomerQuery { Id = id });

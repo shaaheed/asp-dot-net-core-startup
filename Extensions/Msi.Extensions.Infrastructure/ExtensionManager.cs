@@ -33,6 +33,41 @@ namespace Msi.Extensions.Infrastructure
             return GetImplementations<T>(null, useCaching);
         }
 
+        public static IEnumerable<Type> GetGenericImplementations(Type type, Func<Assembly, bool> predicate, bool useCaching = false)
+        {
+
+            if (useCaching && cachedTypes.ContainsKey(type))
+            {
+                return cachedTypes[type];
+            }
+
+            List<Type> implementations = new List<Type>();
+
+            var assemblies = GetAssemblies(predicate);
+            foreach (Assembly assembly in assemblies)
+            {
+                var exportedTypes = assembly.GetExportedTypes();
+                foreach (Type exportedType in exportedTypes)
+                {
+                    var interfaces = exportedType.GetInterfaces().Where(x => x.IsGenericType);
+                    foreach (var @interface in interfaces)
+                    {
+                        if(@interface.GetGenericTypeDefinition() == type)
+                        {
+                            implementations.Add(exportedType);
+                        }
+                    }
+                }
+            }
+
+            if (useCaching)
+            {
+                cachedTypes[type] = implementations;
+            }
+
+            return implementations;
+        }
+
         public static IEnumerable<Type> GetImplementations<T>(Func<Assembly, bool> predicate, bool useCaching = false)
         {
             Type type = typeof(T);

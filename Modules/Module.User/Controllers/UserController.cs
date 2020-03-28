@@ -3,17 +3,16 @@ using Core.Infrastructure.Commands;
 using Core.Infrastructure.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Module.Core.Attributes;
+using Module.Users.Common;
 using Module.Users.Domain;
 using System.Threading.Tasks;
-using static Comment.Application.Constants.PermissionConstants.Operations;
-using static Comment.Application.Constants.PermissionConstants.Permission;
 
 namespace Modules.User.Controllers
 {
     //[ApiVersion("v1")]
     [Route("api/users")]
     [ApiController]
-    [Resource(USERS)]
     public class UserController : ControllerBase
     {
 
@@ -29,9 +28,9 @@ namespace Modules.User.Controllers
         }
 
         [HttpGet]
-        //[AuthorizeResource(Operation = READ_LIST)]
+        [RequirePermission(Permissions.UserList)]
         [Authorize]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Gets()
         {
             var query = new GetUsersQuery();
             var r = await _queryBus.SendAsync(query);
@@ -39,14 +38,14 @@ namespace Modules.User.Controllers
         }
 
         [HttpGet("{id}")]
-        [AuthorizeResource(Operation = READ_DETAILS)]
+        [RequirePermission(Permissions.UserView)]
         public ActionResult<string> Get(int id)
         {
             return "value";
         }
 
         [HttpPost]
-        [AuthorizeResource(Operation = CREATE)]
+        [RequirePermission(Permissions.UserCreate)]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {
             var r = await _commandBus.SendAsync(command);
@@ -54,7 +53,7 @@ namespace Modules.User.Controllers
         }
 
         [HttpPut("{id}")]
-        [AuthorizeResource(Operation = EDIT)]
+        [RequirePermission(Permissions.UserUpdate)]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateUserCommand command)
         {
             command.Id = id;
@@ -63,7 +62,7 @@ namespace Modules.User.Controllers
         }
 
         [HttpDelete("{id}")]
-        [AuthorizeResource(Operation = DELETE)]
+        [RequirePermission(Permissions.UserDelete)]
         public async Task<IActionResult> Delete([FromRoute] DeleteUserCommand command)
         {
             await _commandBus.SendAsync(command);

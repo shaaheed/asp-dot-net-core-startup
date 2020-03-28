@@ -17,6 +17,903 @@ namespace AccountingWebHost.Migrations
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Core.Infrastructure.Entities.OrganizationEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrganizationEntity");
+                });
+
+            modelBuilder.Entity("Module.Accounting.Entities.ChartOfAccount", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsDeletable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsEditable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("ChartOfAccount");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Description = "Cash you haven’t deposited in the bank. Add your bank and credit card accounts to accurately categorize transactions that aren't cash.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Cash on Hand",
+                            TypeId = 1L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Accounts Receivable",
+                            TypeId = 3L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Accounts Payable",
+                            TypeId = 12L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Tax",
+                            TypeId = 13L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Description = "Payments from your customers for products and services that your business sold.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Sales",
+                            TypeId = 18L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Description = "Income you haven't categorized yet. Categorize it now to keep your records accurate.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Uncategorized Income",
+                            TypeId = 21L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Foreign exchange gains happen when the exchange rate between your business's home currency and a foreign currency transaction changes and results in a gain. This can happen in the time between a transaction being entered in Wave and being settled, for example, between when you send an invoice and when your customer pays it. This can affect foreign currency invoice payments, bill payments, or foreign currency held in your bank account.",
+                            TypeId = 22L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Accounting or bookkeeping services for your business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Accounting Fees",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Advertising or other costs to promote your business. Includes web or social media promotion.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Advertising & Promotion",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Fees you pay to your bank like transaction charges, monthly charges, and overdraft charges.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Bank Service Charges",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Desktop or laptop computers, mobile phones, tablets, and accessories used for your business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Computer – Hardware",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Fees for web storage and access, like hosting your business website or app.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Computer – Hosting",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Internet services for your business. Does not include data access for mobile devices.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Computer – Internet",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Apps, software, and web or cloud services you use for business on your mobile phone or computer. Includes one-time purchases and subscriptions.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Computer – Software",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Depreciation Expense",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Food and beverages you consume while conducting business, with clients and vendors, or entertaining customers.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Meals and Entertainment",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Office supplies and services for your business office or space.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Office Supplies",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Fees you pay to consultants or trained professionals for advice or services related to your business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Professional Fees",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Costs to rent or lease property or furniture for your business office space. Does not include equipment rentals.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Rent Expense",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Repair and upkeep of property or equipment, as long as the repair doesn't add value to the property. Does not include replacements or upgrades.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Repairs & Maintenance",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Land line phone services for your business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Telephone – Land Line",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Mobile phone services for your business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Telephone – Wireless",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Transportation and travel costs while traveling for business. Does not include daily commute costs.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Travel Expense",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Utilities (electricity, water, etc.) for your business office. Does not include phone use.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Utilities",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Gas and fuel costs when driving for business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Vehicle – Fuel",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Repairs and preventative maitenance of the vehicle you drive for business.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Vehicle – Repairs & Maintenance",
+                            TypeId = 23L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Federal and provincial/state deductions taken from an employee's pay, like employment insurance. These are usually described as line deductions on the pay stub.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Payroll – Employee Benefits",
+                            TypeId = 26L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "The portion of federal and provincial/state obligations your business is responsible for paying as an employer.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Payroll – Employer's Share of Benefits",
+                            TypeId = 26L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Wages and salaries paid to your employees.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Payroll – Salary & Wages",
+                            TypeId = 26L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "A business cost you haven't categorized yet. Categorize it now to keep your records accurate.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Uncategorized Expense",
+                            TypeId = 27L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 31L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Description = "Foreign exchange losses happen when the exchange rate between your business's home currency and a foreign currency transaction changes and results in a loss. This can happen in the time between a transaction being entered in Wave and being settled, for example, between when you send an invoice and when your customer pays it. This can affect foreign currency invoice payments, bill payments, or foreign currency held in your bank account.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Loss on Foreign Exchange",
+                            TypeId = 28L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 32L,
+                            CategoryId = 5L,
+                            CreatedBy = 0L,
+                            Description = "Owner investment represents the amount of money or assets you put into your business, either to start the business or keep it running. An owner's draw is a direct withdrawal from business cash or assets for your personal use.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Owner Investment / Drawings",
+                            TypeId = 29L,
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 33L,
+                            CategoryId = 5L,
+                            CreatedBy = 0L,
+                            Description = "Owner's equity is what remains after you subtract business liabilities from business assets. In other words, it's what's left over for you if you sell all your assets and pay all your debts.",
+                            IsDeletable = false,
+                            IsEditable = false,
+                            Name = "Owner's Equity",
+                            TypeId = 30L,
+                            UpdatedBy = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Accounting.Entities.ChartOfAccountCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChartOfAccountCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedBy = 0L,
+                            Name = "Assets",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedBy = 0L,
+                            Name = "Liabilities & Credit Cards",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedBy = 0L,
+                            Name = "Income",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedBy = 0L,
+                            Name = "Expenses",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedBy = 0L,
+                            Name = "Equity",
+                            UpdatedBy = 0L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Accounting.Entities.ChartOfAccountType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UseOf")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ChartOfAccountType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Cash and Bank",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of cash that is immediately available for use. Examples of this are bank accounts, cash boxes in a register, money boxes, or electronic accounts such as PayPal."
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Money in Transit",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of money that is expected to deposited or withdrawn into or from a Cash and Bank account at a future date, usually within days. Examples of this are credit card sales that have been processed but have not yet been deposited into your bank, or checks (written or received) that have not been deposited into or withdrawn from your bank account yet."
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Expected Payments from Customers",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of what customers owe you after you have made a sale. Invoices in Wave are already tracked in the Accounts Receivable category."
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Inventory",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the value of physical items you have in storage or in a retail store that are waiting to be sold/completed."
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Property, Plant, Equipment",
+                            UpdatedBy = 0L,
+                            UseOf = "Things you own but you do not sell to customers as part of your normal business operations."
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Depreciation and Amortization",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the decrease in value of things you own. For example, when you purchase equipment for business, it loses its value as time goes on. These categories always have a balance less than zero (negative)."
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Vendor Prepayments and Vendor Credits",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the value of the product or service that a vendor still needs to provide to you because you have made upfront payments to them. Examples of this are when you make upfront payments for insurance in the beginning of the year or for multiple years, or when a vendor gives you a credit note. The balance of the category will decrease over time as the vendor needs to provide less and less product or service to you."
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Other Short-Term Asset",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track amounts that you are owed this year when none of the other asset account types apply. Other Long-Term Asset accounts are used to track amounts that you are owed after this year. These accounts will appear in the Other Current Assets section of the balance sheet."
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CategoryId = 1L,
+                            CreatedBy = 0L,
+                            Name = "Other Long-Term Asset",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track amounts that you are owed after this year when none of the other asset account types apply. Other Short-Term Asset accounts are used to track amounts that you are owed this year. These accounts will appear in the Long-term Assets section of the balance sheet."
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Credit Card",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track purchases made using a credit card. Create an account for each credit card you use in your business. Purchases using your credit card, and payments to your credit card, should be recorded in the relevant credit card category."
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Loan and Line of Credit",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of outstanding loans or withdrawals you've made using a line of credit. The cash you receive as a result of a loan or line of credit is deposited into a Cash and Bank category."
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Expected Payments to Vendors",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of what you owe vendors (i.e. suppliers, online subscriptions providers) after you accepted their service or receive items for which you have not yet paid. Bills in Wave are already tracked in the Accounts Payable category."
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Sales Taxes",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the sales taxes you have charged to customers during a sale, and sales tax amounts you have remitted to the government. The balance of this category indicates how much you have to remit to the government. This category can also be used to track sales taxes you been charged on purchases, so that you can reduce how much sales taxes you have to remit to the government. If you create a sales tax in Wave, a category here is created for you automatically."
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Due to You and Other Business Owners",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the balance of what you (or your partners) have personally loaned to the business, but expect to be paid back for. The same category can also be used to track loans the business has given you (or your partners), in which case the balance would be less than zero (negative)."
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Customer Prepayments and Customer Credits",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the value of the product or service that you still need to provide to a customer because they made upfront payments to you. An example is when a customer gives you a deposit or a retainer, or when you give a customer a credit note. The balance of the category will decrease over time as you provide the product or service to the customer."
+                        },
+                        new
+                        {
+                            Id = 16L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Other Short-Term Liability",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track amounts that you owe this year when none of the other liability account types apply. Other Long-Term Liability accounts are used to track amounts that you owe after this year. These accounts will appear in the Current Liabilities section of the balance sheet."
+                        },
+                        new
+                        {
+                            Id = 17L,
+                            CategoryId = 2L,
+                            CreatedBy = 0L,
+                            Name = "Other Long-Term Liability",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track amounts that you owe after this year when none of the other liability account types apply. Other Short-Term Liability accounts are used to track amounts that you owe this year. These accounts will appear in the Long-term Liabilities section of the balance sheet."
+                        },
+                        new
+                        {
+                            Id = 18L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Name = "Income",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track all your sales to customers, whether your customer has made a payment or not. These are the categories used when you create an Invoice in Wave. Any sales taxes charged to customers will not be tracked using a Sales category, but will be tracked using a Sales Taxes on Sales or Purchases category."
+                        },
+                        new
+                        {
+                            Id = 19L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Name = "Discount",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track discounts you've given to customers so that you can determine if you are giving too many discounts. Discounts reduce your income, which is why it will be shown as a negative on the Profit and Loss report."
+                        },
+                        new
+                        {
+                            Id = 20L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Name = "Other Income",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track all other income that is outside of your regular business operations of selling to your customers. For example, if your main business is as a photographer, but you rented your camera to a friend as a one-off shoot, that could be other income."
+                        },
+                        new
+                        {
+                            Id = 21L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Name = "Uncategorized Income",
+                            UpdatedBy = 0L,
+                            UseOf = "This account is used as the default category for new deposit transactions."
+                        },
+                        new
+                        {
+                            Id = 22L,
+                            CategoryId = 3L,
+                            CreatedBy = 0L,
+                            Name = "Gain On Foreign Exchange",
+                            UpdatedBy = 0L,
+                            UseOf = "This account is used to track gains due to exchange rate differences on foreign currency invoices, bills, and transfers."
+                        },
+                        new
+                        {
+                            Id = 23L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Operating Expense",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track most of your business expenses. Each type of office, insurance, rent, utilities, and subscription fees can have a category."
+                        },
+                        new
+                        {
+                            Id = 24L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Cost of Goods Sold",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track expenses that are directly attributable to the product or service you are selling. If there is a type of expense that cannot be attributable to sales, then you should create an Operating Expense category instead."
+                        },
+                        new
+                        {
+                            Id = 25L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Payment Processing Fee",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track the fees charged when your customer makes a credit card payment. Even though this is usually deducted from the transfer or deposit into your bank account, you should still be recording this type of expense."
+                        },
+                        new
+                        {
+                            Id = 26L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Payroll Expense",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track expenses related to running and approving a payroll for salaried and hourly employees. Do not use these categories to track payments to yourself, unless you are an employee of the business."
+                        },
+                        new
+                        {
+                            Id = 27L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Uncategorized Expense",
+                            UpdatedBy = 0L,
+                            UseOf = "This account is used as the default category for new withdrawal transactions."
+                        },
+                        new
+                        {
+                            Id = 28L,
+                            CategoryId = 4L,
+                            CreatedBy = 0L,
+                            Name = "Loss On Foreign Exchange",
+                            UpdatedBy = 0L,
+                            UseOf = "This account is used to track losses due to exchange rate differences on foreign currency invoices, bills, and transfers."
+                        },
+                        new
+                        {
+                            Id = 29L,
+                            CategoryId = 5L,
+                            CreatedBy = 0L,
+                            Name = "Business Owner Contribution and Drawing",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track money you or others have invested into the business. For example, when you first start a business you usually invest start-up money into it."
+                        },
+                        new
+                        {
+                            Id = 30L,
+                            CategoryId = 5L,
+                            CreatedBy = 0L,
+                            Name = "Retained Earnings: Profit",
+                            UpdatedBy = 0L,
+                            UseOf = "Use this to track money that you have taken out of the business."
+                        });
+                });
+
+            modelBuilder.Entity("Module.Accounting.Entities.Transaction", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("IsReviewed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
                 {
                     b.Property<long>("Id")
@@ -27,6 +924,15 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("AddressLine2")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AddressLine3")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AddressLine4")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("AddressLine5")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("City")
@@ -45,6 +951,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long?>("DistrictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Phone")
@@ -145,6 +1054,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("NumericCode")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -179,6 +1091,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<bool>("IsFavourite")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -222,6 +1137,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("LanguageId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -254,6 +1172,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Plural")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -1902,6 +2823,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("StateOrProvinceId")
                         .HasColumnType("bigint");
 
@@ -1948,6 +2872,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("NativeName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -1982,6 +2909,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<int>("MediaType")
                         .HasColumnType("int");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -2018,6 +2948,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Type")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -2040,16 +2973,40 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("AddressId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AddressId1")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CountryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CountryId1")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<long>("CreatedBy")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("CurrencyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CurrencyId1")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("TypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TypeId1")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2060,9 +3017,25 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("AddressId1");
+
+                    b.HasIndex("CountryId1");
+
+                    b.HasIndex("CurrencyId1");
+
+                    b.HasIndex("TypeId1");
 
                     b.ToTable("Organization");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedBy = 0L,
+                            CurrencyId = 13L,
+                            Name = "Default",
+                            UpdatedBy = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Organizations.Entities.OrganizationType", b =>
@@ -2079,6 +3052,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -2108,6 +3084,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Memo")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("PaymentDate")
                         .HasColumnType("datetime(6)");
@@ -2151,6 +3130,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("PaymentProviderId")
                         .HasColumnType("bigint");
@@ -2215,6 +3197,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -2226,16 +3211,27 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("PaymentProvider");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.AccountingCode", b =>
+            modelBuilder.Entity("Module.Permissions.Entities.Permission", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Group")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2246,7 +3242,625 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountingCode");
+                    b.ToTable("Permission");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "accounting.chartofaccount.create",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.update",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.view",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.list",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.delete",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.manage",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.create",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.update",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.view",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.list",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.delete",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.chartofaccount.category.manage",
+                            CreatedBy = 0L,
+                            Group = "Chart Of Account Category",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.create",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.update",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.view",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.list",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.delete",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "accounting.transaction.manage",
+                            CreatedBy = 0L,
+                            Group = "Transaction",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.create",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.update",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.view",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.list",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.delete",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "core.currency.manage",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.create",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.update",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.view",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.list",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.delete",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "organizations.manage",
+                            CreatedBy = 0L,
+                            Group = "Organization",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.create",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.update",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.view",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.list",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.delete",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "payments.manage",
+                            CreatedBy = 0L,
+                            Group = "Payment",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "permissions.create",
+                            CreatedBy = 0L,
+                            Group = "Permission",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "permissions.update",
+                            CreatedBy = 0L,
+                            Group = "Permission",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "permissions.view",
+                            CreatedBy = 0L,
+                            Group = "Permission",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "orgapermissionsnizations.list",
+                            CreatedBy = 0L,
+                            Group = "Permission",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "permissions.delete",
+                            CreatedBy = 0L,
+                            Group = "Permission",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.create",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.update",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.view",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.list",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.delete",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.customer.manage",
+                            CreatedBy = 0L,
+                            Group = "Customer",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.create",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.update",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.view",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.list",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.delete",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.manage",
+                            CreatedBy = 0L,
+                            Group = "Invoice",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.create",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.update",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.view",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.list",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.delete",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.product.manage",
+                            CreatedBy = 0L,
+                            Group = "Product",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.create",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.update",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.view",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.list",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.delete",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.invoice.payment.manage",
+                            CreatedBy = 0L,
+                            Group = "Invoice Payment",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.create",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.update",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.view",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.list",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.delete",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "sales.vendor.manage",
+                            CreatedBy = 0L,
+                            Group = "Vendor",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.create",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "Create",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.update",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "Update",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.view",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "View",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.list",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "List",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.delete",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "Delete",
+                            UpdatedBy = 0L
+                        },
+                        new
+                        {
+                            Id = "users.manage",
+                            CreatedBy = 0L,
+                            Group = "User",
+                            Name = "Manage",
+                            UpdatedBy = 0L
+                        });
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -2278,6 +3892,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Note")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("PaymentDueDate")
                         .HasColumnType("datetime(6)");
@@ -2325,6 +3942,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("LineItemId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -2353,6 +3973,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("PaymentId")
@@ -2390,6 +4013,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("ProductId")
                         .HasColumnType("bigint");
@@ -2437,6 +4063,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("LineItemId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("TaxId")
                         .HasColumnType("bigint");
 
@@ -2476,6 +4105,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime(6)");
 
@@ -2510,6 +4142,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -2563,6 +4198,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
@@ -2596,6 +4234,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductId")
@@ -2643,6 +4284,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<DateTimeOffset>("IssueDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -2668,6 +4312,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("OrganizationId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductId")
@@ -2713,6 +4360,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("Rate")
                         .HasColumnType("float");
 
@@ -2745,6 +4395,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -2761,7 +4414,7 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("Warehouse");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.Operation", b =>
+            modelBuilder.Entity("Module.Users.Entities.Role", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -2770,11 +4423,8 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -2782,230 +4432,156 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<long>("UpdatedBy")
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Code = "administrator",
+                            ConcurrencyStamp = "acec435f-c965-478a-bba2-c32ec8a9651d",
+                            Name = "Administrator"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Code = "customer",
+                            ConcurrencyStamp = "b9d804c1-1032-4e5c-a06c-c97275965887",
+                            Name = "Customer"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Code = "vendor",
+                            ConcurrencyStamp = "4e3c47bb-b168-4da1-8327-f2d07b32be51",
+                            Name = "Vendor"
+                        });
+                });
+
+            modelBuilder.Entity("Module.Users.Entities.RoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operation");
+                    b.ToTable("RoleClaim");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.Permission", b =>
+            modelBuilder.Entity("Module.Users.Entities.RolePermission", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("PermissionId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("OperationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ResourceGroupAssociationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ResourceGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ResourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("UserGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("UserId")
+                    b.Property<long>("RoleId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperationId");
+                    b.HasIndex("PermissionId");
 
-                    b.HasIndex("ResourceGroupAssociationId");
+                    b.HasIndex("RoleId");
 
-                    b.HasIndex("ResourceId")
-                        .IsUnique();
+                    b.ToTable("RolePermission");
 
-                    b.HasIndex("UserGroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Permission");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.Resource", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Resource");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceGroup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ResourceGroup");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceGroupAssociation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceGroupId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("ResourceGroupAssociation");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceGroupAssociationOperation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("OperationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceGroupAssociationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationId");
-
-                    b.HasIndex("ResourceGroupAssociationId");
-
-                    b.ToTable("ResourceGroupAssociationOperation");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceOperation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("OperationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationId");
-
-                    b.HasIndex("ResourceId");
-
-                    b.ToTable("ResourceOperation");
+                    b.HasData(
+                        new
+                        {
+                            Id = 100L,
+                            PermissionId = "accounting.chartofaccount.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 101L,
+                            PermissionId = "accounting.chartofaccount.category.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 102L,
+                            PermissionId = "accounting.transaction.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 200L,
+                            PermissionId = "core.currency.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 300L,
+                            PermissionId = "organizations.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 400L,
+                            PermissionId = "payments.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 500L,
+                            PermissionId = "permissions.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 600L,
+                            PermissionId = "sales.customer.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 601L,
+                            PermissionId = "sales.invoice.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 602L,
+                            PermissionId = "sales.product.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 603L,
+                            PermissionId = "sales.invoice.payment.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 604L,
+                            PermissionId = "sales.vendor.manage",
+                            RoleId = 1L
+                        },
+                        new
+                        {
+                            Id = 700L,
+                            PermissionId = "users.manage",
+                            RoleId = 1L
+                        });
                 });
 
             modelBuilder.Entity("Module.Users.Entities.User", b =>
@@ -3014,8 +4590,14 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
                     b.Property<long?>("AddressId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Contact")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -3035,6 +4617,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Fax")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -3044,17 +4629,50 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Mobile")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long?>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Phone")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<long>("UpdatedBy")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Website")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -3066,266 +4684,150 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("CurrencyId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f5bf7eed-f135-49b4-a9a0-79934fd61cb6",
+                            CreatedBy = 0L,
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMEK4zlmpB7ANy3V5gBLV8UTrLSTyZDx1Ri4KQRuJthXUIQCmpZePOogrBu/orB0TA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "afb26da4-f076-4609-8f8b-c942f234ec61",
+                            TwoFactorEnabled = false,
+                            UpdatedBy = 0L,
+                            UserName = "admin@gmail.com"
+                        });
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserGroup", b =>
+            modelBuilder.Entity("Module.Users.Entities.UserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaim");
+                });
+
+            modelBuilder.Entity("Module.Users.Entities.UserLogin", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Code")
+                    b.Property<string>("LoginProvider")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<long>("CreatedBy")
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserLogin");
+                });
+
+            modelBuilder.Entity("Module.Users.Entities.UserRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1L,
+                            RoleId = 1L,
+                            UserId = 1L
+                        });
+                });
+
+            modelBuilder.Entity("Module.Users.Entities.UserToken", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserGroup");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserGroupAssociation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserGroupId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserGroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserGroupAssociation");
+                    b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResource", b =>
+            modelBuilder.Entity("Module.Accounting.Entities.ChartOfAccount", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.HasOne("Module.Accounting.Entities.ChartOfAccountCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserGroupId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.HasIndex("UserGroupId");
-
-                    b.ToTable("UserGroupResource");
+                    b.HasOne("Module.Accounting.Entities.ChartOfAccountType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResourceGroup", b =>
+            modelBuilder.Entity("Module.Accounting.Entities.ChartOfAccountType", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserGroupId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceGroupId");
-
-                    b.HasIndex("UserGroupId");
-
-                    b.ToTable("UserGroupResourceGroup");
+                    b.HasOne("Module.Accounting.Entities.ChartOfAccountCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResourceOperation", b =>
+            modelBuilder.Entity("Module.Accounting.Entities.Transaction", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("OperationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserGroupResourceId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationId");
-
-                    b.HasIndex("UserGroupResourceId");
-
-                    b.ToTable("UserGroupResourceOperation");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResource", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserResource");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResourceGroup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ResourceGroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResourceGroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserResourceGroup");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResourceOperation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("OperationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UserResourceId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperationId");
-
-                    b.HasIndex("UserResourceId");
-
-                    b.ToTable("UserResourceOperation");
+                    b.HasOne("Module.Accounting.Entities.ChartOfAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
@@ -3393,9 +4895,21 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Organizations.Entities.Organization", b =>
                 {
+                    b.HasOne("Module.Core.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId1");
+
+                    b.HasOne("Module.Core.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId1");
+
+                    b.HasOne("Module.Core.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId1");
+
                     b.HasOne("Module.Organizations.Entities.OrganizationType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId");
+                        .HasForeignKey("TypeId1");
                 });
 
             modelBuilder.Entity("Module.Payments.Entities.Payment", b =>
@@ -3439,7 +4953,7 @@ namespace AccountingWebHost.Migrations
             modelBuilder.Entity("Module.Sales.Entities.InvoicePayment", b =>
                 {
                     b.HasOne("Module.Sales.Entities.Invoice", "Invoice")
-                        .WithMany()
+                        .WithMany("InvoicePayments")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3545,70 +5059,15 @@ namespace AccountingWebHost.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.Permission", b =>
+            modelBuilder.Entity("Module.Users.Entities.RolePermission", b =>
                 {
-                    b.HasOne("Module.Users.Entities.Operation", "Operation")
+                    b.HasOne("Module.Permissions.Entities.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("OperationId");
+                        .HasForeignKey("PermissionId");
 
-                    b.HasOne("Module.Users.Entities.ResourceGroupAssociation", "ResourceGroupAssociation")
+                    b.HasOne("Module.Users.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("ResourceGroupAssociationId");
-
-                    b.HasOne("Module.Users.Entities.Resource", "Resource")
-                        .WithOne("Permission")
-                        .HasForeignKey("Module.Users.Entities.Permission", "ResourceId");
-
-                    b.HasOne("Module.Users.Entities.UserGroup", "UserGroup")
-                        .WithMany()
-                        .HasForeignKey("UserGroupId");
-
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceGroupAssociation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.ResourceGroup", "ResourceGroup")
-                        .WithMany("ResourceGroupAssociations")
-                        .HasForeignKey("ResourceGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.Resource", "Resource")
-                        .WithMany("ResourceGroupAssociations")
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceGroupAssociationOperation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Operation", "Operation")
-                        .WithMany("ResourceGroupAssociationOperations")
-                        .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.ResourceGroupAssociation", "ResourceGroupAssociation")
-                        .WithMany("ResourceGroupAssociationOperations")
-                        .HasForeignKey("ResourceGroupAssociationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.ResourceOperation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Operation", "Operation")
-                        .WithMany("ResourceOperations")
-                        .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.Resource", "Resource")
-                        .WithMany("ResourceOperations")
-                        .HasForeignKey("ResourceId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3622,111 +5081,6 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Core.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserGroupAssociation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.UserGroup", "UserGroup")
-                        .WithMany("UserGroupAssociations")
-                        .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany("UserGroupAssociations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResource", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Resource", "Resource")
-                        .WithMany("UserGroupResources")
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.UserGroup", "UserGroup")
-                        .WithMany("UserGroupResources")
-                        .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResourceGroup", b =>
-                {
-                    b.HasOne("Module.Users.Entities.ResourceGroup", "ResourceGroup")
-                        .WithMany("UserGroupResourceGroups")
-                        .HasForeignKey("ResourceGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.UserGroup", "UserGroup")
-                        .WithMany("UserGroupResourceGroups")
-                        .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserGroupResourceOperation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Operation", "Operation")
-                        .WithMany("UserGroupResourceOperations")
-                        .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.UserGroupResource", "UserGroupResource")
-                        .WithMany("UserGroupResourceOperations")
-                        .HasForeignKey("UserGroupResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResource", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Resource", "Resource")
-                        .WithMany("UserResources")
-                        .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany("UserResources")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResourceGroup", b =>
-                {
-                    b.HasOne("Module.Users.Entities.ResourceGroup", "ResourceGroup")
-                        .WithMany("UserResourceGroups")
-                        .HasForeignKey("ResourceGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany("UserResourceGroups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserResourceOperation", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Operation", "Operation")
-                        .WithMany("UserResourceOperations")
-                        .HasForeignKey("OperationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.UserResource", "UserResource")
-                        .WithMany("UserResourceOperations")
-                        .HasForeignKey("UserResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Extensions.Persistence.Abstractions;
 using Module.Payments.Entities;
+using System.Linq;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
@@ -41,6 +42,18 @@ namespace Module.Sales.Domain.InvoicePayments
             };
 
             await invoicePaymentRepo.AddAsync(invoicePayment);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var invoice = await _unitOfWork.GetRepository<Invoice>()
+                .FirstOrDefaultAsync(x => x.Id == request.InvoiceId);
+
+            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
+                .Where(x => x.InvoiceId == invoice.Id)
+                .Select(x => x.Payment.Amount)
+                .Sum();
+
+            invoice.AddPayment(invoicePaymentAmount);
+
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return result;

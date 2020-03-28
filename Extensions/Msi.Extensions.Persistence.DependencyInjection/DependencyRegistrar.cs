@@ -47,9 +47,17 @@ namespace Msi.Extensions.Persistence.DependencyInjection
 
             var migrators = ExtensionManager.GetInstances<IMigrator>();
             var dataContext = Services.BuildServiceProvider().GetService<IDataContext>();
-            foreach (var migrator in migrators)
+            try
             {
-                migrator.MigratorAsync(dataContext).ConfigureAwait(false);
+                foreach (var migrator in migrators)
+                {
+                    migrator.MigratorAsync(dataContext).ConfigureAwait(false);
+                    //migrator.MigratorAsync(dataContext).Wait();
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             //_container.AddScoped(typeof(IDataContext), typeof(EntityFrameworkCore.SqlServer.DataContext));

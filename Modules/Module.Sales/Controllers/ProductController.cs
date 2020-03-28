@@ -2,14 +2,15 @@
 using Core.Infrastructure.Queries;
 using Core.Web.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Module.Core.Attributes;
 using Module.Sales.Domain.Products;
 using System.Threading.Tasks;
+using static Module.Sales.Common.Permissions;
 
 namespace Module.Sales.Controllers
 {
     [Route("api/products")]
     [ApiController]
-    //[Resource(USERS)]
     [ETag]
     public class ProductController : ControllerBase
     {
@@ -26,6 +27,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPost]
+        [RequirePermission(ProductCreate, ProductManage)]
         public async Task<ActionResult> Post([FromBody]CreateProductCommand command)
         {
             var r = await _commandBus.SendAsync(command);
@@ -33,6 +35,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpPut("{id}")]
+        [RequirePermission(ProductUpdate, ProductManage)]
         public async Task<ActionResult> Put(long id, [FromBody]UpdateProductCommand command)
         {
             command.Id = id;
@@ -41,6 +44,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpDelete("{id}")]
+        [RequirePermission(ProductDelete, ProductManage)]
         public async Task<ActionResult> Delete(long id)
         {
             var command = new DeleteProductCommand { Id = id };
@@ -49,6 +53,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet]
+        [RequirePermission(ProductList, ProductManage)]
         public async Task<ActionResult> Gets()
         {
             var products = await _queryBus.SendAsync(new GetProductsQuery());
@@ -56,6 +61,7 @@ namespace Module.Sales.Controllers
         }
 
         [HttpGet("{id}")]
+        [RequirePermission(ProductView, ProductManage)]
         public async Task<ActionResult> Get(long id)
         {
             var product = await _queryBus.SendAsync(new GetProductQuery { Id = id });

@@ -23,15 +23,15 @@ namespace Module.Comment.Controllers
             _queryBus = queryBus;
         }
 
-        [HttpGet]
+        //[HttpGet]
         //[AuthorizeResource(Operation = READ_LIST)]
-        public async Task<ActionResult> Get()
-        {
+        //public async Task<ActionResult> Get()
+        //{
             //var query = new GetCommentsQuery();
             //var r = await _queryBus.SendAsync(query);
             //return Ok(r);
-            return null;
-        }
+            //return null;
+        //}
 
         [HttpGet("{id}")]
         //[AuthorizeResource(Operation = READ_DETAILS)]

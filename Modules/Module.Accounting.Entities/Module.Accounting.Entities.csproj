@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Core\Core.Infrastructure.Entities\Core.Infrastructure.Entities.csproj" />
   </ItemGroup>
 
 </Project>

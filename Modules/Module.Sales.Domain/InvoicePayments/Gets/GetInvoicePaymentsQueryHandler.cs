@@ -23,6 +23,7 @@ namespace Module.Sales.Domain.InvoicePayments
         {
             var results = _unitOfWork.GetRepository<InvoicePayment>()
                 .AsQueryable()
+                .Where(x => x.InvoiceId == request.InvoiceId)
                 .Select(x => new InvoicePaymentDto
                 {
                     Id = x.Id,

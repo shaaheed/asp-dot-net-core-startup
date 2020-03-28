@@ -28,7 +28,9 @@ namespace Module.Sales.Domain.Invoices
                 Status = InvoiceStatus.Unpaid,
                 IssueDate = DateTimeOffset.UtcNow,
                 PaymentDueDate = DateTimeOffset.UtcNow,
-                CustomerId = request.CustomerId
+                CustomerId = request.CustomerId,
+                Note = request.Note,
+                Memo = request.Memo
             };
 
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
@@ -40,7 +42,8 @@ namespace Module.Sales.Domain.Invoices
                 Quantity = x.Quantity,
                 Subtotal = x.Subtotal,
                 Total = x.Quantity * x.UnitPrice,
-                UnitPrice = x.UnitPrice
+                UnitPrice = x.UnitPrice,
+                Note = x.Note
             });
 
             var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();

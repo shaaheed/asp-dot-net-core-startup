@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\Module.Organizations.Common\Module.Organizations.Common.csproj" />
+    <ProjectReference Include="..\Module.Organizations.Entities\Module.Organizations.Entities.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -6,6 +6,7 @@ namespace Module.Payments.Data
 {
     public class PaymentMethodSeed : ISeed<PaymentMethod>
     {
+        public int Order => 0;
         public IEnumerable<PaymentMethod> GetSeeds()
         {
             return new List<PaymentMethod>

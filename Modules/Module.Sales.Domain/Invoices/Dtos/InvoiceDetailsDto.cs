@@ -15,5 +15,7 @@ namespace Module.Sales.Domain.Invoices
         public DateTimeOffset PaymentDueDate { get; set; }
         public IEnumerable<InvoiceLineItemDto> Items { get; set; }
         public decimal PaymentAmount { get; set; }
+        public string Note { get; set; }
+        public string Memo { get; set; }
     }
 }

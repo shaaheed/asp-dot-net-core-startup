@@ -10,10 +10,8 @@ namespace Comment.Application.Common
         public async Task<TResponse> Handle(TResponse request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             // before
-            var x = 0;
             var response = await next();
             // after
-            x = 0;
             return response;
         }
     }

@@ -7,7 +7,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
     <ProjectReference Include="..\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Module.Sales.Common\Module.Sales.Common.csproj" />
+    <ProjectReference Include="..\Module.Sales.Data\Module.Sales.Data.csproj" />
     <ProjectReference Include="..\Module.Sales.Domain\Modules.Sales.Domain.csproj" />
+    <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
+    <ProjectReference Include="..\Module.Sales.Persistence.EntityFramework\Module.Sales.Persistence.EntityFramework.csproj" />
     <ProjectReference Include="..\Module.User\Module.Users.csproj" />
   </ItemGroup>
 

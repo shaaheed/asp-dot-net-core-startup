@@ -32,15 +32,15 @@ namespace Module.Comment.Controllers
         //    return Ok(r);
         //}
 
-        [HttpGet]
+        //[HttpGet]
         //[AuthorizeResource(Operation = SYNC)]
-        public async Task<ActionResult> Sync()
-        {
+        //public async Task<ActionResult> Sync()
+        //{
             //var scanCommands = await _queryBus.SendAsync(new ScanCommandsQuery());
             //var command = new SyncCommand { Commands = scanCommands };
             //var r = await _commandBus.SendAsync(command);
-            return null; //Ok(r);
-        }
+           // return null; //Ok(r);
+        //}
 
     }
 }

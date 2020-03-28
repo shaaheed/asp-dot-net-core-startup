@@ -5,5 +5,6 @@ namespace Module.Sales.Domain.InvoicePayments
 {
     public class GetInvoicePaymentsQuery : IQuery<IEnumerable<InvoicePaymentDto>>
     {
+        public long InvoiceId { get; set; }
     }
 }
