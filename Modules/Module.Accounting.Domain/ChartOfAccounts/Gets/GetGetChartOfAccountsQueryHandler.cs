@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
 using Module.Accounting.Entities;
 using Module.Accounting.Domain.ChartOfAccounts.Dtos;
-using MediatR;
+using Msi.Data.Abstractions;
 
 namespace Module.Accounting.Domain.ChartOfAccounts
 {

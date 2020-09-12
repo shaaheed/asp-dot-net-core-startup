@@ -3,7 +3,7 @@ using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Qoutes
 {
@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.Qoutes
         public async Task<long> Handle(DeleteQouteCommand request, CancellationToken cancellationToken)
         {
             var qouteRepo = _unitOfWork.GetRepository<Qoute>();
-            var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             var qouteLineItemRepo = _unitOfWork.GetRepository<QouteLineItem>();
             var qouteLineItemsToBeDeleted = qouteLineItemRepo

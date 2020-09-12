@@ -2,7 +2,7 @@
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.EntityFrameworkCore;
-using Msi.Extensions.Persistence.EntityFrameworkCore;
+using Msi.Data.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Module.IdentityServer.Persistence.EntityFramework

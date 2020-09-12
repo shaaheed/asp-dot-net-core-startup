@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Msi.Extensions.Persistence.EntityFrameworkCore;
+using Msi.Data.EntityFrameworkCore;
 
 namespace Module.Accounting.Persistence.EntityFramewrok
 {

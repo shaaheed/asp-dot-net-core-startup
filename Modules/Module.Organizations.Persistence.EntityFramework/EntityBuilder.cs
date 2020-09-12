@@ -1,8 +1,5 @@
-﻿using Core.Interfaces.Entities;
-using Microsoft.EntityFrameworkCore;
-using Msi.Extensions.Infrastructure;
-using Msi.Extensions.Persistence.EntityFrameworkCore;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using Msi.Data.EntityFrameworkCore;
 
 namespace Module.Organizations.Persistence.EntityFramework
 {

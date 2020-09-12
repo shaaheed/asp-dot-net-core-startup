@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 using System.Threading.Tasks;
 
 namespace Module.Core.Filters

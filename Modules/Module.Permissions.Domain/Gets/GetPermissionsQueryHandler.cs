@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 using Module.Permissions.Entities;
 
 namespace Module.Permissions.Domain

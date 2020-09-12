@@ -1,7 +1,7 @@
-﻿using Core.Events;
-using Core.Interfaces.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Module.Core.Entities;
+using Msi.Data.Entity;
+using Msi.Mediator.Abstractions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

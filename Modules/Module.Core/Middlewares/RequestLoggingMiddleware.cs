@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Msi.UtilityKit;
 using Microsoft.AspNetCore.Hosting;
 using Core.Infrastructure.Logs;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Comment
 {

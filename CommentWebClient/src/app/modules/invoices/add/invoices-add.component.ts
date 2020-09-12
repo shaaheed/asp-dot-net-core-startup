@@ -165,7 +165,6 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   addCustomer() {
-    this.selectedCustomer = null;
     this.clickedOnSelectCustomerButton = true;
     setTimeout(() => {
       this.customerSelect.nzSelectService.setOpenState(true);
@@ -250,7 +249,7 @@ export class InvoicesAddComponent extends FormComponent {
       name: [],
       description: [],
       quantity: [],
-      price: [],
+      price: [null, [], this.priceValidator.bind(this)],
       amount: [],
       productId: []
     });
@@ -282,6 +281,16 @@ export class InvoicesAddComponent extends FormComponent {
         this.products = res;
       }
     );
+  }
+
+  private priceValidator(control: FormControl) {
+    if (!control.value) {
+      return this.error('please.give.a.price');
+    }
+    else if (isNaN(Number(control.value))) {
+      return this.error('price.must.be.numeric');
+    }
+    return of(true);
   }
 
 }

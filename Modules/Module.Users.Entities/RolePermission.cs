@@ -1,5 +1,5 @@
-﻿using Core.Interfaces.Entities;
-using Module.Permissions.Entities;
+﻿using Module.Permissions.Entities;
+using Msi.Data.Entity;
 
 namespace Module.Users.Entities
 {

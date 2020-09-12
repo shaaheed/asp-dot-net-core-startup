@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Events\Core.Events.csproj" />
+    <ProjectReference Include="..\Msi\Data\Msi.Data.Entity\Msi.Data.Entity.csproj" />
   </ItemGroup>
 
 </Project>

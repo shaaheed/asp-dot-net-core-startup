@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore\Msi.Extensions.Persistence.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Msi\Data\Msi.Data.EntityFrameworkCore\Msi.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Module.IdentityServer.Entities\Module.IdentityServer.Entities.csproj" />
   </ItemGroup>
 

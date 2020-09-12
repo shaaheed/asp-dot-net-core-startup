@@ -1,0 +1,17 @@
+set foreign_key_checks=0;
+insert into rolepermission (Id, RoleId, PermissionId) values (100, 1, "accounting.chartofaccount.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (101, 1, "accounting.chartofaccount.category.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (102, 1, "accounting.transaction.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (200, 1, "core.currency.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (300, 1, "organizations.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (400, 1, "payments.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (500, 1, "permissions.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (600, 1, "sales.customer.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (601, 1, "sales.invoice.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (602, 1, "sales.product.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (603, 1, "sales.invoice.payment.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (604, 1, "sales.vendor.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (605, 1, "sales.qoute.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (606, 1, "sales.bill.manage");
+insert into rolepermission (Id, RoleId, PermissionId) values (700, 1, "users.manage");
+set foreign_key_checks=1;

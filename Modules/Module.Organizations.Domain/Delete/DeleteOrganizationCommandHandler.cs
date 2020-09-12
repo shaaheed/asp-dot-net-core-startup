@@ -2,8 +2,8 @@
 using Core.Infrastructure.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
 using Module.Organizations.Entities;
+using Msi.Data.Abstractions;
 
 namespace Module.Organizations.Domain
 {
@@ -21,7 +21,7 @@ namespace Module.Organizations.Domain
         public async Task<long> Handle(DeleteOrganizationCommand request, CancellationToken cancellationToken)
         {
             var orgRepo = _unitOfWork.GetRepository<Organization>();
-            var orgToBeDeleted = await orgRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var orgToBeDeleted = await orgRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (orgToBeDeleted == null)
                 throw new NotFoundException("Organization not found");

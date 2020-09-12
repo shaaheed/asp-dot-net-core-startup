@@ -2,7 +2,7 @@
 using Core.Infrastructure.Exceptions;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 using Module.Permissions.Entities;
 
 namespace Module.Permissions.Data
@@ -21,7 +21,7 @@ namespace Module.Permissions.Data
         public async Task<long> Handle(DeletePermissionCommand request, CancellationToken cancellationToken)
         {
             var permissionRepo = _unitOfWork.GetRepository<Permission>();
-            var permissionToBeDeleted = await permissionRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var permissionToBeDeleted = await permissionRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (permissionToBeDeleted == null)
                 throw new NotFoundException("Permission not found");

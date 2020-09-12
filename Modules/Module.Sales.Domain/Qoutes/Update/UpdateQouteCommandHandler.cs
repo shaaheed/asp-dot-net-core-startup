@@ -4,7 +4,7 @@ using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Qoutes
 {
@@ -23,7 +23,7 @@ namespace Module.Sales.Domain.Qoutes
         {
 
             var qouteRepo = _unitOfWork.GetRepository<Qoute>();
-            var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (qoute == null)
                 throw new NotFoundException("Qoute not found");

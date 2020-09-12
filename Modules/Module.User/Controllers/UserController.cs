@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Module.Core.Attributes;
 using Module.Users.Common;
 using Module.Users.Domain;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Msi.Data.Abstractions;
 
 namespace Modules.User.Controllers
 {
@@ -21,20 +23,26 @@ namespace Modules.User.Controllers
 
         public UserController(
             ICommandBus commandBus,
-            IQueryBus queryBus)
+            IQueryBus queryBus,
+            IUnitOfWork unitOfWork)
         {
             _commandBus = commandBus;
             _queryBus = queryBus;
+            var x = UnitOfWorkAccessor.Instance;
+            var y = x == unitOfWork;
         }
 
         [HttpGet]
         [RequirePermission(Permissions.UserList)]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> Gets()
         {
-            var query = new GetUsersQuery();
-            var r = await _queryBus.SendAsync(query);
-            return Ok(r);
+            //var query = new GetUsersQuery();
+            //var r = await _queryBus.SendAsync(query);
+            //return Ok(r);
+
+            await new Module.Users.Entities.User().SaveAsync();
+            return Ok(new List<string> { "value1", "value2" });
         }
 
         [HttpGet("{id}")]

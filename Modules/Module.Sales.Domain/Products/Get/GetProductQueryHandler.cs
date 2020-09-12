@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
+using Module.Core.Domain;
 
 namespace Module.Sales.Domain.Products
 {
@@ -26,10 +27,29 @@ namespace Module.Sales.Domain.Products
                     Id = x.Id,
                     Name = x.Name,
                     Code = x.Code,
+                    Category = x.Category != null ? new IdNameDto<long>
+                    {
+                        Id = (long)x.CategoryId,
+                        Name = x.Name
+                    } : null,
+                    Manufacturer = x.Manufacturer != null ? new IdNameDto<long>
+                    {
+                        Id = (long)x.ManufacturerId,
+                        Name = x.Name
+                    } : null,
+                    UnitOfMeasurement = x.UnitOfMeasurement != null ? new IdNameDto<long>
+                    {
+                        Id = (long)x.UnitOfMeasurementId,
+                        Name = x.Name
+                    } : null,
                     Description = x.Description,
                     Price = x.Price,
                     IsBuy = x.IsBuy,
-                    IsSale = x.IsSale
+                    IsSale = x.IsSale,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    SupportStartDate = x.SupportStartDate,
+                    SupportEndDate = x.SupportEndDate
                 })
                 .FirstOrDefault(x => x.Id == request.Id);
             return await Task.FromResult(product);

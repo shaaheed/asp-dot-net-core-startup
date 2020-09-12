@@ -1,5 +1,5 @@
 ﻿using Core.Infrastructure.Commands;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +28,13 @@ namespace Module.Sales.Domain.Products
                 product.Price = request.Price;
                 product.IsBuy = request.IsBuy;
                 product.IsSale = request.IsSale;
+                product.CategoryId = request.CategoryId;
+                product.ManufacturerId = request.ManufacturerId;
+                product.UnitOfMeasurementId = request.UnitOfMeasurementId;
+                product.StartDate = request.StartDate;
+                product.EndDate = request.EndDate;
+                product.SupportStartDate = request.SupportStartDate;
+                product.SupportEndDate = request.SupportEndDate;
                 var newEvent = new ProductUpdatedEvent();
                 newEvent.GenerateType();
                 product.Append(newEvent);

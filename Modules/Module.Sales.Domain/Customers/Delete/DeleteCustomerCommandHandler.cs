@@ -3,7 +3,7 @@ using Core.Infrastructure.Exceptions;
 using Module.Users.Entities;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Customers
 {
@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.Customers
         public async Task<long> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
             var userRepo = _unitOfWork.GetRepository<User>();
-            var userToBeDeleted = await userRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var userToBeDeleted = await userRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (userToBeDeleted == null)
                 throw new NotFoundException("Customer not found");

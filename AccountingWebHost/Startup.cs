@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Core.Web.Modules;
 using Module.Core.Exceptions;
-using Msi.Extensions.Persistence.Abstractions;
 using Module.Core.Filters;
-using Msi.Extensions.DependencyInjection.Extensions;
+using Msi.Data.EntityFrameworkCore.SqlServer;
+using Msi.Data.Extensions.Microsoft.DependencyInjection;
+using Msi.Data.EntityFrameworkCore;
+using Msi.Core;
+using Msi.Web;
+using Msi.Service.Extensions.Microsoft.DependencyInjection;
 
 namespace AccountingWebHost
 {
@@ -27,6 +30,7 @@ namespace AccountingWebHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddCors(options =>
             {
                 options.AddPolicy("default", policy =>
@@ -40,15 +44,20 @@ namespace AccountingWebHost
                 });
             });
 
+            Global.Initialize(new DefaultAssemblyProvider());
             //services.AddSwaggerService();
-            services.AddModules(_env.ContentRootPath);
+            
+            services.AddServices();
+            services.AddModules();
 
-            services.Configure<DataContextOptions>(options =>
-            {
-                options.ConnectionString = Configuration.GetConnectionString("Default");
-                options.MigrationsAssembly = GetType().Assembly.FullName;
-            });
-            services.AddExtensions();
+            services.AddUnitOfWork(options => options.UseEntityFrameworkCore().UseSqlServer());
+
+            //services.Configure<DataContextOptions>(options =>
+            //{
+            //    options.ConnectionString = Configuration.GetConnectionString("Default");
+            //    options.MigrationsAssembly = GetType().Assembly.FullName;
+            //});
+            //services.AddExtensions();
 
             services.AddAuthentication();
             //.AddJwtBearer("Bearer", options =>
@@ -83,9 +92,12 @@ namespace AccountingWebHost
             }).AddNewtonsoftJson();
         }
 
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

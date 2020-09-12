@@ -3,7 +3,7 @@ using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Bills
 {
@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.Bills
         public async Task<long> Handle(DeleteBillCommand request, CancellationToken cancellationToken)
         {
             var billRepo = _unitOfWork.GetRepository<Invoice>();
-            var bill = await billRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var bill = await billRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             var billLineItemRepo = _unitOfWork.GetRepository<BillLineItem>();
             var billLineItemsToBeDeleted = billLineItemRepo

@@ -1,6 +1,6 @@
 ﻿//using Core.Interfaces.Entities;
 //using Core.Web.Modules;
-//using Msi.Extensions.Persistence.EntityFrameworkCore;
+//using Msi.Data.EntityFrameworkCore;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;

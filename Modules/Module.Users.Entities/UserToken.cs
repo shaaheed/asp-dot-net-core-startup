@@ -1,5 +1,5 @@
-﻿using Core.Interfaces.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Msi.Data.Entity;
 
 namespace Module.Users.Entities
 {

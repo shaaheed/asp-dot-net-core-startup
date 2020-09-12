@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore\Msi.Extensions.Persistence.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\Msi\Data\Msi.Data.EntityFrameworkCore\Msi.Data.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.EntityFrameworkCore\Msi.Extensions.Persistence.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\Msi\Data\Msi.Data.EntityFrameworkCore\Msi.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Module.Payments.Data\Module.Payments.Data.csproj" />
     <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
   </ItemGroup>

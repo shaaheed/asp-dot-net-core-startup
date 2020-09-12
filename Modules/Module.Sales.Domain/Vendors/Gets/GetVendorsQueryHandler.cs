@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Vendors
 {
@@ -21,16 +21,27 @@ namespace Module.Sales.Domain.Vendors
 
         public async Task<IEnumerable<VendorDto>> Handle(GetVendorsQuery request, CancellationToken cancellationToken)
         {
-            var results = _unitOfWork.GetRepository<User>()
-                .AsQueryable()
+            var customerRole = await _unitOfWork.GetRepository<Role>()
+                .FirstOrDefaultAsync(x => x.Code == "vendor");
+
+            var q = _unitOfWork.GetRepository<UserRole>()
+                .AsQueryable();
+
+            if (customerRole != null)
+            {
+                q = q.Where(x => x.RoleId == customerRole.Id);
+            }
+
+            var results = q
                 .Select(x => new VendorDto
                 {
-                    Id = x.Id,
-                    Email = x.Email,
-                    Name = x.FirstName,
-                    Mobile = x.Mobile,
-                    Contact = x.Contact
-                });
+                    Id = x.User.Id,
+                    Email = x.User.Email,
+                    Name = x.User.FirstName,
+                    Mobile = x.User.Mobile,
+                    Contact = x.User.Contact
+                })
+                .ToList();
             return await Task.FromResult(results);
         }
     }

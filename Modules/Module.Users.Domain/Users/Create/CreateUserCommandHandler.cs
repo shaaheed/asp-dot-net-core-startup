@@ -1,11 +1,9 @@
 ﻿using Module.Users.Entities;
-using Core.Infrastructure.Commands;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
 using Core.Infrastructure.Exceptions;
+using Msi.Data.Abstractions;
+using Msi.Mediator.Abstractions;
 
 namespace Module.Users.Domain
 {
@@ -30,28 +28,27 @@ namespace Module.Users.Domain
                 throw new ValidationException($"Invalid role {request.Role}");
 
             var userRepo = _unitOfWork.GetRepository<User>();
+
+            var xx = EntityBase.All<User>();
             User newUser = new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Email = request.Email,
+                //Email = request.Email,
                 Mobile = request.Mobile,
                 Contact = request.Contact
             };
 
             var cutomerCreatedEvent = new UserCreatedEvent();
             newUser.Append(cutomerCreatedEvent);
-            await userRepo.AddAsync(newUser, cancellationToken);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var result = await newUser.SaveAsync(cancellationToken);
 
             var newUserRole = new UserRole
             {
-                UserId = newUser.Id,
+                //UserId = newUser.Id,
                 RoleId = userRole.Id
             };
-
-            await _unitOfWork.GetRepository<UserRole>().AddAsync(newUserRole, cancellationToken);
-            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            result += await newUserRole.SaveAsync(cancellationToken);
             return result;
         }
     }

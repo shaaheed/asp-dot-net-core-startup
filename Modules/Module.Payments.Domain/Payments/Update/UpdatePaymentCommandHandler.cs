@@ -3,7 +3,7 @@ using Core.Infrastructure.Exceptions;
 using Module.Payments.Entities;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Payments.Domain
 {
@@ -22,7 +22,7 @@ namespace Module.Payments.Domain
         {
 
             var paymentRepo = _unitOfWork.GetRepository<Payment>();
-            var payment = await paymentRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var payment = await paymentRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (payment == null)
                 throw new NotFoundException("Payment not found");

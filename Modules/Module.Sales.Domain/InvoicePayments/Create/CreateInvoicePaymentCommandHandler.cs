@@ -2,7 +2,7 @@
 using Module.Sales.Entities;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 using Module.Payments.Entities;
 using System.Linq;
 

@@ -2,7 +2,7 @@
 //using Microsoft.AspNetCore.Identity;
 //using Module.Identity.Entities;
 //using Module.Identity.Persistence.EntityFramework;
-//using Msi.Extensions.Persistence.Abstractions;
+//using Msi.Data.Abstractions;
 //using System;
 //using System.Threading;
 //using System.Threading.Tasks;

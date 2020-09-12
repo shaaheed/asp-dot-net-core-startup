@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
+    <ProjectReference Include="..\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
+  </ItemGroup>
 
 </Project>

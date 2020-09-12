@@ -4,7 +4,7 @@ using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Invoices
 {
@@ -23,7 +23,7 @@ namespace Module.Sales.Domain.Invoices
         {
 
             var invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (invoice == null)
                 throw new NotFoundException("Invoice not found");

@@ -3,7 +3,7 @@ using Core.Infrastructure.Commands;
 using Core.Infrastructure.Responses;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Users.Domain
 {

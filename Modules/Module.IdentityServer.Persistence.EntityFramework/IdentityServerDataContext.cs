@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Core.Interfaces.Entities;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
+using Msi.Data.Entity;
 
 namespace Module.IdentityServer.Persistence.EntityFramework
 {

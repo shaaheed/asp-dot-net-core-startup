@@ -4,7 +4,7 @@ using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
+using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Bills
 {
@@ -23,7 +23,7 @@ namespace Module.Sales.Domain.Bills
         {
 
             var billRepo = _unitOfWork.GetRepository<Bill>();
-            var bill = await billRepo.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var bill = await billRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (bill == null)
                 throw new NotFoundException("Bill not found");

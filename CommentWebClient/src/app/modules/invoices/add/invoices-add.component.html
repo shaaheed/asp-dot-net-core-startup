@@ -22,7 +22,7 @@
             <div class="content">
                 <div class="invoice-head pad-h-20">
                     <div class="left">
-                        <div [ngStyle]="{'display': selectedCustomer ? 'none' : 'flex'}"
+                        <div [ngStyle]="{'display': selectedCustomer && !clickedOnSelectCustomerButton ? 'none' : 'flex'}"
                             class="customer add-customer bg-white">
                             <i nz-icon nzType="user" nzTheme="outline"></i>
                             <div class="select-customer-container">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="selectedCustomer" class="customer info-customer">
+                        <div *ngIf="selectedCustomer && !clickedOnSelectCustomerButton" class="customer info-customer">
                             <div class="mb-14">
                                 <div class="fs-i"> Bill to</div>
                                 <div class="fw-600">{{selectedCustomer.name}}</div>
@@ -129,7 +129,7 @@
                                     </td>
                                     <td style="width: 160px;">
                                         <nz-form-item>
-                                            <nz-form-control>
+                                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
                                                 <input type="text" (ngModelChange)="invoiceItemPriceChanged(data)"
                                                     nz-input formControlName="price" />
                                             </nz-form-control>

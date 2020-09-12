@@ -1,12 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.Events\Core.Events.csproj" />
-    <ProjectReference Include="..\..\Extensions\Msi.Extensions.Persistence.Abstractions\Msi.Extensions.Persistence.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
     <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
   </ItemGroup>
 

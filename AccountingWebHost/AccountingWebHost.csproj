@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Web\Core.Web.csproj" />
-    <ProjectReference Include="..\Extensions\Msi.Extensions.DependencyInjection\Msi.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\Modules\Module.Accounting\Module.Accounting.csproj" />
     <ProjectReference Include="..\Modules\Module.Core\Module.Core.csproj" />
     <ProjectReference Include="..\Modules\Module.Organizations\Module.Organizations.csproj" />
@@ -15,6 +13,10 @@
     
     <ProjectReference Include="..\Modules\Module.Sales\Module.Sales.csproj" />
     <ProjectReference Include="..\Modules\Module.User\Module.Users.csproj" />
+    <ProjectReference Include="..\Msi\Data\Msi.Data.EntityFrameworkCore.SqlServer\Msi.Data.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\Msi\Data\Msi.Data.Extensions.Microsoft.DependencyInjection\Msi.Data.Extensions.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Msi\Service\Msi.Service.Extensions.Microsoft.DependencyInjection\Msi.Service.Extensions.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Msi\Web\Msi.Web\Msi.Web.csproj" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />

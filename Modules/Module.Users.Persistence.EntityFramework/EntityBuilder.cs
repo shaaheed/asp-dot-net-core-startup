@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Msi.Extensions.Persistence.EntityFrameworkCore;
+using Msi.Data.EntityFrameworkCore;
 
 namespace Module.Users.Persistence.EntityFramework
 {
@@ -7,6 +7,7 @@ namespace Module.Users.Persistence.EntityFramework
     {
         public void Build(ModelBuilder modelBuilder)
         {
+            //
         }
     }
 

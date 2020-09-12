@@ -1,8 +1,8 @@
 ﻿using Core.Infrastructure.Commands;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Extensions.Persistence.Abstractions;
 using Module.Organizations.Entities;
+using Msi.Data.Abstractions;
 
 namespace Module.Organizations.Domain
 {
