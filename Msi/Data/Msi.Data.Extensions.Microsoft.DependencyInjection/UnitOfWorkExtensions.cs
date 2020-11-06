@@ -22,35 +22,25 @@ namespace Msi.Data.Extensions.Microsoft.DependencyInjection
 
             services.AddScoped<ServiceFactory>(x => x.GetService);
 
-            services.Configure<DataContextOptions>(x =>
-            {
-                x.ConnectionString = config.GetConnectionString("Default");
-            });
-
             UnitOfWorkOptions _options = new UnitOfWorkOptions();
             options.Invoke(_options);
 
-            services.Add(new ServiceDescriptor(typeof(IDataContext), _options.DataContextType, ServiceLifetime.Scoped));
+            services.Configure<DataContextOptions>(x =>
+            {
+                x.ConnectionString = config.GetConnectionString("Default");
+                x.MigrationsAssembly = _options.MigrationAssembly;
+            });
+
+            //services.Add(new ServiceDescriptor(typeof(IDataContext), _options.DataContextType, ServiceLifetime.Scoped));
 
             services.Add(new ServiceDescriptor(typeof(IUnitOfWork), _options.UnitOfWorkType, ServiceLifetime.Scoped));
 
-            try
+            var implementations = Global.GetGenericImplementations(typeof(IUnitOfWorkPipeline<>));
+            foreach (var item in implementations)
             {
-                //provider = services.BuildServiceProvider();
-                //var dataContext = provider.GetService<IDataContext>();
-                //(dataContext as DbContext)?.Database.Migrate();
-                //logger.LogInformation($"---MIGRATE DONE--- at {DateTime.Now}");
-            }
-            catch (Exception e)
-            {
-                //logger.LogError($"---MIGRATE ERROR--- at {DateTime.Now}");
-                //Exception ex = e;
-                //while (ex != null)
-                //{
-                //    logger.LogError(ex.Message);
-                //    ex = ex.InnerException;
-                //}
-                //logger.LogError($"---MIGRATE ERROR END --- at {DateTime.Now}");
+                var arg = item.GetInterfaces()[0].GetGenericArguments()[0];
+                var serviceType = typeof(IUnitOfWorkPipeline<>).MakeGenericType(arg);
+                services.Add(new ServiceDescriptor(serviceType, item, ServiceLifetime.Scoped));
             }
             return services;
         }

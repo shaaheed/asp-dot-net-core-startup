@@ -1,6 +1,6 @@
 ﻿//using Application.Commands;
 //using Comment.Persistence;
-//using Core.Infrastructure.Commands;
+//using Msi.Mediator.Abstractions;
 //using Msi.Extensions.Persistence;
 //using System.Threading;
 //using System.Threading.Tasks;

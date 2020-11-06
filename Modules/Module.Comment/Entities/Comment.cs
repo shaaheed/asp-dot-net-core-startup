@@ -1,4 +1,4 @@
-﻿using Core.Interfaces.Entities;
+﻿using Msi.Data.Entity;
 using System.Collections.Generic;
 
 namespace Module.Comment.Entities

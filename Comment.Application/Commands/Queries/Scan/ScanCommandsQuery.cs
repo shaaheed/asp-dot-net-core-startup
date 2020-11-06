@@ -1,5 +1,5 @@
 ﻿using Comment.Application.Commands.Sync.Models;
-using Core.Infrastructure.Queries;
+using Msi.Mediator.Abstractions;
 using System.Collections.Generic;
 
 namespace Application.Commands

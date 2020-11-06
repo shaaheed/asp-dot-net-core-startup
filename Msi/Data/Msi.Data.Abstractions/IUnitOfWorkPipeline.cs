@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 namespace Msi.Data.Abstractions
 {
 
-    public delegate Task<TEntity> PipelineHandlerDelegate<TEntity>() where TEntity : IEntity;
+    public delegate Task<T> PipelineHandlerDelegate<T>();
 
-    public interface IUnitOfWorkPipeline<TEntity> where TEntity : IEntity
+    public interface IUnitOfWorkPipeline<T>
+        where T : IEntity
     {
-        Task<TEntity> Handle(TEntity entity, CancellationToken cancellationToken, PipelineHandlerDelegate<TEntity> next);
+        Task<T> Handle(T entity, CancellationToken cancellationToken, PipelineHandlerDelegate<T> next);
     }
 }

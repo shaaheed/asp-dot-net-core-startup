@@ -1,4 +1,4 @@
-﻿using Core.Infrastructure.Commands;
+﻿using Msi.Mediator.Abstractions;
 
 namespace Comment.Application.Comment.Commands
 {

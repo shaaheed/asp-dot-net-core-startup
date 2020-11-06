@@ -1,7 +1,6 @@
 ﻿using Application.Commands;
 using Comment.Application.Commands.Sync.Models;
-using Core.Infrastructure.Commands;
-using Core.Infrastructure.Queries;
+using Msi.Mediator.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;

@@ -6,5 +6,6 @@ namespace Msi.Data.Abstractions
     {
         public Type UnitOfWorkType { get; set; }
         public Type DataContextType { get; set; }
+        public string MigrationAssembly { get; set; }
     }
 }

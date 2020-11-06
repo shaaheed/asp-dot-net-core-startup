@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Msi.Core;
 using Msi.Data.Abstractions;
+using Msi.Data.Entity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Msi.Data.EntityFrameworkCore
 {
@@ -23,23 +27,29 @@ namespace Msi.Data.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //foreach (var item in ProjectManager.Entities)
-            //{
-            //    modelBuilder.Entity(item);
-            //}
+            var entities = Global.GetImplementations<IEntity>();
+            foreach (var item in entities)
+            {
+                var ignored = item.CustomAttributes.Any(x => x.AttributeType == typeof(IgnoredEntityAttribute));
+                if(!ignored)
+                {
+                    modelBuilder.Entity(item);
+                }
+            }
 
-            //foreach (var item in ProjectManager.SeedProviders)
-            //{
-            //    modelBuilder.AddSeeds(item);
-            //}
+            var seeds = Global.GetInstances<ISeed<IEntity>>().OrderBy(x => x.Order);
 
-            //var modelBuilders = ProjectManager.GetInstances<IModelBuilder>();
-            //foreach (var item in modelBuilders)
-            //{
-            //    item.Build(modelBuilder);
-            //}
+            foreach (var item in seeds)
+            {
+                modelBuilder.AddSeeds(item);
+            }
 
-            //this.BuildModels(modelBuilder);
+            var modelBuilders = Global.GetInstances<IModelBuilder>();
+            foreach (var item in modelBuilders)
+            {
+                item.Build(modelBuilder);
+            }
+
             base.OnModelCreating(modelBuilder);
         }
 

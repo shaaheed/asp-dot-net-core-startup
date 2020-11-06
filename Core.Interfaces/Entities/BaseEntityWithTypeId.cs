@@ -1,9 +1,9 @@
 ﻿//using System;
-//using Core.Events;
+//using Msi.Mediator.Abstractions;
 //using Core.Infrastructure.Attributes;
 //using Msi.Data.Entity;
 
-//namespace Core.Interfaces.Entities
+//namespace Msi.Data.Entity
 //{
 //    [IgnoredEntity]
 //    public class BaseEntityWithTypeId<TKey> : EventAggregate, IEntity, IAuditableEntity<long>

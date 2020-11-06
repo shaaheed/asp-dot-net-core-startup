@@ -1,4 +1,4 @@
-﻿using Core.Infrastructure.Queries;
+﻿using Msi.Mediator.Abstractions;
 
 namespace Comment.Application.Comment.Queries
 {

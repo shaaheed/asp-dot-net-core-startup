@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Domain\Module.Permissions.Domain.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpService } from 'src/services/http/http.service';
-import { SecurityService } from 'src/services/security.service';
+import { SecurityService } from 'src/services/#security.service';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginModule } from './components/login/login.module';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -25,6 +25,8 @@ import { ErrorInterceptor } from './error.interceptor';
 import * as AllIcons from '@ant-design/icons-angular/icons'
 import { IconDefinition } from '@ant-design/icons-angular';
 import { environment } from 'src/environments/environment';
+import { permissionFactory, PermissionService } from 'src/services/permission.service';
+import { CacheService } from 'src/services/cache.service';
 
 registerLocaleData(en);
 
@@ -77,7 +79,15 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AuthService,
     IdentityService,
     BroadcastService,
+    CacheService,
+    { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: permissionFactory,
+      deps: [AuthService, SecurityService, PermissionService],
+      multi: true
+    },
   ],
   bootstrap: [AppComponent, []]
 })

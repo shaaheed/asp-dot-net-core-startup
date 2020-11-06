@@ -3,14 +3,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Module.Core.Exceptions;
-using Module.Core.Filters;
 using Msi.Data.EntityFrameworkCore.SqlServer;
 using Msi.Data.Extensions.Microsoft.DependencyInjection;
 using Msi.Data.EntityFrameworkCore;
 using Msi.Core;
 using Msi.Web;
 using Msi.Service.Extensions.Microsoft.DependencyInjection;
+using Msi.Mediator.Extensions.Microsoft.DependencyInjection;
+using Module.Users.Domain;
+using Module.Core.Exceptions;
+using Module.Core.Filters;
+using Module.Organizations.Domain;
+using Module.Permissions.Data;
+using Msi.Mediator.Abstractions;
+using System.Linq;
 
 namespace AccountingWebHost
 {
@@ -44,19 +50,25 @@ namespace AccountingWebHost
                 });
             });
 
-            Global.Initialize(new DefaultAssemblyProvider());
-            //services.AddSwaggerService();
-            
+            Global.Initialize(new DefaultAssemblyProvider(), _env.EnvironmentName);
+            services.AddSwaggerService();
+
+            var assemblies = Global.GetGenericImplementations(typeof(ICommand<>)).Select(x => x.Assembly).Distinct();
+            services.AddMediator(opt =>
+            {
+                opt.Assemblies.AddRange(assemblies);
+            });
             services.AddServices();
             services.AddModules();
 
-            services.AddUnitOfWork(options => options.UseEntityFrameworkCore().UseSqlServer());
+            services.UseSqlServer();
+            services.AddUnitOfWork(options =>
+            {
+                options.MigrationAssembly = GetType().Assembly.FullName;
+                options.UseEntityFrameworkCore()/*.UseSqlServer()*/;
+            });
+            services.Migrate();
 
-            //services.Configure<DataContextOptions>(options =>
-            //{
-            //    options.ConnectionString = Configuration.GetConnectionString("Default");
-            //    options.MigrationsAssembly = GetType().Assembly.FullName;
-            //});
             //services.AddExtensions();
 
             services.AddAuthentication();
@@ -108,7 +120,7 @@ namespace AccountingWebHost
             app.UseRouting();
 
             app.UseCors("default");
-            //app.UseSwaggerService();
+            app.UseSwaggerService();
 
             app.UseModules();
             app.UseAuthentication();

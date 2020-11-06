@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Core.Infrastructure.Commands;
-using Core.Infrastructure.Queries;
+﻿using Msi.Mediator.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Module.Comment.Controllers

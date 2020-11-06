@@ -1,5 +1,5 @@
 ﻿//using Core.Interfaces.Data;
-//using Core.Interfaces.Entities;
+//using Msi.Data.Entity;
 //using Microsoft.EntityFrameworkCore;
 //using Msi.Extensions.Infrastructure;
 //using Msi.UtilityKit;
@@ -123,3 +123,26 @@
 //        }
 //    }
 //}
+
+using Microsoft.EntityFrameworkCore;
+using Msi.Data.Entity;
+using System.Linq;
+
+public static class ModelBuilderExtensions
+{
+
+    public static void AddSeeds(this ModelBuilder modelBuilder, ISeed<IEntity> seed)
+    {
+        var interfaces = seed.GetType().GetInterfaces();
+        if (interfaces.Count() > 0)
+        {
+            var args = interfaces[0].GetGenericArguments();
+            if (args.Count() > 0)
+            {
+                var type = args[0];
+                modelBuilder.Entity(type).HasData(seed.GetSeeds());
+            }
+        }
+    }
+
+}

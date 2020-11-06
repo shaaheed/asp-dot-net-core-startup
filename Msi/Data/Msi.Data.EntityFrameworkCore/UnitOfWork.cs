@@ -63,14 +63,22 @@ namespace Msi.Data.EntityFrameworkCore
 
             foreach (var entry in entries)
             {
-                var entity = entry.Entity as IEntity;
-                PipelineHandlerDelegate<IEntity> handler = () => Task.FromResult(entity);
+                var entity = entry.Entity;
+                PipelineHandlerDelegate<object> handler = () => Task.FromResult(entity);
 
                 var pipelineType = typeof(IUnitOfWorkPipeline<>).MakeGenericType(entry.Entity.GetType());
-                var pipelines = (IEnumerable<IUnitOfWorkPipeline<IEntity>>)_serviceFactory.GetInstances(pipelineType);
+                var pipelines = _serviceFactory.GetInstances(pipelineType);
 
-                var x = await pipelines.Reverse().Aggregate(handler, (next, pipeline) => () => pipeline.Handle(entity, cancellationToken, next))();
-
+                if (pipelines != null)
+                {
+                    var x = await pipelines.Reverse().Aggregate(handler, (next, pipeline) => () =>
+                    {
+                        var d = pipeline as dynamic;
+                        //var dd = d.Hello();
+                        var d2 = d.Handle(entity, cancellationToken, next);
+                        return d2;
+                    })();
+                }
             }
 
             //var entries = _dataContext.GetChangeTrackerEntities<BaseEntity>().ToArray();

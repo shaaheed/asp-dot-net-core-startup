@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <Folder Include="Attributes\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>

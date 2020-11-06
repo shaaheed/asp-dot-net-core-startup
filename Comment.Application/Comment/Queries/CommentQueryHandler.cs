@@ -2,8 +2,8 @@
 //using System.Threading.Tasks;
 //using Comment.Application.Comment.Queries;
 //using Comment.Persistence;
-//using Core.Events;
-//using Core.Infrastructure.Queries;
+//using Msi.Mediator.Abstractions;
+//using Msi.Mediator.Abstractions;
 //using Msi.Extensions.Persistence;
 //using Microsoft.EntityFrameworkCore;
 

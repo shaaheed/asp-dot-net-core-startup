@@ -3,8 +3,8 @@
 //using System.Threading.Tasks;
 //using Comment.Application.Comment.Events;
 //using Comment.Persistence;
-//using Core.Events;
-//using Core.Infrastructure.Commands;
+//using Msi.Mediator.Abstractions;
+//using Msi.Mediator.Abstractions;
 //using Core.Infrastructure.Exceptions;
 //using Msi.Extensions.Persistence;
 

@@ -8,13 +8,15 @@ namespace Msi.Core
 {
     public class Global
     {
+        public static string Environment { get; private set; }
         public static IEnumerable<Assembly> Assemblies { get; private set; }
 
         private static ConcurrentDictionary<Type, IEnumerable<Type>> cachedTypes;
         private static IAssemblyProvider _assemblyProvider;
 
-        public static void Initialize(IAssemblyProvider assemblyProvider)
+        public static void Initialize(IAssemblyProvider assemblyProvider, string environment)
         {
+            Environment = environment;
             cachedTypes = new ConcurrentDictionary<Type, IEnumerable<Type>>();
             _assemblyProvider = assemblyProvider;
             Assemblies = _assemblyProvider.GetAssemblies(string.Empty, false);
@@ -28,6 +30,11 @@ namespace Msi.Core
         public static Type GetImplementation<T>(Func<Assembly, bool> predicate, bool useCaching = false)
         {
             return GetImplementations<T>(predicate, useCaching).FirstOrDefault();
+        }
+
+        public static IEnumerable<Type> GetImplementations(Type type, bool useCaching = false)
+        {
+            return GetImplementations(type, null, useCaching);
         }
 
         public static IEnumerable<Type> GetImplementations<T>(bool useCaching = false)
@@ -70,9 +77,8 @@ namespace Msi.Core
             return implementations;
         }
 
-        public static IEnumerable<Type> GetImplementations<T>(Func<Assembly, bool> predicate, bool useCaching = true)
+        public static IEnumerable<Type> GetImplementations(Type type, Func<Assembly, bool> predicate, bool useCaching = true)
         {
-            Type type = typeof(T);
             if (useCaching && cachedTypes.ContainsKey(type))
             {
                 foreach (var item in cachedTypes[type])
@@ -99,6 +105,11 @@ namespace Msi.Core
             {
                 cachedTypes[type] = implementations;
             }
+        }
+
+        public static IEnumerable<Type> GetImplementations<T>(Func<Assembly, bool> predicate, bool useCaching = true)
+        {
+            return GetImplementations(typeof(T), predicate, useCaching);
         }
 
         public static T GetInstance<T>(bool useCaching = false)

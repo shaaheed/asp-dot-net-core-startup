@@ -1,6 +1,6 @@
 ﻿//using Core.Infrastructure.Attributes;
 
-//namespace Core.Interfaces.Entities
+//namespace Msi.Data.Entity
 //{
 //    [IgnoredEntity]
 //    public class BaseEntity : BaseEntityWithTypeId<long>

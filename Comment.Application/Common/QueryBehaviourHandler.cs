@@ -1,4 +1,4 @@
-﻿using Core.Infrastructure.Queries;
+﻿using Msi.Mediator.Abstractions;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

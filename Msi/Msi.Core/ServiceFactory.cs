@@ -16,11 +16,9 @@ namespace Msi.Core
         public static object GetInstance(this ServiceFactory factory, Type serviceType)
             => factory(serviceType);
 
-        public static IEnumerable<object> GetInstances(this ServiceFactory factory, Type serviceType)
-        {
-            var type = typeof(IEnumerable<>);
-            type.MakeGenericType(serviceType);
-            return (IEnumerable<object>)factory(type);
-        }
+        public static IEnumerable<object> GetInstances(this ServiceFactory factory, Type serviceType) => (IEnumerable<object>)factory(typeof(IEnumerable<>).MakeGenericType(serviceType));
+
+        public static IEnumerable<T> GetInstances<T>(this ServiceFactory factory, Type serviceType)
+            => (IEnumerable<T>)factory(typeof(IEnumerable<>).MakeGenericType(serviceType));
     }
 }

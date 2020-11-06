@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Msi.Core;
 using Msi.Data.Abstractions;
 
 namespace Msi.Data.EntityFrameworkCore.SqlServer
 {
     public class DataContext : DataContextBase
     {
-        //private readonly static ILoggerFactory _loggerFacroty = LoggerFactory.Create(builder => builder.AddConsole());
+        private readonly static ILoggerFactory _loggerFacroty = LoggerFactory.Create(builder => builder.AddConsole());
 
         public DataContext(IOptions<DataContextOptions> options) : base(options)
         {
@@ -23,15 +24,15 @@ namespace Msi.Data.EntityFrameworkCore.SqlServer
         {
             base.OnConfiguring(optionsBuilder);
 
-            //var env = ProjectManager.Env;
-            //if (!string.IsNullOrEmpty(env) && env.Equals("Development"))
-            //{
-            //    optionsBuilder.EnableSensitiveDataLogging();
-            //    if (_loggerFacroty != null)
-            //    {
-            //        optionsBuilder.UseLoggerFactory(_loggerFacroty);
-            //    }
-            //}
+            var env = Global.Environment;
+            if (!string.IsNullOrEmpty(env) && env.Equals("Development"))
+            {
+                optionsBuilder.EnableSensitiveDataLogging();
+                if (_loggerFacroty != null)
+                {
+                    optionsBuilder.UseLoggerFactory(_loggerFacroty);
+                }
+            }
 
             if (string.IsNullOrEmpty(MigrationsAssembly))
             {

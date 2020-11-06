@@ -55,7 +55,7 @@ export class LoginComponent {
     this.httpService.post('authenticate/login', body).subscribe(
       (res: any) => {
         if (res.authenticated) {
-          this.authService.signin(body.username, body.password)
+          // this.authService.signin(body.username, body.password)
         }
       },
       error => {

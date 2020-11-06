@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\Module.Permissions.Shared\Module.Permissions.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
