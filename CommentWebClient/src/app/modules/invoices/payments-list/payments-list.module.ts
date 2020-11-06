@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule, NzToolTipModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
@@ -19,12 +23,13 @@ import { InvoicePaymentListRoutingModule } from './payments-list-routing.module'
     NzTableModule,
     FormsModule,
     NzFormModule,
-    NgZorroAntdModule,
     SharedModule,
     NzToolTipModule,
     InvoicePaymentListRoutingModule,
     PaymentsAddModalModule,
     BoxLoaderModule,
+    NzTagModule,
+    NzDropDownModule
   ],
   exports: [InvoicePaymentListComponent],
   providers: [InvoiceService]

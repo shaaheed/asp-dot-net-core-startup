@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { PermissionsHttpService } from 'src/services/http/permissions-http.service';
 
 @Component({
@@ -50,7 +51,7 @@ export class ResourcesComponent {
       nzFooter: [
         {
           label: 'Cancel',
-          shape: 'default',
+          shape: null,
           onClick: () => modal.destroy()
         },
         {

@@ -60,10 +60,16 @@
               <div>
                 <ul>
                   <li>
-                    <a>Profile</a>
+                    <a>
+                      <i nz-icon nzType="profile" nzTheme="outline"></i>
+                      {{'profile'|translate}}
+                    </a>
                   </li>
                   <li>
-                    <a>Sign out</a>
+                    <a>
+                      <i nz-icon nzType="logout" nzTheme="outline"></i>
+                      {{'sign.out'|translate}}
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -78,6 +84,14 @@
           <li nz-menu-item>
             <i nz-icon nzType="home"></i>
             <span>{{'home'|translate}}</span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <span>
+              <a routerLink="/organizations">
+                <i nz-icon nzType="appstore" nzTheme="outline"></i>
+                <span>{{'organization'|translate}}</span>
+              </a>
+            </span>
           </li>
           <li nz-menu-item nzMatchRouter>
             <span>

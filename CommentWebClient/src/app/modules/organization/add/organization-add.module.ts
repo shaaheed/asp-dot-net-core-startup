@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrganizationAddComponent } from './organization-add.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
 import { OrganizationAddRoutingModule } from './organization-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CustomerService } from 'src/services/customer.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
+import { OrganizationService } from 'src/services/organization.service';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,13 @@ import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
     TableHeaderModule,
     SharedModule,
-    BoxLoaderModule
+    BoxLoaderModule,
+    NzButtonModule
   ],
   exports: [OrganizationAddComponent],
-  providers: [CustomerService]
+  providers: [OrganizationService]
 })
 export class OrganizationAddModule {
 

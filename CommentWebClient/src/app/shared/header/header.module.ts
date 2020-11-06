@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     NzFormModule,
-    NgZorroAntdModule,
     SharedModule
   ],
   exports: [HeaderComponent]

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { NzSelectComponent } from 'ng-zorro-antd';
+import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { forEachObj, clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { InvoiceService } from '../services/invoice.service';
@@ -38,7 +38,7 @@ export class InvoicesAddComponent extends FormComponent {
   dateFormat: string = "dd-MM-yyyy";
 
   constructor(
-    private fb: FormBuilder,
+    public fb: FormBuilder,
     private invoiceService: InvoiceService,
     private route: ActivatedRoute
   ) {
@@ -144,7 +144,7 @@ export class InvoicesAddComponent extends FormComponent {
   addAnItem() {
     this.clickedOnAddAnItemButton = true;
     setTimeout(() => {
-      this.productSelect.nzSelectService.setOpenState(true);
+      this.productSelect.setOpenState(true);
     }, 0);
   }
 
@@ -167,7 +167,7 @@ export class InvoicesAddComponent extends FormComponent {
   addCustomer() {
     this.clickedOnSelectCustomerButton = true;
     setTimeout(() => {
-      this.customerSelect.nzSelectService.setOpenState(true);
+      this.customerSelect.setOpenState(true);
     }, 0);
   }
 

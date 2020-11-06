@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { ResourcesGroupsAddComponent } from './add/resources-groups-add.component';
 import { PermissionsHttpService as PermissionsHttpService } from 'src/services/http/permissions-http.service';
 
@@ -65,7 +66,7 @@ export class ResourcesGroupsComponent {
       nzFooter: [
         {
           label: 'Cancel',
-          shape: 'default',
+          shape: null,
           onClick: () => modal.destroy()
         },
         {
@@ -115,15 +116,15 @@ export class ResourcesGroupsComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.getInstance().nzOkLoading = true;
         this.permissionHttpService.deleteResourceGroup(e.id).subscribe(
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.create('success', `${e.code} deleted.`);
             this.gets();
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             console.log('err', err)
           }
         );

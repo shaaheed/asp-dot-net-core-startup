@@ -4,14 +4,15 @@ import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
-import { NgZorroAntdModule, NZ_I18N, en_US, NZ_ICONS } from 'ng-zorro-antd';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpService } from 'src/services/http/http.service';
-import { SecurityService } from 'src/services/#security.service';
+import { SecurityService } from 'src/services/security.service';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginModule } from './components/login/login.module';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -27,6 +28,8 @@ import { IconDefinition } from '@ant-design/icons-angular';
 import { environment } from 'src/environments/environment';
 import { permissionFactory, PermissionService } from 'src/services/permission.service';
 import { CacheService } from 'src/services/cache.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 registerLocaleData(en);
 
@@ -48,7 +51,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     IconsProviderModule,
-    NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -65,10 +67,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
-    SecurityService,
     HttpService,
+    SecurityService,
+    PermissionService,
     TranslatePipe,
     AuthGuard,
+    NzMessageService,
+    NzModalService,
     // OAuthConfig,
     // {
     //   provide: APP_INITIALIZER,

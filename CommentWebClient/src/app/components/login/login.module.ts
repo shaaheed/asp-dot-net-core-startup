@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
@@ -18,8 +21,9 @@ import { LoginRoutingModule } from './login-routing.module';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
-    TableHeaderModule
+    TableHeaderModule,
+    NzInputModule,
+    NzButtonModule
   ],
   exports: [LoginComponent]
 })

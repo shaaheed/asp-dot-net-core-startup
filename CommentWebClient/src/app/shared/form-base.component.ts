@@ -3,7 +3,7 @@ import { AppInjector } from 'src/app/app.component';
 import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
-import { NzModalComponent } from 'ng-zorro-antd';
+import { NzModalComponent } from 'ng-zorro-antd/modal';
 
 export class FormBaseComponent extends BaseComponent {
 

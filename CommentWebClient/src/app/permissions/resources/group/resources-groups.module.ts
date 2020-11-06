@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule, NzPopoverModule } from 'ng-zorro-antd';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PermissionsHttpService } from 'src/services/http/permissions-http.service';
 import { ResourcesGroupsComponent } from './resources-groups.component';
@@ -18,13 +23,14 @@ import { TableHeaderModule } from 'src/app/shared-components/table-header/table-
     CommonModule,
     ResourcesGroupsRoutingModule,
     NzTableModule,
+    NzSelectModule,
+    NzDropDownModule,
+    NzTagModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
     TableHeaderModule,
-    NzPopoverModule,
-    NgZorroAntdModule
+    NzPopoverModule
   ],
   exports: [ResourcesGroupsComponent],
   entryComponents: [ResourcesGroupsAddComponent],

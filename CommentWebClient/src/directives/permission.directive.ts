@@ -1,6 +1,6 @@
 import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
-import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
-import { state } from 'src/constants/state';
+import { cache } from 'src/constants/cache';
+import { PermissionService } from 'src/services/permission.service';
 
 @Directive({
     selector: '[checkPermission]'
@@ -13,8 +13,8 @@ export class CheckPermissionDirective {
         let condition = false;
         if(permissions) {
             const cacheKey = permissions.toString();
-            if (state.permissionCache.hasOwnProperty(cacheKey)) {
-                condition = state.permissionCache[cacheKey];
+            if (cache.permission.hasOwnProperty(cacheKey)) {
+                condition = cache.permission[cacheKey];
             }
             else {
                 const _permissions = this.permissionService.getPermissions();
@@ -24,7 +24,7 @@ export class CheckPermissionDirective {
                 else {
                     condition = _permissions.includes(permissions);
                 }
-                state.permissionCache[cacheKey] = condition;
+                cache.permission[cacheKey] = condition;
             }
         }
         else {
@@ -42,6 +42,6 @@ export class CheckPermissionDirective {
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
-        private permissionService: PermissionHttpService
+        private permissionService: PermissionService
     ) { }
 }

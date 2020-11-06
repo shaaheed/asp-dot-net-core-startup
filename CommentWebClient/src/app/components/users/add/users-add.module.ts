@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersAddComponent } from './users-add.component';
 import { UsersHttpService } from 'src/services/http/users-http.service';
@@ -17,9 +21,11 @@ import { UsersAddRoutingModule } from './users-add-routing.module';
     CommonModule,
     NzTableModule,
     FormsModule,
+    NzInputModule,
+    NzTagModule,
     NzFormModule,
+    NzSelectModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
     TableHeaderModule
   ],
   exports: [UsersAddComponent],

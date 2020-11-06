@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomersAddComponent } from './customers-add.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
@@ -18,10 +20,10 @@ import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
     CustomersAddRoutingModule,
     CommonModule,
     NzTableModule,
+    NzButtonModule,
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
     TableHeaderModule,
     SharedModule,
     BoxLoaderModule

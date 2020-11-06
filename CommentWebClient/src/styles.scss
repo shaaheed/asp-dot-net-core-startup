@@ -21,17 +21,18 @@
 }
 
 @font-face {
-    font-family: kalpurush;
-    src: url(assets/fonts/kalpurush.ttf);
+    font-family: SolaimanLipi;
+    src: url(assets/fonts/SolaimanLipi.ttf);
 }
 
 .app-layout.bn {
-    font-family: kalpurush !important;
+    font-family: SolaimanLipi !important;
 }
   
 body {
     color: #3c4257;
-    background-color: #e3e8ee;
+    // background-color: #f7fafc;
+    font-family: SolaimanLipi !important;
 }
 
 span.ant-table-column-title {
@@ -62,12 +63,33 @@ span.ant-table-column-title {
 
 app-layout-default .menu-sidebar {
     box-shadow: none;
-    margin-top: 24px;
+}
+
+.ant-layout {
+    background-color: unset;
+}
+
+.ant-layout-header {
+    height: unset;
 }
 
 .ant-layout-sider, .ant-menu, .ant-menu-submenu > .ant-menu {
     background: none;
 }
+
+nz-sider {
+    .ant-menu {
+        font-size: 15px;
+        color: #1a1f36;
+    }
+    .ant-menu-inline {
+        border: unset;
+    }
+    .ant-layout-sider-children {
+        box-shadow: 1px 1px #e3e8ee;
+    }
+}
+
 
 @mixin btn-shadow {
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
@@ -115,13 +137,13 @@ app-layout-default .menu-sidebar {
     border: none;
     height: 28px;
     padding: 0 8px;
-    &.ant-btn-default {
+    &.ant-btn-default, &.ant-btn {
         @include btn-shadow
     }
-    &.ant-btn-default:hover {
+    &.ant-btn-default:hover, &.ant-btn:hover {
         @include btn-shadow-hover;
     }
-    &.ant-btn-default {
+    &.ant-btn-default, &.ant-btn {
         color: rgb(60, 66, 87);
     }
 

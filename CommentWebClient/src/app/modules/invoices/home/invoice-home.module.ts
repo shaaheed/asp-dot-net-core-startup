@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { InvoiceHomeComponent } from './invoice-home.component';
 import { InvoiceHomeRoutingModule } from './invoice-home-routing.module';
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule, NzToolTipModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
@@ -20,7 +22,6 @@ import { InvoiceIdResolver } from './invoice-id.resolver';
     NzTableModule,
     FormsModule,
     NzFormModule,
-    NgZorroAntdModule,
     SharedModule,
     NzToolTipModule,
     InvoiceHomeRoutingModule,

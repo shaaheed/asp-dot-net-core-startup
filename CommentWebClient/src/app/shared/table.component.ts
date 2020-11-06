@@ -2,7 +2,7 @@ import { BaseComponent } from './base.component';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { Observable } from 'rxjs';
 import { Type } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 export class TableComponent extends BaseComponent {
 
@@ -57,17 +57,17 @@ export class TableComponent extends BaseComponent {
             nzOkLoading: false,
             nzClosable: false,
             nzOnOk: () => {
-                deleteModal.getInstance().nzOkLoading = true;
+                // deleteModal.getInstance().nzOkLoading = true;
                 this.subscribe(this.service.delete(e.id),
                     res => {
-                        deleteModal.getInstance().nzOkLoading = false;
+                        // deleteModal.getInstance().nzOkLoading = false;
                         this._messageService.create('success', deletedText);
                         this.invoke(this.onDeleted, res);
                         //refresh data
                         this.load();
                     },
                     err => {
-                        deleteModal.getInstance().nzOkLoading = false;
+                        // deleteModal.getInstance().nzOkLoading = false;
                         this.invoke(this.onDeleteFailed, err);
                         this.log('err', err)
                     }
@@ -165,7 +165,7 @@ export class TableComponent extends BaseComponent {
         });
         const s = modal.afterOpen.subscribe(() => {
             const componentInstance = (<any>modal.getContentComponent());
-            componentInstance.modalInstance = modal.getInstance();
+            componentInstance.modalInstance = modal.componentInstance;
             componentInstance.id = params.id;
             componentInstance.onCheckMode = id => componentInstance.get(id);
             componentInstance.init();

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProductsHttpService as ProductService } from 'src/services/http/products-http.service';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
@@ -67,15 +68,15 @@ export class ProductsComponent extends BaseComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.getInstance().nzOkLoading = true;
         this.subscribe(this.productService.delete(e.id),
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.success(`Successfully deleted`);
             this.gets();
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             console.log('err', err)
           }
         );

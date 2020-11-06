@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule, NzDropDownModule, NzMenuModule, NzSelectModule } from 'ng-zorro-antd';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InvoicesAddComponent } from './invoices-add.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
@@ -21,13 +28,15 @@ import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
     FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
     TableHeaderModule,
     NzMenuModule,
     NzDropDownModule,
     SharedModule,
     NzSelectModule,
-    BoxLoaderModule
+    BoxLoaderModule,
+    NzDatePickerModule,
+    NzButtonModule,
+    NzModalModule
   ],
   exports: [InvoicesAddComponent],
   providers: [InvoiceService]

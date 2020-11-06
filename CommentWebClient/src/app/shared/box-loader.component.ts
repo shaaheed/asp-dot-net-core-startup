@@ -1,5 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { NzIconModule } from 'ng-zorro-antd';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
     selector: 'app-box-loader',

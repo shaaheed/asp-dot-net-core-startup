@@ -7,8 +7,6 @@ import { CheckPermissionDirective } from 'src/directives/permission.directive';
 import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
 import { BanglaPipe } from 'src/pipes/bangla.pipe';
 
-
-
 @NgModule({
   declarations: [
     CheckPermissionDirective,

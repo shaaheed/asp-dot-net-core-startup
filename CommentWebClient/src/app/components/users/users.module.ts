@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { UsersComponent } from './users.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { CommonModule } from '@angular/common';
-import { NzTableModule, NgZorroAntdModule, NzFormModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersHttpService } from 'src/services/http/users-http.service';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
@@ -18,9 +21,10 @@ import { TableHeaderModule } from 'src/app/shared-components/table-header/table-
     NzTableModule,
     FormsModule,
     NzFormModule,
+    NzDropDownModule,
     ReactiveFormsModule,
-    NgZorroAntdModule,
-    TableHeaderModule
+    TableHeaderModule,
+    NzTagModule
   ],
   exports: [UsersComponent],
   providers: [UsersHttpService]

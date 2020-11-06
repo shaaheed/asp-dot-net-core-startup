@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsersHttpService } from 'src/services/http/users-http.service';
 
 @Component({
@@ -58,7 +59,7 @@ export class UsersComponent {
       nzFooter: [
         {
           label: 'Cancel',
-          shape: 'default',
+          shape: null,
           onClick: () => modal.destroy()
         },
         {
@@ -128,15 +129,15 @@ export class UsersComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.getInstance().nzOkLoading = true;
         this.userHttpService.deleteUser(e.id).subscribe(
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.create('success', `${this.formatUsername(e)} deleted.`);
             this.gets();
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             console.log('err', err)
           }
         );

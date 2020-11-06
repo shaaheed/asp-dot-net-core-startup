@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from 'src/services/customer.service';
+import { OrganizationService } from 'src/services/organization.service';
 
 @Component({
   selector: 'app-organization-add',
@@ -15,7 +15,7 @@ export class OrganizationAddComponent extends FormComponent {
   noData: boolean = false;
 
   constructor(
-    private customerService: CustomerService,
+    private organizationService: OrganizationService,
     private activatedRoute: ActivatedRoute
   ) {
     super();
@@ -37,14 +37,14 @@ export class OrganizationAddComponent extends FormComponent {
     const body = this.constructObject(this.form.controls);
     this.submitForm(
       {
-        request: this.customerService.add(body),
+        request: this.organizationService.add(body),
         succeed: res => {
           this.cancel();
           this.translate('successfully.created', x => this._messageService.success(x));
         }
       },
       {
-        request: this.customerService.update(this.id, body),
+        request: this.organizationService.update(this.id, body),
         succeed: res => {
           this.cancel();
           this.translate('successfully.updated', x => this._messageService.success(x));
@@ -65,7 +65,7 @@ export class OrganizationAddComponent extends FormComponent {
 
   get(id) {
     this.loading = true;
-    this.subscribe(this.customerService.get(id),
+    this.subscribe(this.organizationService.get(id),
       (res: any) => {
         this.setValues(this.form.controls, res);
         this.loading = false;
@@ -74,7 +74,7 @@ export class OrganizationAddComponent extends FormComponent {
   }
 
   cancel() {
-    this._router.navigateByUrl('customers');
+    this._router.navigateByUrl('organizations');
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvoiceService } from '../services/invoice.service';
 import { BaseComponent } from 'src/app/shared/base.component';
@@ -19,7 +20,7 @@ export class InvoicesViewComponent extends BaseComponent {
   showCustomer: boolean = false;
   showPaymentModal: boolean = false;
   paymentModalData: any = {}
-  private invoiceId
+  invoiceId
 
   constructor(
     private modalService: NzModalService,
@@ -77,15 +78,15 @@ export class InvoicesViewComponent extends BaseComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.getInstance().nzOkLoading = true;
         this.subscribe(this.invoiceService.delete(e.id),
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.success('Successfully deleted');
             // this.get();
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             console.log('err', err)
           }
         );

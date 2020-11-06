@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvoiceService } from '../services/invoice.service';
 import { BaseComponent } from 'src/app/shared/base.component';
@@ -76,15 +77,15 @@ export class InvoicePaymentListComponent extends BaseComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.nzOkLoading = true;
         this.subscribe(this.invoiceService.delete(e.id),
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.success('Successfully deleted');
             this.gets(this.invoiceId);
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             console.log('err', err)
           }
         );

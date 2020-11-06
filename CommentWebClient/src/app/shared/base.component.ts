@@ -1,16 +1,19 @@
 import { Subscription, Observable } from 'rxjs';
 import { on, broadcast, BROADCAST_KEYS } from 'src/services/broadcast.service';
 import { AppInjector } from 'src/app/app.component';
-import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
-import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
-import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
+import { PermissionService } from 'src/services/permission.service';
+import { Directive } from '@angular/core';
 
 // TODO: Add Angular decorator.
+@Directive()
 export class BaseComponent {
 
     _subscriptions: Subscription[];
@@ -19,7 +22,7 @@ export class BaseComponent {
     _httpService: HttpService;
     _translate: TranslateService;
     _modalService: NzModalService;
-    _permissionService: PermissionHttpService;
+    _permissionService: PermissionService;
     breadcrumbs = [];
 
     protected _activatedRouteSnapshot: ActivatedRouteSnapshot
@@ -31,7 +34,7 @@ export class BaseComponent {
         this._httpService = AppInjector.get(HttpService);
         this._translate = AppInjector.get(TranslateService);
         this._modalService = AppInjector.get(NzModalService);
-        this._permissionService = AppInjector.get(PermissionHttpService);
+        this._permissionService = AppInjector.get(PermissionService);
     }
 
     subscribe<T>(

@@ -9,7 +9,7 @@
                     <div class="display-flex align-items-center">
                         <span class="header">
                             {{ 'invoice'|translate }}
-                            <span *ngIf="id">#{{id}}</span>
+                            <span *ngIf="invoiceId">#{{invoiceId}}</span>
                             for ${{model.total}}
                         </span>
                         <span *ngIf="model.status" class="status-badge {{model.status.toLowerCase()}}">

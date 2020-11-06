@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "homepage": "https://shaaheed.github.io/sales-demo/",
   "scripts": {
+    "postinstall": "ngcc",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -24,6 +25,7 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-oauth2-oidc": "^8.0.4",
+    "moment": "^2.29.1",
     "ng-zorro-antd": "^10.1.0",
     "oidc-client": "^1.10.1",
     "rxjs": "~6.6.3",

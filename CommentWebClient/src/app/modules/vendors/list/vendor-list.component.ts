@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NzModalService, NzMessageService } from 'ng-zorro-antd';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { VendorService } from '../vendor.service';
 
@@ -66,15 +67,15 @@ export class VendorListComponent {
       nzOkLoading: false,
       nzClosable: false,
       nzOnOk: () => {
-        deleteModal.getInstance().nzOkLoading = true;
+        // deleteModal.getInstance().nzOkLoading = true;
         this.vendorService.delete(e.id).subscribe(
           res => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             this.messageService.success(`Successfully deleted.`);
             this.gets();
           },
           err => {
-            deleteModal.getInstance().nzOkLoading = false;
+            // deleteModal.getInstance().nzOkLoading = false;
             if(err.error && err.error.message) {
               this.messageService.error(err.error.message);
             }

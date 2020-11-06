@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { TableHeaderComponent } from './table-header.component';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NzFormModule, NgZorroAntdModule } from 'ng-zorro-antd';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
   declarations: [
@@ -13,8 +15,9 @@ import { NzFormModule, NgZorroAntdModule } from 'ng-zorro-antd';
     CommonModule,
     FormsModule,
     NzFormModule,
+    NzInputModule,
     ReactiveFormsModule,
-    NgZorroAntdModule
+    NzButtonModule
   ],
   exports: [TableHeaderComponent],
   providers: []

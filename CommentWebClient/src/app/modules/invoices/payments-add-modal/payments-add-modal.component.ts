@@ -26,7 +26,7 @@ export class PaymentsAddModalComponent extends FormComponent {
   paymentMethods: any[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    public fb: FormBuilder,
     private route: ActivatedRoute,
     private invoiceService: InvoiceService,
     private paymentService: PaymentService
