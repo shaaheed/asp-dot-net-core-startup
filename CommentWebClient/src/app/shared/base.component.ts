@@ -10,6 +10,7 @@ import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 import { PermissionHttpService } from 'src/services/http/user/permission-http.service';
 
+// TODO: Add Angular decorator.
 export class BaseComponent {
 
     _subscriptions: Subscription[];
