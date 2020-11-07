@@ -3,7 +3,8 @@ import { FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { OrganizationService } from 'src/services/organization.service';
+import { OrganizationHttpService } from 'src/app/modules/organization/organization-http.service';
+import { m } from 'src/constants/message';
 
 @Component({
   selector: 'app-organization-add',
@@ -15,13 +16,14 @@ export class OrganizationAddComponent extends FormComponent {
   noData: boolean = false;
 
   constructor(
-    private organizationService: OrganizationService,
+    private organizationHttpService: OrganizationHttpService,
     private activatedRoute: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit(): void {
+    super.ngOnInit(this.activatedRoute.snapshot);
     this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.customerNameValidator.bind(this)],
@@ -37,17 +39,17 @@ export class OrganizationAddComponent extends FormComponent {
     const body = this.constructObject(this.form.controls);
     this.submitForm(
       {
-        request: this.organizationService.add(body),
+        request: this.organizationHttpService.add(body),
         succeed: res => {
           this.cancel();
-          this.translate('successfully.created', x => this._messageService.success(x));
+          this.success(m.successfully_created);
         }
       },
       {
-        request: this.organizationService.update(this.id, body),
+        request: this.organizationHttpService.update(this.id, body),
         succeed: res => {
           this.cancel();
-          this.translate('successfully.updated', x => this._messageService.success(x));
+          this.success(m.successfully_updated);
         }
       }
     );
@@ -55,22 +57,27 @@ export class OrganizationAddComponent extends FormComponent {
 
   customerNameValidator(control: FormControl) {
     if (!control.value) {
-      return this.error('please.give.a.name');
+      return this.error(m.please_give_a_name);
     }
     else if (control.value.length < 3) {
-      return this.error('name.must.be.greater.than.3.letters');
+      return this.error(m.must_be_greater_than_x0_letters, { x0: 3 });
     }
     return of(true);
   }
 
   get(id) {
     this.loading = true;
-    this.subscribe(this.organizationService.get(id),
-      (res: any) => {
-        this.setValues(this.form.controls, res);
-        this.loading = false;
-      }
-    )
+    if (id != null) {
+      this.subscribe(this.organizationHttpService.get(id),
+        (res: any) => {
+          this.setValues(this.form.controls, res.data);
+          this.loading = false;
+        }
+      )
+    }
+    else {
+      this.loading = false;
+    }
   }
 
   cancel() {

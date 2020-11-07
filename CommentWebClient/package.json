@@ -27,6 +27,7 @@
     "angular-oauth2-oidc": "^8.0.4",
     "moment": "^2.29.1",
     "ng-zorro-antd": "^10.1.0",
+    "ngx-perfect-scrollbar": "^10.0.1",
     "oidc-client": "^1.10.1",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",

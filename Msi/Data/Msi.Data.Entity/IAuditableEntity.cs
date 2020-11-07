@@ -6,7 +6,7 @@ namespace Msi.Data.Entity
     {
         TType CreatedBy { get; set; }
         TType UpdatedBy { get; set; }
-        DateTime? CreatedAt { get; set; }
-        DateTime? UpdatedAt { get; set; }
+        DateTimeOffset? CreatedAt { get; set; }
+        DateTimeOffset? UpdatedAt { get; set; }
     }
 }

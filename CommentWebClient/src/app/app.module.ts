@@ -30,6 +30,7 @@ import { permissionFactory, PermissionService } from 'src/services/permission.se
 import { CacheService } from 'src/services/cache.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { BaseHttpService } from 'src/services/http/base-http.service';
 
 registerLocaleData(en);
 
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
     HttpService,
+    BaseHttpService,
     SecurityService,
     PermissionService,
     TranslatePipe,
@@ -92,7 +94,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useFactory: permissionFactory,
       deps: [AuthService, SecurityService, PermissionService],
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent, []]
 })

@@ -8,13 +8,15 @@ namespace Module.Organizations.Domain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         public static Expression<Func<Organization, OrganizationDto>> Selector()
         {
             return x => new OrganizationDto
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                CreatedAt = x.CreatedAt
             };
         }
     }

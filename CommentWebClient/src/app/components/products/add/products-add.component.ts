@@ -75,13 +75,15 @@ export class ProductsAddComponent extends FormComponent {
   }
 
   get(id) {
-    this.loading = true;
-    this.subscribe(this.productService.get(id),
-      (res: any) => {
-        this.setValues(this.form.controls, res);
-        this.loading = false;
-      }
-    )
+    if (id != null) {
+      this.loading = true;
+      this.subscribe(this.productService.get(id),
+        (res: any) => {
+          this.setValues(this.form.controls, res);
+          this.loading = false;
+        }
+      )
+    }
   }
 
   cancel() {

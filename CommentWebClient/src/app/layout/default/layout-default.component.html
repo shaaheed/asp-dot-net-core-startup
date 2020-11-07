@@ -36,13 +36,22 @@
         <div>
           <nz-select (ngModelChange)="languageChanged($event)" [(ngModel)]="selectedLanguage">
             <nz-option nzLabel="English" nzValue="en"></nz-option>
-            <nz-option nzLabel="Bangla" nzValue="bn"></nz-option>
+            <nz-option nzLabel="বাংলা" nzValue="bn"></nz-option>
           </nz-select>
         </div>
+        <div>
+          <i class="cursor-pointer font-18" nz-tooltip nzTooltipTitle="{{'quick.create'|translate}}"
+            nzTooltipPlacement="bottom" nz-icon nzType="plus-circle" nzTheme="fill"></i>
+        </div>
         <div nz-dropdown>
-          <nz-badge class="font-18">
-            <i nz-icon nzType="bell" nzTheme="fill"></i>
+          <nz-badge [nzCount]="count" class="font-18">
+            <i class="cursor-pointer" nz-tooltip nzTooltipTitle="{{'notifications'|translate}}"
+              nzTooltipPlacement="bottom" nz-icon nzType="bell" nzTheme="outline"></i>
           </nz-badge>
+        </div>
+        <div>
+          <i (click)="visible = !visible" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
+            nzTooltipPlacement="bottom" class="font-18 cursor-pointer" nz-icon nzType="setting" nzTheme="outline"></i>
         </div>
         <div class="display-flex cursor-pointer" nz-popover nzPopoverTrigger="click"
           [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight">
@@ -79,90 +88,158 @@
       </div>
     </nz-header>
     <nz-layout>
-      <nz-sider class="menu-sidebar" nzCollapsible nzWidth="220px" nzBreakpoint="md" [nzTrigger]="null">
-        <ul nz-menu nzMode="inline">
-          <li nz-menu-item>
-            <i nz-icon nzType="home"></i>
-            <span>{{'home'|translate}}</span>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <span>
-              <a routerLink="/organizations">
-                <i nz-icon nzType="appstore" nzTheme="outline"></i>
-                <span>{{'organization'|translate}}</span>
-              </a>
-            </span>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <span>
-              <a routerLink="/products">
-                <i nz-icon nzType="gift"></i>
-                <span>{{'products'|translate}}</span>
-              </a>
-            </span>
-          </li>
-          <li nz-submenu nzTitle="{{'sales'|translate}}" nzIcon="shopping">
-            <ul>
-              <li nz-menu-item nzMatchRouter>
-                <a routerLink="/invoices">
-                  {{'invoices'|translate}}
+      <nz-sider class="menu-sidebar" nzCollapsible nzWidth="220px" nzBreakpoint="md">
+        <perfect-scrollbar [config]="config" style="height: calc(100vh - 100px);">
+          <ul nz-menu nzMode="inline" *ngIf="permissionLoaded">
+            <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>
+            <ng-template #menuTemplate let-nav>
+              <ng-container *ngFor="let n of nav">
+                <ng-container *ngIf="n.granted">
+                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
+                    <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
+                    <span><a>{{n.title|translate}}</a></span>
+                  </li>
+                  <li (click)="navClicked(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}" [nzIcon]="n.icon"
+                    [nzPaddingLeft]="n.level * 24">
+                    <ul>
+                      <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
+                      </ng-container>
+                    </ul>
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ng-template>
+          </ul>
+
+          <!-- <ul nz-menu nzMode="inline">
+            <li nz-menu-item>
+              <i nz-icon nzType="home"></i>
+              <span>{{'home'|translate}}</span>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <span>
+                <a routerLink="/organizations">
+                  <i nz-icon nzType="appstore" nzTheme="outline"></i>
+                  <span>{{'organization'|translate}}</span>
                 </a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a routerLink="/customers">
-                  {{'customers'|translate}}
+              </span>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <span>
+                <a routerLink="/products">
+                  <i nz-icon nzType="gift"></i>
+                  <span>{{'products'|translate}}</span>
                 </a>
-              </li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="{{'purchase'|translate}}" nzIcon="shopping-cart">
-            <ul>
-              <li nz-menu-item nzMatchRouter>
-                <a>
-                  {{'bills'|translate}}
-                </a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a routerLink="/vendors">
-                  {{'vendors'|translate}}
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li nz-submenu nzTitle="{{'accounting'|translate}}" nzIcon="safety-certificate">
-            <ul>
-              <li nz-menu-item nzMatchRouter>
-                <a>
-                  {{'transaction'|translate}}
-                </a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a>
-                  {{'chart.of.account'|translate}}
-                </a>
-              </li>
-              <li nz-menu-item nzMatchRouter>
-                <a>
-                  {{'tax'|translate}}
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li nz-menu-item>
-            <i nz-icon nzType="bar-chart"></i>
-            <span>{{'report'|translate}}</span>
-          </li>
-          <li nz-menu-item>
-            <i nz-icon nzType="setting"></i>
-            <span>{{'settings'|translate}}</span>
-          </li>
-        </ul>
+              </span>
+            </li>
+            <li nz-submenu nzTitle="{{'sales'|translate}}" nzIcon="shopping">
+              <ul>
+                <li nz-menu-item nzMatchRouter>
+                  <a routerLink="/invoices">
+                    {{'invoices'|translate}}
+                  </a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                  <a routerLink="/customers">
+                    {{'customers'|translate}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu nzTitle="{{'purchase'|translate}}" nzIcon="shopping-cart">
+              <ul>
+                <li nz-menu-item nzMatchRouter>
+                  <a>
+                    {{'bills'|translate}}
+                  </a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                  <a routerLink="/vendors">
+                    {{'vendors'|translate}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li nz-submenu nzTitle="{{'accounting'|translate}}" nzIcon="safety-certificate">
+              <ul>
+                <li nz-menu-item nzMatchRouter>
+                  <a>
+                    {{'transaction'|translate}}
+                  </a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                  <a>
+                    {{'chart.of.account'|translate}}
+                  </a>
+                </li>
+                <li nz-menu-item nzMatchRouter>
+                  <a>
+                    {{'tax'|translate}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li nz-menu-item>
+              <i nz-icon nzType="bar-chart"></i>
+              <span>{{'report'|translate}}</span>
+            </li>
+            <li nz-menu-item>
+              <i nz-icon nzType="setting"></i>
+              <span>{{'settings'|translate}}</span>
+            </li>
+          </ul> -->
+        </perfect-scrollbar>
+        <!-- <div>{{version}}</div> -->
       </nz-sider>
-      <nz-content>
-        <div class="inner-content">
-          <router-outlet></router-outlet>
-        </div>
+      <nz-content style="padding-top: 1px;">
+        <perfect-scrollbar [config]="config" style="height: calc(100vh - 63px);">
+          <!-- <nz-breadcrumb style="padding: 10px 40px 0 40px;">
+            <nz-breadcrumb-item>
+              <i nz-icon nzType="home"></i>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+              <a><i nz-icon nzType="user"></i><span>Application List</span></a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+              Application
+            </nz-breadcrumb-item>
+          </nz-breadcrumb> -->
+          <div class="inner-content">
+            <router-outlet></router-outlet>
+          </div>
+        </perfect-scrollbar>
       </nz-content>
     </nz-layout>
   </div>
 </nz-layout>
+
+<nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" [nzMask]="false"
+  [nzWidth]="400" nzWrapClassName="app-right-drawer" (nzOnClose)="close()">
+  <perfect-scrollbar [config]="config">
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents... END</p>
+    <p>x</p>
+  </perfect-scrollbar>
+</nz-drawer>

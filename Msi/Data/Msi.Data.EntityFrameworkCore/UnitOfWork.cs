@@ -83,18 +83,22 @@ namespace Msi.Data.EntityFrameworkCore
 
             //var entries = _dataContext.GetChangeTrackerEntities<BaseEntity>().ToArray();
 
-            //foreach (var entry in entries)
-            //{
-            //if (entry.State == EntityState.Modified)
-            //{
-            //    entry.Entity.SetValue(DateTime.UtcNow, "UpdatedAt");
-            //}
-            //if (entry.State == EntityState.Added)
-            //{
-            //    entry.Entity.SetValue(DateTime.UtcNow, "CreatedAt");
-            //    entry.Entity.SetValue(DateTime.UtcNow, "UpdatedAt");
-            //}
-            //}
+            foreach (var entry in entries)
+            {
+                if(entry.Entity is IAuditableEntity<Guid>)
+                {
+                    var entity = (IAuditableEntity<Guid>)entry.Entity;
+                    if (entry.State == EntityState.Modified)
+                    {
+                        entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    }
+                    if (entry.State == EntityState.Added)
+                    {
+                        entity.CreatedAt = DateTimeOffset.UtcNow;
+                        entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    }
+                }
+            }
 
             int result;
             try
@@ -106,10 +110,10 @@ namespace Msi.Data.EntityFrameworkCore
                 throw ex;
             }
 
-            foreach (var entry in entries)
-            {
-                _onAfterSaveChanges.Invoke(entry.Entity);
-            }
+            //foreach (var entry in entries)
+            //{
+            //    _onAfterSaveChanges.Invoke(entry.Entity);
+            //}
 
             // ignore events if no dispatcher provided
             //if (_eventBus == null) return result;

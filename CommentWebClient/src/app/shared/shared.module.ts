@@ -6,6 +6,7 @@ import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { CheckPermissionDirective } from 'src/directives/permission.directive';
 import { EnToBnDirective } from 'src/directives/en-to-bn.directive';
 import { BanglaPipe } from 'src/pipes/bangla.pipe';
+import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { BanglaPipe } from 'src/pipes/bangla.pipe';
   imports: [
     TranslateModule,
     BoxLoaderModule,
-    MomentPipeModule
+    MomentPipeModule,
+    TimeAgoPipeModule
   ],
   exports: [
     TranslateModule,

@@ -53,7 +53,7 @@ span.ant-table-column-title {
 
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td {
-    padding: 12px 16px;
+    padding: 8px 16px;
 }
 
 .ant-table-thead > tr:first-child > th:first-child,
@@ -78,6 +78,11 @@ app-layout-default .menu-sidebar {
 }
 
 nz-sider {
+    // z-index: -1;
+    &.menu-sidebar {
+        margin-top: 1px;
+        background-color: #f7fafc;
+    }
     .ant-menu {
         font-size: 15px;
         color: #1a1f36;
@@ -88,8 +93,23 @@ nz-sider {
     .ant-layout-sider-children {
         box-shadow: 1px 1px #e3e8ee;
     }
+    .ant-menu-inline,
+    .ant-menu-vertical,
+    .ant-menu-vertical-left {
+        border: none;
+    }
+    .ant-layout-sider-trigger {
+        color: #1a1f36;
+        box-shadow: 0 -1px #e3e8ee;
+        height: 35px;
+        line-height: 35px;
+        background-color: #fff;
+    }
 }
 
+.app-right-drawer {
+    top: 63px;
+}
 
 @mixin btn-shadow {
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
@@ -100,11 +120,11 @@ nz-sider {
 }
 
 @mixin btn-shadow-primary {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
 }
 
 @mixin btn-shadow-primary-hover {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
 }
 
 // Custom stripe button style
@@ -123,6 +143,9 @@ nz-sider {
     .ant-pagination-item {
         border: none;
     }
+    .ant-pagination-total-text {
+        box-shadow: none;
+    }
 }
 
 .ant-pagination-disabled a, .ant-pagination-disabled:hover a, .ant-pagination-disabled:focus a, .ant-pagination-disabled .ant-pagination-item-link, .ant-pagination-disabled:hover .ant-pagination-item-link, .ant-pagination-disabled:focus .ant-pagination-item-link {
@@ -137,13 +160,14 @@ nz-sider {
     border: none;
     height: 28px;
     padding: 0 8px;
+    font-size: 15px;
     &.ant-btn-default, &.ant-btn {
         @include btn-shadow
     }
     &.ant-btn-default:hover, &.ant-btn:hover {
         @include btn-shadow-hover;
     }
-    &.ant-btn-default, &.ant-btn {
+    &.ant-btn-default/*, &.ant-btn*/ {
         color: rgb(60, 66, 87);
     }
 
@@ -152,6 +176,24 @@ nz-sider {
     }
     &.ant-btn-primary:hover {
         @include btn-shadow-primary-hover;
+    }
+}
+
+app-table-actions {
+    button.btn-custom.ant-dropdown-trigger {
+        box-shadow: none;
+        background-color: transparent;
+        height: 23px;
+    }
+    button.btn-custom.ant-dropdown-trigger:hover {
+        background-color: #fff;
+    }
+}
+
+nz-table tr:hover {
+    button.btn-custom.ant-dropdown-trigger:hover,
+    button.btn-custom.btn-action:hover {
+        background-color: #fff;
     }
 }
 
@@ -209,6 +251,10 @@ nz-sider {
     background-color: #f7fafc !important;
 }
 
+.page-header {
+    padding: 12px 16px 0;
+}
+
 .box {
     border-radius: 5px;
     padding-bottom: .1px;;
@@ -239,10 +285,11 @@ nz-sider {
             }
         }
 
-        .field-container {
-            padding: 0 20px 10px 20px;
+        .form-item {
+            padding: 0 20px 15px 20px;
             margin: 0;
-            input {
+            input,
+            nz-form-control {
                 max-width: 350px;
             }
             textarea {
@@ -252,11 +299,13 @@ nz-sider {
             label {
                 font-weight: 500;
                 color: #1a1f36;
+                min-width: 170px;
             }
         }
 
         &.footer,
-        &.header {
+        &.header,
+        &.page-header {
             display: flex;
             align-items: center;
             .column {
@@ -286,12 +335,44 @@ textarea:focus {
     border: 1px solid #d9d9d9 !important;
 }
 
+.advanced-table-filter button,
+.advanced-table-filter input,
+.advanced-table-filter nz-select {
+    height: 27px;
+    margin-top: 5px;
+    font-weight: 400;
+}
+
 .shadow-m {
     @include box-shadow-m;
 }
 
+.no-shadow {
+    box-shadow: none !important;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-bg {
+    background-color: unset;
+    td, th {
+        background-color: unset !important;
+    }
+}
+
 .m-24 {
     margin: 24px;
+}
+
+.margin-right {
+    &.px5 {
+        margin-right: 5px;
+    }
+    &.px10 {
+        margin-right: 10px;
+    }
 }
 
 .font-18 {
@@ -507,6 +588,7 @@ nz-header .ant-badge-count {
             align-items: center;
             justify-content: center;
             min-height: calc(30vh);
+            flex-direction: column;
             i {
                 @include edit-color;
             }

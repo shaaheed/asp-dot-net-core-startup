@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsAddComponent } from './products-add.component';
 import { ProductsHttpService } from 'src/services/http/products-http.service';
@@ -26,7 +28,9 @@ import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
     ReactiveFormsModule,
     TableHeaderModule,
     SharedModule,
-    BoxLoaderModule
+    BoxLoaderModule,
+    NzCheckboxModule,
+    NzInputModule
   ],
   exports: [ProductsAddComponent],
   providers: [ProductsHttpService]

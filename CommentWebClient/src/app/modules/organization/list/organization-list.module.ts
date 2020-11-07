@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { OrganizationListComponent } from './organization-list.component';
 import { OrganizationListRoutingModule } from './organization-list-routing.module';
-import { OrganizationService } from 'src/services/organization.service';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzFormModule } from 'ng-zorro-antd/form';
+import { OrganizationHttpService } from 'src/app/modules/organization/organization-http.service';
+import { TableModule } from 'src/app/shared/table/table.module';
+import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
+import { MomentPipeModule } from 'src/pipes/moment.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TableActionsModule } from 'src/app/shared/table-actions.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
   declarations: [
@@ -22,19 +20,16 @@ import { TableActionsModule } from 'src/app/shared/table-actions.component';
   imports: [
     CommonModule,
     OrganizationListRoutingModule,
-    NzTableModule,
-    FormsModule,
-    NzFormModule,
-    ReactiveFormsModule,
-    TableHeaderModule,
-    SharedModule,
+    TableModule,
+    TimeAgoPipeModule,
+    MomentPipeModule,
+    TranslateModule,
     NzToolTipModule,
-    NzButtonModule,
-    BoxLoaderModule,
-    NzIconModule,
-    TableActionsModule
+    NzInputModule,
+    NzSwitchModule,
+    NzFormModule
   ],
   exports: [OrganizationListComponent],
-  providers: [OrganizationService]
+  providers: [OrganizationHttpService]
 })
 export class OrganizationListModule { }

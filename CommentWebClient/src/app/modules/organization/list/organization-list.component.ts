@@ -1,39 +1,26 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrganizationService } from 'src/services/organization.service';
-import { TableComponent } from 'src/app/shared/table.component';
-import { IButton } from 'src/app/shared/table-actions.component';
+import { map } from 'rxjs/operators';
+import { OrganizationHttpService } from 'src/app/modules/organization/organization-http.service';
 
 @Component({
   selector: 'app-organization-list',
   templateUrl: './organization-list.component.html'
 })
-export class OrganizationListComponent extends TableComponent {
+export class OrganizationListComponent {
 
-  buttons: IButton[] = [
-    {
-      label: 'edit',
-      action: d => this.add(d),
-      // permissions: ['course.manage', 'course.update'],
-      icon: 'edit'
-    },
-    {
-      label: 'delete',
-      action: d => this.delete(d),
-      // permissions: ['course.manage', 'course.delete'],
-      icon: 'delete'
-    }
-  ]
+  fetch = (pagination, search) => {
+    return this.organizationHttpService.list(pagination, search);
+  };
 
   constructor(
-    private organizationService: OrganizationService,
+    private organizationHttpService: OrganizationHttpService,
     private router: Router
   ) {
-    super(organizationService);
   }
 
   ngOnInit() {
-    this.gets();
+    //
   }
 
   add(model = null) {
@@ -43,14 +30,6 @@ export class OrganizationListComponent extends TableComponent {
     else {
       this.router.navigateByUrl('/organizations/create');
     }
-  }
-
-  gets() {
-    this.load();
-  }
-
-  refresh() {
-    this.gets();
   }
 
 }

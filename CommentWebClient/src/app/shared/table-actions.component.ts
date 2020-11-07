@@ -20,8 +20,7 @@ import { SharedModule } from './shared.module';
       </ng-container>
 
       <ng-container *ngIf="dropdownButtons && dropdownButtons.length > 0">
-        <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button
-      class="btn-custom">
+        <button nz-dropdown [nzDropdownMenu]="dropdownActions" nzTrigger="click" nz-button class="btn-custom btn-action">
           <i nz-icon nzType="ellipsis"></i>
         </button>
         <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
@@ -50,11 +49,11 @@ export class TableActionsComponent {
   ngOnInit() {
     if (this.buttons && this.buttons.length) {
       this.buttons.forEach(btn => {
-        if (btn.showInDropdown) {
-          this.dropdownButtons.push(btn);
+        if (btn.showAlways) {
+          this.outsideButtons.push(btn);
         }
         else {
-          this.outsideButtons.push(btn);
+          this.dropdownButtons.push(btn);
         }
       });
     }
@@ -87,7 +86,7 @@ export interface IButton {
   icon?: string
   label: string
   permissions?: string[]
-  showInDropdown?: boolean
+  showAlways?: boolean
   condition?: (data: any) => boolean,
   type?: string
 }

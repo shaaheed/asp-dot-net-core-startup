@@ -23,6 +23,7 @@ export class TableComponent extends BaseComponent {
     listOfCurrentPageItems = [];
     rowItemDisabledFilterKey = "disabled";
     pageSizeOptions = [50, 100, 500];
+    onLoadComplete: () => void;
 
     private _fn: (pagination: string, search: string) => Observable<Object>;
 
@@ -107,10 +108,12 @@ export class TableComponent extends BaseComponent {
                 (res: any) => {
                     this.fill(res);
                     this.loading = false;
+                    this.invoke(this.onLoadComplete);
                 },
                 err => {
                     console.log(err);
                     this.loading = false;
+                    this.invoke(this.onLoadComplete);
                 }
             );
         }

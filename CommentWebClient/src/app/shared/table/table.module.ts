@@ -2,24 +2,23 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OrganizationAddComponent } from './organization-add.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
-import { OrganizationAddRoutingModule } from './organization-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
-import { OrganizationHttpService } from 'src/app/modules/organization/organization-http.service';
+import { TableComponent } from './table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { TableActionsModule } from 'src/app/shared/table-actions.component';
+import { TableRowComponent, TableRowModule } from './table-row.component';
 
 @NgModule({
   declarations: [
-    OrganizationAddComponent
+    TableComponent
   ],
   imports: [
-    OrganizationAddRoutingModule,
     CommonModule,
     NzTableModule,
     FormsModule,
@@ -27,14 +26,13 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     ReactiveFormsModule,
     TableHeaderModule,
     SharedModule,
-    BoxLoaderModule,
+    NzToolTipModule,
     NzButtonModule,
-    NzInputModule,
-    NzIconModule
+    BoxLoaderModule,
+    NzIconModule,
+    TableActionsModule,
+    TableRowModule
   ],
-  exports: [OrganizationAddComponent],
-  providers: [OrganizationHttpService]
+  exports: [TableComponent, TableRowComponent]
 })
-export class OrganizationAddModule {
-
-}
+export class TableModule { }
