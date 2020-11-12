@@ -2,28 +2,44 @@
 <div class="box no-shadow" style="margin-top: 0;" *ngIf="!loading">
     <div class="block page-header">
         <div class="column">
-            <h1 class="no-margin">{{'organizations'|translate}}</h1>
+            <h1 class="no-margin">{{config?.pageTitle|translate}}</h1>
         </div>
         <div class="column">
             <!-- <button nz-button class="btn-custom">
                 <i nz-icon nzType="filter" nzTheme="fill"></i>
                 {{'filter'|translate}}
             </button> -->
-            <button (click)="add()" nz-button class="btn-custom">
-                <i nz-icon nzType="plus" nzTheme="outline"></i>
-                {{'new'|translate}}
+            <ng-container *ngFor="let b of config?.topRightButtons">
+                <button (click)="b.action()" nz-button class="btn-custom">
+                    <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
+                    {{b.label|translate}}
+                </button>
+            </ng-container>
+            <button class="btn-custom header-actions-btn" nzTrigger="click" nz-button nz-dropdown
+                [nzDropdownMenu]="dropdownActions" nzPlacement="bottomRight">
+                <i nz-icon nzType="setting"></i>
+                <i nz-icon nzType="down"></i>
             </button>
-            <button (click)="refresh()" nz-button class="btn-custom">
-                <i nz-icon nzType="sync" nzTheme="outline"></i>
-                {{'refresh'|translate}}
-            </button>
+            <nz-dropdown-menu #dropdownActions="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>
+                        <i nz-icon nzType="download" nzTheme="outline"></i>
+                        {{'import'|translate}}
+                    </li>
+                    <li nz-menu-item>
+                        <i nz-icon nzType="upload" nzTheme="outline"></i>
+                        {{'export'|translate}}
+                    </li>
+                </ul>
+            </nz-dropdown-menu>
         </div>
     </div>
     <div class="block">
         <nz-table [nzShowTotal]="rangeTemplate" [nzFrontPagination]="false"
-        (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
-        nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
-        [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items" [nzPageSizeOptions]="pageSizeOptions">
+            (nzPageIndexChange)="pageIndexChanged($event)" (nzPageSizeChange)="pageSizeChanged($event)" #basicTable
+            nzShowSizeChanger [nzLoading]="loading" [nzLoadingIndicator]="indicatorTemplate" [nzTotal]="total"
+            [(nzPageIndex)]="pageIndex" [(nzPageSize)]="pageSize" [nzData]="items"
+            [nzPageSizeOptions]="pageSizeOptions">
             <thead>
                 <tr class="no-bg v-align-top advanced-table-filter">
                     <ng-container *ngTemplateOutlet="head"></ng-container>
@@ -33,7 +49,7 @@
                 <tr *ngFor="let data of basicTable.data">
                     <ng-container *ngTemplateOutlet="body; context: {rowData: data}"></ng-container>
                     <td class="action-column fit-cell">
-                        <app-table-actions [data]="data" [buttons]="buttons"></app-table-actions>
+                        <app-table-actions [data]="data" [buttons]="defaultRowButtons"></app-table-actions>
                     </td>
                 </tr>
             </tbody>

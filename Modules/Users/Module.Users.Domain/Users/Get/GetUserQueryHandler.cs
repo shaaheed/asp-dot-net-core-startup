@@ -7,7 +7,7 @@ using Msi.Data.Abstractions;
 
 namespace Module.Users.Domain
 {
-    public class GetUserQueryHandler : IQueryHandler<GetUsersQuery, object>
+    public class GetUserQueryHandler : IQueryHandler<GetUserQuery, UserDto>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -19,18 +19,9 @@ namespace Module.Users.Domain
             _userRepository = _unitOfWork.GetRepository<User>();
         }
 
-        public async Task<object> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public Task<UserDto> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var result = _userRepository
-                .AsQueryable()
-                .Select(x => new
-                {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Email = x.Email
-                });
-            return await Task.FromResult(result);
+            return _userRepository.GetAsync(x => x.Id == request.Id, UserDto.Selector(), cancellationToken);
         }
     }
 }

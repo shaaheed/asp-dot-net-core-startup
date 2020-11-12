@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Mediator.Abstractions;
-using Msi.Core;
 
 namespace Module.Users.Domain
 {
@@ -24,17 +23,16 @@ namespace Module.Users.Domain
             var userRole = await _unitOfWork.GetRepository<Role>()
                 .FirstOrDefaultAsync(x => x.Code == request.Role);
 
-            if (userRole == null)
-                throw new ValidationException($"Invalid role {request.Role}");
+            // if (userRole == null)
+                // throw new ValidationException($"Invalid role {request.Role}");
 
             var userRepo = _unitOfWork.GetRepository<User>();
 
-            var xx = Entity.All<User>();
             User newUser = new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                //Email = request.Email,
+                Email = request.Email,
                 Mobile = request.Mobile,
                 Contact = request.Contact
             };
@@ -43,12 +41,15 @@ namespace Module.Users.Domain
             //newUser.Append(cutomerCreatedEvent);
             var result = await newUser.SaveAsync(cancellationToken);
 
-            var newUserRole = new UserRole
+            if (userRole != null)
             {
-                //UserId = newUser.Id,
-                RoleId = userRole.Id
-            };
-            result += await newUserRole.SaveAsync(cancellationToken);
+                var newUserRole = new UserRole
+                {
+                    UserId = newUser.Id,
+                    RoleId = userRole.Id
+                };
+                result += await newUserRole.SaveAsync(cancellationToken);
+            }
             return result;
         }
     }

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutDefaultComponent } from './layout-default.component';
 import { AuthGuard } from 'src/app/guards/auth.guard';
+import { ORGANIZATION_CONFIG } from 'src/app/modules/organizations/organization.config';
+import { USER_MODULE_CONFIG } from 'src/app/modules/users/user.module.config';
 
 const routes: Routes = [
   {
@@ -10,8 +12,8 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     children: [
       { path: 'permissions', loadChildren: () => import('../../permissions/permissions.module').then(m => m.PermissionsModule) },
-      { path: 'organizations', loadChildren: () => import('../../modules/organization/list/organization-list.module').then(m => m.OrganizationListModule) },
-      { path: 'users', loadChildren: () => import('../../components/users/users.module').then(m => m.UsersModule) },
+      ...ORGANIZATION_CONFIG.ROUTES,
+      ...USER_MODULE_CONFIG.ROUTES,
       { path: 'products', loadChildren: () => import('../../components/products/products.module').then(m => m.ProductsModule) },
       { path: 'customers', loadChildren: () => import('../../components/customers/customers.module').then(m => m.CustomersModule) },
       { path: 'vendors', loadChildren: () => import('../../modules/vendors/list/vendor-list.module').then(m => m.VendorListModule) },
@@ -25,7 +27,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class LayoutDefaultRoutingModule {
-  
+
   menuCollapsed = false
-  
+
 }

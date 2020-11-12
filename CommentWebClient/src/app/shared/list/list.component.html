@@ -1,0 +1,22 @@
+<app-table [head]="head" [body]="body" [config]="config">
+    <ng-template #head>
+        <ng-container *ngFor="let c of config?.tableColumns">
+            <th [class]="c.thClass">{{c.title|translate}}</th>
+        </ng-container>
+        <th></th>
+    </ng-template>
+    <ng-template #body let-data="rowData">
+        <ng-container *ngFor="let c of config?.tableColumns">
+            <td [class]="c.tdClass">
+                <ng-container *ngIf="!c.hasToolTip">
+                    {{c.getCellData(data)}}
+                </ng-container>
+                <ng-container *ngIf="c.hasToolTip">
+                    <span nz-tooltip [nzTooltipTitle]="c.getCellToolTipData(data)">
+                        {{c.getCellData(data)}}
+                    </span>
+                </ng-container>
+            </td>
+        </ng-container>
+    </ng-template>
+</app-table>

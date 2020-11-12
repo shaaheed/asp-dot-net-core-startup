@@ -76,7 +76,7 @@ namespace Msi.Data.Abstractions
             query = query.ApplyPagination(pagingOptions);
 
             var results = query.Select(selector);
-            var items = await  Task.Run(() => results.ToList(), cancellationToken);
+            var items = await Task.Run(() => results.ToList(), cancellationToken);
 
             var result = new PagedCollection<TViewModel>(items, total, pagingOptions);
             return result;
@@ -128,6 +128,19 @@ namespace Msi.Data.Abstractions
             var repository = unitOfWork.GetRepository<TEntity>();
 
             return repository.ListAsync(predicate,
+                selector,
+                pagingOptions,
+                searchOptions,
+                cancellationToken);
+        }
+
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+           where TEntity : BaseEntity
+           where TViewModel : class
+        {
+            var repository = unitOfWork.GetRepository<TEntity>();
+
+            return repository.ListAsync(null,
                 selector,
                 pagingOptions,
                 searchOptions,

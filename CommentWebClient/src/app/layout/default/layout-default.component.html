@@ -50,7 +50,7 @@
           </nz-badge>
         </div>
         <div>
-          <i (click)="visible = !visible" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
+          <i (click)="openSettingsDrawer()" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
             nzTooltipPlacement="bottom" class="font-18 cursor-pointer" nz-icon nzType="setting" nzTheme="outline"></i>
         </div>
         <div class="display-flex cursor-pointer" nz-popover nzPopoverTrigger="click"
@@ -212,34 +212,3 @@
     </nz-layout>
   </div>
 </nz-layout>
-
-<nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" [nzMask]="false"
-  [nzWidth]="400" nzWrapClassName="app-right-drawer" (nzOnClose)="close()">
-  <perfect-scrollbar [config]="config">
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents... END</p>
-    <p>x</p>
-  </perfect-scrollbar>
-</nz-drawer>

@@ -13,7 +13,11 @@ export class BaseHttpService {
         this._httpService = AppInjector.get(HttpService);
     }
 
-    public list(pagination?, search?) : Observable<Object>{
+    public init(baseUrl: string) {
+        this._url = baseUrl;
+    }
+
+    public list(pagination?, search?): Observable<Object> {
         return this._httpService.get(this.buildUrl(this._url, pagination, search));
     }
 

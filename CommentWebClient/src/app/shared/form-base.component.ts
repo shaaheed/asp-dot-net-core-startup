@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
 import { NzModalComponent } from 'ng-zorro-antd/modal';
+import { m } from 'src/constants/message';
 
 export class FormBaseComponent extends BaseComponent {
 
@@ -12,12 +13,17 @@ export class FormBaseComponent extends BaseComponent {
     form: FormGroup;
     id: number;
     submitting: boolean = false;
+    loading: boolean = false;
+
+    url: string;
+    cancelRoute: string;
 
     onCheckMode: (id: number) => void;
     onUpdate: (id: number) => Observable<Object>;
     onCreate: () => Observable<Object>;
     onFail: (err: any) => void;
     onSuccess: (data: any) => void;
+    onSetFormValues: (data?: any) => void;
 
     fb: FormBuilder;
     modalInstance: NzModalComponent;
@@ -99,12 +105,13 @@ export class FormBaseComponent extends BaseComponent {
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {
         const id = this.getQueryParams(paramKey);
-        if(id) {
+        if (id) {
             this.id = id;
         }
         if (this.id) {
             this.markModeAsEdit();
             this.invoke(fn, this.id);
+            this.get();
         } else {
             this.invoke(fn, null);
             this.markModeAsAdd();
@@ -113,6 +120,67 @@ export class FormBaseComponent extends BaseComponent {
 
     createForm(controlsConfig: { [key: string]: any; }): void {
         this.form = this.fb.group(controlsConfig);
+    }
+
+    submitForm(createOptions: IRequestOptions, updateOptions: IRequestOptions) {
+        if (this.isAddMode()) {
+            this.create(createOptions);
+        }
+        else if (this.isEditMode()) {
+            this.update(updateOptions);
+        }
+    }
+
+    submit() {
+        const body = this.constructObject(this.form.controls);
+        if (this.isAddMode() && this.url && body) {
+            this.create({
+                request: this._httpService.post(this.url, body),
+                succeed: res => {
+                    this.cancel();
+                    this.success(m.successfully_created);
+                }
+            });
+        }
+        else if (this.isEditMode() && this.id && this.url && body) {
+            const _url = `${this.url}/${this.id}`;
+            this.update({
+                request: this._httpService.put(_url, body),
+                succeed: res => {
+                    this.cancel();
+                    this.success(m.successfully_updated);
+                }
+            });
+        }
+    }
+
+    setValue(controlName: string, value: any): void {
+        if (this.form.controls[controlName]) {
+            this.form.controls[controlName].setValue(value);
+        }
+    }
+
+    cancel() {
+        if (this.cancelRoute) {
+            this._router.navigateByUrl(this.cancelRoute);
+        }
+    }
+
+    get() {
+        if (this.id && this.url) {
+            this.loading = true;
+            const _url = `${this.url}/${this.id}`;
+            this.subscribe(this._httpService.get(_url),
+                (res: any) => {
+                    this.setValues(this.form.controls, res.data);
+                    this.invoke(this.onSetFormValues, res.data);
+                    this.loading = false;
+                }
+            )
+        }
+        else {
+            this.loading = false;
+        }
     }
 
     validateForm(fn?: () => void) {
@@ -126,21 +194,6 @@ export class FormBaseComponent extends BaseComponent {
             this.busy(false);
         }
         return this.form.valid;
-    }
-
-    submitForm(createOptions: IRequestOptions, updateOptions: IRequestOptions) {
-        if (this.isAddMode()) {
-            this.create(createOptions);
-        }
-        else if (this.isEditMode()) {
-            this.update(updateOptions);
-        }
-    }
-
-    setValue(controlName: string, value: any): void {
-        if (this.form.controls[controlName]) {
-            this.form.controls[controlName].setValue(value);
-        }
     }
 
     bindServerValidationErrorsWithFormControls(e) {

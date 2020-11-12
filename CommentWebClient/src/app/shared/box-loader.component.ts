@@ -1,7 +1,7 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+// <div class="loader">Loading...</div>
 @Component({
     selector: 'app-box-loader',
     template:  `

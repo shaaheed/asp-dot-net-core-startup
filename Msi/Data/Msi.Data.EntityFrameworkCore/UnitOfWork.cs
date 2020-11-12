@@ -63,21 +63,29 @@ namespace Msi.Data.EntityFrameworkCore
 
             foreach (var entry in entries)
             {
-                var entity = entry.Entity;
-                PipelineHandlerDelegate<object> handler = () => Task.FromResult(entity);
+                var entity = entry.Entity as IEntity;
+                PipelineHandlerDelegate<IEntity> handler = () => Task.FromResult(entity);
 
                 var pipelineType = typeof(IUnitOfWorkPipeline<>).MakeGenericType(entry.Entity.GetType());
                 var pipelines = _serviceFactory.GetInstances(pipelineType);
 
                 if (pipelines != null)
                 {
-                    var x = await pipelines.Reverse().Aggregate(handler, (next, pipeline) => () =>
+                    foreach (var pipeline in pipelines.Reverse())
                     {
-                        var d = pipeline as dynamic;
-                        //var dd = d.Hello();
-                        var d2 = d.Handle(entity, cancellationToken, next);
-                        return d2;
-                    })();
+                        var r = pipeline as IUnitOfWorkPipeline<IEntity>;
+                        if(r != null)
+                        {
+
+                        }
+                    }
+                    //var x = await pipelines.Reverse().Aggregate(handler, (next, pipeline) => () =>
+                    //{
+                    //    var d = pipeline as dynamic;
+                    //    //var dd = d.Hello();
+                    //    var d2 = pipeline.Handle(entity, cancellationToken, next);
+                    //    return d2;
+                    //})();
                 }
             }
 

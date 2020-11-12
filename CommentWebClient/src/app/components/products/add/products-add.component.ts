@@ -22,7 +22,6 @@ export class ProductsAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.onCheckMode = id => this.get(id);
     this.createForm({
       name: [null, [], this.requiredValidator.bind(this)],
       description: [],
@@ -30,28 +29,7 @@ export class ProductsAddComponent extends FormComponent {
       isSale: [],
       isBuy: [],
     });
-
     super.ngOnInit(this.activatedRoute.snapshot);
-  }
-
-  submit(): void {
-    const body = this.constructObject(this.form.controls);
-    this.submitForm(
-      {
-        request: this.productService.add(body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.created', x => this._messageService.success(x));
-        }
-      },
-      {
-        request: this.productService.update(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.updated', x => this._messageService.success(x));
-        }
-      }
-    );
   }
 
   requiredValidator(control: FormControl) {
@@ -73,21 +51,4 @@ export class ProductsAddComponent extends FormComponent {
     }
     return of(true);
   }
-
-  get(id) {
-    if (id != null) {
-      this.loading = true;
-      this.subscribe(this.productService.get(id),
-        (res: any) => {
-          this.setValues(this.form.controls, res);
-          this.loading = false;
-        }
-      )
-    }
-  }
-
-  cancel() {
-    this._router.navigateByUrl('products');
-  }
-
 }

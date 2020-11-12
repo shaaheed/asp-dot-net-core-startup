@@ -1,8 +1,6 @@
 ﻿using Msi.Mediator.Abstractions;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Module.Organizations.Entities;
 using Msi.Data.Abstractions;
 
 namespace Module.Organizations.Domain
@@ -18,17 +16,9 @@ namespace Module.Organizations.Domain
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<OrganizationDto> Handle(GetOrganizationQuery request, CancellationToken cancellationToken)
+        public Task<OrganizationDto> Handle(GetOrganizationQuery request, CancellationToken cancellationToken)
         {
-            var org = _unitOfWork.GetRepository<Organization>()
-                .AsQueryable()
-                .Select(x => new OrganizationDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                })
-                .FirstOrDefault(x => x.Id == request.Id);
-            return await Task.FromResult(org);
+            return _unitOfWork.GetAsync(x => x.Id == request.Id, OrganizationDto.Selector(), cancellationToken);
         }
     }
 }

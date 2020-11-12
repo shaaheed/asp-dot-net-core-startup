@@ -31,6 +31,8 @@ import { CacheService } from 'src/services/cache.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { BaseHttpService } from 'src/services/http/base-http.service';
+import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
+import { MomentPipeModule } from 'src/pipes/moment.pipe';
 
 registerLocaleData(en);
 
@@ -63,7 +65,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    TimeAgoPipeModule,
+    MomentPipeModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -72,7 +76,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BaseHttpService,
     SecurityService,
     PermissionService,
-    TranslatePipe,
+    // TranslatePipe,
     AuthGuard,
     NzMessageService,
     NzModalService,

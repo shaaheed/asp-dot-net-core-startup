@@ -19,7 +19,7 @@ namespace Module.Organizations.Domain
 
         public Task<PagedCollection<OrganizationDto>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(null, OrganizationDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(OrganizationDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
         }
     }
 }

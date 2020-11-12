@@ -1,6 +1,8 @@
-import { Component, OnInit, VERSION } from '@angular/core';
+import { Component, Host, OnInit, VERSION } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { SettingsComponent } from 'src/app/modules/settings/settings/settings.component';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
@@ -19,7 +21,8 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
   visible = false;
 
   constructor(
-    private translation: TranslateService
+    private translation: TranslateService,
+    private drawerService: NzDrawerService
   ) {
     super();
   }
@@ -34,13 +37,6 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
         route: '/',
         icon: 'home',
         fn: () => true
-      },
-      {
-        level: 1,
-        title: 'organization',
-        route: '/organizations',
-        icon: 'appstore',
-        fn: () => true,
       },
       {
         level: 1,
@@ -110,6 +106,24 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+  }
+
+  async openSettingsDrawer() {
+    await this.openDrawer(SettingsComponent);
+  }
+
+  async openDrawer(component) {
+    const ref = this.drawerService.create({
+      nzContent: component,
+      nzWrapClassName: 'app-right-drawer',
+      // nzMask: false,
+      nzWidth: 400,
+      nzClosable: false,
+      nzBodyStyle: { padding: 0 },
+      nzMaskClosable: true,
+      nzMaskStyle: { backgroundColor: 'transparent' }
+    });
+    this.log('settings drawer ref', ref);
   }
 
 }

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { SharedModule } from './shared.module';
+import { ButtonConfig } from './button.config';
 
 @Component({
   selector: 'app-table-actions',
@@ -34,14 +35,15 @@ import { SharedModule } from './shared.module';
         </nz-dropdown-menu>
       </ng-container> 
     </ng-container>
-    `
+    `,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableActionsComponent {
 
   @Input() data: any = {};
-  @Input() buttons: IButton[] = [];
-  dropdownButtons: IButton[] = [];
-  outsideButtons: IButton[] = [];
+  @Input() buttons: ButtonConfig[] = [];
+  dropdownButtons: ButtonConfig[] = [];
+  outsideButtons: ButtonConfig[] = [];
 
   constructor() {
   }
@@ -79,14 +81,4 @@ export class TableActionsComponent {
 })
 export class TableActionsModule {
 
-}
-
-export interface IButton {
-  action: (data: any) => void
-  icon?: string
-  label: string
-  permissions?: string[]
-  showAlways?: boolean
-  condition?: (data: any) => boolean,
-  type?: string
 }

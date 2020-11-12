@@ -35,6 +35,65 @@ body {
     font-family: SolaimanLipi !important;
 }
 
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
+.loader {
+//   color: #ffffff;
+  @include edit-color;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
 span.ant-table-column-title {
     text-transform: uppercase;
     font-size: 13px;
@@ -73,8 +132,14 @@ app-layout-default .menu-sidebar {
     height: unset;
 }
 
-.ant-layout-sider, .ant-menu, .ant-menu-submenu > .ant-menu {
+.ant-layout-sider,
+.ant-menu,
+.ant-menu-submenu > .ant-menu {
     background: none;
+}
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+    font-size: 16px;
 }
 
 nz-sider {
@@ -148,10 +213,16 @@ nz-sider {
     }
 }
 
-.ant-pagination-disabled a, .ant-pagination-disabled:hover a, .ant-pagination-disabled:focus a, .ant-pagination-disabled .ant-pagination-item-link, .ant-pagination-disabled:hover .ant-pagination-item-link, .ant-pagination-disabled:focus .ant-pagination-item-link {
+.ant-pagination-disabled a,
+.ant-pagination-disabled:hover a,
+.ant-pagination-disabled:focus a,
+.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination-disabled:hover .ant-pagination-item-link,
+.ant-pagination-disabled:focus .ant-pagination-item-link {
     border-color: unset;
 }
-.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
     border: unset;
 }
 
@@ -179,6 +250,13 @@ nz-sider {
     }
 }
 
+.header-actions-btn {
+    width: 45px;
+    >i {
+        padding-right: 5px;
+    }
+}
+
 app-table-actions {
     button.btn-custom.ant-dropdown-trigger {
         box-shadow: none;
@@ -187,6 +265,14 @@ app-table-actions {
     }
     button.btn-custom.ant-dropdown-trigger:hover {
         background-color: #fff;
+    }
+}
+
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+    font-size: 15px;
+    i {
+        font-size: 15px !important;
     }
 }
 
@@ -252,7 +338,7 @@ nz-table tr:hover {
 }
 
 .page-header {
-    padding: 12px 16px 0;
+    padding: 12px 0 0 16px;
 }
 
 .box {
@@ -392,12 +478,12 @@ textarea:focus {
 }
 
 nz-header .ant-badge-count {
-    min-width: 12px;
-    height: 12px;
+    min-width: 18px;
+    height: 18px;
     padding: 0 3px;
-    font-size: 9px;
-    line-height: 12px;
-    background-color: #5873d6;
+    font-size: 11px;
+    line-height: 18px;
+    background-color: #e24520;
 }
 
 .cursor-pointer {
@@ -633,4 +719,37 @@ nz-header .ant-badge-count {
 .fit-cell {
     width: 1%;
     white-space: nowrap;
+}
+
+.drawer-header {
+    padding: 15px 20px;
+    background: #f3f8fe;
+    box-shadow: 0 1px #e3e8ee;
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 15px;
+        .title-text {
+            font-size: 16px;
+        }
+    }
+    .search {
+        input:hover,
+        input:focus {
+            border: none !important;
+        }
+        .ant-input-affix-wrapper {
+            border-radius: 16px;
+            &:hover {
+                border: 1px solid #d9d9d9;
+            }
+        }
+    }
+}
+.drawer-body {
+    padding: 15px 20px;
+    li[nz-menu-item] {
+        padding-left: 0;
+    }
 }

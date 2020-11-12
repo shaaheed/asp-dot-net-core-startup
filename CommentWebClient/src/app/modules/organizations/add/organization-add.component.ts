@@ -3,19 +3,20 @@ import { FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from 'src/services/customer.service';
+import { m } from 'src/constants/message';
 
 @Component({
-  selector: 'app-customers-add',
-  templateUrl: './customers-add.component.html'
+  selector: 'app-organization-add',
+  templateUrl: './organization-add.component.html'
 })
-export class CustomersAddComponent extends FormComponent {
+export class OrganizationAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
+  url = "organizations";
+  cancelRoute = "organizations";
 
   constructor(
-    private customerService: CustomerService,
     private activatedRoute: ActivatedRoute
   ) {
     super();
@@ -28,16 +29,15 @@ export class CustomersAddComponent extends FormComponent {
       mobile: [],
       contact: []
     });
-
     super.ngOnInit(this.activatedRoute.snapshot);
   }
 
   customerNameValidator(control: FormControl) {
     if (!control.value) {
-      return this.error('please.give.a.name');
+      return this.error(m.please_give_a_name);
     }
     else if (control.value.length < 3) {
-      return this.error('name.must.be.greater.than.3.letters');
+      return this.error(m.must_be_greater_than_x0_letters, { x0: 3 });
     }
     return of(true);
   }

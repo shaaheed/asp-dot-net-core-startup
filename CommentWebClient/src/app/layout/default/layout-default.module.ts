@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -43,7 +44,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NzToolTipModule,
     NzDrawerModule,
     PerfectScrollbarModule,
-    NzBreadCrumbModule
+    NzBreadCrumbModule,
+    SettingsModule
   ],
   declarations: [
     LayoutDefaultComponent

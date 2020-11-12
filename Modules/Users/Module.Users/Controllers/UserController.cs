@@ -35,7 +35,7 @@ namespace Modules.User.Controllers
 
         [HttpGet("{id}")]
         [RequireAnyPermission(UserView, UserFullAccess)]
-        public Task<IActionResult> Get(long id)
+        public Task<IActionResult> Get(Guid id)
         {
             var query = new GetUserQuery { Id = id };
             return OkAsync(query);

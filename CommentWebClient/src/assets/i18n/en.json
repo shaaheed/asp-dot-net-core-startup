@@ -8,6 +8,7 @@
   "sales": "Sales",
   "new": "New",
   "export": "Export",
+  "import": "Import",
   "name": "Name",
   "price": "Price",
   "description": "Description",
@@ -111,5 +112,10 @@
   "bismillah.enterprize": "Bismillah Enterprize",
   "x0-x1.of.x2.items": "{{x0}} - {{x1}} of {{x2}} items",
   "notifications": "Notifications",
-  "quick.create": "Quick create"
+  "quick.create": "Quick create",
+  "organization.profile": "Organization profile",
+  "users.and.roles": "Users & roles",
+  "preferences": "Preferences",
+  "user": "User",
+  "users": "Users"
 }

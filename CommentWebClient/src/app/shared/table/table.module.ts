@@ -13,6 +13,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { TableActionsModule } from 'src/app/shared/table-actions.component';
 import { TableRowComponent, TableRowModule } from './table-row.component';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TableRowComponent, TableRowModule } from './table-row.component';
     SharedModule,
     NzToolTipModule,
     NzButtonModule,
+    NzDropDownModule,
     BoxLoaderModule,
     NzIconModule,
     TableActionsModule,

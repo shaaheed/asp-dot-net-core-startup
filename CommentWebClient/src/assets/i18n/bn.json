@@ -7,7 +7,8 @@
   "customer": "ক্রেতা",
   "sales": "বিক্রয়",
   "new": "নতুন",
-  "export": "রপ্তানি",
+  "export": "এক্সপোর্ট",
+  "import": "ইম্পোর্ট",
   "name": "নাম",
   "price": "মূল্য",
   "description": "বিবরণ",
@@ -109,5 +110,10 @@
   "bismillah.enterprize": "বিসমিল্লাহ এন্টারপ্রাইজ",
   "x0-x1.of.x2.items": "সর্বমোট {{x2}} টি। এখানে {{x0}} থেকে {{x1}} পর্যন্ত প্রদর্শিত হচ্ছে।",
   "notifications": "নোটিফিকেশনস",
-  "quick.create": "দ্রুত তৈরি করুন"
+  "quick.create": "দ্রুত তৈরি করুন",
+  "organization.profile": "প্রতিষ্ঠানের প্রোফাইল",
+  "users.and.roles": "ইউজার্স এবং রুলস",
+  "preferences": "পছন্দসমূহ",
+  "user": "ব্যবহারকারী",
+  "users": "ব্যবহারকারী"
 }

@@ -19,5 +19,10 @@ namespace Module.Organizations.Domain
                 CreatedAt = x.CreatedAt
             };
         }
+
+        public Expression<Func<Organization, OrganizationDto>> Selector2()
+        {
+            return Selector();
+        }
     }
 }
