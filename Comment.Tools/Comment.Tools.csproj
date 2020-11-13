@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
@@ -9,10 +9,6 @@
     <Content Include="appsettings.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Core.Common\Core.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

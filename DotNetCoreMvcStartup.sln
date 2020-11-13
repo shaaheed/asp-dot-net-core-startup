@@ -53,8 +53,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.UtilityKit", "Msi.Utili
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounting", "Accounting", "{EB785C54-37F3-435D-AB3C-435A553E6804}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Accounting.Persistence.EntityFramewrok", "Module.Accounting.Persistence.EntityFramewrok\Module.Accounting.Persistence.EntityFramewrok.csproj", "{5BFDB902-906C-4A5C-B914-E8435305E8F7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Infrastructure.Entities", "Core\Core.Infrastructure.Entities\Core.Infrastructure.Entities.csproj", "{851E88F2-CE6E-49B3-9409-29B96BDD59BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Infrastructure.Permissions", "Core\Core.Infrastructure.Permissions\Core.Infrastructure.Permissions.csproj", "{A819A703-FB46-437A-9B69-8BCCF3F045D0}"
@@ -143,13 +141,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Organizations.Entiti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{4986A3AA-D3C7-4F4B-B271-5993B2CD0003}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msi.Domain.Abstractions", "Msi\Domain\Msi.Domain.Abstractions\Msi.Domain.Abstractions.csproj", "{EBE08B58-0283-4CBF-B2A3-7ABFEBFDC292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Domain.Abstractions", "Msi\Domain\Msi.Domain.Abstractions\Msi.Domain.Abstractions.csproj", "{EBE08B58-0283-4CBF-B2A3-7ABFEBFDC292}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{188A2380-6500-40AA-A5A2-C637686E519E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Utilities.Filter", "Msi\Utilities\Msi.Utilities.Filter\Msi.Utilities.Filter.csproj", "{9CCFC15A-634C-4231-BED6-D0BD1F0D78E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msi.Utilities.Expression", "Msi\Utilities\Msi.Utilities.Expression\Msi.Utilities.Expression.csproj", "{7F1DA15F-82D2-4D00-8F99-22535B0DD283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Utilities.Expression", "Msi\Utilities\Msi.Utilities.Expression\Msi.Utilities.Expression.csproj", "{7F1DA15F-82D2-4D00-8F99-22535B0DD283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,10 +187,6 @@ Global
 		{0E879DF5-A2A4-4CB5-A32D-599180C95EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E879DF5-A2A4-4CB5-A32D-599180C95EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E879DF5-A2A4-4CB5-A32D-599180C95EC5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BFDB902-906C-4A5C-B914-E8435305E8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BFDB902-906C-4A5C-B914-E8435305E8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BFDB902-906C-4A5C-B914-E8435305E8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BFDB902-906C-4A5C-B914-E8435305E8F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{851E88F2-CE6E-49B3-9409-29B96BDD59BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{851E88F2-CE6E-49B3-9409-29B96BDD59BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{851E88F2-CE6E-49B3-9409-29B96BDD59BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -370,7 +364,6 @@ Global
 		{F9217238-0E8E-463B-B0EF-0260DB789AF4} = {8E1D8A19-43ED-47B5-BC34-A86272B41ACC}
 		{0E879DF5-A2A4-4CB5-A32D-599180C95EC5} = {C992E2E0-2C5F-47FF-9327-FBEFC00F319F}
 		{EB785C54-37F3-435D-AB3C-435A553E6804} = {20B2E10D-8639-43DE-AF2E-E3CA8F9F306D}
-		{5BFDB902-906C-4A5C-B914-E8435305E8F7} = {EB785C54-37F3-435D-AB3C-435A553E6804}
 		{851E88F2-CE6E-49B3-9409-29B96BDD59BC} = {C992E2E0-2C5F-47FF-9327-FBEFC00F319F}
 		{A819A703-FB46-437A-9B69-8BCCF3F045D0} = {C992E2E0-2C5F-47FF-9327-FBEFC00F319F}
 		{15F8F4BA-8F15-4494-A766-D9FD42B28413} = {20B2E10D-8639-43DE-AF2E-E3CA8F9F306D}
