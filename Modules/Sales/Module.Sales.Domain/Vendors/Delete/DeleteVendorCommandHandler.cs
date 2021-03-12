@@ -1,6 +1,4 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
-using Module.Users.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
@@ -20,13 +18,13 @@ namespace Module.Sales.Domain.Vendors
 
         public async Task<long> Handle(DeleteVendorCommand request, CancellationToken cancellationToken)
         {
-            var userRepo = _unitOfWork.GetRepository<User>();
-            var userToBeDeleted = await userRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
+            //var userRepo = _unitOfWork.GetRepository<User>();
+            //var userToBeDeleted = await userRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if (userToBeDeleted == null)
-                throw new NotFoundException("Customer not found");
+            //if (userToBeDeleted == null)
+            //    throw new NotFoundException("Customer not found");
 
-            userRepo.Remove(userToBeDeleted);
+            //userRepo.Remove(userToBeDeleted);
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

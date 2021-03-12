@@ -179,6 +179,10 @@ export class BaseComponent {
         this._subscriptions.push(s);
     }
 
+    instant(key: string | Array<string>, interpolateParams?: Object): string | any {
+        return this._translate.instant(key, interpolateParams);
+    }
+
     t(key: string, interpolateParams?: Object) {
         this._translate.use(getLang());
         return this._translate.get(key, interpolateParams).toPromise()
@@ -235,7 +239,7 @@ export class BaseComponent {
             route += `/${x.url}`
             return { ...x, route: route, last: i == this.breadcrumbs.length - 1 };
         });
-        if(moduleBreadcrumb) {
+        if (moduleBreadcrumb) {
             this.breadcrumbs.splice(1, 0, moduleBreadcrumb);
         }
         setTimeout(() => this.broadcast('breadcrumbs', this.breadcrumbs));

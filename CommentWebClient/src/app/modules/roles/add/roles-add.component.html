@@ -1,0 +1,48 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div class="box no-shadow" style="margin-top: 0;" *ngIf="!loading">
+    <div class="block page-header">
+        <div class="column">
+            <h1 class="no-margin">
+                <span *ngIf="mode=='add'">
+                    {{ 'create.a.x0'|translate:{x0: 'role'|translate} }}
+                </span>
+                <span *ngIf="mode=='edit'">
+                    {{ 'update.a.x0'|translate:{x0: 'role'|translate} }}
+                </span>
+            </h1>
+        </div>
+        <div class="column">
+        </div>
+    </div>
+    <div class="block pad-t-20">
+        <div class="content">
+            <form nz-form [formGroup]="form">
+                <nz-form-item class="form-item">
+                    <label>{{'name'|translate}}</label>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                        <input type="text" nz-input formControlName="name" placeholder="{{'name'|translate}}" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item class="form-item">
+                    <label>{{'description'|translate }}</label>
+                    <nz-form-control>
+                        <textarea nz-input formControlName="description" placeholder="{{'description'|translate}}"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item class="form-item">
+                    <label></label>
+                    <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom margin-right px10" nzType="primary">
+                        {{'save'|translate}}
+                    </button>
+                    <button (click)="cancel()" nz-button class="btn-custom">
+                        {{'cancel'|translate}}
+                    </button>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

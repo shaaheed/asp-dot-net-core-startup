@@ -23,21 +23,22 @@ namespace Module.Sales.Domain.Qoutes
 
         public async Task<IEnumerable<QouteDto>> Handle(GetQoutesQuery request, CancellationToken cancellationToken)
         {
-            var results = _unitOfWork.GetRepository<Qoute>()
-                .AsQueryable()
-                .Select(x => new QouteDto
-                {
-                    Id = x.Id,
-                    Customer = x.CustomerId != null ? new IdNameDto<Guid>
-                    {
-                        Id = (Guid)x.CustomerId,
-                        Name = x.Customer.FirstName
-                    } : null,
-                    Total = x.GrandTotal,
-                    IssueDate = x.IssueDate
-                })
-                .ToList();
-            return await Task.FromResult(results);
+            //var results = _unitOfWork.GetRepository<Qoute>()
+            //    .AsQueryable()
+            //    .Select(x => new QouteDto
+            //    {
+            //        Id = x.Id,
+            //        Customer = x.CustomerId != null ? new IdNameDto<Guid>
+            //        {
+            //            Id = (Guid)x.CustomerId,
+            //            Name = x.Customer.FirstName
+            //        } : null,
+            //        Total = x.GrandTotal,
+            //        IssueDate = x.IssueDate
+            //    })
+            //    .ToList();
+            //return await Task.FromResult(results);
+            return null;
         }
     }
 }

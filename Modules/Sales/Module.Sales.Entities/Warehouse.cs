@@ -1,19 +1,18 @@
 ﻿using Msi.Data.Entity;
 using Module.Core.Entities;
+using System;
 
 namespace Module.Sales.Entities
 {
     public class Warehouse : BaseEntity
     {
-
         public string Name { get; set; }
 
-
-        public long? VendorId { get; set; }
+        public Guid? VendorId { get; set; }
 
         //public Vendor Vendor { get; set; }
-        public long AddressId { get; set; }
+        public Guid AddressId { get; set; }
 
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListPageConfig } from './list.config';
 
@@ -10,9 +10,13 @@ import { ListPageConfig } from './list.config';
 export class ListComponent {
 
   @Input() config: ListPageConfig;
+  onDataLoadCompleted = () => {
+    console.log('onDataLoadCompleted');
+  }
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
@@ -21,6 +25,10 @@ export class ListComponent {
     if (snapshot?.data?.pageData) {
       this.config = snapshot.data.pageData
     }
+  }
+
+  onTableDataLoadCompleted() {
+    console.log('dddddddddd load completed');
   }
 
 }

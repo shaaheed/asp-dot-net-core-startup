@@ -9,8 +9,8 @@ namespace Module.Core.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var r = await next();
-            var unitOfWork = r.HttpContext.RequestServices.GetService(typeof(IUnitOfWork)) as IUnitOfWork;
+            var _next = await next();
+            var unitOfWork = _next.HttpContext.RequestServices.GetService(typeof(IUnitOfWork)) as IUnitOfWork;
             await unitOfWork.CommitAsync();
         }
     }

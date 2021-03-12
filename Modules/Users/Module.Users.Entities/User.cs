@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Users.Entities
 {
-    public class User : BaseEntity
+    public class User : BaseEntity, IUser<Guid>
     {
         public bool TwoFactorEnabled { get; set; }
         public bool PhoneNumberConfirmed { get; set; }

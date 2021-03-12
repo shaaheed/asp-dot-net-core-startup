@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Core.Domain;
-using System;
 
 namespace Module.Sales.Domain.Bills
 {
@@ -28,11 +26,11 @@ namespace Module.Sales.Domain.Bills
                 .Select(x => new BillDto
                 {
                     Id = x.Id,
-                    Vendor = x.VendorId != null ? new IdNameDto<Guid>
-                    {
-                        Id = (Guid)x.VendorId,
-                        Name = x.Vendor.FirstName
-                    } : null,
+                    //Vendor = x.VendorId != null ? new IdNameDto<Guid>
+                    //{
+                    //    Id = (Guid)x.VendorId,
+                    //    Name = x.Vendor.FirstName
+                    //} : null,
                     AmountDue = x.AmountDue,
                     Total = x.GrandTotal,
                     IssueDate = x.IssueDate,

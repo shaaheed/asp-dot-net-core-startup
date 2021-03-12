@@ -90,6 +90,7 @@
     <nz-layout>
       <nz-sider class="menu-sidebar" nzCollapsible nzWidth="220px" nzBreakpoint="md">
         <perfect-scrollbar [config]="config" style="height: calc(100vh - 100px);">
+          <nz-space></nz-space>
           <ul nz-menu nzMode="inline" *ngIf="permissionLoaded">
             <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>
             <ng-template #menuTemplate let-nav>

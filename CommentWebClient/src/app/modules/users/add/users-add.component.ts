@@ -12,6 +12,8 @@ export class UsersAddComponent extends FormComponent {
   noData: boolean = false;
   url = 'users';
   cancelRoute = 'users';
+  addTitle = 'create.a.x0|{"x0":"user"}';
+  editTitle = 'update.a.x0|{"x0":"user"}';
 
   constructor(
     private activatedRoute: ActivatedRoute

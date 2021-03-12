@@ -15,9 +15,9 @@ namespace AccountingWebHost.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
                 {
@@ -319,10 +319,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("StateOrProvinceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid?>("StateOrProvinceId1")
+                    b.Property<Guid>("StateOrProvinceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
@@ -336,7 +333,7 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StateOrProvinceId1");
+                    b.HasIndex("StateOrProvinceId");
 
                     b.ToTable("District");
                 });
@@ -619,7 +616,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -872,7 +869,7 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("PermissionGroup");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Module.Tokens.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -902,6 +899,46 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("Module.Tokens.Entities.Token", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiresIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RefreshTokenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RefreshTokenId");
+
+                    b.ToTable("Token");
                 });
 
             modelBuilder.Entity("Module.Users.Entities.Role", b =>
@@ -1114,7 +1151,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1146,48 +1183,6 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("UserRole");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AccessToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ExpiresIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("RefreshTokenId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RefreshTokenId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserToken");
-                });
-
             modelBuilder.Entity("Module.Core.Entities.Address", b =>
                 {
                     b.HasOne("Module.Core.Entities.Country", "Country")
@@ -1203,6 +1198,12 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("StateOrProvinceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("District");
+
+                    b.Navigation("StateOrProvince");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.CountryCurrency", b =>
@@ -1218,6 +1219,10 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.CountryLanguage", b =>
@@ -1233,13 +1238,21 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.District", b =>
                 {
                     b.HasOne("Module.Core.Entities.StateOrProvince", "StateOrProvince")
                         .WithMany()
-                        .HasForeignKey("StateOrProvinceId1");
+                        .HasForeignKey("StateOrProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StateOrProvince");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.SocialLink", b =>
@@ -1249,6 +1262,8 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("LinkTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("LinkType");
                 });
 
             modelBuilder.Entity("Module.Core.Entities.StateOrProvince", b =>
@@ -1258,6 +1273,8 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Module.Organizations.Entities.Organization", b =>
@@ -1277,6 +1294,14 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Organizations.Entities.OrganizationType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Module.Permissions.Entities.Permission", b =>
@@ -1284,6 +1309,19 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Permissions.Entities.PermissionGroup", "Group")
                         .WithMany()
                         .HasForeignKey("GroupId1");
+
+                    b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("Module.Tokens.Entities.Token", b =>
+                {
+                    b.HasOne("Module.Tokens.Entities.RefreshToken", "RefreshToken")
+                        .WithMany()
+                        .HasForeignKey("RefreshTokenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RefreshToken");
                 });
 
             modelBuilder.Entity("Module.Users.Entities.RolePermission", b =>
@@ -1299,6 +1337,10 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Module.Users.Entities.User", b =>
@@ -1318,6 +1360,14 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Core.Entities.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("Module.Users.Entities.UserForgotPasswordToken", b =>
@@ -1327,6 +1377,8 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Module.Users.Entities.UserRole", b =>
@@ -1342,21 +1394,19 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserToken", b =>
+            modelBuilder.Entity("Module.Core.Entities.Country", b =>
                 {
-                    b.HasOne("Module.Users.Entities.RefreshToken", "RefreshToken")
-                        .WithMany()
-                        .HasForeignKey("RefreshTokenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CountryCurrencies");
 
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CountryLanguages");
+
+                    b.Navigation("StatesOrProvinces");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
-    <ProjectReference Include="..\Module.Accounting.Entities\Module.Accounting.Entities.csproj" />
-    <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
-    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Entity\Msi.Data.Entity.csproj" />
+    <ProjectReference Include="..\..\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
   </ItemGroup>
 
 </Project>

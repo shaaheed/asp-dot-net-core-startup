@@ -1,9 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
+﻿using Msi.Domain.Abstractions;
+using Msi.Utilities.Filter;
 
 namespace Module.Sales.Domain.Products
 {
-    public class GetProductsQuery : IQuery<IEnumerable<ProductDto>>
+    public class GetProductsQuery : Query<PagedCollection<ProductListItemDto>>
     {
     }
 }

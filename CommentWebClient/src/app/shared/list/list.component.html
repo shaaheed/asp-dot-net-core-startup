@@ -1,4 +1,4 @@
-<app-table [head]="head" [body]="body" [config]="config">
+<app-table [onDataLoadCompleted]="onDataLoadCompleted" (dataLoadCompleted)="onTableDataLoadCompleted()" [head]="head" [body]="body" [config]="config">
     <ng-template #head>
         <ng-container *ngFor="let c of config?.tableColumns">
             <th [class]="c.thClass">{{c.title|translate}}</th>

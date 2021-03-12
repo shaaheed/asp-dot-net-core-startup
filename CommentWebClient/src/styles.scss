@@ -226,7 +226,8 @@ nz-sider {
     border: unset;
 }
 
-.btn-custom {
+.btn-custom,
+.ant-modal-confirm-btns button {
     font-weight: 500;
     border: none;
     height: 28px;
@@ -371,6 +372,11 @@ nz-table tr:hover {
             }
         }
 
+        app-input {
+            display: flex;
+            flex-direction: column;
+        }
+
         .form-item {
             padding: 0 20px 15px 20px;
             margin: 0;
@@ -386,6 +392,7 @@ nz-table tr:hover {
                 font-weight: 500;
                 color: #1a1f36;
                 min-width: 170px;
+                display: inline-block;
             }
         }
 

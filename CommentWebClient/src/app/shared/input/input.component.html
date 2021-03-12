@@ -1,0 +1,19 @@
+<nz-form-item class="form-item">
+    <label>
+        {{label|translate}}
+        <ng-container *ngIf="tooltip">
+            <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
+                nzType="question-circle" nzTheme="outline"></i>
+        </ng-container>
+    </label>
+    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+        <nz-input-group [nzAddOnBefore]="beforeText">
+            <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input
+                placeholder="{{placeholder|translate}}" />
+        </nz-input-group>
+    </nz-form-control>
+</nz-form-item>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

@@ -1,27 +1,54 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { TableComponent as T } from 'src/app/shared/table.component';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
+import { AppInjector } from 'src/app/app.component';
 import { TableConfig } from './table.config';
-import { HttpService } from 'src/services/http/http.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { getSearchableProperties } from 'src/decorators/searchable.decorator';
+import { m } from 'src/constants/message';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TableComponent extends T {
+export class TableComponent extends BaseComponent {
 
   @Input() pageTitle: string;
   @Input() body: TemplateRef<any>;
   @Input() head: TemplateRef<any>;
   @Input() fetch: (pagination: string, search: string) => Observable<Object>;
-  @Input() config: TableConfig;
 
-  onLoadComplete = () => {
-    this.changeDetector.detectChanges();
-  }
+  @Input() config: TableConfig;
+  @Output() dataLoadCompleted = new EventEmitter();
+  @Input() onDataLoadCompleted: () => void;
+
+  loading: boolean = true;
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 500;
+  items = [];
+  additionalSearchTerm;
+
+  onDeleted: (res: any) => void;
+  onDeleteFailed: (res: any) => void;
+
+  allChecked = false;
+  setOfCheckedId = new Set<number>();
+  indeterminate = false;
+  listOfCurrentPageItems = [];
+  rowItemDisabledFilterKey = "disabled";
+  pageSizeOptions = [50, 100, 500];
+
+  private _fn: (pagination: string, search: string) => Observable<Object>;
+  private vcr: ViewContainerRef;
+  private cfr: ComponentFactoryResolver;
+
+  // dataLoadCompleted = () => {
+  //   this.changeDetector.detectChanges();
+  // }
 
   defaultRowButtons: ButtonConfig[] = [
     {
@@ -40,15 +67,16 @@ export class TableComponent extends T {
 
   constructor(
     private router: Router,
-    private changeDetector: ChangeDetectorRef,
-    private httpService: HttpService
+    private changeDetector: ChangeDetectorRef
   ) {
-    super(null);
+    super();
+    this.vcr = AppInjector.get(ViewContainerRef);
+    this.cfr = AppInjector.get(ComponentFactoryResolver);
   }
 
   ngOnInit() {
-    if (!this.fetch && this.config?.fetchUrl) {
-      this.fetch = (pagination, search) => this.httpService.get(this.buildUrl(this.config.fetchUrl, pagination, search))
+    if (!this.fetch && this.config?.fetchApiUrl) {
+      this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
     }
     if (!this.config.topRightButtons?.length) {
       this.config.topRightButtons = [
@@ -65,6 +93,161 @@ export class TableComponent extends T {
       ];
     }
     this.gets();
+  }
+
+  fill(response: any, items: any[] = null) {
+    if (response && response.status == 200) {
+      this.total = response.data.size;
+      if (items == null) {
+        if (!response.data.items && Array.isArray(response.data)) {
+          this.items = response.data;
+          this.total = response.data.length;
+        }
+        else {
+          this.items = [];
+          this.items = response.data.items;
+        }
+      }
+    }
+    this.loading = false;
+  }
+
+  async delete(e) {
+    //const { ModalFooterComponent } = await import('./modal-footer.component');
+    //this.vcr.clear();
+    //const x = this.vcr.createComponent(this.cfr.resolveComponentFactory(ModalFooterComponent));
+    //const y = template instanceof TemplateRef;
+    const deleteModal = this._modalService.confirm({
+      // nzViewContainerRef: this.vcr,
+      nzTitle: this.instant(m.confirm),
+      nzContent: /*ModalFooterComponent, //*/ this.instant(m.do_you_want_to_delete),
+      nzOkText: this.instant(m.yes),
+      nzCancelText: this.instant(m.no),
+      nzOkLoading: false,
+      nzClosable: false,
+      // nzFooter: template,
+      nzOnOk: () => {
+        // deleteModal.getInstance().nzOkLoading = true;
+        const url = this.config?.getDeleteApiUrl(e);
+        this.subscribe(this._httpService.delete(url),
+          res => {
+            // deleteModal.getInstance().nzOkLoading = false;
+            const text = this.instant(m.successfully_deleted);
+            this.success(text);
+            this.invoke(this.onDeleted, res);
+            //refresh data
+            this.load();
+          },
+          err => {
+            // deleteModal.getInstance().nzOkLoading = false;
+            this.invoke(this.onDeleteFailed, err);
+            this.log('err', err)
+          }
+        );
+      }
+    });
+  }
+
+  getSearchTerms() {
+    const searchableProperties: any = getSearchableProperties(this);
+    if (searchableProperties) {
+      return searchableProperties.join("&");
+    }
+    return "";
+  }
+
+  load(fn?: (pagination: string, search: string) => Observable<Object>) {
+    this._fn = fn;
+    let offset = 0;
+    if (this.pageIndex > 1) {
+      offset = (this.pageSize * this.pageIndex) - this.pageSize;
+    }
+    const pagination = `offset=${offset}&limit=${this.pageSize}`;
+    let search = this.getSearchTerms();
+    this.loading = true;
+    let listFn;
+    if (fn) {
+      listFn = fn(pagination, search);
+    }
+    if (listFn) {
+      this.subscribe(listFn,
+        (res: any) => {
+          this.invoke(this.onDataLoadCompleted);
+          this.fill(res);
+          this.loading = false;
+          this.dataLoadCompleted.emit();
+        },
+        err => {
+          this.log(err);
+          this.loading = false;
+          this.dataLoadCompleted.emit();
+          this.invoke(this.onDataLoadCompleted);
+        }
+      );
+    }
+  }
+
+  pageIndexChanged(pageIndex) {
+    this.pageIndex = pageIndex;
+    this.load();
+  }
+
+  pageSizeChanged(pageSize) {
+    this.pageSize = pageSize;
+    this.load();
+  }
+
+  onAllChecked(checked: boolean): void {
+    this.listOfCurrentPageItems.filter(x => !x[this.rowItemDisabledFilterKey]).forEach(({ id }) => this.updateCheckedSet(id, checked));
+    this.refreshCheckedStatus();
+  }
+
+  onCurrentPageDataChange(listOfCurrentPageItems: []): void {
+    this.listOfCurrentPageItems = listOfCurrentPageItems;
+    this.refreshCheckedStatus();
+  }
+
+  refreshCheckedStatus(): void {
+    const listOfEnabledData = this.listOfCurrentPageItems.filter(x => !x[this.rowItemDisabledFilterKey]);
+    this.allChecked = listOfEnabledData.every(({ id }) => this.setOfCheckedId.has(id));
+    this.indeterminate = listOfEnabledData.some(({ id }) => this.setOfCheckedId.has(id)) && !this.allChecked;
+  }
+
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+
+  addModal<T>(component: Type<T>, modalService: NzModalService, params: any = {},) {
+    const modal = modalService.create({
+      nzWidth: '50%',
+      nzContent: component,
+      nzGetContainer: () => document.body,
+      nzComponentParams: params,
+      nzFooter: null
+    });
+    const s = modal.afterOpen.subscribe(() => {
+      const componentInstance = (<any>modal.getContentComponent());
+      componentInstance.modalInstance = modal.componentInstance;
+      componentInstance.id = params.id;
+      componentInstance.onCheckMode = id => componentInstance.get(id);
+      componentInstance.init();
+    });
+    const _fn = this._fn;
+    const s2 = modal.afterClose.subscribe(x => {
+      if (x === true) {
+        this.load(_fn);
+      }
+    });
+    this._subscriptions.push(...[s, s2]);
   }
 
   add() {
@@ -88,6 +271,12 @@ export class TableComponent extends T {
 
   refresh() {
     this.gets();
+  }
+
+  executeAction(button) {
+    if(button.action) {
+      button.action();
+    }
   }
 
   private buildUrl(url: string, ...args) {

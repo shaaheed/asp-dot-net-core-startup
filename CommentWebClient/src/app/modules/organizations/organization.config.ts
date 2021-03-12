@@ -4,19 +4,20 @@ import { ListPageConfig } from 'src/app/shared/list/list.config';
 import { MomentPipe } from 'src/pipes/moment.pipe';
 import { TimeAgoPipe } from 'src/pipes/time-ago.pipe';
 
-const org = 'organizations';
+const urlPrefix = 'organizations';
 
 export const ORGANIZATION_CONFIG = {
     ROUTES: <Routes>[
         {
-            path: org,
+            path: urlPrefix,
             loadChildren: () => import('src/app/shared/list/list.module').then(m => m.ListModule),
             data: {
                 pageData: <ListPageConfig>{
-                    pageTitle: org,
-                    fetchUrl: org,
-                    createPageRoute: `${org}/create`,
-                    editPageRoute: data => `${org}/${data.id}/edit`,
+                    pageTitle: urlPrefix,
+                    fetchApiUrl: urlPrefix,
+                    getDeleteApiUrl: data => `${urlPrefix}/${data.id}`,
+                    createPageRoute: `${urlPrefix}/create`,
+                    editPageRoute: data => `${urlPrefix}/${data.id}/edit`,
                     tableColumns: [
                         {
                             title: 'name',
@@ -37,11 +38,11 @@ export const ORGANIZATION_CONFIG = {
             }
         },
         {
-            path: `${org}/create`,
+            path: `${urlPrefix}/create`,
             loadChildren: () => import('./add/organization-add.module').then(x => x.OrganizationAddModule)
         },
         {
-            path: `${org}/:id/edit`,
+            path: `${urlPrefix}/:id/edit`,
             loadChildren: () => import('./add/organization-add.module').then(x => x.OrganizationAddModule)
         }
     ]

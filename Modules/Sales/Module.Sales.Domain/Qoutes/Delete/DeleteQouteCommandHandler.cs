@@ -20,12 +20,12 @@ namespace Module.Sales.Domain.Qoutes
 
         public async Task<long> Handle(DeleteQouteCommand request, CancellationToken cancellationToken)
         {
-            var qouteRepo = _unitOfWork.GetRepository<Qoute>();
+            var qouteRepo = _unitOfWork.GetRepository<Quote>();
             var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            var qouteLineItemRepo = _unitOfWork.GetRepository<QouteLineItem>();
+            var qouteLineItemRepo = _unitOfWork.GetRepository<QuoteLineItem>();
             var qouteLineItemsToBeDeleted = qouteLineItemRepo
-                .Where(x => x.QouteId == request.Id);
+                .Where(x => x.QuoteId == request.Id);
             var lineItemsToBeDeleted = qouteLineItemsToBeDeleted.Select(x => x.LineItem);
 
             _unitOfWork.GetRepository<LineItem>().RemoveRange(lineItemsToBeDeleted);

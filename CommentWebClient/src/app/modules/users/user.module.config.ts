@@ -14,7 +14,8 @@ export const USER_MODULE_CONFIG = {
             data: {
                 pageData: <ListPageConfig>{
                     pageTitle: prefix,
-                    fetchUrl: prefix,
+                    fetchApiUrl: prefix,
+                    getDeleteApiUrl: data => `${prefix}/${data.id}`,
                     createPageRoute: `${prefix}/create`,
                     editPageRoute: data => `${prefix}/${data.id}/edit`,
                     tableColumns: [

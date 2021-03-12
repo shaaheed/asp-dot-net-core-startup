@@ -2,7 +2,7 @@
 
 namespace Module.Sales.Entities
 {
-    public class Manufacturer : CodeName
+    public class Manufacturer : CodeNameEntity
     {
 
     }

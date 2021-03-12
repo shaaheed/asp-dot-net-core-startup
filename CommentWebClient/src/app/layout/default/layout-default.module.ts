@@ -19,6 +19,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -45,7 +46,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NzDrawerModule,
     PerfectScrollbarModule,
     NzBreadCrumbModule,
-    SettingsModule
+    SettingsModule,
+    NzSpaceModule
   ],
   declarations: [
     LayoutDefaultComponent

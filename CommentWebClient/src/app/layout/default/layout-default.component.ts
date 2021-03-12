@@ -40,10 +40,25 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
       },
       {
         level: 1,
-        title: 'products',
-        route: '/products',
-        icon: 'gift',
+        title: 'catalog',
+        icon: 'book',
         fn: () => true,
+        nav: [
+          {
+            level: 2,
+            title: 'products',
+            route: '/products',
+            icon: 'gift',
+            fn: () => true,
+          },
+          {
+            level: 2,
+            title: 'categories',
+            route: '/categories',
+            icon: 'gift',
+            fn: () => true,
+          },
+        ]
       },
       {
         level: 1,

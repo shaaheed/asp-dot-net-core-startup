@@ -19,11 +19,13 @@ export class SelectControlComponent implements ControlValueAccessor {
   @Input() formControl: FormControl;
   @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
+  @Input() idKey = 'id';
   @Input() mandatory: boolean = false;
   @Input() disabled: boolean = false;
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
   @Input() name: any = '';
+  @Input() tooltip: string;
 
   infoText: string = '';
 
@@ -166,6 +168,10 @@ export class SelectControlComponent implements ControlValueAccessor {
       return d;
     }
     return data.name;
+  }
+
+  addItem() {
+    
   }
 
   ngOnDestroy() {

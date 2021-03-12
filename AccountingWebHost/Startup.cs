@@ -10,13 +10,12 @@ using Msi.Core;
 using Msi.Web;
 using Msi.Service.Extensions.Microsoft.DependencyInjection;
 using Msi.Mediator.Extensions.Microsoft.DependencyInjection;
-using Module.Users.Domain;
 using Module.Core.Exceptions;
 using Module.Core.Filters;
-using Module.Organizations.Domain;
-using Module.Permissions.Data;
 using Msi.Mediator.Abstractions;
 using System.Linq;
+using Module.Tokens.Domain;
+using Services;
 
 namespace AccountingWebHost
 {
@@ -58,6 +57,8 @@ namespace AccountingWebHost
             {
                 opt.Assemblies.AddRange(assemblies);
             });
+
+            services.AddScoped<ITokenService, TokenService>();
             services.AddServices();
             services.AddModules();
 

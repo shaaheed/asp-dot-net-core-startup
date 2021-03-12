@@ -25,12 +25,11 @@ namespace Module.Sales.Domain.Products
                 product.Name = request.Name;
                 product.Code = request.Code;
                 product.Description = request.Description;
-                product.Price = request.Price;
-                product.IsBuy = request.IsBuy;
+                //product.Price = request.Price;
+                //product.IsBuy = request.IsBuy;
                 product.IsSale = request.IsSale;
-                product.CategoryId = request.CategoryId;
-                product.ManufacturerId = request.ManufacturerId;
-                product.UnitOfMeasurementId = request.UnitOfMeasurementId;
+                //product.ManufacturerId = request.ManufacturerId;
+                //product.UnitOfMeasurementId = request.UnitOfMeasurementId;
                 product.StartDate = request.StartDate;
                 product.EndDate = request.EndDate;
                 product.SupportStartDate = request.SupportStartDate;

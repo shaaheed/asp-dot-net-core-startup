@@ -1,10 +1,11 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControlOptions, AbstractControl } from '@angular/forms';
 import { AppInjector } from 'src/app/app.component';
 import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
 import { NzModalComponent } from 'ng-zorro-antd/modal';
 import { m } from 'src/constants/message';
+import { environment } from 'src/environments/environment';
 
 export class FormBaseComponent extends BaseComponent {
 
@@ -14,6 +15,9 @@ export class FormBaseComponent extends BaseComponent {
     id: number;
     submitting: boolean = false;
     loading: boolean = false;
+    title: string = "";
+    addTitle: string = "";
+    editTitle: string = "";
 
     url: string;
     cancelRoute: string;
@@ -88,6 +92,7 @@ export class FormBaseComponent extends BaseComponent {
     markModeAsAdd(): void {
         this.mode = FormBaseComponent.ADD;
         this.submitButtonText = 'create';
+        this.title = this.translateTitle(this.addTitle);
     }
 
     isAddMode(): boolean {
@@ -101,6 +106,7 @@ export class FormBaseComponent extends BaseComponent {
     markModeAsEdit(): void {
         this.mode = FormBaseComponent.EDIT;
         this.submitButtonText = "update";
+        this.title = this.translateTitle(this.editTitle);
     }
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {
@@ -118,7 +124,11 @@ export class FormBaseComponent extends BaseComponent {
         }
     }
 
-    createForm(controlsConfig: { [key: string]: any; }): void {
+    createForm(controlsConfig: {
+        [key: string]: any;
+    }, options?: AbstractControlOptions | {
+        [key: string]: any;
+    } | null): void {
         this.form = this.fb.group(controlsConfig);
     }
 
@@ -190,7 +200,15 @@ export class FormBaseComponent extends BaseComponent {
             this.invoke(fn);
         }
         else {
-            this.log('INVALID FORM', this.form);
+            if (!environment.production) {
+                if (this.form.controls) {
+                    Object.keys(this.form.controls).forEach(control => {
+                        if (this.form.controls[control].invalid) {
+                            this.log('INVALID CONTROL:', control);
+                        }
+                    })
+                }
+            }
             this.busy(false);
         }
         return this.form.valid;
@@ -225,6 +243,20 @@ export class FormBaseComponent extends BaseComponent {
     closeModal(result = {}) {
         if (this.modalInstance) {
             this.modalInstance.close(result);
+        }
+    }
+
+    translateTitle(title: string) {
+        if (title) {
+            const splitTitle = title.split('|');
+            let params = null;
+            if (splitTitle.length > 1) {
+                params = JSON.parse(splitTitle[1]);
+                forEachObj(params, (k, v) => {
+                    params[k] = this._translate.instant(v);
+                });
+            }
+            return this._translate.instant(splitTitle[0], params);
         }
     }
 

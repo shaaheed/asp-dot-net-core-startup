@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
+    <ProjectReference Include="..\Module.Tokens.Domain\Module.Tokens.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

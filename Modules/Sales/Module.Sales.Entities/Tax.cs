@@ -1,11 +1,9 @@
-﻿using Msi.Data.Entity;
+﻿using Module.Core.Entities;
 
 namespace Module.Sales.Entities
 {
-    public class Tax : BaseEntity
+    public class Tax : CodeNameEntity
     {
-        public string Name { get; set; }
-        public string Code { get; set; }
         public float Rate { get; set; }
     }
 }

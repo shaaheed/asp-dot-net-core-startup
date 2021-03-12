@@ -1,10 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
 using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Core;
 
 namespace Module.Sales.Domain.Bills
 {
@@ -63,14 +63,14 @@ namespace Module.Sales.Domain.Bills
             bill.Calculate();
 
             bill.AmountDue = 0;
-            var billPaymentAmount = _unitOfWork.GetRepository<BillPayment>()
-                .Where(x => x.BillId == bill.Id)
-                .Select(x => x.Payment.Amount)
-                .Sum();
+            //var billPaymentAmount = _unitOfWork.GetRepository<BillPayment>()
+            //    .Where(x => x.BillId == bill.Id)
+            //    .Select(x => x.Payment.Amount)
+            //    .Sum();
 
-            bill.AddPayment(billPaymentAmount);
+            //bill.AddPayment(billPaymentAmount);
             
-            if (billPaymentAmount > bill.GrandTotal)
+            if (false /*billPaymentAmount > bill.GrandTotal*/)
             {
                 // Over paid.
                 // TODO: Create credit note

@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { ListRoutingModule } from './list-routing.module';
+import { ModalFooterModule } from '../modal-footer.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ListRoutingModule } from './list-routing.module';
     TableModule,
     TranslateModule,
     NzToolTipModule,
-    NzFormModule
+    NzFormModule,
+    ModalFooterModule
   ],
   exports: [ListComponent]
 })

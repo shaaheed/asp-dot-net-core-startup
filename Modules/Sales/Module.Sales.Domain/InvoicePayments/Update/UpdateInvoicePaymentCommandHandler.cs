@@ -1,10 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
 using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Core;
 
 namespace Module.Sales.Domain.InvoicePayments
 {

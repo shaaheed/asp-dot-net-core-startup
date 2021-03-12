@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\..\Msi\Service\Msi.Service.Abstractions\Msi.Service.Abstractions.csproj" />
     <ProjectReference Include="..\..\Core\Module.Core.Shared\Module.Core.Shared.csproj" />
     <ProjectReference Include="..\..\Permissions\Module.Permissions.Shared\Module.Permissions.Shared.csproj" />
+    <ProjectReference Include="..\..\Tokens\Module.Tokens.Domain\Module.Tokens.Domain.csproj" />
     <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
   </ItemGroup>
 

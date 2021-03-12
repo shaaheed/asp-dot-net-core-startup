@@ -6,6 +6,10 @@ export interface TableConfig {
     createPageRoute?: string;
     editPageRoute?: (data?: any) => string;
     fetch?: (pagination: string, search?: string) => Observable<Object>;
-    fetchUrl?: string;
+    fetchApiUrl?: string;
+    /**
+    * Provide delete API.
+    */
+    getDeleteApiUrl?: (data: any) => string;
     topRightButtons?: ButtonConfig[];
 }

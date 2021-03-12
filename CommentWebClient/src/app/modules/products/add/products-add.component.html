@@ -1,0 +1,93 @@
+<app-box-loader *ngIf="loading"></app-box-loader>
+<div class="box no-shadow" style="margin-top: 0;" *ngIf="!loading">
+    <div class="block page-header">
+        <div class="column">
+            <h1 class="no-margin">
+                <span>{{ title }}</span>
+            </h1>
+        </div>
+        <div class="column">
+        </div>
+    </div>
+    <div class="block pad-t-20">
+        <div class="content">
+            <form nz-form [formGroup]="form">
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <app-input label="name" formControlName="name" placeholder="name"></app-input>
+
+                        <app-select-control tooltip="category.tooltip" label="category" #categorySelect [formControl]="form.controls.category">
+                        </app-select-control>
+
+                        <app-text label="description" formControlName="description" placeholder="description">
+                        </app-text>
+                    </div>
+                </div>
+                <nz-space></nz-space>
+                <div nz-row>
+                    <div nz-col nzSpan="11">
+                        <app-checkbox formControlName="isSale" label="sales.information"></app-checkbox>
+
+                        <app-input beforeText="৳" label="price" type="number" formControlName="salesUnitPrice" placeholder="price">
+                        </app-input>
+
+                        <app-select-control label="unit" #salesUnitSelect [formControl]="form.controls.salesUnit">
+                        </app-select-control>
+
+                        <app-text label="description" formControlName="salesDescription" placeholder="description">
+                        </app-text>
+
+                        <app-select-control label="tax" #salesTaxSelect [formControl]="form.controls.salesTax">
+                        </app-select-control>
+
+                        <app-select-control label="account" #salesAccountSelect [formControl]="form.controls.salesAccount">
+                        </app-select-control>
+                    </div>
+                    <div nz-col nzSpan="1"></div>
+                    <div nz-col nzSpan="11">
+                        <app-checkbox formControlName="isPurchase" label="purchase.information"></app-checkbox>
+
+                        <app-input beforeText="৳" label="price" type="number" formControlName="purchaseUnitPrice" placeholder="price">
+                        </app-input>
+
+                        <app-select-control label="unit" #purchaseUnitSelect [formControl]="form.controls.purchaseUnit">
+                        </app-select-control>
+
+                        <app-text label="description" formControlName="purchaseDescription" placeholder="description">
+                        </app-text>
+
+                        <app-select-control label="tax" #purchaseTaxSelect [formControl]="form.controls.purchaseTax">
+                        </app-select-control>
+
+                        <app-select-control label="supplier" #supplierSelect [formControl]="form.controls.supplier">
+                        </app-select-control>
+
+                        <app-select-control label="account" #purchaseAccountSelect [formControl]="form.controls.purchaseAccount">
+                        </app-select-control>
+                    </div>
+                </div>
+                <nz-space></nz-space>
+                <div nz-row>
+                    <div nz-col nzSpan="12">
+                        <app-checkbox formControlName="isInventory" label="inventory.information"
+                            tooltip="enable.inventory.to.track" info="cannot.enable.disable.inventory.tracking">
+                        </app-checkbox>
+
+                        <app-input label="initial.quantity.on.hand" type="number" formControlName="initialQuantity" placeholder="quantity">
+                        </app-input>
+
+                        <app-input tooltip="low.stock.alert.tooltip" label="low.stock.alert" type="number" formControlName="lowStockAlertQuantity" placeholder="quantity">
+                        </app-input>
+
+                        <app-select-control label="account" #inventoryAccountSelect [formControl]="form.controls.inventoryAccount">
+                        </app-select-control>
+                    </div>
+                </div>
+                <nz-space></nz-space>
+                <app-save-cancel-button [submitButtonText]="submitButtonText" [submitting]="submitting"
+                    (onSubmit)="submit()" (onCancel)="cancel()">
+                </app-save-cancel-button>
+            </form>
+        </div>
+    </div>
+</div>

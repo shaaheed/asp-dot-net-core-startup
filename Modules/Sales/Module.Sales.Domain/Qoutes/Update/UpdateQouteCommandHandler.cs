@@ -1,10 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
 using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Core;
 
 namespace Module.Sales.Domain.Qoutes
 {
@@ -22,7 +22,7 @@ namespace Module.Sales.Domain.Qoutes
         public async Task<long> Handle(UpdateQouteCommand request, CancellationToken cancellationToken)
         {
 
-            var qouteRepo = _unitOfWork.GetRepository<Qoute>();
+            var qouteRepo = _unitOfWork.GetRepository<Quote>();
             var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             if (qoute == null)
@@ -30,8 +30,8 @@ namespace Module.Sales.Domain.Qoutes
 
             qoute.CustomerId = request.CustomerId;
 
-            var qouteLineItemsRepo = _unitOfWork.GetRepository<QouteLineItem>();
-            var qouteLineItemsToBeRemoved = qouteLineItemsRepo.Where(x => x.QouteId == request.Id);
+            var qouteLineItemsRepo = _unitOfWork.GetRepository<QuoteLineItem>();
+            var qouteLineItemsToBeRemoved = qouteLineItemsRepo.Where(x => x.QuoteId == request.Id);
             var lineItemsToBeRemoved = qouteLineItemsToBeRemoved.Select(x => x.LineItem);
 
             qouteLineItemsRepo.RemoveRange(qouteLineItemsToBeRemoved);
@@ -52,13 +52,13 @@ namespace Module.Sales.Domain.Qoutes
                 Note = x.Note
             });
 
-            var newQouteLineItems = newLineItems.Select(x => new QouteLineItem
+            var newQouteLineItems = newLineItems.Select(x => new QuoteLineItem
             {
-                Qoute = qoute,
+                Quote = qoute,
                 LineItem = x
             });
 
-            qoute.QouteLineItems = newQouteLineItems.ToList();
+            qoute.QuoteLineItems = newQouteLineItems.ToList();
             qoute.Calculate();
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

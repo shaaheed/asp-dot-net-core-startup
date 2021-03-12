@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
-    <ProjectReference Include="..\Module.Core\Module.Core.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
     <ProjectReference Include="..\Module.Sales.Common\Module.Sales.Common.csproj" />
     <ProjectReference Include="..\Module.Sales.Data\Module.Sales.Data.csproj" />
     <ProjectReference Include="..\Module.Sales.Domain\Modules.Sales.Domain.csproj" />
     <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
-    <ProjectReference Include="..\Module.Sales.Persistence.EntityFramework\Module.Sales.Persistence.EntityFramework.csproj" />
-    <ProjectReference Include="..\Module.User\Module.Users.csproj" />
   </ItemGroup>
 
 </Project>

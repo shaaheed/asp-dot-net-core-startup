@@ -1,15 +1,22 @@
-<nz-form-item class="field-container">
+<nz-form-item class="form-item">
     <div>
-        <label [class.required]="mandatory">{{label|translate }}</label>
+        <label [class.required]="mandatory">
+            {{label|translate }}
+            <ng-container *ngIf="tooltip">
+                <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
+                    nzType="question-circle" nzTheme="outline"></i>
+            </ng-container>
+        </label>
     </div>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-        <nz-select [nzDisabled]="disabled" (nzScrollToBottom)="loadMore()" [formControl]="formControl" class="btn-custom" [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode"
-            nzAllowClear [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}">
-            <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p.id">
+        <nz-select [nzDisabled]="disabled" (nzScrollToBottom)="loadMore()" [formControl]="formControl"
+            [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode" nzAllowClear
+            [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate">
+            <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p[idKey]">
             </nz-option>
             <nz-option *ngIf="loadingMore" nzDisabled nzCustomContent>
                 <i nz-icon nzType="loading" class="loading-icon"></i> {{'loading.data'|translate}}
-              </nz-option>
+            </nz-option>
         </nz-select>
     </nz-form-control>
     <span *ngIf="infoText">
@@ -17,6 +24,20 @@
         <span> {{infoText}}</span>
     </span>
 </nz-form-item>
+
+<ng-template #notFoundTemplate>
+    {{'not.found'|translate}}
+</ng-template>
+
+<ng-template #renderTemplate>
+    <nz-divider style="margin: 5px 0;"></nz-divider>
+    <div style="text-align: center; padding: 5px;" class="container">
+        <a class="add-item" (click)="addItem()">
+            <i nz-icon nzType="plus"></i> {{'add.new'|translate}}
+        </a>
+    </div>
+</ng-template>
+
 <ng-template #errorTemplate let-control>
     {{control?.errors?.message}}
 </ng-template>

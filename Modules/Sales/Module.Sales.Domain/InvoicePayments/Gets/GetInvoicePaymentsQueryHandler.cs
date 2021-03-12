@@ -1,11 +1,8 @@
 ﻿using Msi.Mediator.Abstractions;
-using Module.Sales.Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using System;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
@@ -22,24 +19,25 @@ namespace Module.Sales.Domain.InvoicePayments
 
         public async Task<IEnumerable<InvoicePaymentDto>> Handle(GetInvoicePaymentsQuery request, CancellationToken cancellationToken)
         {
-            var results = _unitOfWork.GetRepository<InvoicePayment>()
-                .AsQueryable()
-                .Where(x => x.InvoiceId == request.InvoiceId)
-                .Select(x => new InvoicePaymentDto
-                {
-                    Id = x.Id,
-                    Amount = x.Payment.Amount,
-                    InvoiceId = x.InvoiceId,
-                    Memo = x.Payment.Memo,
-                    PaymentDate = x.Payment.PaymentDate,
-                    PaymentMethod = new Core.Domain.IdNameDto<Guid>
-                    {
-                        Id = x.PaymentId,
-                        Name = x.Payment.PaymentMethod.Name
-                    }
-                })
-                .ToList();
-            return await Task.FromResult(results);
+            //var results = _unitOfWork.GetRepository<InvoicePayment>()
+            //    .AsQueryable()
+            //    .Where(x => x.InvoiceId == request.InvoiceId)
+            //    .Select(x => new InvoicePaymentDto
+            //    {
+            //        Id = x.Id,
+            //        Amount = x.Payment.Amount,
+            //        InvoiceId = x.InvoiceId,
+            //        Memo = x.Payment.Memo,
+            //        PaymentDate = x.Payment.PaymentDate,
+            //        PaymentMethod = new Core.Domain.IdNameDto<Guid>
+            //        {
+            //            Id = x.PaymentId,
+            //            Name = x.Payment.PaymentMethod.Name
+            //        }
+            //    })
+            //    .ToList();
+            //return await Task.FromResult(results);
+            return null;
         }
     }
 }

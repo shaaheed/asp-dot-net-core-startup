@@ -1,5 +1,4 @@
 ﻿using Msi.Mediator.Abstractions;
-using Module.Users.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
@@ -19,18 +18,18 @@ namespace Module.Sales.Domain.Customers
 
         public async Task<long> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = await _unitOfWork.GetRepository<User>()
-                .FirstOrDefaultAsync(x => x.Id == request.Id);
-            if(customer != null)
-            {
-                customer.FirstName = request.Name;
-                customer.Email = request.Email;
-                customer.Mobile = request.Mobile;
-                customer.Contact = request.Contact;
-                var newEvent = new CustomerUpdatedEvent();
-                newEvent.GenerateType();
-                // customer.Append(newEvent);
-            }            
+            //var customer = await _unitOfWork.GetRepository<User>()
+            //    .FirstOrDefaultAsync(x => x.Id == request.Id);
+            //if(customer != null)
+            //{
+            //    customer.FirstName = request.Name;
+            //    customer.Email = request.Email;
+            //    customer.Mobile = request.Mobile;
+            //    customer.Contact = request.Contact;
+            //    var newEvent = new CustomerUpdatedEvent();
+            //    newEvent.GenerateType();
+            //    // customer.Append(newEvent);
+            //}            
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

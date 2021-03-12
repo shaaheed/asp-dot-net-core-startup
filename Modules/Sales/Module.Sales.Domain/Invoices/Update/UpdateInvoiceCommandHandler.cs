@@ -1,10 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
 using Module.Sales.Entities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Core;
 
 namespace Module.Sales.Domain.Invoices
 {
@@ -63,18 +63,18 @@ namespace Module.Sales.Domain.Invoices
             invoice.Calculate();
 
             invoice.AmountDue = 0;
-            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-                .Where(x => x.InvoiceId == invoice.Id)
-                .Select(x => x.Payment.Amount)
-                .Sum();
+            //var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
+            //    .Where(x => x.InvoiceId == invoice.Id)
+            //    .Select(x => x.Payment.Amount)
+            //    .Sum();
 
-            invoice.AddPayment(invoicePaymentAmount);
+            //invoice.AddPayment(invoicePaymentAmount);
             
-            if (invoicePaymentAmount > invoice.GrandTotal)
-            {
+            //if (invoicePaymentAmount > invoice.GrandTotal)
+            //{
                 // Over paid.
                 // TODO: Create credit note
-            }
+            //}
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

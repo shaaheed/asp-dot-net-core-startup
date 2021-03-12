@@ -10,7 +10,7 @@
                 {{'filter'|translate}}
             </button> -->
             <ng-container *ngFor="let b of config?.topRightButtons">
-                <button (click)="b.action()" nz-button class="btn-custom">
+                <button (click)="executeAction(b)" nz-button class="btn-custom">
                     <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
                     {{b.label|translate}}
                 </button>

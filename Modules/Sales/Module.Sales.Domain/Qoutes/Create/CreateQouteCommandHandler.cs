@@ -22,8 +22,8 @@ namespace Module.Sales.Domain.Qoutes
         public async Task<long> Handle(CreateQouteCommand request, CancellationToken cancellationToken)
         {
 
-            var qouteRepo = _unitOfWork.GetRepository<Qoute>();
-            var newQoute = new Qoute
+            var qouteRepo = _unitOfWork.GetRepository<Quote>();
+            var newQoute = new Quote
             {
                 Memo = request.Memo,
                 ExpiresOn = request.ExpiresOn,
@@ -44,14 +44,14 @@ namespace Module.Sales.Domain.Qoutes
                 Note = x.Note
             });
 
-            var qouteLineItemsRepo = _unitOfWork.GetRepository<QouteLineItem>();
-            var newQouteLineItems = newLineItems.Select(x => new QouteLineItem
+            var qouteLineItemsRepo = _unitOfWork.GetRepository<QuoteLineItem>();
+            var newQouteLineItems = newLineItems.Select(x => new QuoteLineItem
             {
-                Qoute = newQoute,
+                Quote = newQoute,
                 LineItem = x
             });
 
-            newQoute.QouteLineItems = newQouteLineItems.ToList();
+            newQoute.QuoteLineItems = newQouteLineItems.ToList();
             newQoute.Calculate();
 
             await qouteRepo.AddAsync(newQoute, cancellationToken);

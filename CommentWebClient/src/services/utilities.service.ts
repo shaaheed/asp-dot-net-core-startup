@@ -38,8 +38,7 @@ export function clean(o) {
 
 export function getLang() {
     const lang = environment.production ? 'bn' : 'bn'
-
-    return lang || localStorage.getItem('otms_lang');
+    return lang || localStorage.getItem('app_lang');
 }
 
 export function createAnchorAndFireForDownload(blob: Blob, fileName?: string) {
