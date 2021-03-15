@@ -6,8 +6,8 @@ import { AppInjector } from 'src/app/app.component';
 import { TableConfig } from './table.config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
-import { m } from 'src/constants/message';
 import { BaseComponent } from '../base.component';
+import { message } from 'src/constants/message';
 
 @Component({
   selector: 'app-table',
@@ -119,10 +119,10 @@ export class TableComponent extends BaseComponent {
     //const y = template instanceof TemplateRef;
     const deleteModal = this._modalService.confirm({
       // nzViewContainerRef: this.vcr,
-      nzTitle: this.instant(m.confirm),
-      nzContent: /*ModalFooterComponent, //*/ this.instant(m.do_you_want_to_delete),
-      nzOkText: this.instant(m.yes),
-      nzCancelText: this.instant(m.no),
+      nzTitle: this.instant(message.confirm),
+      nzContent: /*ModalFooterComponent, //*/ this.instant(message.do_you_want_to_delete),
+      nzOkText: this.instant(message.yes),
+      nzCancelText: this.instant(message.no),
       nzOkLoading: false,
       nzClosable: false,
       // nzFooter: template,
@@ -132,7 +132,7 @@ export class TableComponent extends BaseComponent {
         this.subscribe(this._httpService.delete(url),
           res => {
             // deleteModal.getInstance().nzOkLoading = false;
-            const text = this.instant(m.successfully_deleted);
+            const text = this.instant(message.successfully_deleted);
             this.success(text);
             this.invoke(this.onDeleted, res);
             //refresh data

@@ -33,6 +33,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { BaseHttpService } from 'src/services/http/base-http.service';
 import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
+import { ValidatorService } from 'src/services/validator.service';
 
 registerLocaleData(en);
 
@@ -91,6 +92,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IdentityService,
     BroadcastService,
     CacheService,
+    ValidatorService,
     { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

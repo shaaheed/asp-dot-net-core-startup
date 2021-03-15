@@ -436,6 +436,10 @@ textarea:focus {
     font-weight: 400;
 }
 
+.ant-select-item-empty {
+    color: rgba(0, 0, 0, 0.65);
+}
+
 .shadow-m {
     @include box-shadow-m;
 }

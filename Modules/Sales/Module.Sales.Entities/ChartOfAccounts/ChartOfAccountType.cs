@@ -8,7 +8,7 @@ namespace Module.Sales.Entities
         public string UseOf { get; set; }
 
         public Guid CategoryId { get; set; }
-        public ChartOfAccountCategory Category { get; set; }
+        public virtual ChartOfAccountCategory Category { get; set; }
 
     }
 }

@@ -256,7 +256,7 @@ namespace Msi.Data.Abstractions
             return lambda;
         }
 
-        public static async Task UpdateAsync<TEntity>(this IRepository<TEntity> repository, IEnumerable<long> inputs, Expression<Func<TEntity, bool>> searchAllIdPredicate, Expression<Func<TEntity, long>> allIdSelector, Func<long, TEntity> newEntitySelector, Func<IEnumerable<long>, Expression<Func<TEntity, bool>>> deletedEntityPredicate) where TEntity : BaseEntity
+        public static async Task UpdateAsync<TEntity, TKey>(this IRepository<TEntity> repository, IEnumerable<TKey> inputs, Expression<Func<TEntity, bool>> searchAllIdPredicate, Expression<Func<TEntity, TKey>> allIdSelector, Func<TKey, TEntity> newEntitySelector, Func<IEnumerable<TKey>, Expression<Func<TEntity, bool>>> deletedEntityPredicate) where TEntity : BaseEntity
         {
             var allQuery = repository
                 .AsReadOnly()

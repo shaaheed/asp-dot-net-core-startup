@@ -1,16 +1,9 @@
-import { Component, Input, forwardRef, Output, EventEmitter, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, Self } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
-  templateUrl: './input.component.html',
-  // providers: [
-  //   {
-  //     provide: NG_VALUE_ACCESSOR,
-  //     useExisting: forwardRef(() => InputComponent),
-  //     multi: true
-  //   }
-  // ]
+  templateUrl: './input.component.html'
 })
 export class InputComponent implements ControlValueAccessor {
 
@@ -19,12 +12,25 @@ export class InputComponent implements ControlValueAccessor {
   @Input() placeholder;
   @Output() onChange = new EventEmitter();
   @Input() mandatory: boolean = false;
-  @Input() disabled: boolean = false;
   @Input() beforeText: string;
   @Input() tooltip: string;
 
   private _value;
   private propagateChange = (_: any) => { };
+  private _disable = false;
+
+  @Input() set disable(value: boolean) {
+    const action = value ? 'disable' : 'enable';
+    if (this.ngControl?.control) {
+      this.ngControl.control[action]();
+    }
+    this._disable = value ?? false;
+  }
+
+  get disable(): boolean {
+    console.log(this.label, this._disable);
+    return this._disable;
+  }
 
   get value() {
     return this._value;
@@ -35,7 +41,7 @@ export class InputComponent implements ControlValueAccessor {
     this.propagateChange(this._value);
   }
 
-  constructor(@Self() public ngControl: NgControl) {
+  constructor(public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;
   }
 

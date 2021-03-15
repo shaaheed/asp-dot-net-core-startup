@@ -8,8 +8,7 @@
     </label>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
         <nz-input-group [nzAddOnBefore]="beforeText">
-            <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input
-                placeholder="{{placeholder|translate}}" />
+            <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input placeholder="{{placeholder|translate}}" />
         </nz-input-group>
     </nz-form-control>
 </nz-form-item>

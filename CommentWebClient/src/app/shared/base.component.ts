@@ -142,23 +142,26 @@ export class BaseComponent {
     setValues(controls, res, ignoreControls = []) {
         for (const key in res) {
             if (!ignoreControls.includes(key) && res.hasOwnProperty(key)) {
-                const control = controls[key];
-                this.setControlValue(control, res[key]);
+                let control = controls[key];
+                const value = res[key];
+                if (!control && (Array.isArray(value) || this.isObject(value))) {
+                    const newKey = `${key}Id`;
+                    control = controls[newKey];
+                }
+                this.setControlValue(control, value);
             }
         }
     }
 
     setControlValue(control, value) {
         if (control) {
-            if (Array.isArray(value)) {
-                control.setValue(value.map(x => x.id));
-            }
-            else if (typeof (value) === 'object') {
-                control.setValue(value?.id);
-            }
-            else {
-                control.setValue(value);
-            }
+            // if (!Array.isArray(value) && ) {
+            //     control.setValue(value.map(x => x.id));
+            // }
+            // else if (this.isObject(value)) {
+            //     control.setValue(value?.id);
+            // }
+            control.setValue(value);
         }
     }
 
@@ -253,6 +256,10 @@ export class BaseComponent {
     ngOnDestroy() {
         this.unsubscribe();
         this.busy(false);
+    }
+
+    private isObject(value) : boolean {
+        return typeof(value) === "object";
     }
 
 }

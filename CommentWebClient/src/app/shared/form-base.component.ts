@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
 import { NzModalComponent } from 'ng-zorro-antd/modal';
-import { m } from 'src/constants/message';
 import { environment } from 'src/environments/environment';
+import { message } from 'src/constants/message';
 
 export class FormBaseComponent extends BaseComponent {
 
@@ -148,7 +148,7 @@ export class FormBaseComponent extends BaseComponent {
                 request: this._httpService.post(this.url, body),
                 succeed: res => {
                     this.cancel();
-                    this.success(m.successfully_created);
+                    this.success(message.successfully_created);
                 }
             });
         }
@@ -158,7 +158,7 @@ export class FormBaseComponent extends BaseComponent {
                 request: this._httpService.put(_url, body),
                 succeed: res => {
                     this.cancel();
-                    this.success(m.successfully_updated);
+                    this.success(message.successfully_updated);
                 }
             });
         }

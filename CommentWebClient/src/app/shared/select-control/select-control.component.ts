@@ -46,6 +46,8 @@ export class SelectControlComponent implements ControlValueAccessor {
 
   private loadingMoreCallCount = 0;
   private lastLoadingMoreFetchItems = [];
+  private openCount = 0;
+  private fetchCalled = false;
 
   get value() {
     return this._value;
@@ -56,16 +58,36 @@ export class SelectControlComponent implements ControlValueAccessor {
     this.propagateChange(this._value);
   }
 
-  constructor() {
-  }
-
   ngOnInit() {
     this.lastLoadingMoreFetchItems = [];
     this.loadingMoreCallCount = 0;
   }
 
-  writeValue(value: any) {
-    this._value = value;
+  writeValue(val: any) {
+    if (val) {
+      if (Array.isArray(val)) {
+        this.value = val.map(x => x[this.idKey]);
+        const items = val.map(x => {
+          return {
+            [this.idKey]: x[this.idKey],
+            [this.labelKey]: x[this.labelKey]
+          };
+        });
+        this.items = items;
+      }
+      else if (typeof (val) === "object") {
+        this.value = val[this.idKey];
+        const obj = {
+          [this.idKey]: val[this.idKey],
+          [this.labelKey]: val[this.labelKey]
+        };
+        const items = [obj];
+        this.items = items;
+      }
+      else {
+        this._value = val;
+      }
+    }
   }
 
   registerOnChange(fn) {
@@ -83,24 +105,26 @@ export class SelectControlComponent implements ControlValueAccessor {
 
   fetch(search?: string, clearOnFetch = false) {
     if (this.fetchFn) {
+      this.fetchCalled = true;
       this.busy(true);
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
           this.loading = false;
           this.loadingMore = false;
-          const items = res.data.items || [];
+          let items: any[] = res.data.items || [];
           this.lastLoadingMoreFetchItems = items;
           if (clearOnFetch) {
             this.items = [];
           }
-          const _items = [...this.items, ...items];
+          const filtered = items.filter(x => !this.items.find(y => y[this.idKey] == x[this.idKey]));
+          const _items = [...this.items, ...filtered];
           setTimeout(() => {
             this.items = _items
           }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
-            this._value = this.items[0].id;
+            this._value = this.items[0][this.idKey];
             this.formControl.setValue(this._value);
           }
           if (this._onLoadCompleted) {
@@ -130,7 +154,6 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   onValueChange(e) {
-    this._value = e;
     if (this.onChange) {
       this.onChange.emit(e);
     }
@@ -171,7 +194,15 @@ export class SelectControlComponent implements ControlValueAccessor {
   }
 
   addItem() {
-    
+
+  }
+
+  onOpenChange(e) {
+    if (!this.fetchCalled && this.openCount <= 0) {
+      this.fetch();
+    }
+    this.openCount++;
+    console.log('openChange', this.openCount);
   }
 
   ngOnDestroy() {
@@ -183,7 +214,7 @@ export class SelectControlComponent implements ControlValueAccessor {
   private infoPromise(e) {
     if (this.info && this.items && this.items.length) {
       const item = this.items.find(x => x.id == e);
-      if(item) {
+      if (item) {
         Promise.resolve(this.info(item)).then(x => {
           this.infoText = x || '';
         });
@@ -196,6 +227,5 @@ export class SelectControlComponent implements ControlValueAccessor {
       this.loading = value
     }, 0);
   }
-
 
 }

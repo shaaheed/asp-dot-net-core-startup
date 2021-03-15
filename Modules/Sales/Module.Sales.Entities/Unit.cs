@@ -7,7 +7,7 @@ namespace Module.Sales.Entities
     public class Unit : CodeNameEntity
     {
         public string Symbol { get; set; }
-        public float Description { get; set; }
+        public string Description { get; set; }
         public Guid TypeId { get; set; }
         public UnitType Type { get; set; }
     }

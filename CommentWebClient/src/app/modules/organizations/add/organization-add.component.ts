@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
-import { m } from 'src/constants/message';
+import { message } from 'src/constants/message';
 
 @Component({
   selector: 'app-organization-add',
@@ -34,10 +34,10 @@ export class OrganizationAddComponent extends FormComponent {
 
   customerNameValidator(control: FormControl) {
     if (!control.value) {
-      return this.error(m.please_give_a_name);
+      return this.error(message.please_give_a_name);
     }
     else if (control.value.length < 3) {
-      return this.error(m.must_be_greater_than_x0_letters, { x0: 3 });
+      return this.error(message.must_be_greater_than_x0_letters, { x0: 3 });
     }
     return of(true);
   }

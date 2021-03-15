@@ -11,7 +11,7 @@
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
         <nz-select [nzDisabled]="disabled" (nzScrollToBottom)="loadMore()" [formControl]="formControl"
             [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode" nzAllowClear
-            [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate">
+            [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate" (nzOpenChange)="onOpenChange($event)">
             <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p[idKey]">
             </nz-option>
             <nz-option *ngIf="loadingMore" nzDisabled nzCustomContent>
@@ -26,14 +26,14 @@
 </nz-form-item>
 
 <ng-template #notFoundTemplate>
-    {{'not.found'|translate}}
+    {{ 'x0.not.found'|translate:{x0: label|translate} }}
 </ng-template>
 
 <ng-template #renderTemplate>
     <nz-divider style="margin: 5px 0;"></nz-divider>
-    <div style="text-align: center; padding: 5px;" class="container">
+    <div style="padding: 5px;" class="container">
         <a class="add-item" (click)="addItem()">
-            <i nz-icon nzType="plus"></i> {{'add.new'|translate}}
+            <i nz-icon nzType="plus"></i> {{ 'add.new.x0'|translate:{x0: label|translate|lowercase} }}
         </a>
     </div>
 </ng-template>

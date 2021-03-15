@@ -9,11 +9,8 @@ namespace Module.Sales.Entities
         public bool IsEditable { get; set; }
         public bool IsDeletable { get; set; }
 
-        public Guid CategoryId { get; set; }
-        public ChartOfAccountCategory Category { get; set; }
-
         public Guid TypeId { get; set; }
-        public ChartOfAccountType Type { get; set; }
+        public virtual ChartOfAccountType Type { get; set; }
 
     }
 }
