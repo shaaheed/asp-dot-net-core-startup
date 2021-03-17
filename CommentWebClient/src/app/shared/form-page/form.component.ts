@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ValidatorService } from 'src/services/validator.service';
 import { FormComponent } from '../form.component';
 import { ControlConfig } from './control.config';
 import { FormPageConfig } from './form.config';
@@ -13,7 +14,8 @@ export class FormPageComponent extends FormComponent {
   @Input() config: FormPageConfig;
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private validatorService: ValidatorService
   ) {
     super();
   }
@@ -25,6 +27,7 @@ export class FormPageComponent extends FormComponent {
       if (this.config) {
         this.apiUrl = this.config.apiUrl;
         this.objectName = this.config.objectName;
+        this.cancelRoute = this.config.cancelRoute;
         const _form = {};
         if (this.config.rows?.length
           && this.config.rows[0].columns?.length
@@ -49,7 +52,8 @@ export class FormPageComponent extends FormComponent {
   private addControlsToForm(form: {}, controls?: ControlConfig[]) {
     if (controls?.length) {
       this.config.controls.forEach(control => {
-        form[control.name] = [];
+        const options = control.buildOptions ? control.buildOptions(this.validatorService) : [];
+        form[control.name] = options;
       });
     }
   }

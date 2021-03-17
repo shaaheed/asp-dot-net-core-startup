@@ -1,40 +1,23 @@
-import { Component, Input, forwardRef, Output, EventEmitter } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ControlComponent } from '../control.component';
 
 @Component({
   selector: 'app-select-control',
-  templateUrl: './select-control.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectControlComponent),
-      multi: true
-    }
-  ]
+  templateUrl: './select-control.component.html'
 })
-export class SelectControlComponent implements ControlValueAccessor {
+export class SelectControlComponent extends ControlComponent {
 
-  @Input() label;
-  @Input() formControl: FormControl;
-  @Output() onChange = new EventEmitter();
   @Input() labelKey = 'name';
   @Input() idKey = 'id';
-  @Input() mandatory: boolean = false;
-  @Input() disabled: boolean = false;
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
-  @Input() name: any = '';
-  @Input() tooltip: string;
 
   infoText: string = '';
 
   loading: boolean = false;
   loadingMore: boolean = false;
   items = [];
-
-  private _value;
-  private propagateChange = (_: any) => { };
 
   private total: number = 0;
   private offset: number = 0;
@@ -49,18 +32,10 @@ export class SelectControlComponent implements ControlValueAccessor {
   private openCount = 0;
   private fetchCalled = false;
 
-  get value() {
-    return this._value;
-  }
-
-  set value(value) {
-    this._value = value;
-    this.propagateChange(this._value);
-  }
-
   ngOnInit() {
     this.lastLoadingMoreFetchItems = [];
     this.loadingMoreCallCount = 0;
+    super.ngOnInit();
   }
 
   writeValue(val: any) {
@@ -85,17 +60,9 @@ export class SelectControlComponent implements ControlValueAccessor {
         this.items = items;
       }
       else {
-        this._value = val;
+        this.value = val;
       }
     }
-  }
-
-  registerOnChange(fn) {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched() {
-
   }
 
   register(fn: (pagination: string, search?: string) => Observable<Object>) {
@@ -124,8 +91,7 @@ export class SelectControlComponent implements ControlValueAccessor {
           }, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
-            this._value = this.items[0][this.idKey];
-            this.formControl.setValue(this._value);
+            this.value = this.items[0][this.idKey];
           }
           if (this._onLoadCompleted) {
             this._onLoadCompleted(_items);
@@ -162,12 +128,6 @@ export class SelectControlComponent implements ControlValueAccessor {
 
   onLoadCompleted(fn: (items?: any[]) => void) {
     this._onLoadCompleted = fn;
-    return this;
-  }
-
-  setValue(value) {
-    this._value = value;
-    this.formControl.setValue(this._value);
     return this;
   }
 

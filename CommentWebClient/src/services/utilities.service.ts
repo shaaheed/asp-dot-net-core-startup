@@ -91,12 +91,14 @@ export function toBengali(obj, t: TranslateService) {
     }
     return obj;
 }
+
 export function ignoreKeys() {
     return [
         "id", "offset", "limit", "eBook", "categoryId"
     ];
 
 }
+
 export function convertPropertyToBengali(obj, key, t: TranslateService) {
     if (!ignoreKeys().includes(key)) {
         if (typeof (obj[key]) == "number" || /^\d+$/.test(obj[key])) {
@@ -147,6 +149,7 @@ export function convertValueToEnglish(value: any) {
     }
     return EnglishNumber;
 }
+
 export function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }

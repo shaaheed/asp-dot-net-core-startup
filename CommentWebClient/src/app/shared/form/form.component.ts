@@ -5,7 +5,7 @@ import { FormComponent } from '../form.component';
   selector: 'app-form',
   templateUrl: './form.component.html',
 })
-export class AppFormComponent extends FormComponent {
+export class AppFormComponent {
 
   @Input() component: FormComponent;
   @Input() content: TemplateRef<any>;

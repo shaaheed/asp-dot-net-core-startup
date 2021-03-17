@@ -1,22 +1,30 @@
+import { ValidatorService } from "src/services/validator.service";
+import { ControlComponent } from "../control.component";
+
 export interface InputConfig extends ControlConfig {
-    type: string;
-    suffix: string;
-    prefix: string;
+    type?: string;
+    suffix?: string;
+    prefix?: string;
+}
+
+export interface CheckboxConfig extends ControlConfig {
+    info?: string;
 }
 
 export interface ControlConfig {
     name: string;
     controlType: ControlType;
     label: string;
-    placeholder: string;
-    onChange: (value: any) => void;
-    mandatory: boolean;
-    tooltip: string;
-    validations: []
+    placeholder?: string;
+    onChange?: (value: any) => void;
+    mandatory?: boolean;
+    tooltip?: string;
+    buildOptions?: (validationService: ValidatorService) => any;
+    controlAccessor?: (control: ControlComponent) => void;
 }
 
 export enum ControlType {
-    Input = 'name',
+    Input = 'input',
     Text = 'text',
     SingleSelect = 'select',
     MultiSelect = 'multi_select',

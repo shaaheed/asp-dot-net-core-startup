@@ -8,6 +8,9 @@ import { FormPageComponent } from './form.component';
 import { InputModule } from '../input/input.module';
 import { TextModule } from '../text/text.module';
 import { FormPageRoutingModule } from './form-routing.module';
+import { CheckboxModule } from '../checkbox/checkbox.module';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { SelectControlModule } from '../select-control/select-control.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { FormPageRoutingModule } from './form-routing.module';
     ReactiveFormsModule,
     SaveCancelButtonModule,
     InputModule,
-    TextModule
+    TextModule,
+    CheckboxModule,
+    SelectControlModule,
+    NzButtonModule
   ],
   exports: [FormPageComponent]
 })

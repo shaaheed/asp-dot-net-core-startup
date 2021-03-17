@@ -7,10 +7,10 @@ export interface ListPageConfig extends TableConfig {
 export interface TableColumnConfig {
     type?: string;
     title: string;
-    propertyName: string;
+    propertyName?: string;
     thClass?: string;
     tdClass?: string;
-    hasToolTip: boolean;
+    hasToolTip?: boolean;
     getCellData?: (data?: any) => string;
     getCellToolTipData?: (data?: any) => string;
 }

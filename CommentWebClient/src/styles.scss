@@ -417,6 +417,16 @@ nz-table tr:hover {
     }
 }
 
+.form-footer {
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
+    padding: 15px 44px;
+    width: 100%;
+    background: #fff;
+    margin-left: 1px;
+}
+
 input[nz-input]:hover,
 input[nz-input]:focus,
 nz-picker input:hover,

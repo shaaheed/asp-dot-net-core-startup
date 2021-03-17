@@ -27,6 +27,10 @@ export class BaseComponent {
 
     protected _activatedRouteSnapshot: ActivatedRouteSnapshot
 
+    get http(): HttpService {
+        return this._httpService;
+    }
+
     constructor() {
         this._subscriptions = [];
         this._messageService = AppInjector.get(NzMessageService);

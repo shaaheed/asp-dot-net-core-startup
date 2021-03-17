@@ -9,7 +9,7 @@
         </label>
     </div>
     <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-        <nz-select [nzDisabled]="disabled" (nzScrollToBottom)="loadMore()" [formControl]="formControl"
+        <nz-select [formControl]="ngControl.control" [nzDisabled]="disable" (nzScrollToBottom)="loadMore()" 
             [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode" nzAllowClear
             [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate" (nzOpenChange)="onOpenChange($event)">
             <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p[idKey]">
