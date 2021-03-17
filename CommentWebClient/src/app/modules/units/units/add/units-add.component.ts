@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { of } from 'rxjs';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
@@ -13,10 +12,9 @@ export class UnitsAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'units';
+  apiUrl = 'units';
   cancelRoute = 'units';
-  addTitle = 'create.a.x0|{"x0":"unit"}';
-  editTitle = 'update.a.x0|{"x0":"unit"}';
+  objectName = "unit";
 
   @ViewChild('typeSelect') typeSelect: SelectControlComponent;
 
@@ -45,10 +43,8 @@ export class UnitsAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
-
     this.typeSelect.register((pagination, search) => {
       return this._httpService.get('units/types');
-    }).fetch();
-
+    });
   }
 }

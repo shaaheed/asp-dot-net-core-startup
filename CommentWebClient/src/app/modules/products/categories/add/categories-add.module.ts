@@ -8,6 +8,7 @@ import { CategoriesAddRoutingModule } from './categories-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SaveCancelButtonModule } from 'src/app/shared/save-cancel-button/save-cancel-button.module';
 import { InputModule } from 'src/app/shared/input/input.module';
+import { AppFormModule } from 'src/app/shared/form/form.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { InputModule } from 'src/app/shared/input/input.module';
     ReactiveFormsModule,
     SaveCancelButtonModule,
     InputModule,
+    AppFormModule
   ],
   exports: [CategoriesAddComponent]
 })

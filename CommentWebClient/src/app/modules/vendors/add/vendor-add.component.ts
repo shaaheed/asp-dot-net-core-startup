@@ -12,7 +12,7 @@ export class VendorAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = "vendors";
+  apiUrl = "vendors";
   cancelRoute = "vendors";
 
   constructor(

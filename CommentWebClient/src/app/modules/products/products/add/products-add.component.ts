@@ -12,10 +12,9 @@ export class ProductsAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'products';
+  apiUrl = 'products';
   cancelRoute = 'products';
-  addTitle = 'create.a.x0|{"x0":"product"}';
-  editTitle = 'update.a.x0|{"x0":"product"}';
+  objectName = "product";
 
   @ViewChild('salesUnitSelect') salesUnitSelect: SelectControlComponent;
   @ViewChild('salesTaxSelect') salesTaxSelect: SelectControlComponent;
@@ -70,19 +69,23 @@ export class ProductsAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
+    this.categoriesSelect.register((pagination, search) => {
+      return this._httpService.get('products/categories');
+    });
 
     this.salesUnitSelect.register((pagination, search) => {
       return this._httpService.get('units');
+    });
+    this.salesTaxSelect.register((pagination, search) => {
+      return this._httpService.get('taxes');
     });
 
     this.purchaseUnitSelect.register((pagination, search) => {
       return this._httpService.get('units');
     });
-
-    this.categoriesSelect.register((pagination, search) => {
-      return this._httpService.get('products/categories');
+    this.purchaseTaxSelect.register((pagination, search) => {
+      return this._httpService.get('taxes');
     });
-
   }
 
 }

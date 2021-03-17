@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Module.Sales.Entities;
 
-namespace Module.Sales.Domain.Products
+namespace Module.Sales.Domain.Units
 {
     public class UpdateUnitTypeCommandHandler : ICommandHandler<UpdateUnitTypeCommand, long>
     {

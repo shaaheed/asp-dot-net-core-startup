@@ -3,7 +3,7 @@ using Msi.Data.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Sales.Domain.Products
+namespace Module.Sales.Domain.Units
 {
     public class UpdateUnitCommandHandler : ICommandHandler<UpdateUnitCommand, long>
     {

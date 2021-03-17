@@ -14,4 +14,8 @@ export class FormComponent extends FormBaseComponent {
         this.init();
     }
 
+    get self() {
+        return this;
+    }
+
 }

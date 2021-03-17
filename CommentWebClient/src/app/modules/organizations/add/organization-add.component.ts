@@ -13,7 +13,7 @@ export class OrganizationAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = "organizations";
+  apiUrl = "organizations";
   cancelRoute = "organizations";
 
   constructor(

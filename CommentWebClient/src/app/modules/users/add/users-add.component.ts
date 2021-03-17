@@ -10,7 +10,7 @@ export class UsersAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'users';
+  apiUrl = 'users';
   cancelRoute = 'users';
   addTitle = 'create.a.x0|{"x0":"user"}';
   editTitle = 'update.a.x0|{"x0":"user"}';

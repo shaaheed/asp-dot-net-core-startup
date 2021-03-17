@@ -1,0 +1,33 @@
+<ng-container *ngIf="config">
+    <app-box-loader *ngIf="loading"></app-box-loader>
+    <div class="box no-shadow" style="margin-top: 0;" [style.display]="loading ? 'none' : ''">
+        <div class="block page-header">
+            <div class="column">
+                <h1 class="no-margin">
+                    <span>{{ title }}</span>
+                </h1>
+            </div>
+            <div class="column">
+            </div>
+        </div>
+        <div class="block pad-t-20">
+            <div class="content">
+                <ng-container *ngIf="config">
+                    <form [formGroup]="form">
+                        <ng-container *ngFor="let r of config.rows">
+                            <ng-container *ngFor="let col of r.columns">
+                                <ng-container *ngFor="let c of col.controls">
+                                    {{ c.controlType }}
+                                    <app-input [label]="c.label" [formControlName]="c.name"></app-input>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </form>
+                </ng-container>
+                <app-save-cancel-button [submitButtonText]="submitButtonText"
+                    [submitting]="submitting" (onSubmit)="submit()" (onCancel)="cancel()">
+                </app-save-cancel-button>
+            </div>
+        </div>
+    </div>
+</ng-container>

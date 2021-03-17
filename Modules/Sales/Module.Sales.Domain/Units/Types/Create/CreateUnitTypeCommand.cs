@@ -1,4 +1,4 @@
-﻿namespace Module.Sales.Domain.Products
+﻿namespace Module.Sales.Domain.Units
 {
     public class CreateUnitTypeCommand : UpdateUnitTypeCommand
     {

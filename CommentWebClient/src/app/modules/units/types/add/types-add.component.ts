@@ -11,10 +11,9 @@ export class UnitTypesAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'units/types';
+  apiUrl = 'units/types';
   cancelRoute = 'units/types';
-  addTitle = 'create.a.x0|{"x0":"unit.type"}';
-  editTitle = 'update.a.x0|{"x0":"unit.type"}';
+  objectName = "unit.type";
 
   constructor(
     private activatedRoute: ActivatedRoute,

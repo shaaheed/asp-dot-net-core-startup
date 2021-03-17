@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
 
-namespace Module.Sales.Domain.Products
+namespace Module.Sales.Domain.Units
 {
     public class DeleteUnitCommandHandler : ICommandHandler<DeleteUnitCommand, long>
     {

@@ -155,12 +155,6 @@ export class BaseComponent {
 
     setControlValue(control, value) {
         if (control) {
-            // if (!Array.isArray(value) && ) {
-            //     control.setValue(value.map(x => x.id));
-            // }
-            // else if (this.isObject(value)) {
-            //     control.setValue(value?.id);
-            // }
             control.setValue(value);
         }
     }
@@ -218,7 +212,7 @@ export class BaseComponent {
     }
 
     buildBreadcrumbs() {
-        let parent = this._activatedRouteSnapshot.parent;
+        let parent = this._activatedRouteSnapshot?.parent;
         let arr = [];
         let moduleBreadcrumb = null
         while (parent) {

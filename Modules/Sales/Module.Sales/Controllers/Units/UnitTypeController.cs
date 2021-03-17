@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Msi.Web;
-using Module.Sales.Domain.Products;
 using System;
+using Module.Sales.Domain.Units;
 
 namespace Module.Sales.Controllers
 {

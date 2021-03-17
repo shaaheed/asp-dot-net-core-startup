@@ -1,23 +1,22 @@
-<app-box-loader *ngIf="loading"></app-box-loader>
-<div class="box no-shadow" style="margin-top: 0;" *ngIf="!loading">
-    <div class="block page-header">
-        <div class="column">
-            <h1 class="no-margin">
-                <span>{{ title }}</span>
-            </h1>
+<ng-container *ngIf="component">
+    <app-box-loader *ngIf="component.loading"></app-box-loader>
+    <div class="box no-shadow" style="margin-top: 0;" [style.display]="component.loading ? 'none' : ''">
+        <div class="block page-header">
+            <div class="column">
+                <h1 class="no-margin">
+                    <span>{{ component.title }}</span>
+                </h1>
+            </div>
+            <div class="column">
+            </div>
         </div>
-        <div class="column">
-        </div>
-    </div>
-    <div class="block pad-t-20">
-        <div class="content">
-            <form nz-form [formGroup]="form">
-                <app-input label="name" formControlName="firstName" placeholder="name"></app-input>
-                <app-input label="email" type="email" formControlName="email" placeholder="email"></app-input>
-                <app-input label="mobile" formControlName="mobile" placeholder="mobile"></app-input>
-                <app-save-cancel-button [submitButtonText]="submitButtonText" [submitting]="submitting" (onSubmit)="submit()" (onCancel)="cancel()">
+        <div class="block pad-t-20">
+            <div class="content">
+                <ng-container *ngTemplateOutlet="content"></ng-container>
+                <app-save-cancel-button [submitButtonText]="component.submitButtonText"
+                    [submitting]="component.submitting" (onSubmit)="component.submit()" (onCancel)="component.cancel()">
                 </app-save-cancel-button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</ng-container>

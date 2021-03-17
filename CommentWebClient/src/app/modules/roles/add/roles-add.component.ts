@@ -10,7 +10,7 @@ export class RolesAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'roles';
+  apiUrl = 'roles';
   cancelRoute = 'roles';
 
   constructor(

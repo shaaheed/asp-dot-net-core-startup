@@ -11,10 +11,9 @@ export class CategoriesAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  url = 'products/categories';
+  apiUrl = 'products/categories';
   cancelRoute = 'products/categories';
-  addTitle = 'create.a.x0|{"x0":"product.category"}';
-  editTitle = 'update.a.x0|{"x0":"product.category"}';
+  objectName = "product.category";
 
   constructor(
     private activatedRoute: ActivatedRoute,

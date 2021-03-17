@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { FormComponent as Form } from '../form.component';
-import { ControlConfig } from './control.config';
+import { Component, Input, TemplateRef } from '@angular/core';
+import { FormComponent } from '../form.component';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
 })
-export class FormComponent extends Form {
+export class AppFormComponent extends FormComponent {
 
-  controls: ControlConfig[];
+  @Input() component: FormComponent;
+  @Input() content: TemplateRef<any>;
 
 }

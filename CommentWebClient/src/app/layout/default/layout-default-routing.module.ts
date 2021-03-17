@@ -9,6 +9,7 @@ import { PRODUCT_MODULE_CONFIG } from 'src/app/modules/products/products/product
 import { UNIT_MODULE_CONFIG } from 'src/app/modules/units/units/unit.module.config';
 import { UNIT_TYPE_MODULE_CONFIG } from 'src/app/modules/units/types/type.module.config';
 import { CATEGORY_MODULE_CONFIG } from 'src/app/modules/products/categories/category.module.config';
+import { TAX_MODULE_CONFIG } from 'src/app/modules/taxes/taxes/tax.module.config';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       ...CATEGORY_MODULE_CONFIG.ROUTES,
       ...UNIT_MODULE_CONFIG.ROUTES,
       ...UNIT_TYPE_MODULE_CONFIG.ROUTES,
+      ...TAX_MODULE_CONFIG.ROUTES,
       { path: 'customers', loadChildren: () => import('../../components/customers/customers.module').then(m => m.CustomersModule) },
       { path: 'vendors', loadChildren: () => import('../../modules/vendors/list/vendor-list.module').then(m => m.VendorListModule) },
       { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }

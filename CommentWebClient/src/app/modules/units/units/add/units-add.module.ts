@@ -10,6 +10,7 @@ import { SaveCancelButtonModule } from 'src/app/shared/save-cancel-button/save-c
 import { InputModule } from 'src/app/shared/input/input.module';
 import { TextModule } from 'src/app/shared/text/text.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { AppFormModule } from 'src/app/shared/form/form.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
     SaveCancelButtonModule,
     InputModule,
     TextModule,
-    SelectControlModule
+    SelectControlModule,
+    AppFormModule
   ],
   exports: [UnitsAddComponent]
 })

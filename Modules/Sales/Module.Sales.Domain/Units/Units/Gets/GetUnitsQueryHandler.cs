@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Utilities.Filter;
 
-namespace Module.Sales.Domain.Products
+namespace Module.Sales.Domain.Units
 {
     public class GetUnitsQueryHandler : IQueryHandler<GetUnitsQuery, PagedCollection<UnitListItemDto>>
     {

@@ -3,7 +3,7 @@ using Module.Core.Domain;
 using System;
 using System.Linq.Expressions;
 
-namespace Module.Sales.Domain.Products
+namespace Module.Sales.Domain.Units
 {
     public class UnitTypeDto : GuidCodeNameDto
     {

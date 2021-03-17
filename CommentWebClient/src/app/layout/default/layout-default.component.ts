@@ -95,6 +95,12 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             title: 'unit.types',
             route: '/units/types',
             fn: () => true,
+          },
+          {
+            level: 2,
+            title: 'taxes',
+            route: '/taxes',
+            fn: () => true,
           }
         ]
       }

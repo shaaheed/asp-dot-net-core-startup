@@ -1,27 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { getLang } from 'src/services/utilities.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { FormComponent } from './form.component';
+import { SaveCancelButtonModule } from '../save-cancel-button/save-cancel-button.module';
+import { SharedModule } from '../shared.module';
+import { AppFormComponent } from './form.component';
+import { InputModule } from '../input/input.module';
 
 @NgModule({
   declarations: [
-    FormComponent
+    AppFormComponent
   ],
   imports: [
     CommonModule,
-    NzInputModule,
+    SharedModule,
+    FormsModule,
     NzFormModule,
     ReactiveFormsModule,
-    TranslateModule
+    SaveCancelButtonModule,
+    InputModule
   ],
-  exports: [FormComponent]
+  exports: [AppFormComponent]
 })
-export class FormModule {
-  constructor(private translate: TranslateService) {
-    translate.use(getLang());
-  }
-}
+export class AppFormModule {}

@@ -6,20 +6,21 @@ import { forEachObj } from 'src/services/utilities.service';
 import { NzModalComponent } from 'ng-zorro-antd/modal';
 import { environment } from 'src/environments/environment';
 import { message } from 'src/constants/message';
+import { Directive, Input } from '@angular/core';
 
+@Directive()
 export class FormBaseComponent extends BaseComponent {
 
     mode: string = "none";
     submitButtonText: string = "";
-    form: FormGroup;
+    @Input() form: FormGroup;
     id: number;
     submitting: boolean = false;
     loading: boolean = false;
     title: string = "";
-    addTitle: string = "";
-    editTitle: string = "";
+    objectName: string = "";
 
-    url: string;
+    apiUrl: string;
     cancelRoute: string;
 
     onCheckMode: (id: number) => void;
@@ -92,7 +93,11 @@ export class FormBaseComponent extends BaseComponent {
     markModeAsAdd(): void {
         this.mode = FormBaseComponent.ADD;
         this.submitButtonText = 'create';
-        this.title = this.translateTitle(this.addTitle);
+        let _title = 'create.a.x0';
+        if (this.isObjectNameFirstLetterVowel()) {
+            _title = 'create.an.x0';
+        }
+        this.title = this._translate.instant(_title, { x0: this._translate.instant(this.objectName) });
     }
 
     isAddMode(): boolean {
@@ -106,7 +111,11 @@ export class FormBaseComponent extends BaseComponent {
     markModeAsEdit(): void {
         this.mode = FormBaseComponent.EDIT;
         this.submitButtonText = "update";
-        this.title = this.translateTitle(this.editTitle);
+        let _title = 'update.a.x0';
+        if (this.isObjectNameFirstLetterVowel()) {
+            _title = 'update.an.x0';
+        }
+        this.title = this._translate.instant(_title, { x0: this._translate.instant(this.objectName) });
     }
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {
@@ -143,17 +152,17 @@ export class FormBaseComponent extends BaseComponent {
 
     submit() {
         const body = this.constructObject(this.form.controls);
-        if (this.isAddMode() && this.url && body) {
+        if (this.isAddMode() && this.apiUrl && body) {
             this.create({
-                request: this._httpService.post(this.url, body),
+                request: this._httpService.post(this.apiUrl, body),
                 succeed: res => {
                     this.cancel();
                     this.success(message.successfully_created);
                 }
             });
         }
-        else if (this.isEditMode() && this.id && this.url && body) {
-            const _url = `${this.url}/${this.id}`;
+        else if (this.isEditMode() && this.id && this.apiUrl && body) {
+            const _url = `${this.apiUrl}/${this.id}`;
             this.update({
                 request: this._httpService.put(_url, body),
                 succeed: res => {
@@ -177,9 +186,9 @@ export class FormBaseComponent extends BaseComponent {
     }
 
     get() {
-        if (this.id && this.url) {
+        if (this.id && this.apiUrl) {
             this.loading = true;
-            const _url = `${this.url}/${this.id}`;
+            const _url = `${this.apiUrl}/${this.id}`;
             this.subscribe(this._httpService.get(_url),
                 (res: any) => {
                     this.setValues(this.form.controls, res.data);
@@ -246,18 +255,12 @@ export class FormBaseComponent extends BaseComponent {
         }
     }
 
-    translateTitle(title: string) {
-        if (title) {
-            const splitTitle = title.split('|');
-            let params = null;
-            if (splitTitle.length > 1) {
-                params = JSON.parse(splitTitle[1]);
-                forEachObj(params, (k, v) => {
-                    params[k] = this._translate.instant(v);
-                });
-            }
-            return this._translate.instant(splitTitle[0], params);
+    private isObjectNameFirstLetterVowel() {
+        if (this.objectName?.length) {
+            const firstLetter = this.objectName[0].toLowerCase()
+            return ['a', 'e', 'i', 'o', 'u'].includes(firstLetter);
         }
+        return false;
     }
 
 }

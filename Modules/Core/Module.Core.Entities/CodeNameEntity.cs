@@ -3,9 +3,8 @@
 namespace Module.Core.Entities
 {
     [IgnoredEntity]
-    public class CodeNameEntity : BaseEntity
+    public class CodeNameEntity : NameEntity
     {
-        public string Name { get; set; }
         public string Code { get; set; }
     }
 }
