@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modules\Core\Module.Core\Module.Core.csproj" />
     <ProjectReference Include="..\Modules\Organizations\Module.Organizations\Module.Organizations.csproj" />
     <ProjectReference Include="..\Modules\Permissions\Module.Permissions\Module.Permissions.csproj" />
     <ProjectReference Include="..\Modules\Sales\Module.Sales\Module.Sales.csproj" />
+    <ProjectReference Include="..\Modules\Systems\Module.Systems\Module.Systems.csproj" />
     <ProjectReference Include="..\Modules\Tokens\Module.Tokens\Module.Tokens.csproj" />
     <ProjectReference Include="..\Modules\Users\Module.Users\Module.Users.csproj" />
     <ProjectReference Include="..\Msi\Data\Msi.Data.EntityFrameworkCore.SqlServer\Msi.Data.EntityFrameworkCore.SqlServer.csproj" />

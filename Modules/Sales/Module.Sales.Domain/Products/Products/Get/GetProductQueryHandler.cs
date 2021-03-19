@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Sales.Entities;
 using System.Linq;
-using Module.Core.Domain;
+using Module.Systems.Domain;
 
 namespace Module.Sales.Domain.Products
 {

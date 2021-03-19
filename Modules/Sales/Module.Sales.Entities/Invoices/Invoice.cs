@@ -16,6 +16,7 @@ namespace Module.Sales.Entities
         public InvoiceStatus Status { get; set; }
 
         public Guid? CustomerId { get; set; }
+        public virtual Contact Customer { get; set; }
 
         /// <summary>
         /// Sum of all line items Subtotal
@@ -39,8 +40,8 @@ namespace Module.Sales.Entities
         public string Note { get; set; }
         public string Memo { get; set; }
 
-        //public long? ChartOfAccountId { get; set; }
-        //public ChartOfAccount ChartOfAccount { get; set; }
+        public Guid? AccountId { get; set; }
+        public ChartOfAccount Account { get; set; }
 
         public Guid? ConvertedFromQuoteId { get; set; }
         public virtual Quote ConvertedFromQuote { get; set; }

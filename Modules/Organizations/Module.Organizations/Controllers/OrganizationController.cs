@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Module.Core.Attributes;
+using Module.Systems.Attributes;
 using Module.Organizations.Domain;
 using System.Threading.Tasks;
 using System;

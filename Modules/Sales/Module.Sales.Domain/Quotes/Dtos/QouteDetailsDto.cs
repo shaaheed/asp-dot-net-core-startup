@@ -1,4 +1,4 @@
-﻿using Module.Core.Domain;
+﻿using Module.Systems.Domain;
 using Module.Sales.Domain.Customers;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Module.Sales.Entities;
-using Module.Core.Domain;
+using Module.Systems.Domain;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;

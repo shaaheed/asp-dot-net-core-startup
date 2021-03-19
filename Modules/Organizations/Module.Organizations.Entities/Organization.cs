@@ -1,5 +1,5 @@
 ﻿using Msi.Data.Entity;
-using Module.Core.Entities;
+using Module.Systems.Entities;
 using System;
 
 namespace Module.Organizations.Entities

@@ -1,4 +1,4 @@
-﻿using Module.Core.Entities;
+﻿using Module.Systems.Entities;
 using System;
 
 namespace Module.Sales.Entities

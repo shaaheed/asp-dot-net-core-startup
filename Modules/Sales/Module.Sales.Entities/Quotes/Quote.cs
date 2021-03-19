@@ -1,5 +1,5 @@
 ﻿using Msi.Data.Entity;
-using Module.Core.Entities;
+using Module.Systems.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +15,7 @@ namespace Module.Sales.Entities
         public string Code { get; set; }
 
         public Guid? CustomerId { get; set; }
+        public virtual Contact Customer { get; set; }
 
         /// <summary>
         /// Sum of all line items Subtotal

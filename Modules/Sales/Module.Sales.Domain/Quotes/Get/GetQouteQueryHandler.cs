@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Core.Domain;
+using Module.Systems.Domain;
 using System;
 
 namespace Module.Sales.Domain.Qoutes

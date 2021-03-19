@@ -1,4 +1,4 @@
-﻿using Module.Core.Domain;
+﻿using Module.Systems.Domain;
 using System;
 
 namespace Module.Sales.Domain.Invoices

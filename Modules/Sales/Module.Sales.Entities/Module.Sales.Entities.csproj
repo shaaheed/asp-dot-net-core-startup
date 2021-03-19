@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Entity\Msi.Data.Entity.csproj" />
-    <ProjectReference Include="..\..\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\..\Systems\Module.Systems.Entities\Module.Systems.Entities.csproj" />
   </ItemGroup>
 
 </Project>

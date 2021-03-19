@@ -1,10 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Module.Core.Attributes;
+using Module.Systems.Attributes;
 using Module.Permissions.Domain;
 using System.Threading.Tasks;
 using Msi.Web;
-using Module.Core;
+using Module.Systems;
 using static Module.Permissions.Shared.PermissionIds;
 
 namespace Module.Permissions

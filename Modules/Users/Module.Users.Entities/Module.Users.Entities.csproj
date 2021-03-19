@@ -10,8 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Module.Core.Entities\Module.Core.Entities.csproj" />
+    <ProjectReference Include="..\..\Core\Module.Core.Entities\Module.Systems.Entities.csproj" />
     <ProjectReference Include="..\..\Permissions\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\..\Systems\Module.Systems.Entities\Module.Systems.Entities.csproj" />
     <ProjectReference Include="..\..\Tokens\Module.Tokens.Entities\Module.Tokens.Entities.csproj" />
   </ItemGroup>
 
