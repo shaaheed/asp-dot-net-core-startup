@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ControlComponent } from '../control.component';
+import { AntControlComponent } from '../ant-control.component';
 
 @Component({
   selector: 'app-select-control',
   templateUrl: './select-control.component.html'
 })
-export class SelectControlComponent extends ControlComponent {
+export class SelectControlComponent extends AntControlComponent {
 
   @Input() labelKey = 'name';
   @Input() idKey = 'id';

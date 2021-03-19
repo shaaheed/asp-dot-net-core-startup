@@ -8,7 +8,7 @@
             </ng-container>
         </label>
     </div>
-    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+    <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
         <nz-select [formControl]="ngControl.control" [nzDisabled]="disable" (nzScrollToBottom)="loadMore()" 
             [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode" nzAllowClear
             [nzPlaceHolder]="'select.x0'|translate:{x0: label|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate" (nzOpenChange)="onOpenChange($event)">

@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
-    <ProjectReference Include="..\Module.Sales.Common\Module.Sales.Common.csproj" />
-    <ProjectReference Include="..\Module.Sales.Data\Module.Sales.Data.csproj" />
     <ProjectReference Include="..\Module.Sales.Domain\Modules.Sales.Domain.csproj" />
     <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
   </ItemGroup>

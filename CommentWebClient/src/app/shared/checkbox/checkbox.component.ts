@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { ControlComponent } from '../control.component';
+import { AntControlComponent } from '../ant-control.component';
 import { CheckboxConfig } from '../form-page/control.config';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html'
 })
-export class CheckboxComponent extends ControlComponent {
+export class CheckboxComponent extends AntControlComponent {
 
   @Input() info: string;
 

@@ -1,6 +1,5 @@
 import { Component, Input, NgModule, ChangeDetectionStrategy } from '@angular/core';
 import { SharedModule } from './shared.module';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -33,7 +32,6 @@ export class ViewComponent {
 @NgModule({
   imports: [
     SharedModule,
-    NgZorroAntdModule,
     CommonModule
   ],
   declarations: [

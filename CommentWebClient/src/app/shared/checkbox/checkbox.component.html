@@ -1,10 +1,10 @@
 <nz-form-item class="form-item">
-    <nz-form-control>
+    <nz-form-control #antFormControl>
         <label [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" nz-checkbox>
             {{label|translate}}
             <ng-container *ngIf="tooltip">
-                <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon nzType="question-circle"
-                    nzTheme="outline"></i>
+                <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
+                    nzType="question-circle" nzTheme="outline"></i>
             </ng-container>
             <ng-container *ngIf="info">
                 <br>
@@ -12,5 +12,4 @@
             </ng-container>
         </label>
     </nz-form-control>
-    <!-- *ngIf="tooltip" -->
 </nz-form-item>

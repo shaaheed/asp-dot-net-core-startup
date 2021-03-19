@@ -1,6 +1,6 @@
 <nz-form-item class="form-item">
     <label>{{label|translate}}</label>
-    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+    <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
         <textarea rows="4" (ngModelChange)="onValueChange($event)" [formControl]="ngControl.control" nz-input
             placeholder="{{placeholder|translate}}"></textarea>
     </nz-form-control>
