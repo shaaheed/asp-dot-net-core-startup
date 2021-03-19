@@ -8,6 +8,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
+import { NumberService } from 'src/services/number.service';
 
 @Component({
   selector: 'app-table',
@@ -41,6 +42,7 @@ export class TableComponent extends BaseComponent {
   listOfCurrentPageItems = [];
   rowItemDisabledFilterKey = "disabled";
   pageSizeOptions = [50, 100, 500];
+  bottomTitle: string;
 
   private _fn: (pagination: string, search: string) => Observable<Object>;
   private vcr: ViewContainerRef;
@@ -67,7 +69,8 @@ export class TableComponent extends BaseComponent {
 
   constructor(
     private router: Router,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    public numberService: NumberService
   ) {
     super();
     this.vcr = AppInjector.get(ViewContainerRef);
@@ -83,7 +86,8 @@ export class TableComponent extends BaseComponent {
         {
           action: () => this.add(),
           label: 'new',
-          icon: 'plus'
+          icon: 'plus',
+          type: 'primary'
         },
         {
           action: () => this.refresh(),

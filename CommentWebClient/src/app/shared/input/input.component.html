@@ -6,7 +6,7 @@
                 nzType="question-circle" nzTheme="outline"></i>
         </ng-container>
     </label>
-    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+    <nz-form-control #formControl [nzErrorTip]="errorTemplate">
         <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
             <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input placeholder="{{placeholder|translate}}" />
         </nz-input-group>

@@ -105,6 +105,8 @@
   "x0.minutes.ago": "{{x0}} minutes ago",
   "an.hour.ago": "an hour ago",
   "x0.hours.ago": "{{x0}} hours ago",
+  "a.week.ago": "a week ago",
+  "x0.week.ago": "{{x0}} week ago",
   "a.day.ago": "a day ago",
   "x0.days.ago": "{{x0}} days ago",
   "a.month.ago": "a month ago",

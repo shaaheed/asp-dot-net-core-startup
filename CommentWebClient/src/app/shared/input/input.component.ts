@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { NzFormControlComponent } from 'ng-zorro-antd/form';
 import { ControlComponent } from '../control.component';
 import { InputConfig } from '../form-page/control.config';
 
@@ -12,6 +13,8 @@ export class InputComponent extends ControlComponent {
   @Input() prefix: string;
   @Input() suffix: string;
 
+  @ViewChild('formControl', {static: true}) formControl: NzFormControlComponent;
+
   ngOnInit() {
     if (this.config) {
       const config = <InputConfig>this.config;
@@ -20,6 +23,11 @@ export class InputComponent extends ControlComponent {
       this.type = config.type;
     }
     super.ngOnInit();
+
+    if (this.mandatory) {
+      this.formControl.nzHasFeedback = true;
+    }
+    console.log('formControl', this.formControl);
   }
 
 }

@@ -34,6 +34,7 @@ import { BaseHttpService } from 'src/services/http/base-http.service';
 import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { ValidatorService } from 'src/services/validator.service';
+import { NumberService } from 'src/services/number.service';
 
 registerLocaleData(en);
 
@@ -93,6 +94,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BroadcastService,
     CacheService,
     ValidatorService,
+    NumberService,
     { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

@@ -1,38 +1,19 @@
 import { Routes } from '@angular/router';
-import { ControlType } from 'src/app/shared/form-page/control.config';
-import { text } from 'src/constants/text';
-import { createAddEditRoutes, createListPageCreatedColumn, createListPageRoute } from 'src/services/page.service';
-import { ValidatorService } from 'src/services/validator.service';
+import { Column } from 'src/services/column.service';
+import { Control } from 'src/services/control.service';
+import { Route } from 'src/services/route.service';
 
 const prefix = 'units/types';
 
 export const UNIT_TYPE_MODULE_CONFIG = {
     ROUTES: <Routes>[
-        createListPageRoute(prefix, {
+        Route.list(prefix, {
             pageTitle: 'unit.types',
-            tableColumns: [
-                {
-                    title: 'name',
-                    getCellData: data => data.name
-                },
-                createListPageCreatedColumn()
-            ]
+            tableColumns: Column.nameCreated()
         }),
-        ...createAddEditRoutes(prefix, {
+        ...Route.addEdit(prefix, {
             objectName: 'unit.type',
-            controls: [
-                {
-                    name: text.name,
-                    label: text.name,
-                    controlType: ControlType.Input,
-                    placeholder: text.name,
-                    buildOptions: (validator: ValidatorService) => {
-                        return [null, [], [
-                            validator.required()
-                        ]];
-                    }
-                }
-            ]
+            controls: [Control.namex()]
         })
     ]
 }

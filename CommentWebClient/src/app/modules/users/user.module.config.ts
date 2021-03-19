@@ -1,54 +1,30 @@
 import { Routes } from '@angular/router';
-import { AppInjector } from 'src/app/app.component';
-import { ListPageConfig } from 'src/app/shared/list/list.config';
-import { MomentPipe } from 'src/pipes/moment.pipe';
-import { TimeAgoPipe } from 'src/pipes/time-ago.pipe';
+import { Column } from 'src/services/column.service';
+import { Control } from 'src/services/control.service';
+import { Route } from 'src/services/route.service';
 
 const prefix = 'users';
+const email = 'email';
+const mobile = 'mobile';
+const name = 'name';
 
 export const USER_MODULE_CONFIG = {
     ROUTES: <Routes>[
-        {
-            path: prefix,
-            loadChildren: () => import('src/app/shared/list/list.module').then(m => m.ListModule),
-            data: {
-                pageData: <ListPageConfig>{
-                    pageTitle: prefix,
-                    fetchApiUrl: prefix,
-                    getDeleteApiUrl: data => `${prefix}/${data.id}`,
-                    createPageRoute: `${prefix}/create`,
-                    editPageRoute: data => `${prefix}/${data.id}/edit`,
-                    tableColumns: [
-                        {
-                            title: 'name',
-                            getCellData: data => data.firstName
-                        },
-                        {
-                            title: 'email',
-                            getCellData: data => data.email
-                        },
-                        {
-                            title: 'mobile',
-                            getCellData: data => data.mobile
-                        },
-                        {
-                            title: 'created',
-                            tdClass: 'fit-cell',
-                            hasToolTip: true,
-                            getCellToolTipData: data => AppInjector.get(MomentPipe).transform(data.createdAt),
-                            getCellData: data => AppInjector.get(TimeAgoPipe).transform(data.createdAt)
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            path: `${prefix}/create`,
-            loadChildren: () => import('./add/users-add.module').then(x => x.UsersAddModule)
-        },
-        {
-            path: `${prefix}/:id/edit`,
-            loadChildren: () => import('./add/users-add.module').then(x => x.UsersAddModule)
-        }
+        Route.list(prefix, {
+            tableColumns: [
+                Column.column(name, x => x.firstName),
+                Column.column(email, x => x.email),
+                Column.column(mobile, x => x.mobile),
+                Column.created()
+            ]
+        }),
+        ...Route.addEdit(prefix, {
+            objectName: 'user',
+            controls: [
+                Control.input('firstName', name, true),
+                Control.email(email, email, true),
+                Control.input(mobile, mobile, true),
+            ]
+        }),
     ]
 }

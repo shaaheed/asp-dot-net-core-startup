@@ -1,11 +1,19 @@
 import { Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy, NgModule } from "@angular/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { NumberService } from "src/services/number.service";
 @Pipe({
 	name: 'timeAgo',
 	pure: false
 })
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	private timer: number;
-	constructor(private changeDetectorRef: ChangeDetectorRef, private ngZone: NgZone) { }
+	constructor(
+		private changeDetectorRef: ChangeDetectorRef,
+		private ngZone: NgZone,
+		private translate: TranslateService,
+		private numberService: NumberService
+	) { }
+
 	transform(value: string) {
 		this.removeTimer();
 		if (!value)
@@ -30,38 +38,52 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 		if (Number.isNaN(seconds)) {
 			return '';
 		} else if (seconds <= 45) {
-			return 'a few seconds ago';
+			return this.translate.instant('a.few.seconds.ago');
 		} else if (seconds <= 90) {
-			return 'a minute ago';
+			return this.translate.instant('a.minute.ago');
 		} else if (minutes <= 45) {
-			return minutes + ' minutes ago';
+			const minutesStr = this.numberService.convert(minutes.toString());
+			return this.translate.instant('x0.minutes.ago', {x0: minutesStr});
 		} else if (minutes <= 90) {
-			return 'an hour ago';
+			return this.translate.instant('an.hour.ago');;
 		} else if (hours <= 22) {
-			return hours + ' hours ago';
+			const hoursStr = this.numberService.convert(hours.toString());
+			return this.translate.instant('x0.hours.ago', {x0: hoursStr});
 		} else if (hours <= 36) {
-			return 'a day ago';
-		} else if (days <= 25) {
-			return days + ' days ago';
+			return this.translate.instant('a.day.ago');
+		} else if (days <= 6) {
+			const daysStr = this.numberService.convert(days.toString());
+			return this.translate.instant('x0.days.ago', {x0: daysStr});
+		} else if (days <= 12) {
+			return this.translate.instant('a.week.ago');
+		} else if (days <= 27) {
+			const weeks = Math.floor(25/7);
+			const weeksStr = this.numberService.convert(weeks.toString());
+			return this.translate.instant('x0.week.ago', {x0: weeksStr});
 		} else if (days <= 45) {
-			return 'a month ago';
+			return this.translate.instant('a.month.ago');
 		} else if (days <= 345) {
-			return months + ' months ago';
+			const monthsStr = this.numberService.convert(months.toString());
+			return this.translate.instant('x0.months.ago', {x0: monthsStr});
 		} else if (days <= 545) {
-			return 'a year ago';
+			return this.translate.instant('a.year.ago');
 		} else { // (days > 545)
-			return years + ' years ago';
+			const yearsStr = this.numberService.convert(years.toString());
+			return this.translate.instant('x0.years.ago', {x0: yearsStr});
 		}
 	}
+
 	ngOnDestroy(): void {
 		this.removeTimer();
 	}
+
 	private removeTimer() {
 		if (this.timer) {
 			window.clearTimeout(this.timer);
 			this.timer = null;
 		}
 	}
+
 	private getSecondsUntilUpdate(seconds: number) {
 		let min = 60;
 		let hr = min * 60;
@@ -80,6 +102,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
 @NgModule({
 	declarations: [TimeAgoPipe],
+	imports: [TranslateModule],
 	exports: [TimeAgoPipe],
 	providers: [TimeAgoPipe]
 })
