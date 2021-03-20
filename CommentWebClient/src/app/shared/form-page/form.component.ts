@@ -28,6 +28,9 @@ export class FormPageComponent extends FormComponent {
         this.apiUrl = this.config.apiUrl;
         this.objectName = this.config.objectName;
         this.cancelRoute = this.config.cancelRoute;
+        if (this.config.onBeforeSubmit) {
+          this.onBeforeSubmit = this.config.onBeforeSubmit;
+        }
         const _form = {};
         if (this.config.rows?.length
           && this.config.rows[0].columns?.length

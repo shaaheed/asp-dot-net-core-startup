@@ -1,12 +1,7 @@
 ﻿using Msi.Mediator.Abstractions;
-using Module.Sales.Domain.Customers;
-using Module.Sales.Entities;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Systems.Domain;
-using System;
 
 namespace Module.Sales.Domain.Qoutes
 {

@@ -43,7 +43,7 @@
   "select.date": "তারিখ নির্বাচন করুন",
   "payment.due": "পরিশোধযোগ্য তারিখ",
   "select.customer": "ক্রেতা নির্বাচন করুন",
-  "choose.a.different.customer": "অন্য একজন ক্রেতা নির্বাচন করুন",
+  "choose.a.different.customer": "ক্রেতা পরিবর্তন করুন",
   "bill.to": "Bill to",
   "add.an.item": "একটি আইটেম যুক্ত করুন",
   "quantity": "পরিমাণ",
@@ -154,6 +154,7 @@
   "low.stock.alert": "নিম্ন স্টক সতর্কতা",
   "low.stock.alert.tooltip": "যখন পণ্যের পরিমাণ প্রদত্ত পরিমাণের চেয়ে কম হয় তখন সতর্ক বার্তা পান",
   "supplier": "সরবরাহকারী",
+  "suppliers": "সরবরাহকারী",
   "add.new": "নতুন যোগ করুন",
   "add.new.x0": "নতুন {{x0}} যোগ করুন",
   "account": "একাউন্ট",
@@ -163,5 +164,6 @@
   "equal.or.less.x0.letters": "এই ঘরের বর্ণ সংখ্যা {{x0}} এর সমান বা কম হতে হবে",
   "equal.or.greater.x0.letters": "এই ঘরের বর্ণ সংখ্যা {{x0}} এর সমান বা বেশি হতে হবে",
   "symbol": "প্রতীক",
-  "type": "ধরন"
+  "type": "ধরন",
+  "number": "নাম্বার"
 }

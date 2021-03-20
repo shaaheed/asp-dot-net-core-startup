@@ -1,9 +1,10 @@
-﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
+﻿using Msi.Domain.Abstractions;
+using Msi.Mediator.Abstractions;
+using Msi.Utilities.Filter;
 
 namespace Module.Sales.Domain.Contacts
 {
-    public class GetContactsQuery : IQuery<IEnumerable<ContactDto>>
+    public class GetContactsQuery : Query<PagedCollection<ContactListItemDto>>
     {
     }
 }

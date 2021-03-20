@@ -28,6 +28,7 @@ namespace Module.Sales.Domain.Contacts
             var entity = request.Map();
             entity.BillingAddressId = await CreateAddress(request.BillingAddress, cancellationToken);
             entity.ShippingAddressId = await CreateAddress(request.ShippingAddress, cancellationToken);
+            await repo.AddAsync(entity, cancellationToken);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result;

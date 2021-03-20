@@ -2,10 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { forEachObj, clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { InvoiceService } from '../services/invoice.service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
   selector: 'app-invoices-add',
@@ -17,6 +17,9 @@ export class InvoicesAddComponent extends FormComponent {
   mode: string = 'add';
   loading: boolean = true;
   noData: boolean = false;
+  apiUrl = 'invoices';
+  cancelRoute = 'invoices';
+  objectName = "invoice";
 
   selectDateText: string = 'select.date'
 
@@ -24,13 +27,12 @@ export class InvoicesAddComponent extends FormComponent {
 
   products: any[] = [];
   clickedOnAddAnItemButton: boolean = false;
-  @ViewChild('productSelect', { static: true }) productSelect: NzSelectComponent;
+  @ViewChild('productSelect') productSelect: SelectControlComponent;
 
   customers: any[] = [];
   selectedCustomer?: any = null;
   clickedOnSelectCustomerButton: boolean = false;
-  @ViewChild('customerSelect', { static: true }) customerSelect: NzSelectComponent;
-  selectCustomerPlaceholder: string = 'select.customer'
+  @ViewChild('customerSelect') customerSelect: SelectControlComponent;
 
   form: FormGroup;
   invoiceItemsFormArray: FormArray
@@ -47,7 +49,7 @@ export class InvoicesAddComponent extends FormComponent {
 
   ngOnInit(): void {
 
-    this.form = this.fb.group({
+    this.createForm({
       invoiceDate: [new Date(), [], this.invoiceDateValidator.bind(this)],
       paymentDue: [null, [], this.paymentDueValidator.bind(this)],
       customer: [],
@@ -83,6 +85,12 @@ export class InvoicesAddComponent extends FormComponent {
       }
     );
     super.ngOnInit(snapshot);
+  }
+
+  ngAfterViewInit() {
+    this.customerSelect.register((pagination, search) => {
+      return this._httpService.get('contacts?Search=Type eq 1');
+    });
   }
 
   submit() {
@@ -144,7 +152,7 @@ export class InvoicesAddComponent extends FormComponent {
   addAnItem() {
     this.clickedOnAddAnItemButton = true;
     setTimeout(() => {
-      this.productSelect.setOpenState(true);
+      // this.productSelect.setOpenState(true);
     }, 0);
   }
 
@@ -166,9 +174,7 @@ export class InvoicesAddComponent extends FormComponent {
 
   addCustomer() {
     this.clickedOnSelectCustomerButton = true;
-    setTimeout(() => {
-      this.customerSelect.setOpenState(true);
-    }, 0);
+    setTimeout(() => this.customerSelect.setOpenState(true), 0);
   }
 
   customerSelectOpenChange(e) {
@@ -178,7 +184,7 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   customerSelectOnChange(e) {
-    const customer = this.customers.filter(x => x.id == e)[0];
+    const customer = this.customerSelect.items.filter(x => x.id == e)[0];
     if (customer) {
       this.selectedCustomer = customer;
     }

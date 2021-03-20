@@ -1,4 +1,4 @@
-﻿using Module.Sales.Domain.Customers;
+﻿using Module.Sales.Domain.Contacts;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +8,7 @@ namespace Module.Sales.Domain.Bills
     {
         public Guid Id { get; set; }
         public string Status { get; set; }
-        public CustomerDto Vendor { get; set; }
+        public ContactDto Vendor { get; set; }
         public decimal AmountDue { get; set; }
         public decimal Total { get; set; }
         public DateTimeOffset IssueDate { get; set; }

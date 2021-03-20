@@ -26,7 +26,7 @@ export class NumberService {
                 converted.push(this.bnNumbers[ch])
             }
             if (converted.length) {
-                return converted.join();
+                return converted.join('');
             }
         }
         return number;

@@ -13,10 +13,22 @@
         <div class="block pad-t-20">
             <div class="content">
                 <ng-container *ngTemplateOutlet="content"></ng-container>
-                <app-save-cancel-button [submitButtonText]="component.submitButtonText"
-                    [submitting]="component.submitting" (onSubmit)="component.submit()" (onCancel)="component.cancel()">
-                </app-save-cancel-button>
             </div>
         </div>
+    </div>
+
+    <div class="form-footer" [style.display]="component.loading ? 'none' : ''">
+        <button [nzLoading]="component.submitting" (click)="component.submit()" nz-button class="btn-custom margin-right px10"
+            nzType="primary">
+            <span *ngIf="component.submitButtonText">
+                {{component.submitButtonText|translate}}
+            </span>
+            <span *ngIf="!component.submitButtonText">
+                {{'save'|translate}}
+            </span>
+        </button>
+        <button (click)="component.cancel()" nz-button class="btn-custom">
+            {{'cancel'|translate}}
+        </button>
     </div>
 </ng-container>

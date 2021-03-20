@@ -1,4 +1,172 @@
-<app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
+<app-form [content]="content" [component]="self">
+    <ng-template #content>
+        <form nz-form [formGroup]="form">
+            <div class="block pad-t-20 pad-b-10 box-divider">
+                <div class="content">
+                    <div class="invoice-head">
+                        <div class="left">
+                            <div [ngStyle]="{'display': selectedCustomer && !clickedOnSelectCustomerButton ? 'none' : 'flex'}">
+                                <i nz-icon nzType="user" nzTheme="outline"></i>
+                                <div class="select-customer-container">
+                                    <div *ngIf="!clickedOnSelectCustomerButton" class="select-customer-btn">
+                                        <button (click)="addCustomer()" nz-button class="btn-custom">
+                                            <i nz-icon nzType="plus" nzTheme="outline"></i>
+                                            {{'select.customer'|translate}}
+                                        </button>
+                                    </div>
+                                    <div [ngStyle]="{'display': clickedOnSelectCustomerButton ? 'block' : 'none'}"
+                                        class="select-customer-dropdown">
+                                        <app-select-control (onOpen)="customerSelectOpenChange($event)" (onChange)="customerSelectOnChange($event)" labelKey="displayName" [formItemStyle]="{ padding: 0, minWidth: '200px' }" label="customer" hideLabel="true" #customerSelect formControlName="customer">
+                                        </app-select-control>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="selectedCustomer && !clickedOnSelectCustomerButton"
+                                class="customer info-customer">
+                                <div class="mb-14">
+                                    <div class="fs-i"> Bill to</div>
+                                    <div class="fw-600">{{selectedCustomer.displayName}}</div>
+                                    <div>{{selectedCustomer.contact}}</div>
+                                    <div>{{selectedCustomer.mobile}}</div>
+                                    <div>{{selectedCustomer.email}}</div>
+                                </div>
+                                <div>
+                                    <a class="fw-600"
+                                        (click)="addCustomer()">{{'choose.a.different.customer'|translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="field-container">
+                                <label>{{'invoice.date'|translate}}</label>
+                                <nz-form-item>
+                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                        <nz-date-picker formControlName="invoiceDate" [nzFormat]="dateFormat"
+                                            [nzPlaceHolder]="selectDateText|translate">
+                                        </nz-date-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                            <div class="field-container">
+                                <label>{{'payment.due'|translate}}</label>
+                                <nz-form-item>
+                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                        <nz-date-picker formControlName="paymentDue" [nzFormat]="dateFormat"
+                                            [nzPlaceHolder]="selectDateText|translate">
+                                        </nz-date-picker>
+                                    </nz-form-control>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block bg-offset pad-b-10 box-divider">
+                <div class="content invoice-items">
+                    <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData"
+                        class="hide-table-placeholder ">
+                        <thead>
+                            <tr>
+                                <th>{{'items'|translate}}</th>
+                                <th>{{'description'|translate}}</th>
+                                <th>{{'quantity'|translate}}</th>
+                                <th>{{'price'|translate}}</th>
+                                <th class="ta-right">{{'amount'|translate}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container formArrayName="items">
+                                <ng-container *ngFor="let data of form.get('items')?.controls; let i = index">
+                                    <tr class="bg-white" [formGroupName]="i">
+                                        <td>
+                                            {{ data.controls?.name?.value }}
+                                        </td>
+                                        <td>
+                                            <nz-form-item>
+                                                <nz-form-control>
+                                                    <input type="text" nz-input formControlName="description" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                        </td>
+                                        <td style="width: 70px;">
+                                            <nz-form-item>
+                                                <nz-form-control>
+                                                    <input type="text"
+                                                        (ngModelChange)="invoiceItemQuantityChanged(data)" nz-input
+                                                        formControlName="quantity" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                        </td>
+                                        <td style="width: 160px;">
+                                            <nz-form-item>
+                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
+                                                    <input type="text" (ngModelChange)="invoiceItemPriceChanged(data)"
+                                                        nz-input formControlName="price" />
+                                                </nz-form-control>
+                                            </nz-form-item>
+                                        </td>
+                                        <td class="ta-right">
+                                            {{ data.controls?.amount?.value }}
+                                        </td>
+                                        <td style="width: 25px">
+                                            <span class="actions">
+                                                <span class="delete cursor-pointer" (click)="deleteItemFromInvoice(i)"
+                                                    title="{{'delete'|translate}}">
+                                                    <i nz-icon nzType="delete"></i>
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <tr>
+                                <td colspan="6" class="center bg-white">
+                                    <div *ngIf="!clickedOnAddAnItemButton">
+                                        <a (click)="addAnItem();">
+                                            <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+                                            {{'add.an.item'|translate}}
+                                        </a>
+                                    </div>
+                                    <div [ngStyle]="{'display': clickedOnAddAnItemButton ? 'block' : 'none'}">
+                                        <nz-select #productSelect class="btn-custom"
+                                            (ngModelChange)="productSelectOnChange($event)"
+                                            (nzOpenChange)="productSelectOpenChange($event)" formControlName="product"
+                                            nzShowSearch nzAllowClear
+                                            [nzPlaceHolder]="selectCustomerPlaceholder|translate">
+                                            <nz-option *ngFor="let p of products" nzCustomContent [nzLabel]="p.name"
+                                                [nzValue]="p.id">
+                                                <div class="invoice-customer-option">
+                                                    <div>
+                                                        <label class="fw-600">{{p.name}}</label>
+                                                    </div>
+                                                    <div>
+                                                        <span>{{p.description}}</span>
+                                                    </div>
+                                                </div>
+                                            </nz-option>
+                                        </nz-select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td colspan="4" class="ta-right">
+                                    {{'subtotal'|translate}}
+                                </td>
+                                <td class="ta-right">
+                                    {{subtotal}}
+                                </td>
+                                <td style="width: 25px"></td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</app-form>
+
+<!-- <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
 <div [ngStyle]="{'display': loading ? 'none' : 'block'}" class="box add-invoice-box">
     <div class="block pad-v-12 pad-h-20 box-divider">
         <div class="content">
@@ -11,185 +179,11 @@
                         {{ 'update'|translate }}
                     </span>
                 </span>
-                <!-- <span class="header-description">
-                    {{'product.explanation'|translate}}
-                </span> -->
             </div>
         </div>
     </div>
     <form nz-form [formGroup]="form">
-        <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
-            <div class="content">
-                <div class="invoice-head pad-h-20">
-                    <div class="left">
-                        <div [ngStyle]="{'display': selectedCustomer && !clickedOnSelectCustomerButton ? 'none' : 'flex'}"
-                            class="customer add-customer bg-white">
-                            <i nz-icon nzType="user" nzTheme="outline"></i>
-                            <div class="select-customer-container">
-                                <div *ngIf="!clickedOnSelectCustomerButton" class="select-customer-btn">
-                                    <button (click)="addCustomer()" nz-button class="btn-custom">
-                                        <i nz-icon nzType="plus" nzTheme="outline"></i>
-                                        {{'select.customer'|translate}}
-                                    </button>
-                                </div>
-                                <div [ngStyle]="{'display': clickedOnSelectCustomerButton ? 'block' : 'none'}"
-                                    class="select-customer-dropdown">
-                                    <nz-select #customerSelect class="btn-custom"
-                                        (ngModelChange)="customerSelectOnChange($event)"
-                                        (nzOpenChange)="customerSelectOpenChange($event)" formControlName="customer"
-                                        nzShowSearch nzAllowClear [nzPlaceHolder]="selectCustomerPlaceholder|translate">
-                                        <nz-option *ngFor="let c of customers" nzCustomContent [nzLabel]="c.name"
-                                            [nzValue]="c.id">
-                                            <div class="invoice-customer-option">
-                                                <div>
-                                                    <label class="fw-600">{{c.name}}</label>
-                                                </div>
-                                                <div>
-                                                    <span>{{c.contact}}</span>
-                                                </div>
-                                            </div>
-                                        </nz-option>
-                                    </nz-select>
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="selectedCustomer && !clickedOnSelectCustomerButton" class="customer info-customer">
-                            <div class="mb-14">
-                                <div class="fs-i"> Bill to</div>
-                                <div class="fw-600">{{selectedCustomer.name}}</div>
-                                <div>{{selectedCustomer.contact}}</div>
-                                <div>{{selectedCustomer.mobile}}</div>
-                                <div>{{selectedCustomer.email}}</div>
-                            </div>
-                            <div>
-                                <a class="fw-600"
-                                    (click)="addCustomer()">{{'choose.a.different.customer'|translate}}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <div class="field-container">
-                            <label>{{'invoice.date'|translate}}</label>
-                            <nz-form-item>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-date-picker formControlName="invoiceDate" [nzFormat]="dateFormat"
-                                        [nzPlaceHolder]="selectDateText|translate">
-                                    </nz-date-picker>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                        <div class="field-container">
-                            <label>{{'payment.due'|translate}}</label>
-                            <nz-form-item>
-                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                    <nz-date-picker formControlName="paymentDue" [nzFormat]="dateFormat"
-                                        [nzPlaceHolder]="selectDateText|translate">
-                                    </nz-date-picker>
-                                </nz-form-control>
-                            </nz-form-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="block bg-offset pad-b-10 box-divider">
-            <div class="content invoice-items">
-                <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData" class="hide-table-placeholder ">
-                    <thead>
-                        <tr>
-                            <th>{{'items'|translate}}</th>
-                            <th>{{'description'|translate}}</th>
-                            <th>{{'quantity'|translate}}</th>
-                            <th>{{'price'|translate}}</th>
-                            <th class="ta-right">{{'amount'|translate}}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container formArrayName="items">
-                            <ng-container *ngFor="let data of form.get('items')?.controls; let i = index">
-                                <tr class="bg-white" [formGroupName]="i">
-                                    <td>
-                                        {{ data.controls?.name?.value }}
-                                    </td>
-                                    <td>
-                                        <nz-form-item>
-                                            <nz-form-control>
-                                                <input type="text" nz-input formControlName="description" />
-                                            </nz-form-control>
-                                        </nz-form-item>
-                                    </td>
-                                    <td style="width: 70px;">
-                                        <nz-form-item>
-                                            <nz-form-control>
-                                                <input type="text" (ngModelChange)="invoiceItemQuantityChanged(data)"
-                                                    nz-input formControlName="quantity" />
-                                            </nz-form-control>
-                                        </nz-form-item>
-                                    </td>
-                                    <td style="width: 160px;">
-                                        <nz-form-item>
-                                            <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                <input type="text" (ngModelChange)="invoiceItemPriceChanged(data)"
-                                                    nz-input formControlName="price" />
-                                            </nz-form-control>
-                                        </nz-form-item>
-                                    </td>
-                                    <td class="ta-right">
-                                        {{ data.controls?.amount?.value }}
-                                    </td>
-                                    <td style="width: 25px">
-                                        <span class="actions">
-                                            <span class="delete cursor-pointer" (click)="deleteItemFromInvoice(i)"
-                                                title="{{'delete'|translate}}">
-                                                <i nz-icon nzType="delete"></i>
-                                            </span>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                        </ng-container>
-                        <tr>
-                            <td colspan="6" class="center bg-white">
-                                <div *ngIf="!clickedOnAddAnItemButton">
-                                    <a (click)="addAnItem();">
-                                        <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
-                                        {{'add.an.item'|translate}}
-                                    </a>
-                                </div>
-                                <div [ngStyle]="{'display': clickedOnAddAnItemButton ? 'block' : 'none'}">
-                                    <nz-select #productSelect class="btn-custom"
-                                        (ngModelChange)="productSelectOnChange($event)"
-                                        (nzOpenChange)="productSelectOpenChange($event)" formControlName="product"
-                                        nzShowSearch nzAllowClear [nzPlaceHolder]="selectCustomerPlaceholder|translate">
-                                        <nz-option *ngFor="let p of products" nzCustomContent [nzLabel]="p.name"
-                                            [nzValue]="p.id">
-                                            <div class="invoice-customer-option">
-                                                <div>
-                                                    <label class="fw-600">{{p.name}}</label>
-                                                </div>
-                                                <div>
-                                                    <span>{{p.description}}</span>
-                                                </div>
-                                            </div>
-                                        </nz-option>
-                                    </nz-select>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="bg-white">
-                            <td colspan="4" class="ta-right">
-                                {{'subtotal'|translate}}
-                            </td>
-                            <td class="ta-right">
-                                {{subtotal}}
-                            </td>
-                            <td style="width: 25px"></td>
-                        </tr>
-                    </tbody>
-                </nz-table>
-            </div>
-        </div>
+
     </form>
     <div class="block footer pad-v-12 pad-h-20 box-divider">
         <div class="column">
@@ -209,4 +203,8 @@
     <ng-template #errorTemplate let-control>
         {{control?.errors?.message}}
     </ng-template>
-</div>
+</div> -->
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

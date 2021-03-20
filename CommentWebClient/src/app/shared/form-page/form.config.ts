@@ -6,6 +6,7 @@ export interface FormPageConfig {
     objectName: string;
     rows?: FormRowConfig[];
     controls?: ControlConfig[];
+    onBeforeSubmit?: (data?: any) => void;
 }
 
 export interface FormColumnConfig {

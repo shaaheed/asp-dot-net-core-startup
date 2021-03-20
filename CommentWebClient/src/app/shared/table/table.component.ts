@@ -285,6 +285,12 @@ export class TableComponent extends BaseComponent {
 
   private buildUrl(url: string, ...args) {
     const _args = args.filter(x => x);
+    const splitUrl = url.split('?');
+    if (splitUrl.length >= 2) {
+      url = splitUrl[0];
+      const splitTerm = splitUrl[1].split('&');
+      _args.push(...splitTerm);
+    }
     const _url = `${url}?${_args.join('&')}`;
     return _url;
   }

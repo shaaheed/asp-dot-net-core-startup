@@ -30,10 +30,10 @@ export class Column {
         ]
     }
     
-    static column(title: string, getCellData: (data: any) => string): TableColumnConfig {
+    static column(title: string, getCellData?: (data: any) => string): TableColumnConfig {
         return {
             title: title,
-            getCellData: getCellData
+            getCellData: getCellData || (x => x[title])
         }
     }
 }

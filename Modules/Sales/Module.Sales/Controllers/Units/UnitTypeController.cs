@@ -44,9 +44,9 @@ namespace Module.Sales.Controllers
 
         [HttpGet("{id}")]
         //[RequirePermission(ProductView, ProductManage)]
-        public Task<IActionResult> Get(Guid id)
+        public Task<IActionResult> Get([FromRoute] GetUnitTypeQuery query)
         {
-            return OkAsync(new GetUnitTypeQuery { Id = id });
+            return OkAsync(query);
         }
     }
 }

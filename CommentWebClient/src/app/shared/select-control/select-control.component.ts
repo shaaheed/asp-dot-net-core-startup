@@ -1,4 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { Observable } from 'rxjs';
 import { AntControlComponent } from '../ant-control.component';
 
@@ -12,6 +13,11 @@ export class SelectControlComponent extends AntControlComponent {
   @Input() idKey = 'id';
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
+  @Input() hideLabel: boolean = false;
+  @Input() formItemStyle = {};
+  @Output() onOpen = new EventEmitter();
+
+  @ViewChild('select', {static: true}) select: NzSelectComponent;
 
   infoText: string = '';
 
@@ -45,7 +51,7 @@ export class SelectControlComponent extends AntControlComponent {
         const items = val.map(x => {
           return {
             [this.idKey]: x[this.idKey],
-            [this.labelKey]: x[this.labelKey]
+            [this.labelKey]: x[this.labelKey] || x['name']
           };
         });
         this.items = items;
@@ -54,7 +60,7 @@ export class SelectControlComponent extends AntControlComponent {
         this.value = val[this.idKey];
         const obj = {
           [this.idKey]: val[this.idKey],
-          [this.labelKey]: val[this.labelKey]
+          [this.labelKey]: val[this.labelKey] || val['name']
         };
         const items = [obj];
         this.items = items;
@@ -119,16 +125,10 @@ export class SelectControlComponent extends AntControlComponent {
     return this;
   }
 
-  onValueChange(e) {
-    if (this.onChange) {
-      this.onChange.emit(e);
+  setOpenState(state: boolean) {
+    if (this.select) {
+      this.select.setOpenState(state);
     }
-    this.infoPromise(e);
-  }
-
-  onLoadCompleted(fn: (items?: any[]) => void) {
-    this._onLoadCompleted = fn;
-    return this;
   }
 
   loadMore() {
@@ -157,7 +157,22 @@ export class SelectControlComponent extends AntControlComponent {
 
   }
 
+  onValueChange(e) {
+    if (this.onChange) {
+      this.onChange.emit(e);
+    }
+    this.infoPromise(e);
+  }
+
+  onLoadCompleted(fn: (items?: any[]) => void) {
+    this._onLoadCompleted = fn;
+    return this;
+  }
+
   onOpenChange(e) {
+    if (this.onOpen) {
+      this.onOpen.emit(e);
+    }
     if (!this.fetchCalled && this.openCount <= 0) {
       this.fetch();
     }

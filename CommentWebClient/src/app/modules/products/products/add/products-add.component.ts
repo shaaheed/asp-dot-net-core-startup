@@ -86,6 +86,9 @@ export class ProductsAddComponent extends FormComponent {
     this.purchaseTaxSelect.register((pagination, search) => {
       return this._httpService.get('taxes');
     });
+    this.supplierSelect.register((pagination, search) => {
+      return this._httpService.get('contacts?Search=Type eq 2');
+    });
   }
 
 }

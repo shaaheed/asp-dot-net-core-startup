@@ -80,6 +80,20 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
       },
       {
         level: 1,
+        title: 'purchase',
+        icon: 'shopping',
+        fn: () => true,
+        nav: [
+          {
+            level: 2,
+            title: 'suppliers',
+            route: '/suppliers',
+            fn: () => true,
+          }
+        ]
+      },
+      {
+        level: 1,
         title: 'settings',
         icon: 'setting',
         fn: () => true,

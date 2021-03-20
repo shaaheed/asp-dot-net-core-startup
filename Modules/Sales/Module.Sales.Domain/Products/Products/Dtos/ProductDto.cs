@@ -78,6 +78,11 @@ namespace Module.Sales.Domain.Products
                     Name = x.PurchaseAccount.Name,
                     Code = x.PurchaseAccount.Code
                 } : null,
+                Supplier = x.SupplierId != null ? new GuidIdNameDto
+                {
+                    Id = (Guid)x.SupplierId,
+                    Name = x.Supplier.DisplayName
+                } : null,
 
                 IsInventory = x.IsInventory,
                 StockQuantity = x.StockQuantity,

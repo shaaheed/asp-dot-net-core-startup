@@ -1,14 +1,14 @@
 ﻿using Module.Systems.Domain;
-using Module.Sales.Domain.Customers;
 using System;
 using System.Collections.Generic;
+using Module.Sales.Domain.Contacts;
 
 namespace Module.Sales.Domain.Qoutes
 {
     public class QouteDetailsDto
     {
         public Guid Id { get; set; }
-        public CustomerDto Customer { get; set; }
+        public ContactDto Customer { get; set; }
         public decimal Total { get; set; }
         public DateTimeOffset IssueDate { get; set; }
         public string Memo { get; set; }

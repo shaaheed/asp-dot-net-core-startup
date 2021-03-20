@@ -13,8 +13,8 @@ export const USER_MODULE_CONFIG = {
         Route.list(prefix, {
             tableColumns: [
                 Column.column(name, x => x.firstName),
-                Column.column(email, x => x.email),
-                Column.column(mobile, x => x.mobile),
+                Column.column(email),
+                Column.column(mobile),
                 Column.created()
             ]
         }),

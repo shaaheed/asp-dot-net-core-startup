@@ -30,6 +30,7 @@ namespace Module.Sales.Entities
         public virtual ChartOfAccount PurchaseAccount { get; set; }
 
         public Guid? SupplierId { get; set; }
+        public virtual Contact Supplier { get; set; }
         #endregion
 
         #region Inventory Properties

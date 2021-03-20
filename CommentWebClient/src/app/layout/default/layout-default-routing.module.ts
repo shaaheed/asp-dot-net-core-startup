@@ -10,6 +10,9 @@ import { UNIT_MODULE_CONFIG } from 'src/app/modules/units/unit.module.config';
 import { UNIT_TYPE_MODULE_CONFIG } from 'src/app/modules/units/type.module.config';
 import { CATEGORY_MODULE_CONFIG } from 'src/app/modules/products/category.module.config';
 import { TAX_MODULE_CONFIG } from 'src/app/modules/taxes/tax.module.config';
+import { CUSTOMER_CONFIG } from 'src/app/modules/customers/customer.config';
+import { SUPPLIER_CONFIG } from 'src/app/modules/suppliers/supplier.config';
+import { INVOICE_CONFIG } from 'src/app/modules/invoices/invoice.config';
 
 const routes: Routes = [
   {
@@ -26,9 +29,10 @@ const routes: Routes = [
       ...UNIT_MODULE_CONFIG.ROUTES,
       ...UNIT_TYPE_MODULE_CONFIG.ROUTES,
       ...TAX_MODULE_CONFIG.ROUTES,
-      { path: 'customers', loadChildren: () => import('../../components/customers/customers.module').then(m => m.CustomersModule) },
-      { path: 'vendors', loadChildren: () => import('../../modules/vendors/list/vendor-list.module').then(m => m.VendorListModule) },
-      { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }
+      ...CUSTOMER_CONFIG.ROUTES,
+      ...SUPPLIER_CONFIG.ROUTES,
+      ...INVOICE_CONFIG.ROUTES,
+      // { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }
     ]
   }
 ];

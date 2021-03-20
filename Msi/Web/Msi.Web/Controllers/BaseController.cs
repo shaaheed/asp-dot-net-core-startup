@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Domain.Abstractions;
 using Msi.Utilities.Filter;
+using System;
 
 namespace Msi.Web
 {
@@ -16,28 +17,34 @@ namespace Msi.Web
 
         public BaseController()
         {
-            //CommandBus = HttpContext?.RequestServices?.GetService<ICommandBus>();
-            //QueryBus = HttpContext?.RequestServices?.GetService<IQueryBus>();
             //_cacheService = HttpContext?.RequestServices?.GetService<ICacheService>();
         }
 
-        //public async Task<ActionResult> SendQueryAsync<T>(IQuery<T> query)
-        //{
-        //    var result = await _cacheService.GetData(async () =>
-        //    {
-        //        var products = await _queryBus.SendAsync(query);
-        //        return products;
-        //    });
+        public virtual async Task<IActionResult> Post<TResponse>(ICommand<TResponse> command)
+        {
+            var result = await OkAsync(command);
+            return result.ToCreatedResult();
+        }
 
-        //    if (result.Item1)
-        //    {
-        //        return new StatusCodeResult(304);
-        //    }
-        //    else
-        //    {
-        //        return new OkObjectResult(result.Item1);
-        //    }
-        //}
+        public Task<IActionResult> Put<TResponse>(ICommand<TResponse> command)
+        {
+            return OkAsync(command);
+        }
+
+        public Task<IActionResult> Delete<TResponse>(ICommand<TResponse> command)
+        {
+            return DeleteAsync(command);
+        }
+
+        public Task<IActionResult> Gets<TResponse>(IQuery<TResponse> query)
+        {
+            return OkAsync(query);
+        }
+
+        public Task<IActionResult> Get<TResponse>(IQuery<TResponse> query)
+        {
+            return OkAsync(query);
+        }
 
         public Task<TResponse> SendAsync<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default)
         {

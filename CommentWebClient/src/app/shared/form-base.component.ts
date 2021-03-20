@@ -29,6 +29,7 @@ export class FormBaseComponent extends BaseComponent {
     onFail: (err: any) => void;
     onSuccess: (data: any) => void;
     onSetFormValues: (data?: any) => void;
+    onBeforeSubmit: (data?: any) => void;
 
     fb: FormBuilder;
     modalInstance: NzModalComponent;
@@ -152,6 +153,7 @@ export class FormBaseComponent extends BaseComponent {
 
     submit() {
         const body = this.constructObject(this.form.controls);
+        this.invoke(this.onBeforeSubmit, body);
         if (this.isAddMode() && this.apiUrl && body) {
             this.create({
                 request: this._httpService.post(this.apiUrl, body),

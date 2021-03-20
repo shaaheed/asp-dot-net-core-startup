@@ -1,5 +1,6 @@
 ﻿using Module.Systems.Entities;
 using Msi.Data.Entity;
+using Msi.Utilities.Filter;
 using System;
 
 namespace Module.Sales.Entities
@@ -9,6 +10,7 @@ namespace Module.Sales.Entities
         public bool IsBusiness { get; set; }
         public bool IsIndividual { get; set; }
 
+        [Searchable]
         public ContactType Type { get; set; }
         public string DisplayName { get; set; }
         public string CompanyName { get; set; }

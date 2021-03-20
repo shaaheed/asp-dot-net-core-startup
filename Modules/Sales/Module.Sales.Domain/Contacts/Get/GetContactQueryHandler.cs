@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Sales.Entities;
-using System.Linq;
 
 namespace Module.Sales.Domain.Contacts
 {
@@ -18,20 +16,9 @@ namespace Module.Sales.Domain.Contacts
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ContactDto> Handle(GetContactQuery request, CancellationToken cancellationToken)
+        public Task<ContactDto> Handle(GetContactQuery request, CancellationToken cancellationToken)
         {
-            var entity = _unitOfWork.GetRepository<Contact>()
-                .AsQueryable()
-                .Select(x => new ContactDto
-                {
-                    Id = x.Id,
-                    Name = x.FirstName,
-                    Email = x.Email,
-                    Mobile = x.Mobile,
-                    Contact = x.Contact
-                })
-                .FirstOrDefault(x => x.Id == request.Id);
-            return await Task.FromResult(entity);
+            return _unitOfWork.GetAsync(x => x.Id == request.Id, ContactDto.Selector(), cancellationToken);
         }
     }
 }

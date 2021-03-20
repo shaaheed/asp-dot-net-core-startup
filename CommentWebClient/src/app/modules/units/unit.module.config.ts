@@ -13,8 +13,8 @@ export const UNIT_MODULE_CONFIG = {
         Route.list(prefix, {
             tableColumns: [
                 Column.namex(),
-                Column.column('symbol', d => d.symbol),
-                Column.column('type', d => d.type?.name),
+                Column.column('symbol'),
+                Column.column('type', x => x.type?.name),
                 Column.created()
             ]
         }),
