@@ -2,15 +2,20 @@
     <label *ngIf="label">
         {{label|translate}}
         <ng-container *ngIf="tooltip">
-            <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
-                nzType="question-circle" nzTheme="outline"></i>
+            <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon nzType="question-circle" nzTheme="outline"></i>
         </ng-container>
     </label>
     <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
         <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
-            <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input
+            <input [nzAutocomplete]="autocomplete" [formControl]="ngControl.control"
+                (ngModelChange)="onValueChange($event)" [type]="type" nz-input
                 placeholder="{{placeholder|translate}}" />
         </nz-input-group>
+        <nz-autocomplete #autocomplete>
+            <nz-auto-option *ngFor="let option of options" nzValue="{{option[idKey]}}" nzLabel={{option[labelKey]}}>
+                {{option[labelKey]}}
+            </nz-auto-option>
+        </nz-autocomplete>
         <ng-template #errorTemplate let-control>
             {{control?.errors?.message}}
         </ng-template>

@@ -1,0 +1,22 @@
+<div [ngStyle]="{'display': item && !clicked ? 'none' : 'flex'}">
+    <div class="select-customer-container">
+        <div *ngIf="!clicked" class="select-customer-btn">
+            <button (click)="add()" nz-button class="btn-custom">
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+                {{ 'select.x0'|translate:{x0: label|translate } }}
+            </button>
+        </div>
+        <div [ngStyle]="{'display': clicked ? 'block' : 'none'}" class="select-customer-dropdown">
+            <app-select-control [formControl]="ngControl.control" (onOpen)="onOpen($event)" (onChange)="onValueChanged($event)"
+                [labelKey]="labelKey" [formItemStyle]="{ padding: 0, minWidth: '200px' }" [label]="label"
+                noLabel="true" #select>
+            </app-select-control>
+        </div>
+    </div>
+</div>
+<div *ngIf="item && !clicked" class="customer info-customer">
+    <ng-container *ngTemplateOutlet="content; context: { $implicit: item }"></ng-container>
+    <div>
+        <a class="fw-600" (click)="add()">{{'choose.a.different.customer'|translate}}</a>
+    </div>
+</div>

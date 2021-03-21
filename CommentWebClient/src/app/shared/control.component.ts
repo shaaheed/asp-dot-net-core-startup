@@ -11,6 +11,7 @@ export class ControlComponent implements ControlValueAccessor {
   @Input() mandatory: boolean = false;
   @Input() tooltip: string;
   @Input() config: ControlConfig;
+  @Input() formItemStyle = {};
 
   private _value;
   private propagateChange = (_: any) => { };
@@ -51,6 +52,10 @@ export class ControlComponent implements ControlValueAccessor {
         this.config.controlAccessor(this);
       }
     }
+  }
+
+  getControl(): ControlComponent {
+    return this;
   }
 
   writeValue(value: any) {

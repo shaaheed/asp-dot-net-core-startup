@@ -18,6 +18,12 @@ import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { AppFormModule } from 'src/app/shared/form/form.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
+import { DatePickerModule } from 'src/app/shared/date/date.module';
+import { ButtonSelectModule } from '../../../shared/button-select/button-select.module';
+import { InputModule } from 'src/app/shared/input/input.module';
+import { TextModule } from 'src/app/shared/text/text.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AutocompleteModule } from 'src/app/shared/autocomplete/autocomplete.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +46,13 @@ import { SelectControlModule } from 'src/app/shared/select-control/select-contro
     NzButtonModule,
     NzModalModule,
     AppFormModule,
-    SelectControlModule
+    SelectControlModule,
+    DatePickerModule,
+    ButtonSelectModule,
+    InputModule,
+    TextModule,
+    NzIconModule,
+    AutocompleteModule
   ],
   exports: [InvoicesAddComponent],
   providers: [InvoiceService]

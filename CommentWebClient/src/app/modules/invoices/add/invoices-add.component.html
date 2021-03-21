@@ -5,58 +5,22 @@
                 <div class="content">
                     <div class="invoice-head">
                         <div class="left">
-                            <div [ngStyle]="{'display': selectedCustomer && !clickedOnSelectCustomerButton ? 'none' : 'flex'}">
-                                <i nz-icon nzType="user" nzTheme="outline"></i>
-                                <div class="select-customer-container">
-                                    <div *ngIf="!clickedOnSelectCustomerButton" class="select-customer-btn">
-                                        <button (click)="addCustomer()" nz-button class="btn-custom">
-                                            <i nz-icon nzType="plus" nzTheme="outline"></i>
-                                            {{'select.customer'|translate}}
-                                        </button>
+                            <app-button-select labelKey="displayName" #customerSelect label="customer"
+                                formControlName="customer" [content]="customerTemplate">
+                                <ng-template #customerTemplate let-customer>
+                                    <div class="mb-14">
+                                        <div class="fs-i"> Bill to</div>
+                                        <div class="fw-600">{{customer.displayName}}</div>
+                                        <div>{{customer.contact}}</div>
+                                        <div>{{customer.mobile}}</div>
+                                        <div>{{customer.email}}</div>
                                     </div>
-                                    <div [ngStyle]="{'display': clickedOnSelectCustomerButton ? 'block' : 'none'}"
-                                        class="select-customer-dropdown">
-                                        <app-select-control (onOpen)="customerSelectOpenChange($event)" (onChange)="customerSelectOnChange($event)" labelKey="displayName" [formItemStyle]="{ padding: 0, minWidth: '200px' }" label="customer" hideLabel="true" #customerSelect formControlName="customer">
-                                        </app-select-control>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="selectedCustomer && !clickedOnSelectCustomerButton"
-                                class="customer info-customer">
-                                <div class="mb-14">
-                                    <div class="fs-i"> Bill to</div>
-                                    <div class="fw-600">{{selectedCustomer.displayName}}</div>
-                                    <div>{{selectedCustomer.contact}}</div>
-                                    <div>{{selectedCustomer.mobile}}</div>
-                                    <div>{{selectedCustomer.email}}</div>
-                                </div>
-                                <div>
-                                    <a class="fw-600"
-                                        (click)="addCustomer()">{{'choose.a.different.customer'|translate}}</a>
-                                </div>
-                            </div>
+                                </ng-template>
+                            </app-button-select>
                         </div>
                         <div class="right">
-                            <div class="field-container">
-                                <label>{{'invoice.date'|translate}}</label>
-                                <nz-form-item>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <nz-date-picker formControlName="invoiceDate" [nzFormat]="dateFormat"
-                                            [nzPlaceHolder]="selectDateText|translate">
-                                        </nz-date-picker>
-                                    </nz-form-control>
-                                </nz-form-item>
-                            </div>
-                            <div class="field-container">
-                                <label>{{'payment.due'|translate}}</label>
-                                <nz-form-item>
-                                    <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                        <nz-date-picker formControlName="paymentDue" [nzFormat]="dateFormat"
-                                            [nzPlaceHolder]="selectDateText|translate">
-                                        </nz-date-picker>
-                                    </nz-form-control>
-                                </nz-form-item>
-                            </div>
+                            <app-date-picker label="invoice.date" placeholder="invoice.date" formControlName="invoiceDate"></app-date-picker>
+                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDue"></app-date-picker>
                         </div>
                     </div>
                 </div>
@@ -67,7 +31,7 @@
                         class="hide-table-placeholder ">
                         <thead>
                             <tr>
-                                <th>{{'items'|translate}}</th>
+                                <th>{{'name'|translate}}</th>
                                 <th>{{'description'|translate}}</th>
                                 <th>{{'quantity'|translate}}</th>
                                 <th>{{'price'|translate}}</th>
@@ -80,36 +44,21 @@
                                 <ng-container *ngFor="let data of form.get('items')?.controls; let i = index">
                                     <tr class="bg-white" [formGroupName]="i">
                                         <td>
-                                            {{ data.controls?.name?.value }}
+                                            <app-autocomplete [options]="products" #autocomplete (onChange)="searchProduct(autocomplete)" [formItemStyle]="formItemStyle" placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <nz-form-item>
-                                                <nz-form-control>
-                                                    <input type="text" nz-input formControlName="description" />
-                                                </nz-form-control>
-                                            </nz-form-item>
+                                            <app-input [formItemStyle]="formItemStyle" placeholder="description" formControlName="description"></app-input>
                                         </td>
-                                        <td style="width: 70px;">
-                                            <nz-form-item>
-                                                <nz-form-control>
-                                                    <input type="text"
-                                                        (ngModelChange)="invoiceItemQuantityChanged(data)" nz-input
-                                                        formControlName="quantity" />
-                                                </nz-form-control>
-                                            </nz-form-item>
+                                        <td style="width: 130px;">
+                                            <app-input type="number" [formItemStyle]="formItemStyle" placeholder="quantity" formControlName="quantity" (onChange)="invoiceItemQuantityChanged(data)"></app-input>
                                         </td>
-                                        <td style="width: 160px;">
-                                            <nz-form-item>
-                                                <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                                                    <input type="text" (ngModelChange)="invoiceItemPriceChanged(data)"
-                                                        nz-input formControlName="price" />
-                                                </nz-form-control>
-                                            </nz-form-item>
+                                        <td style="width: 170px;">
+                                            <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle" placeholder="price" formControlName="price" (onChange)="invoiceItemPriceChanged(data)"></app-input>
                                         </td>
                                         <td class="ta-right">
-                                            {{ data.controls?.amount?.value }}
+                                            ৳ {{ data.controls?.amount?.value || 0 }}
                                         </td>
-                                        <td style="width: 25px">
+                                        <td>
                                             <span class="actions">
                                                 <span class="delete cursor-pointer" (click)="deleteItemFromInvoice(i)"
                                                     title="{{'delete'|translate}}">
@@ -122,30 +71,11 @@
                             </ng-container>
                             <tr>
                                 <td colspan="6" class="center bg-white">
-                                    <div *ngIf="!clickedOnAddAnItemButton">
+                                    <div>
                                         <a (click)="addAnItem();">
                                             <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
-                                            {{'add.an.item'|translate}}
+                                            {{'add.new.x0'|translate:{x0: 'product'|translate } }}
                                         </a>
-                                    </div>
-                                    <div [ngStyle]="{'display': clickedOnAddAnItemButton ? 'block' : 'none'}">
-                                        <nz-select #productSelect class="btn-custom"
-                                            (ngModelChange)="productSelectOnChange($event)"
-                                            (nzOpenChange)="productSelectOpenChange($event)" formControlName="product"
-                                            nzShowSearch nzAllowClear
-                                            [nzPlaceHolder]="selectCustomerPlaceholder|translate">
-                                            <nz-option *ngFor="let p of products" nzCustomContent [nzLabel]="p.name"
-                                                [nzValue]="p.id">
-                                                <div class="invoice-customer-option">
-                                                    <div>
-                                                        <label class="fw-600">{{p.name}}</label>
-                                                    </div>
-                                                    <div>
-                                                        <span>{{p.description}}</span>
-                                                    </div>
-                                                </div>
-                                            </nz-option>
-                                        </nz-select>
                                     </div>
                                 </td>
                             </tr>
@@ -154,7 +84,7 @@
                                     {{'subtotal'|translate}}
                                 </td>
                                 <td class="ta-right">
-                                    {{subtotal}}
+                                    ৳ {{subtotal}}
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>

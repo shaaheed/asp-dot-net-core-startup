@@ -13,8 +13,7 @@ export class SelectControlComponent extends AntControlComponent {
   @Input() idKey = 'id';
   @Input() info: (item: any) => string | Promise<string>;
   @Input() mode: string = 'default';
-  @Input() hideLabel: boolean = false;
-  @Input() formItemStyle = {};
+  @Input() noLabel: boolean = false;
   @Output() onOpen = new EventEmitter();
 
   @ViewChild('select', {static: true}) select: NzSelectComponent;

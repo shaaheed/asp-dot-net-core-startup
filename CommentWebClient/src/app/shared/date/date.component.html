@@ -2,15 +2,12 @@
     <label *ngIf="label">
         {{label|translate}}
         <ng-container *ngIf="tooltip">
-            <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
+            <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
                 nzType="question-circle" nzTheme="outline"></i>
         </ng-container>
     </label>
     <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
-        <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
-            <input [formControl]="ngControl.control" (ngModelChange)="onValueChange($event)" [type]="type" nz-input
-                placeholder="{{placeholder|translate}}" />
-        </nz-input-group>
+        <nz-date-picker (ngModelChange)="onValueChange($event)" [formControl]="ngControl.control" [nzFormat]="dateFormat" nzPlaceHolder="{{placeholder|translate}}"></nz-date-picker>
         <ng-template #errorTemplate let-control>
             {{control?.errors?.message}}
         </ng-template>

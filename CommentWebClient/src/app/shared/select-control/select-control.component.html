@@ -1,9 +1,9 @@
 <nz-form-item [ngStyle]="formItemStyle" class="form-item">
-    <div>
-        <label *ngIf="!hideLabel" [class.required]="mandatory">
+    <div *ngIf="!noLabel && label">
+        <label [class.required]="mandatory">
             {{label|translate }}
             <ng-container *ngIf="tooltip">
-                <i style="vertical-align: -0.25em" nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
+                <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
                     nzType="question-circle" nzTheme="outline"></i>
             </ng-container>
         </label>
