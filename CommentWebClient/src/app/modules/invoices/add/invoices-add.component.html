@@ -19,20 +19,21 @@
                             </app-button-select>
                         </div>
                         <div class="right">
-                            <app-date-picker label="invoice.date" placeholder="invoice.date" formControlName="invoiceDate"></app-date-picker>
-                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDue"></app-date-picker>
+                            <app-date-picker label="invoice.date" placeholder="invoice.date"
+                                formControlName="invoiceDate"></app-date-picker>
+                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDue">
+                            </app-date-picker>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="block bg-offset pad-b-10 box-divider">
+            <div class="block pad-b-10 box-divider">
                 <div class="content invoice-items">
                     <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData"
                         class="hide-table-placeholder ">
                         <thead>
                             <tr>
                                 <th>{{'name'|translate}}</th>
-                                <th>{{'description'|translate}}</th>
                                 <th>{{'quantity'|translate}}</th>
                                 <th>{{'price'|translate}}</th>
                                 <th class="ta-right">{{'amount'|translate}}</th>
@@ -44,19 +45,23 @@
                                 <ng-container *ngFor="let data of form.get('items')?.controls; let i = index">
                                     <tr class="bg-white" [formGroupName]="i">
                                         <td>
-                                            <app-autocomplete [options]="products" #autocomplete (onChange)="searchProduct(autocomplete)" [formItemStyle]="formItemStyle" placeholder="name" formControlName="name"></app-autocomplete>
+                                            <app-autocomplete [name]="i" [options]="products" #autocomplete
+                                                (onChange)="searchProduct(autocomplete)" [formItemStyle]="formItemStyle"
+                                                placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <app-input [formItemStyle]="formItemStyle" placeholder="description" formControlName="description"></app-input>
+                                            <!-- data.controls.unit.value -->
+                                            <app-input [suffix]="unitSuffix" type="number" [formItemStyle]="formItemStyle"
+                                                placeholder="quantity" formControlName="quantity"
+                                                (onChange)="invoiceItemQuantityChanged(data)"></app-input>
                                         </td>
-                                        <td style="width: 130px;">
-                                            <app-input type="number" [formItemStyle]="formItemStyle" placeholder="quantity" formControlName="quantity" (onChange)="invoiceItemQuantityChanged(data)"></app-input>
-                                        </td>
-                                        <td style="width: 170px;">
-                                            <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle" placeholder="price" formControlName="price" (onChange)="invoiceItemPriceChanged(data)"></app-input>
+                                        <td>
+                                            <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle"
+                                                placeholder="price" formControlName="price"
+                                                (onChange)="invoiceItemPriceChanged(data)"></app-input>
                                         </td>
                                         <td class="ta-right">
-                                            ৳ {{ data.controls?.amount?.value || 0 }}
+                                            <strong>৳ {{ data.controls?.amount?.value || 0 }}</strong>
                                         </td>
                                         <td>
                                             <span class="actions">
@@ -69,8 +74,8 @@
                                     </tr>
                                 </ng-container>
                             </ng-container>
-                            <tr>
-                                <td colspan="6" class="center bg-white">
+                            <tr class="bg-white no-border">
+                                <td style="text-align: left;" colspan="5" class="center bg-white">
                                     <div>
                                         <a (click)="addAnItem();">
                                             <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
@@ -79,12 +84,32 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="bg-white">
-                                <td colspan="4" class="ta-right">
-                                    {{'subtotal'|translate}}
+                            <tr class="bg-white no-border">
+                                <td colspan="3" class="ta-right">
+                                    <strong>{{'subtotal'|translate}}</strong>
                                 </td>
                                 <td class="ta-right">
-                                    ৳ {{subtotal}}
+                                    <strong>৳ {{subtotal}}</strong>
+                                </td>
+                                <td style="width: 25px"></td>
+                            </tr>
+                            <tr class="bg-white no-border">
+                                <td colspan="3" class="ta-right">
+                                    <app-input [formItemStyle]="adjustFormItemStyle" value="Adjustment"
+                                        placeholder="adjustment" formControlName="adjustmentText"></app-input>
+                                </td>
+                                <td style="width: 150px;" class="ta-right">
+                                    <app-input type="number" [formItemStyle]="formItemStyle" prefix="৳"
+                                        placeholder="amount" formControlName="adjustmentAmount"></app-input>
+                                </td>
+                                <td style="width: 25px"></td>
+                            </tr>
+                            <tr class="bg-white no-border">
+                                <td colspan="3" class="ta-right">
+                                    <strong>{{'total'|translate}}</strong>
+                                </td>
+                                <td style="width: 150px;" class="ta-right">
+                                    <strong>৳ 0</strong>
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>
@@ -96,45 +121,12 @@
     </ng-template>
 </app-form>
 
-<!-- <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
-<div [ngStyle]="{'display': loading ? 'none' : 'block'}" class="box add-invoice-box">
-    <div class="block pad-v-12 pad-h-20 box-divider">
-        <div class="content">
-            <div class="header-container">
-                <span class="header">
-                    <span *ngIf="mode=='add'">
-                        {{ 'create'|translate }}
-                    </span>
-                    <span *ngIf="mode=='edit'">
-                        {{ 'update'|translate }}
-                    </span>
-                </span>
-            </div>
-        </div>
-    </div>
-    <form nz-form [formGroup]="form">
-
-    </form>
-    <div class="block footer pad-v-12 pad-h-20 box-divider">
-        <div class="column">
-            <button (click)="cancel()" nz-button class="btn-custom">
-                {{'cancel'|translate}}
-            </button>
-            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
-                <span *ngIf="mode=='add'">
-                    {{'create'|translate}}
-                </span>
-                <span *ngIf="mode=='edit'">
-                    {{'update'|translate}}
-                </span>
-            </button>
-        </div>
-    </div>
-    <ng-template #errorTemplate let-control>
-        {{control?.errors?.message}}
-    </ng-template>
-</div> -->
-
 <ng-template #errorTemplate let-control>
     {{control?.errors?.message}}
 </ng-template>
+
+<ng-template #unitSuffix>
+    <nz-select style="min-width: 70px;" [ngModel]="'.com'">
+      <nz-option *ngFor="let unit of units" [nzLabel]="unit.symbol" [nzValue]="unit.id"></nz-option>
+    </nz-select>
+  </ng-template>

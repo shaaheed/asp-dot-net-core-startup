@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { AntControlComponent } from '../ant-control.component';
 import { InputConfig } from '../form-page/control.config';
 
@@ -10,7 +10,7 @@ export class InputComponent extends AntControlComponent {
 
   @Input() type = 'text';
   @Input() prefix: string;
-  @Input() suffix: string;
+  @Input() suffix: string | TemplateRef<any>;
 
   ngOnInit() {
     if (this.config) {

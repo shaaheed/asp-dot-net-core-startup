@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { NzAutocompleteComponent } from 'ng-zorro-antd/auto-complete';
 import { AntControlComponent } from '../ant-control.component';
 import { InputConfig } from '../form-page/control.config';
 
@@ -14,6 +15,8 @@ export class AutocompleteComponent extends AntControlComponent {
   @Input() idKey: string = 'id';
   @Input() labelKey: string = 'name';
   @Input() options: any[] = [];
+
+  @ViewChild('autocomplete', { static: true }) autocomplete: NzAutocompleteComponent;
 
   ngOnInit() {
     if (this.config) {

@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from '@angular/forms';
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { forEachObj, clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
@@ -26,13 +26,16 @@ export class InvoicesAddComponent extends FormComponent {
   subtotal: number = 0;
 
   products: any[] = [];
+  units: any[] = [];
 
   @ViewChild('customerSelect') customerSelect: ButtonSelectComponent;
+  @ViewChildren('autocomplete') autocomplete: QueryList<AutocompleteComponent>;
 
   form: FormGroup;
   invoiceItemsFormArray: FormArray
 
   formItemStyle = { padding: 0 };
+  adjustFormItemStyle = { padding: 0, display: 'flex', justifyContent: 'flex-end' };
 
   constructor(
     public fb: FormBuilder,
@@ -43,10 +46,19 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    this.subscribe(this._httpService.get('products'),
+    const requests = [
+      this._httpService.get('products'),
+      this._httpService.get('units'),
+    ]
+    this.subscribe(forkJoin(requests),
       (success: any) => {
-        if (success?.data?.items) {
-          this.products = success.data.items;
+        if (success) {
+          if (success[0].data?.items) {
+            this.products = success[0].data.items;
+          }
+          if (success[1].data?.items) {
+            this.units = success[1].data.items;
+          }
         }
       }
     );
@@ -56,6 +68,8 @@ export class InvoicesAddComponent extends FormComponent {
       paymentDue: [null, [], this.paymentDueValidator.bind(this)],
       customer: [],
       product: [],
+      adjustmentText: [],
+      adjustmentAmount: [],
       items: this.fb.array([])
     });
 
@@ -78,9 +92,31 @@ export class InvoicesAddComponent extends FormComponent {
       }
     );
     super.ngOnInit(snapshot);
+
+    if (this.isAddMode()) {
+      setTimeout(() => this.addAnItem(), 0);
+    }
   }
 
   ngAfterViewInit() {
+
+    this.subscribe(this.autocomplete.changes, (autocompleteList: QueryList<AutocompleteComponent>) => {
+      autocompleteList.forEach(autocomplete => {
+        const index = autocomplete.name;
+        this.subscribe(autocomplete.autocomplete.selectionChange, value => {
+          const id = value.nzValue || "";
+          const groups = this.form.get('items').get(index.toString()) as FormGroup;
+          const item = autocomplete.options.filter(x => x.id == id)[0];
+          if (item) {
+            groups.controls.quantity.setValue(1);
+            groups.controls.productId.setValue(id);
+            groups.controls.price.setValue(item.salesPrice);
+            groups.controls.unit.setValue(item.salesUnit);
+          }
+        });
+      });
+    });
+
     if (this.customerSelect?.select) {
       this.customerSelect.select.register((pagination, search) => {
         return this._httpService.get('contacts?Search=Type eq 1');
@@ -170,10 +206,12 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   deleteItemFromInvoice(index) {
-    const invoiceItemsFormArray = this.getInvoiceItemFormArray();
-    if (invoiceItemsFormArray.controls && invoiceItemsFormArray.controls.length) {
-      invoiceItemsFormArray.removeAt(index);
-      this.calculateInvoiceSubtotal();
+    if ((this.form.get('items') as FormArray)?.length > 1) {
+      const invoiceItemsFormArray = this.getInvoiceItemFormArray();
+      if (invoiceItemsFormArray.controls && invoiceItemsFormArray.controls.length) {
+        invoiceItemsFormArray.removeAt(index);
+        this.calculateInvoiceSubtotal();
+      }
     }
   }
 
@@ -236,7 +274,8 @@ export class InvoicesAddComponent extends FormComponent {
       quantity: [],
       price: [null, [], this.priceValidator.bind(this)],
       amount: [],
-      productId: []
+      productId: [],
+      unit: [],
     });
     forEachObj(formGroup.controls, (k, v) => {
       const dataValue = data[k];

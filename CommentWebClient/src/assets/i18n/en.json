@@ -167,5 +167,6 @@
   "equal.or.greater.x0.letters": "Must be equal or greater than {{x0}} letters",
   "symbol": "Symbol",
   "type": "Type",
-  "number": "Number"
+  "number": "Number",
+  "adjustment": "Adjustment"
 }

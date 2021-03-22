@@ -5,17 +5,18 @@ import { ControlConfig } from './form-page/control.config';
 @Directive()
 export class ControlComponent implements ControlValueAccessor {
 
-  @Input() label;
-  @Input() placeholder;
+  @Input() name: string;
+  @Input() label: string;
+  @Input() placeholder: string;
   @Output() onChange = new EventEmitter();
   @Input() mandatory: boolean = false;
   @Input() tooltip: string;
   @Input() config: ControlConfig;
-  @Input() formItemStyle = {};
+  @Input() formItemStyle: any = {};
 
-  private _value;
+  private _value: any = '';
   private propagateChange = (_: any) => { };
-  private _disable = false;
+  private _disable: boolean = false;
 
   @Input() set disable(value: boolean) {
     const action = value ? 'disable' : 'enable';
@@ -33,7 +34,7 @@ export class ControlComponent implements ControlValueAccessor {
     return this._value;
   }
 
-  set value(value) {
+  @Input() set value(value) {
     this._value = value;
     this.propagateChange(this._value);
   }
