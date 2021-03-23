@@ -28,9 +28,7 @@ namespace Module.Sales.Domain.Invoices
             if (invoice == null)
                 throw new NotFoundException("Invoice not found");
 
-            invoice.CustomerId = request.CustomerId;
-            invoice.Note = request.Note;
-            invoice.Memo = request.Memo;
+            request.Map(invoice);
 
             var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
             var invoiceLineItemsToBeRemoved = invoiceLineItemsRepo.Where(x => x.InvoiceId == request.Id);

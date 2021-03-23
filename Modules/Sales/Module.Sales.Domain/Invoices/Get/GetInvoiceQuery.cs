@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Domain.Invoices
 {
-    public class GetInvoiceQuery : IQuery<InvoiceDetailsDto>
+    public class GetInvoiceQuery : IQuery<InvoiceDto>
     {
         public Guid Id { get; set; }
     }

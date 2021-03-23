@@ -1,9 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
+﻿using Msi.Domain.Abstractions;
+using Msi.Utilities.Filter;
 
 namespace Module.Sales.Domain.Invoices
 {
-    public class GetInvoicesQuery : IQuery<IEnumerable<InvoiceDto>>
+    public class GetInvoicesQuery : Query<PagedCollection<InvoiceListItemDto>>
     {
     }
 }

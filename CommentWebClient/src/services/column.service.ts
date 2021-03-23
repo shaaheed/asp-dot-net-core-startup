@@ -22,18 +22,25 @@ export class Column {
     static description(): TableColumnConfig {
         return Column.column('description', d => d.description);
     }
-    
-    static nameCreated() : TableColumnConfig[] {
+
+    static nameCreated(): TableColumnConfig[] {
         return [
             Column.namex(),
             Column.created(),
         ]
     }
-    
+
     static column(title: string, getCellData?: (data: any) => string): TableColumnConfig {
         return {
             title: title,
             getCellData: getCellData || (x => x[title])
+        }
+    }
+
+    static date(title: string, getCellData?: (data: any) => string): TableColumnConfig {
+        return {
+            title: title,
+            getCellData: getCellData || (x => AppInjector.get(MomentPipe).transform(x[title]))
         }
     }
 }

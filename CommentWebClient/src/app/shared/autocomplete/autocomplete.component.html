@@ -6,16 +6,27 @@
         </ng-container>
     </label>
     <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
-        <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
+        <ng-container *ngIf="prefix || suffix">
+            <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
+                <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+            </nz-input-group>
+        </ng-container>
+        <ng-container *ngIf="!prefix && !suffix">
+            <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+        </ng-container>
+
+        <ng-template #inputTemplate>
             <input [nzAutocomplete]="autocomplete" [formControl]="ngControl.control"
                 (ngModelChange)="onValueChange($event)" [type]="type" nz-input
                 placeholder="{{placeholder|translate}}" />
-        </nz-input-group>
+        </ng-template>
+
         <nz-autocomplete #autocomplete>
             <nz-auto-option *ngFor="let option of options" nzValue="{{option[idKey]}}" nzLabel={{option[labelKey]}}>
                 {{option[labelKey]}}
             </nz-auto-option>
         </nz-autocomplete>
+
         <ng-template #errorTemplate let-control>
             {{control?.errors?.message}}
         </ng-template>

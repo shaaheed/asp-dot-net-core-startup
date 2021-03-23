@@ -13,6 +13,7 @@ export class ControlComponent implements ControlValueAccessor {
   @Input() tooltip: string;
   @Input() config: ControlConfig;
   @Input() formItemStyle: any = {};
+  @Input() formControlStyle: any = {};
 
   private _value: any = '';
   private propagateChange = (_: any) => { };
@@ -49,9 +50,12 @@ export class ControlComponent implements ControlValueAccessor {
       this.placeholder = this.config.placeholder;
       this.tooltip = this.config.tooltip;
       this.mandatory = this.config.mandatory;
-      if(this.config.controlAccessor) {
+      if (this.config.controlAccessor) {
         this.config.controlAccessor(this);
       }
+    }
+    if (!this.placeholder) {
+      this.placeholder = this.label;
     }
   }
 
@@ -67,7 +71,7 @@ export class ControlComponent implements ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {}
+  registerOnTouched() { }
 
   onValueChange(e) {
     this._value = e;

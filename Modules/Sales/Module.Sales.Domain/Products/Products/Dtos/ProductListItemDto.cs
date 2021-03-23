@@ -1,6 +1,8 @@
-﻿using Module.Sales.Entities;
+﻿using Module.Sales.Domain.Taxes;
+using Module.Sales.Entities;
 using Module.Systems.Domain;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Module.Sales.Domain.Products
@@ -9,8 +11,9 @@ namespace Module.Sales.Domain.Products
     {
         public bool IsSale { get; set; }
         public decimal? SalesPrice { get; set; }
-        public string SalesUnit { get; set; }
-        public int StockQuantity { get; set; }
+        public GuidCodeNameDto SalesUnit { get; set; }
+        public ICollection<TaxListItemDto> SalesTaxes { get; set; }
+        public float StockQuantity { get; set; }
 
         public DateTimeOffset? CreatedAt { get; set; }
 
@@ -24,8 +27,9 @@ namespace Module.Sales.Domain.Products
 
                 IsSale = x.IsSale,
                 SalesPrice = x.SalesPrice,
-                SalesUnit = x.SalesUnitId != null ? x.SalesUnit.Symbol : null,
-               
+
+                SalesUnit = x.SalesUnitId != null ? new GuidCodeNameDto { Id = (Guid)x.SalesUnitId, Code = x.SalesUnit.Symbol, Name = x.SalesUnit.Name } : null,
+
                 StockQuantity = x.StockQuantity,
                 CreatedAt = x.CreatedAt
             };

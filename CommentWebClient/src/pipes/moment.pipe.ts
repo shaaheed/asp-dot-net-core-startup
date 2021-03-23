@@ -5,7 +5,7 @@ import * as moment from 'moment';
 export class MomentPipe implements PipeTransform {
     transform(value: Date | moment.Moment): any {
         if(value) {
-            return moment.utc(value).local().format('MMM D, YYYY, h:mm:ss A');
+            return moment.utc(value).local().format('MMMM D, YYYY, h:mm:ss A');
         }
         return '';
     }

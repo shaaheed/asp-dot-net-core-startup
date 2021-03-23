@@ -36,6 +36,7 @@
                                 <th>{{'name'|translate}}</th>
                                 <th>{{'quantity'|translate}}</th>
                                 <th>{{'price'|translate}}</th>
+                                <th>{{'tax'|translate}}</th>
                                 <th class="ta-right">{{'amount'|translate}}</th>
                                 <th></th>
                             </tr>
@@ -50,7 +51,6 @@
                                                 placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <!-- data.controls.unit.value -->
                                             <app-input [suffix]="unitSuffix" type="number" [formItemStyle]="formItemStyle"
                                                 placeholder="quantity" formControlName="quantity"
                                                 (onChange)="invoiceItemQuantityChanged(data)"></app-input>
@@ -59,6 +59,9 @@
                                             <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle"
                                                 placeholder="price" formControlName="price"
                                                 (onChange)="invoiceItemPriceChanged(data)"></app-input>
+                                        </td>
+                                        <td>
+                                            <app-select-control [formItemStyle]="formItemStyle" placeholder="tax" #taxSelects [name]="i" formControlName="taxId" ></app-select-control>
                                         </td>
                                         <td class="ta-right">
                                             <strong>৳ {{ data.controls?.amount?.value || 0 }}</strong>
@@ -85,7 +88,7 @@
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
-                                <td colspan="3" class="ta-right">
+                                <td colspan="4" class="ta-right">
                                     <strong>{{'subtotal'|translate}}</strong>
                                 </td>
                                 <td class="ta-right">
@@ -94,8 +97,8 @@
                                 <td style="width: 25px"></td>
                             </tr>
                             <tr class="bg-white no-border">
-                                <td colspan="3" class="ta-right">
-                                    <app-input [formItemStyle]="adjustFormItemStyle" value="Adjustment"
+                                <td colspan="4" class="ta-right">
+                                    <app-input [formItemStyle]="adjustFormItemStyle" [formControlStyle]="adjustFormControlStyle" value="Adjustment"
                                         placeholder="adjustment" formControlName="adjustmentText"></app-input>
                                 </td>
                                 <td style="width: 150px;" class="ta-right">
@@ -105,7 +108,7 @@
                                 <td style="width: 25px"></td>
                             </tr>
                             <tr class="bg-white no-border">
-                                <td colspan="3" class="ta-right">
+                                <td colspan="4" class="ta-right">
                                     <strong>{{'total'|translate}}</strong>
                                 </td>
                                 <td style="width: 150px;" class="ta-right">

@@ -1,12 +1,12 @@
 ﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Utilities.Filter;
 
 namespace Module.Sales.Domain.Invoices
 {
-    public class GetInvoicesQueryHandler : IQueryHandler<GetInvoicesQuery, IEnumerable<InvoiceDto>>
+    public class GetInvoicesQueryHandler : IQueryHandler<GetInvoicesQuery, PagedCollection<InvoiceListItemDto>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -17,26 +17,9 @@ namespace Module.Sales.Domain.Invoices
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<InvoiceDto>> Handle(GetInvoicesQuery request, CancellationToken cancellationToken)
+        public Task<PagedCollection<InvoiceListItemDto>> Handle(GetInvoicesQuery request, CancellationToken cancellationToken)
         {
-            //var results = _unitOfWork.GetRepository<Invoice>()
-            //    .AsQueryable()
-            //    .Select(x => new InvoiceDto
-            //    {
-            //        Id = x.Id,
-            //        Customer = x.CustomerId != null ? new IdNameDto<Guid>
-            //        {
-            //            Id = (Guid)x.CustomerId,
-            //            Name = x.Customer.FirstName
-            //        } : null,
-            //        AmountDue = x.AmountDue,
-            //        Total = x.GrandTotal,
-            //        IssueDate = x.IssueDate,
-            //        Status = x.Status.ToString()
-            //    })
-            //    .ToList();
-            //return await Task.FromResult(results);
-            return null;
+            return _unitOfWork.ListAsync(InvoiceListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
         }
     }
 }

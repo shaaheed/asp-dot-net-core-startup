@@ -8,6 +8,7 @@ import { InvoiceService } from '../services/invoice.service';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ButtonSelectComponent } from 'src/app/shared/button-select/button-select.component';
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
+import { ValidatorService } from 'src/services/validator.service';
 
 @Component({
   selector: 'app-invoices-add',
@@ -36,11 +37,13 @@ export class InvoicesAddComponent extends FormComponent {
 
   formItemStyle = { padding: 0 };
   adjustFormItemStyle = { padding: 0, display: 'flex', justifyContent: 'flex-end' };
+  adjustFormControlStyle = { maxWidth: '170px' };
 
   constructor(
     public fb: FormBuilder,
     private invoiceService: InvoiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private validator: ValidatorService
   ) {
     super();
   }
@@ -68,7 +71,7 @@ export class InvoicesAddComponent extends FormComponent {
       paymentDue: [null, [], this.paymentDueValidator.bind(this)],
       customer: [],
       product: [],
-      adjustmentText: [],
+      adjustmentText: ['Adjustment'],
       adjustmentAmount: [],
       items: this.fb.array([])
     });
@@ -269,13 +272,14 @@ export class InvoicesAddComponent extends FormComponent {
 
   private createInvoiceItemFormGroup(data: any) {
     const formGroup = this.fb.group({
-      name: [],
+      name: [null, [], this.validator.required()],
       description: [],
-      quantity: [],
+      quantity: [null, [], this.validator.required()],
       price: [null, [], this.priceValidator.bind(this)],
       amount: [],
       productId: [],
       unit: [],
+      taxId: []
     });
     forEachObj(formGroup.controls, (k, v) => {
       const dataValue = data[k];

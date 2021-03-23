@@ -1,5 +1,6 @@
 ﻿using Module.Systems.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Module.Sales.Entities
 {
@@ -35,8 +36,9 @@ namespace Module.Sales.Entities
 
         #region Inventory Properties
         public bool IsInventory { get; set; }
-        public int StockQuantity { get; set; }
-        public int LowStockQuantity { get; set; }
+        public float InitialStockQuantity { get; set; }
+        public float StockQuantity { get; set; }
+        public float LowStockQuantity { get; set; }
         public Guid? InventoryAccountId { get; set; }
         public virtual ChartOfAccount InventoryAccount { get; set; }
         #endregion
@@ -46,6 +48,8 @@ namespace Module.Sales.Entities
 
         public DateTimeOffset? SupportStartDate { get; set; }
         public DateTimeOffset? SupportEndDate { get; set; }
+
+        public virtual ICollection<ProductTax> Taxes { get; set; }
 
     }
 }

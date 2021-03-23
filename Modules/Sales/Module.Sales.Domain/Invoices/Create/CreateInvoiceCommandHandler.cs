@@ -23,15 +23,7 @@ namespace Module.Sales.Domain.Invoices
         {
 
             var invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            var newInvoice = new Invoice
-            {
-                Status = InvoiceStatus.Unpaid,
-                IssueDate = DateTimeOffset.UtcNow,
-                PaymentDueDate = DateTimeOffset.UtcNow,
-                CustomerId = request.CustomerId,
-                Note = request.Note,
-                Memo = request.Memo
-            };
+            var newInvoice = request.Map();
 
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             var newLineItems = request.Items.Select(x => new LineItem

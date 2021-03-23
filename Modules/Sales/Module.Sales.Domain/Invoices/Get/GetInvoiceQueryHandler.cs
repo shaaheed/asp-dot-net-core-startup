@@ -5,7 +5,7 @@ using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Invoices
 {
-    public class GetInvoiceQueryHandler : IQueryHandler<GetInvoiceQuery, InvoiceDetailsDto>
+    public class GetInvoiceQueryHandler : IQueryHandler<GetInvoiceQuery, InvoiceDto>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -16,49 +16,9 @@ namespace Module.Sales.Domain.Invoices
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<InvoiceDetailsDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
+        public Task<InvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            //var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-            //    .Where(x => x.InvoiceId == request.Id)
-            //    .Select(x => x.Payment.Amount)
-            //    .Sum();
-
-            //var result = _unitOfWork.GetRepository<Invoice>()
-            //    .AsQueryable()
-            //    .Select(x => new InvoiceDetailsDto
-            //    {
-            //        Id = x.Id,
-            //        Status = x.Status.ToString(),
-            //        Customer = x.Customer != null ? new CustomerDto
-            //        {
-            //            Id = (Guid)x.CustomerId,
-            //            Name = x.Customer.FirstName,
-            //            Contact = x.Customer.Contact,
-            //            Email = x.Customer.Email,
-            //            Mobile = x.Customer.Mobile
-            //        } : null,
-            //        AmountDue = x.AmountDue,
-            //        Total = x.GrandTotal,
-            //        Items = x.InvoiceLineItems.Select(i => new InvoiceLineItemDto
-            //        {
-            //            Id = i.Id,
-            //            Name = i.LineItem.Name,
-            //            Description = i.LineItem.Description,
-            //            ProductId = i.LineItem.ProductId,
-            //            Quantity = i.LineItem.Quantity,
-            //            Subtotal = i.LineItem.Subtotal,
-            //            Total = i.LineItem.Total,
-            //            UnitPrice = i.LineItem.UnitPrice
-            //        }),
-            //        PaymentDueDate = x.PaymentDueDate,
-            //        IssueDate = x.IssueDate,
-            //        PaymentAmount = invoicePaymentAmount,
-            //        Note = x.Note,
-            //        Memo = x.Memo
-            //    })
-            //    .FirstOrDefault(x => x.Id == request.Id);
-            //return await Task.FromResult(result);
-            return null;
+            return _unitOfWork.GetAsync(x => x.Id == request.Id, InvoiceDto.Selector(), cancellationToken);
         }
     }
 }

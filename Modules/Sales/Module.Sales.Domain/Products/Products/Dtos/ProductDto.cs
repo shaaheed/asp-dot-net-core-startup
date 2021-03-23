@@ -17,6 +17,7 @@ namespace Module.Sales.Domain.Products
         public string SalesDescription { get; set; }
         public GuidIdNameDto SalesUnit { get; set; }
         public GuidCodeNameDto SalesAccount { get; set; }
+        public ICollection<GuidCodeNameDto> SalesTaxes { get; set; }
 
         // Purchase Properties
         public bool IsPurchase { get; set; }
@@ -24,12 +25,14 @@ namespace Module.Sales.Domain.Products
         public string PurchaseDescription { get; set; }
         public GuidIdNameDto PurchaseUnit { get; set; }
         public GuidCodeNameDto PurchaseAccount { get; set; }
+        public ICollection<GuidCodeNameDto> PurchaseTaxes { get; set; }
         public GuidIdNameDto Supplier { get; set; }
 
         // Inventory Properties
         public bool IsInventory { get; set; }
-        public int StockQuantity { get; set; }
-        public int LowStockQuantity { get; set; }
+        public float InitialStockQuantity { get; set; }
+        public float StockQuantity { get; set; }
+        public float LowStockQuantity { get; set; }
         public GuidCodeNameDto InventoryAccount { get; set; }
 
         public DateTimeOffset? StartDate { get; set; }
@@ -85,6 +88,7 @@ namespace Module.Sales.Domain.Products
                 } : null,
 
                 IsInventory = x.IsInventory,
+                InitialStockQuantity = x.InitialStockQuantity,
                 StockQuantity = x.StockQuantity,
                 LowStockQuantity = x.LowStockQuantity,
                 InventoryAccount = x.InventoryAccount != null ? new GuidCodeNameDto

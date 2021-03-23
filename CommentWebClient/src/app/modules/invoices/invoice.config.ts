@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AppInjector } from 'src/app/app.component';
+import { MomentPipe } from 'src/pipes/moment.pipe';
 import { Column } from 'src/services/column.service';
 import { Route } from 'src/services/route.service';
 
@@ -12,7 +14,7 @@ export const INVOICE_CONFIG = {
                 Column.column('customer', x => x.customer?.name),
                 Column.column('due', x => x.amountDue),
                 Column.column('total'),
-                Column.column('date', x => x.issueDate),
+                Column.date('date', x => AppInjector.get(MomentPipe).transform( x.issueDate)),
                 Column.created()
             ]
         }),

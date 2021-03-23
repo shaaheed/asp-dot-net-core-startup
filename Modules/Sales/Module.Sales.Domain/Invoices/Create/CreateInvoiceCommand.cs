@@ -1,16 +1,10 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
-using System.Collections.Generic;
+﻿using Modules.Sales.Domain.Invoices;
+using Msi.Mediator.Abstractions;
 
 namespace Module.Sales.Domain.Invoices
 {
-    public class CreateInvoiceCommand : ICommand<long>
+    public class CreateInvoiceCommand : InvoiceRequestDto, ICommand<long>
     {
-        public Guid? CustomerId { get; set; }
-        public DateTime? IssueDate { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
-        public string Note { get; set; }
-        public string Memo { get; set; }
-        public List<CreateInvoiceLineItemDto> Items { get; set; }
+        //
     }
 }

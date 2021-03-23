@@ -33,8 +33,9 @@ namespace Module.Sales.Domain.Products
 
         #region Inventory Properties
         public bool IsInventory { get; set; }
-        public int StockQuantity { get; set; }
-        public int LowStockQuantity { get; set; }
+        public float InitialStockQuantity { get; set; }
+        public float StockQuantity { get; set; }
+        public float LowStockQuantity { get; set; }
         public Guid? InventoryAccountId { get; set; }
         #endregion
 
@@ -64,6 +65,7 @@ namespace Module.Sales.Domain.Products
             entity.PurchaseAccountId = PurchaseAccountId;
 
             entity.IsInventory = IsInventory;
+            entity.InitialStockQuantity = InitialStockQuantity;
             entity.StockQuantity = StockQuantity;
             entity.LowStockQuantity = LowStockQuantity;
             entity.InventoryAccountId = InventoryAccountId;

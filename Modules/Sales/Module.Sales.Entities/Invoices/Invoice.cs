@@ -40,11 +40,14 @@ namespace Module.Sales.Entities
         public string Note { get; set; }
         public string Memo { get; set; }
 
+        public string AdjustmentText { get; set; }
+        public decimal AdjustmentAmount { get; set; }
+
         public Guid? AccountId { get; set; }
         public ChartOfAccount Account { get; set; }
 
-        public Guid? ConvertedFromQuoteId { get; set; }
-        public virtual Quote ConvertedFromQuote { get; set; }
+        public Guid? FromQuoteId { get; set; }
+        public virtual Quote FromQuote { get; set; }
 
         public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
         public virtual ICollection<InvoicePayment> InvoicePayments { get; set; }
