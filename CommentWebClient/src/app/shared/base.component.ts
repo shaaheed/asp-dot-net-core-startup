@@ -11,6 +11,7 @@ import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 import { PermissionService } from 'src/services/permission.service';
 import { Directive } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 // TODO: Add Angular decorator.
 @Directive()
@@ -158,7 +159,7 @@ export class BaseComponent {
     }
 
     setControlValue(control, value) {
-        if (control) {
+        if (control && control instanceof FormControl) {
             control.setValue(value);
         }
     }

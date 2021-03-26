@@ -33,8 +33,9 @@ namespace Module.Sales.Domain.Invoices
                 ProductId = x.ProductId,
                 Quantity = x.Quantity,
                 Subtotal = x.Subtotal,
-                Total = x.Quantity * x.UnitPrice,
+                Total = (decimal)x.Quantity * x.UnitPrice,
                 UnitPrice = x.UnitPrice,
+                UnitId = x.UnitId,
                 Note = x.Note
             });
 

@@ -54,8 +54,7 @@ import { AutocompleteModule } from 'src/app/shared/autocomplete/autocomplete.mod
     NzIconModule,
     AutocompleteModule
   ],
-  exports: [InvoicesAddComponent],
-  providers: [InvoiceService]
+  exports: [InvoicesAddComponent]
 })
 export class InvoicesAddModule {
 

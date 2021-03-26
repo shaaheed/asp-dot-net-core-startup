@@ -47,8 +47,10 @@ namespace Module.Sales.Domain.Invoices
                 ProductId = x.ProductId,
                 Quantity = x.Quantity,
                 Subtotal = x.Subtotal,
-                Total = x.Quantity * x.UnitPrice,
-                UnitPrice = x.UnitPrice
+                Total = (decimal)x.Quantity * x.UnitPrice,
+                UnitPrice = x.UnitPrice,
+                UnitId = x.UnitId,
+                Note = x.Note
             });
 
             var newInvoiceLineItems = newLineItems.Select(x => new InvoiceLineItem
@@ -67,11 +69,11 @@ namespace Module.Sales.Domain.Invoices
             //    .Sum();
 
             //invoice.AddPayment(invoicePaymentAmount);
-            
+
             //if (invoicePaymentAmount > invoice.GrandTotal)
             //{
-                // Over paid.
-                // TODO: Create credit note
+            // Over paid.
+            // TODO: Create credit note
             //}
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

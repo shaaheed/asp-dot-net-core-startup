@@ -22,6 +22,9 @@ namespace Module.Sales.Entities
 
         public decimal UnitPrice { get; set; }
 
+        public Guid? UnitId { get; set; }
+        public Unit Unit { get; set; }
+
         /// <summary>
         /// UnitPrice * Quantity
         /// </summary>
@@ -37,7 +40,7 @@ namespace Module.Sales.Entities
         /// </summary>
         public decimal TotalTaxAmount { get; set; }
 
-        public int Quantity { get; set; }
+        public float Quantity { get; set; }
 
         public virtual ICollection<LineItemTax> LineItemTaxes { get; set; }
     }

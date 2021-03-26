@@ -6,7 +6,7 @@
                     <div class="invoice-head">
                         <div class="left">
                             <app-button-select labelKey="displayName" #customerSelect label="customer"
-                                formControlName="customer" [content]="customerTemplate">
+                                formControlName="customerId" [content]="customerTemplate">
                                 <ng-template #customerTemplate let-customer>
                                     <div class="mb-14">
                                         <div class="fs-i"> Bill to</div>
@@ -19,9 +19,10 @@
                             </app-button-select>
                         </div>
                         <div class="right">
+                            <app-input label="number" placeholder="number" formControlName="code"></app-input>
                             <app-date-picker label="invoice.date" placeholder="invoice.date"
-                                formControlName="invoiceDate"></app-date-picker>
-                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDue">
+                                formControlName="issueDate"></app-date-picker>
+                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDueDate">
                             </app-date-picker>
                         </div>
                     </div>
@@ -51,17 +52,24 @@
                                                 placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <app-input [suffix]="unitSuffix" type="number" [formItemStyle]="formItemStyle"
-                                                placeholder="quantity" formControlName="quantity"
+                                            <app-input [suffix]="unitSuffix" type="number"
+                                                [formItemStyle]="formItemStyle" placeholder="quantity"
+                                                formControlName="quantity"
                                                 (onChange)="invoiceItemQuantityChanged(data)"></app-input>
+                                            <ng-template #unitSuffix>
+                                                <nz-select [attr.name]="i" #unitSelects formControlName="unitId" style="min-width: 70px;">
+                                                    <nz-option *ngFor="let unit of units" [nzLabel]="unit.symbol" [nzValue]="unit.id"></nz-option>
+                                                </nz-select>
+                                            </ng-template>
                                         </td>
                                         <td>
                                             <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle"
-                                                placeholder="price" formControlName="price"
+                                                placeholder="price" formControlName="unitPrice"
                                                 (onChange)="invoiceItemPriceChanged(data)"></app-input>
                                         </td>
-                                        <td>
-                                            <app-select-control [formItemStyle]="formItemStyle" placeholder="tax" #taxSelects [name]="i" formControlName="taxId" ></app-select-control>
+                                        <td style="max-width: 150px;">
+                                            <app-select-control [formItemStyle]="formItemStyle" placeholder="tax"
+                                                #taxSelects [name]="i" formControlName="taxId"></app-select-control>
                                         </td>
                                         <td class="ta-right">
                                             <strong>৳ {{ data.controls?.amount?.value || 0 }}</strong>
@@ -98,7 +106,8 @@
                             </tr>
                             <tr class="bg-white no-border">
                                 <td colspan="4" class="ta-right">
-                                    <app-input [formItemStyle]="adjustFormItemStyle" [formControlStyle]="adjustFormControlStyle" value="Adjustment"
+                                    <app-input [formItemStyle]="adjustFormItemStyle"
+                                        [formControlStyle]="adjustFormControlStyle" value="Adjustment"
                                         placeholder="adjustment" formControlName="adjustmentText"></app-input>
                                 </td>
                                 <td style="width: 150px;" class="ta-right">
@@ -127,9 +136,3 @@
 <ng-template #errorTemplate let-control>
     {{control?.errors?.message}}
 </ng-template>
-
-<ng-template #unitSuffix>
-    <nz-select style="min-width: 70px;" [ngModel]="'.com'">
-      <nz-option *ngFor="let unit of units" [nzLabel]="unit.symbol" [nzValue]="unit.id"></nz-option>
-    </nz-select>
-  </ng-template>

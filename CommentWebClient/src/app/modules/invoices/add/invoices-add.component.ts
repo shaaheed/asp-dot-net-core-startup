@@ -2,13 +2,13 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { forEachObj, clean } from 'src/services/utilities.service';
+import { forEachObj } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
-import { InvoiceService } from '../services/invoice.service';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ButtonSelectComponent } from 'src/app/shared/button-select/button-select.component';
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
 import { ValidatorService } from 'src/services/validator.service';
+import { NzSelectComponent } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'app-invoices-add',
@@ -17,8 +17,7 @@ import { ValidatorService } from 'src/services/validator.service';
 })
 export class InvoicesAddComponent extends FormComponent {
 
-  mode: string = 'add';
-  loading: boolean = true;
+  loading: boolean = false;
   noData: boolean = false;
   apiUrl = 'invoices';
   cancelRoute = 'invoices';
@@ -31,6 +30,7 @@ export class InvoicesAddComponent extends FormComponent {
 
   @ViewChild('customerSelect') customerSelect: ButtonSelectComponent;
   @ViewChildren('autocomplete') autocomplete: QueryList<AutocompleteComponent>;
+  @ViewChildren('unitSelects') unitSelects: QueryList<NzSelectComponent>;
 
   form: FormGroup;
   invoiceItemsFormArray: FormArray
@@ -39,9 +39,12 @@ export class InvoicesAddComponent extends FormComponent {
   adjustFormItemStyle = { padding: 0, display: 'flex', justifyContent: 'flex-end' };
   adjustFormControlStyle = { maxWidth: '170px' };
 
+  onSetFormValues = data => {
+    this.prepareForm(data);
+  };
+
   constructor(
     public fb: FormBuilder,
-    private invoiceService: InvoiceService,
     private route: ActivatedRoute,
     private validator: ValidatorService
   ) {
@@ -61,41 +64,24 @@ export class InvoicesAddComponent extends FormComponent {
           }
           if (success[1].data?.items) {
             this.units = success[1].data.items;
+            this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
           }
         }
       }
     );
 
     this.createForm({
-      invoiceDate: [new Date(), [], this.invoiceDateValidator.bind(this)],
-      paymentDue: [null, [], this.paymentDueValidator.bind(this)],
-      customer: [],
-      product: [],
+      code: [null, [], this.validator.required()],
+      issueDate: [new Date(), [], this.invoiceDateValidator.bind(this)],
+      paymentDueDate: [new Date(), [], this.paymentDueValidator.bind(this)],
+      customerId: [],
+      productId: [],
       adjustmentText: ['Adjustment'],
       adjustmentAmount: [],
       items: this.fb.array([])
     });
 
-    const snapshot = this.route.snapshot;
-    const id = snapshot.params.id
-    if (!id) {
-      this.form.controls.invoiceDate.setValue(new Date());
-      this.form.controls.paymentDue.setValue(new Date());
-    }
-
-    this.subscribe(this.invoiceService.get(id),
-      (res: any) => {
-        if (id) {
-          this.prepareForm(res);
-        }
-        this.loading = false;
-      },
-      err => {
-        this.loading = false;
-      }
-    );
-    super.ngOnInit(snapshot);
-
+    super.ngOnInit(this.route.snapshot);
     if (this.isAddMode()) {
       setTimeout(() => this.addAnItem(), 0);
     }
@@ -110,14 +96,18 @@ export class InvoicesAddComponent extends FormComponent {
           const id = value.nzValue || "";
           const groups = this.form.get('items').get(index.toString()) as FormGroup;
           const item = autocomplete.options.filter(x => x.id == id)[0];
-          if (item) {
+          if (item && groups) {
+            groups.controls.unitId.setValue(item.salesUnit?.id);
             groups.controls.quantity.setValue(1);
             groups.controls.productId.setValue(id);
-            groups.controls.price.setValue(item.salesPrice);
-            groups.controls.unit.setValue(item.salesUnit);
+            groups.controls.unitPrice.setValue(item.salesPrice);
           }
         });
       });
+    });
+
+    this.subscribe(this.unitSelects.changes, (selects: QueryList<NzSelectComponent>) => {
+      this.setItemUnitIdDefaultValue(selects.toArray());
     });
 
     if (this.customerSelect?.select) {
@@ -127,43 +117,43 @@ export class InvoicesAddComponent extends FormComponent {
     }
   }
 
-  submit() {
-    const obj: any = this.constructObject(this.form.controls);
-    let body: any = {
-      invoiceDate: obj.invoiceDate,
-      paymentDue: obj.paymentDue,
-      customerId: obj.customer,
-      items: obj.items.map(x => {
-        return {
-          name: x.name,
-          description: x.description,
-          quantity: x.quantity,
-          unitPrice: x.price,
-          price: x.amount,
-          total: x.amount,
-          subtotal: x.amount,
-          productId: x.productId
-        }
-      })
-    }
-    body = clean(body);
-    this.submitForm(
-      {
-        request: this.invoiceService.add(body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.created', x => this._messageService.success(x));
-        }
-      },
-      {
-        request: this.invoiceService.edit(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.updated', x => this._messageService.success(x));
-        }
-      }
-    );
-  }
+  // submit() {
+  //   const obj: any = this.constructObject(this.form.controls);
+  //   let body: any = {
+  //     invoiceDate: obj.invoiceDate,
+  //     paymentDue: obj.paymentDue,
+  //     customerId: obj.customer,
+  //     items: obj.items.map(x => {
+  //       return {
+  //         name: x.name,
+  //         description: x.description,
+  //         quantity: x.quantity,
+  //         unitPrice: x.price,
+  //         price: x.amount,
+  //         total: x.amount,
+  //         subtotal: x.amount,
+  //         productId: x.productId
+  //       }
+  //     })
+  //   }
+  //   body = clean(body);
+  //   this.submitForm(
+  //     {
+  //       request: this.invoiceService.add(body),
+  //       succeed: res => {
+  //         this.cancel();
+  //         this.translate('successfully.created', x => this._messageService.success(x));
+  //       }
+  //     },
+  //     {
+  //       request: this.invoiceService.edit(this.id, body),
+  //       succeed: res => {
+  //         this.cancel();
+  //         this.translate('successfully.updated', x => this._messageService.success(x));
+  //       }
+  //     }
+  //   );
+  // }
 
   invoiceDateValidator(control: FormControl) {
     if (!control.value) {
@@ -226,10 +216,21 @@ export class InvoicesAddComponent extends FormComponent {
     this.calculateInvoiceItemAmount(data);
   }
 
+  private setItemUnitIdDefaultValue(selects: NzSelectComponent[]) {
+    if (this.units.length && selects) {
+      selects.forEach(select => {
+        const index = (<any>select).elementRef.nativeElement.getAttribute('name');
+        if (index != null && index != undefined) {
+          const groups = this.form.get('items').get(index.toString()) as FormGroup;
+          if (!groups.controls.unitId.value) {
+            setTimeout(() => groups.controls.unitId.setValue(this.units[0].id), 0);
+          }
+        }
+      });
+    }
+  }
+
   private prepareForm(data) {
-    this.form.controls.invoiceDate.setValue(data.issueDate);
-    this.form.controls.paymentDue.setValue(data.paymentDueDate);
-    this.form.controls.customer.setValue(data.customer ? data.customer.id : null);
     this.form.controls.items = this.fb.array([]);
     if (data.items && data.items.length) {
       data.items.forEach(x => {
@@ -238,9 +239,10 @@ export class InvoicesAddComponent extends FormComponent {
           name: x.name,
           description: x.description,
           quantity: x.quantity,
-          price: x.unitPrice,
+          unitPrice: x.unitPrice,
           amount: x.total,
-          productId: x.productId
+          productId: x.productId,
+          unitId: x.unit?.id
         }
         this.createInvoiceItemFormGroup(o);
       });
@@ -250,7 +252,7 @@ export class InvoicesAddComponent extends FormComponent {
 
   private calculateInvoiceItemAmount(data) {
     const quantity = Number(data.controls.quantity.value);
-    const price = Number(data.controls.price.value);
+    const price = Number(data.controls.unitPrice.value);
     if (!isNaN(quantity) && !isNaN(price)) {
       const amount = quantity * price;
       data.controls.amount.setValue(amount);
@@ -275,10 +277,10 @@ export class InvoicesAddComponent extends FormComponent {
       name: [null, [], this.validator.required()],
       description: [],
       quantity: [null, [], this.validator.required()],
-      price: [null, [], this.priceValidator.bind(this)],
+      unitPrice: [null, [], this.priceValidator.bind(this)],
       amount: [],
       productId: [],
-      unit: [],
+      unitId: [],
       taxId: []
     });
     forEachObj(formGroup.controls, (k, v) => {

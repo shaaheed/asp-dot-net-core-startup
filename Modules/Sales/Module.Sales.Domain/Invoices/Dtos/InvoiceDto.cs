@@ -1,5 +1,6 @@
 ﻿using Module.Sales.Domain.Contacts;
 using Module.Sales.Entities;
+using Module.Systems.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Module.Sales.Domain.Invoices
     public class InvoiceDto
     {
         public Guid Id { get; set; }
+        public string Code { get; set; }
         public string Status { get; set; }
         public ContactDto Customer { get; set; }
         public decimal AmountDue { get; set; }
@@ -34,6 +36,7 @@ namespace Module.Sales.Domain.Invoices
             return x => new InvoiceDto
             {
                 Id = x.Id,
+                Code = x.Code,
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,
@@ -62,7 +65,13 @@ namespace Module.Sales.Domain.Invoices
                     Subtotal = y.LineItem.Subtotal,
                     Total = y.LineItem.Total,
                     UnitPrice = y.LineItem.UnitPrice,
-                    Note = x.Note
+                    Note = y.LineItem.Note,
+                    Unit = y.LineItem.UnitId != null ? new GuidCodeNameDto
+                    {
+                        Id = (Guid)y.LineItem.UnitId,
+                        Code = y.LineItem.Unit.Symbol,
+                        Name = y.LineItem.Unit.Name
+                    } : null
                 })
                 // PaymentAmount = invoicePaymentAmount,
             };

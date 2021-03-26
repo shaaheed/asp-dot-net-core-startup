@@ -9,7 +9,7 @@ export const PRODUCT_MODULE_CONFIG = {
         Route.list(prefix, {
             tableColumns: [
                 Column.namex(),
-                Column.column('price', x => x.salesPrice ? `৳ ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit}` : ''}` : '—'),
+                Column.column('price', x => x.salesPrice ? `৳ ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit.name}` : ''}` : '—'),
                 Column.column('quantity', x => x.stockQuantity ?? '—'),
                 Column.created()
             ]

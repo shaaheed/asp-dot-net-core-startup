@@ -10,7 +10,7 @@ export const INVOICE_CONFIG = {
     ROUTES: <Routes>[
         Route.list(prefix, {
             tableColumns: [
-                Column.column('number'),
+                Column.column('number', x => x.code),
                 Column.column('customer', x => x.customer?.name),
                 Column.column('due', x => x.amountDue),
                 Column.column('total'),

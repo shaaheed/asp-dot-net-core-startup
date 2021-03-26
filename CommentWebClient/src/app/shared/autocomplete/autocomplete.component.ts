@@ -28,4 +28,18 @@ export class AutocompleteComponent extends AntControlComponent {
     super.ngOnInit();
   }
 
+  onValueChange(e) {
+    this.setControlValue(e);
+    super.onValueChange(e);
+  }
+
+  private setControlValue(value) {
+    if (value) {
+      let _value = this.autocomplete.getOption(value)?.nzLabel;
+      if (_value && this.ngControl) {
+        this.ngControl.control.setValue(_value);
+      }
+    }
+  }
+
 }
