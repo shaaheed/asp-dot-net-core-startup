@@ -4,8 +4,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-invoice-home',
-  templateUrl: './invoice-home.component.html',
-  styleUrls: ['./invoice-home.component.scss']
+  templateUrl: './invoice-home.component.html'
 })
 export class InvoiceHomeComponent extends BaseComponent {
 
@@ -23,7 +22,7 @@ export class InvoiceHomeComponent extends BaseComponent {
 
   ngOnInit() {
     const snapshot = this.activatedRoute.snapshot;
-    this.invoiceId = Number(snapshot.params.id);
+    this.invoiceId = snapshot.params.id;
     this.optionChanged(this.invoiceOption);
   }
 

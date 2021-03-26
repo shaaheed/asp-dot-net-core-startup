@@ -9,7 +9,14 @@
         <ng-container *ngFor="let c of config?.tableColumns">
             <td [class]="c.tdClass">
                 <ng-container *ngIf="!c.hasToolTip">
-                    {{c.getCellData(data)}}
+                    <ng-container *ngIf="c.onClick">
+                        <a (click)="c.onClick(data)">
+                            {{c.getCellData(data)}}    
+                        </a>
+                    </ng-container>
+                    <ng-container *ngIf="!c.onClick">
+                        {{c.getCellData(data)}}
+                    </ng-container>
                 </ng-container>
                 <ng-container *ngIf="c.hasToolTip">
                     <span nz-tooltip [nzTooltipTitle]="c.getCellToolTipData(data)">

@@ -52,9 +52,9 @@ export class InvoicesViewComponent extends BaseComponent {
 
   get(id) {
     this.loading = true;
-    this.subscribe(this.invoiceService.get(id),
+    this.subscribe(this._httpService.get(`invoices/${id}`),
       (res: any) => {
-        this.model = res;
+        this.model = res.data;
         this.loading = false;
         if (res.items) {
           this.subtotal = res.items.reduce((a, c) => a + c.subtotal, 0);

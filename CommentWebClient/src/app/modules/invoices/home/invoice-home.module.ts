@@ -12,6 +12,7 @@ import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { RouterModule } from '@angular/router';
 import { InvoiceIdResolver } from './invoice-id.resolver';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { InvoiceIdResolver } from './invoice-id.resolver';
     NzToolTipModule,
     InvoiceHomeRoutingModule,
     BoxLoaderModule,
-    RouterModule
+    RouterModule,
+    NzRadioModule
   ],
   exports: [InvoiceHomeComponent],
   providers: [InvoiceService, InvoiceIdResolver]

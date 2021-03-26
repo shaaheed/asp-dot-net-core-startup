@@ -9,5 +9,6 @@ export class AppFormComponent {
 
   @Input() component: FormComponent;
   @Input() content: TemplateRef<any>;
+  @Input() headerStyle: any = {};
 
 }

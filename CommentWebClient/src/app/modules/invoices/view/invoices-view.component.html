@@ -1,7 +1,5 @@
 <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
-
 <div *ngIf="!loading">
-    
     <div class="box invoice-top">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
@@ -9,7 +7,7 @@
                     <div class="display-flex align-items-center">
                         <span class="header">
                             {{ 'invoice'|translate }}
-                            <span *ngIf="invoiceId">#{{invoiceId}}</span>
+                            <span *ngIf="invoiceId">#{{model.code}}</span>
                             for ${{model.total}}
                         </span>
                         <span *ngIf="model.status" class="status-badge {{model.status.toLowerCase()}}">
@@ -219,7 +217,7 @@
 
     <app-payments-add-modal [(show)]="showPaymentModal" [data]="paymentModalData"></app-payments-add-modal>
 
-    <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
+    <!-- <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
         <div nz-row>
             <div nz-col nzSpan="24">
                 <nz-form-item>
@@ -248,7 +246,7 @@
             <button type="button" (click)="closeCustomerDrawer()"
                 class="ant-btn ant-btn-primary"><span>Submit</span></button>
         </div>
-    </nz-drawer>
+    </nz-drawer> -->
 </div>
 
 <!-- <div class="box">

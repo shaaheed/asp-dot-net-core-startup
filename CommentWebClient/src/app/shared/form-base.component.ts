@@ -98,7 +98,7 @@ export class FormBaseComponent extends BaseComponent {
         if (this.isObjectNameFirstLetterVowel()) {
             _title = 'create.an.x0';
         }
-        this.title = this._translate.instant(_title, { x0: this._translate.instant(this.objectName) });
+        this.setTitle(_title, this.objectName);
     }
 
     isAddMode(): boolean {
@@ -116,7 +116,7 @@ export class FormBaseComponent extends BaseComponent {
         if (this.isObjectNameFirstLetterVowel()) {
             _title = 'update.an.x0';
         }
-        this.title = this._translate.instant(_title, { x0: this._translate.instant(this.objectName) });
+        this.setTitle(_title, this.objectName);
     }
 
     checkMode(fn: (id: number) => void, paramKey: string = 'id'): void {
@@ -254,6 +254,15 @@ export class FormBaseComponent extends BaseComponent {
     closeModal(result = {}) {
         if (this.modalInstance) {
             this.modalInstance.close(result);
+        }
+    }
+
+    private setTitle(title: string, objectName: string) {
+        if (this.objectName) {
+            this.title = this._translate.instant(title, { x0: this._translate.instant(objectName) });
+        }
+        else {
+            this.log('form object name not found');
         }
     }
 

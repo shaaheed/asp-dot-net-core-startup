@@ -13,4 +13,5 @@ export interface TableColumnConfig {
     hasToolTip?: boolean;
     getCellData?: (data?: any) => string;
     getCellToolTipData?: (data?: any) => string;
+    onClick?: (data?: any) => void;
 }

@@ -9,17 +9,20 @@ import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-payments-add-modal',
-  templateUrl: './payments-add-modal.component.html',
-  styleUrls: ['./payments-add-modal.component.scss']
+  templateUrl: './payments-add-modal.component.html'
 })
 export class PaymentsAddModalComponent extends FormComponent {
+
+  loading: boolean = false;
+  noData: boolean = false;
+  apiUrl = 'payments';
+  cancelRoute = 'payments';
+  objectName = "payment";
 
   @Input() show = false;
   @Output() showChange = new EventEmitter<boolean>();
   @Input() data: any = {};
 
-  mode: string = 'add';
-  loading: boolean = false;
   selectDateText: string = 'select.date'
   form: FormGroup;
   dateFormat: string = "dd-MM-yyyy";
