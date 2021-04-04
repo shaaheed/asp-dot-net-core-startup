@@ -10,5 +10,7 @@ export class AppFormComponent {
   @Input() component: FormComponent;
   @Input() content: TemplateRef<any>;
   @Input() headerStyle: any = {};
+  @Input() showTitleBar: boolean = true;
+  @Input() showFooter: boolean = true;
 
 }

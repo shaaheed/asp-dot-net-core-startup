@@ -72,6 +72,13 @@
         public const string TransactionList = "accounting.transaction.list";
         public const string TransactionManage = "accounting.transaction.manage";
 
+        public const string PaymentCreate = "payments.create";
+        public const string PaymentUpdate = "payments.update";
+        public const string PaymentView = "payments.view";
+        public const string PaymentDelete = "payments.delete";
+        public const string PaymentList = "payments.list";
+        public const string PaymentManage = "payments.manage";
+
         public static class Group
         {
             public const string Customer = "Customer";
@@ -84,6 +91,7 @@
             public const string ChartOfAccount = "Chart Of Account";
             public const string ChartOfAccountCategory = "Chart Of Account Category";
             public const string Transaction = "Transaction";
+            public const string Payment = "Payment";
         }
     }
 }

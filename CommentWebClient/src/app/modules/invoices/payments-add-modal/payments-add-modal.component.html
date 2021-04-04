@@ -8,41 +8,27 @@
                     <span class="header">
                         {{ data.title }}
                     </span>
-                    <span class="header-description margin-top-5">
+                    <!-- <span class="header-description margin-top-5">
                         Record a payment you’ve already received, such as cash, cheque, or bank payment.
-                    </span>
+                    </span> -->
                 </div>
             </div>
         </div>
     </ng-template>
 
     <ng-template #modalContent>
-        <div class="block bg-offset pad-t-20 pad-b-10 box-divider">
-            <div class="content">
+        <app-form [showTitleBar]="false" [showFooter]="false" [content]="content" [component]="self">
+            <ng-template #content>
                 <form nz-form [formGroup]="form">
-                    <nz-form-item class="field-container">
-                        <div><label>{{'payment.date'|translate}}</label></div>
-                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                            <nz-date-picker formControlName="paymentDate" [nzFormat]="dateFormat"
-                                [nzPlaceHolder]="selectDateText|translate">
-                            </nz-date-picker>
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item class="field-container">
-                        <div><label>{{'amount'|translate }}</label></div>
-                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                            <input type="text" nz-input formControlName="amount" placeholder="{{'amount'|translate}}" />
-                        </nz-form-control>
-                    </nz-form-item>
-                    <nz-form-item class="field-container">
-                        <div><label>{{'payment.method'|translate}}</label></div>
-                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                            <nz-select (ngModelChange)="paymentMethodSelectOnChange($event)" formControlName="paymentMethod"
-                                nzShowSearch nzAllowClear [nzPlaceHolder]="'payment.method'|translate">
-                                <nz-option *ngFor="let option of paymentMethods" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-                            </nz-select>
-                        </nz-form-control>
-                    </nz-form-item>
+                    <app-date-picker label="payment.date" placeholder="payment.date" formControlName="paymentDate">
+                    </app-date-picker>
+
+                    <app-input prefix="৳" label="amount" type="number" formControlName="amount" placeholder="amount">
+                    </app-input>
+
+                    <app-select-control label="payment.method" #paymentMethodSelect [formControl]="form.controls.paymentMethod">
+                    </app-select-control>
+
                     <!-- <nz-form-item class="field-container">
                         <div>
                             <label>{{'payment.account'|translate}}</label>
@@ -53,18 +39,13 @@
                             </nz-select>
                         </nz-form-control>
                     </nz-form-item> -->
-                    <nz-form-item class="field-container">
-                        <div>
-                            <label>{{'memo'|translate}}</label>
-                        </div>
-                        <nz-form-control>
-                            <textarea nz-input formControlName="memo"
-                                placeholder="{{'memo'|translate}}"></textarea>
-                        </nz-form-control>
-                    </nz-form-item>
+
+                    <app-text label="memo" formControlName="memo" placeholder="memo">
+                    </app-text>
                 </form>
-            </div>
-        </div>
+            </ng-template>
+        </app-form>
+
     </ng-template>
 
     <ng-template #modalFooter>
@@ -85,7 +66,3 @@
         </div>
     </ng-template>
 </nz-modal>
-
-<ng-template #errorTemplate let-control>
-    {{control?.errors?.message}}
-</ng-template>

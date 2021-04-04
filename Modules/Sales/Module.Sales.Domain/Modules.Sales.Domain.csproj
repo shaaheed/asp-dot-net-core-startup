@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Payments\" />
+  </ItemGroup>
+
 </Project>

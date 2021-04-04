@@ -63,18 +63,18 @@ namespace Module.Sales.Domain.Invoices
             invoice.Calculate();
 
             invoice.AmountDue = 0;
-            //var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-            //    .Where(x => x.InvoiceId == invoice.Id)
-            //    .Select(x => x.Payment.Amount)
-            //    .Sum();
+            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
+                .Where(x => x.InvoiceId == invoice.Id)
+                .Select(x => x.Payment.Amount)
+                .Sum();
 
-            //invoice.AddPayment(invoicePaymentAmount);
+            invoice.AddPayment(invoicePaymentAmount);
 
-            //if (invoicePaymentAmount > invoice.GrandTotal)
-            //{
-            // Over paid.
-            // TODO: Create credit note
-            //}
+            if (invoicePaymentAmount > invoice.GrandTotal)
+            {
+                //Over paid.
+                //TODO: Create credit note
+            }
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

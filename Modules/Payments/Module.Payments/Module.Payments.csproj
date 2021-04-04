@@ -1,18 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core.Interfaces\Core.Interfaces.csproj" />
-    <ProjectReference Include="..\..\Core.Web\Core.Web.csproj" />
-    <ProjectReference Include="..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
-    <ProjectReference Include="..\Module.Payments.Common\Module.Payments.Common.csproj" />
-    <ProjectReference Include="..\Module.Payments.Data\Module.Payments.Data.csproj" />
-    <ProjectReference Include="..\Module.Payments.Domain\Module.Payments.Domain.csproj" />
-    <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />
-    <ProjectReference Include="..\Module.Payments.Persistence.EntityFramework\Module.Payments.Persistence.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
   </ItemGroup>
 
 </Project>

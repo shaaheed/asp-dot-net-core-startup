@@ -1,9 +1,9 @@
 ﻿using Msi.Mediator.Abstractions;
-using Core.Infrastructure.Exceptions;
-using Module.Payments.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Module.Payments.Entities;
+using Msi.Core;
 
 namespace Module.Payments.Domain
 {

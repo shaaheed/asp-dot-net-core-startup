@@ -22,6 +22,6 @@ export const INVOICE_CONFIG = {
         }),
         { path: `${prefix}/create`, loadChildren: () => import('./add/invoices-add.module').then(x => x.InvoicesAddModule) },
         { path: `${prefix}/:id/edit`, loadChildren: () => import('./add/invoices-add.module').then(x => x.InvoicesAddModule) },
-        { path: `${prefix}/:id`, loadChildren: () => import('./home/invoice-home.module').then(x => x.InvoiceHomeModule) }
+        { path: `${prefix}/:id`, loadChildren: () => import('./view/invoices-view.module').then(x => x.InvoicesViewModule) }
     ]
 }

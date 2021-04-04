@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { of, forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { InvoiceService } from '../services/invoice.service';
 import { PaymentService } from '../services/payment.service';
+import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
   selector: 'app-payments-add-modal',
@@ -23,10 +24,11 @@ export class PaymentsAddModalComponent extends FormComponent {
   @Output() showChange = new EventEmitter<boolean>();
   @Input() data: any = {};
 
-  selectDateText: string = 'select.date'
   form: FormGroup;
   dateFormat: string = "dd-MM-yyyy";
   paymentMethods: any[] = [];
+
+  @ViewChild('paymentMethodSelect') paymentMethodSelect: SelectControlComponent;
 
   constructor(
     public fb: FormBuilder,
@@ -81,6 +83,12 @@ export class PaymentsAddModalComponent extends FormComponent {
       }
     );
     //super.ngOnInit(snapshot);
+  }
+
+  ngAfterViewInit() {
+    // this.paymentMethodSelect.register((pagination, search) => {
+    //   return this._httpService.get('payments/methods');
+    // });
   }
 
   submit() {

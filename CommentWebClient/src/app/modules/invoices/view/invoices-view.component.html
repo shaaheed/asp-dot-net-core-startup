@@ -1,6 +1,130 @@
 <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
 <div *ngIf="!loading">
-    <div class="box invoice-top">
+    <div class="box no-shadow" style="margin-top: 0; padding: 0 16px;">
+        <div class="block page-header" style="padding-left: 0;">
+            <div class="column" style="flex-direction: column; align-items: flex-start;">
+                <h1 class="no-margin" style="display: flex; align-items: center;">
+                    <span>{{ 'invoice'|translate }} #{{model.code}}</span>
+                    <span style="display: flex; padding-left: 10px;" *ngIf="model.status"
+                        class="status-badge {{model.status.toLowerCase()}}">
+                        <nz-tag>
+                            <span>{{model.status}}</span>
+                        </nz-tag>
+                    </span>
+                </h1>
+                <div style="padding: 10px 0; width: 100%;">
+                    <div nz-row>
+                        <div nz-col nzSpan="12">
+                            <button style="margin: 0;" nzType="primary" (click)="payment()" nz-button
+                                class="btn-custom">
+                                <i nz-icon nzType="plus"></i>
+                                {{'add.payment'|translate}}
+                            </button>
+                            <button nz-button class="btn-custom">
+                                {{'create.new.invoice'|translate}}
+                            </button>
+                        </div>
+                        <div nz-col nzSpan="12" style="text-align: right;">
+                            <button nz-button class="btn-custom">
+                                <i nz-icon nzType="printer" nzTheme="outline"></i>
+                                {{'print'|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block pad-t-20">
+            <div class="content">
+                <div nz-row>
+                    <div nz-col nzSpan="15">
+                        <div class="fs-i">{{'customer'|translate}}</div>
+                        <div class="fw-600">{{model.customer.displayName}}</div>
+                        <div>{{model.customer.contact}}</div>
+                        <div>{{model.customer.mobile}}</div>
+                        <div>{{model.customer.email}}</div>
+                    </div>
+                    <div nz-col nzSpan="3" style="text-align: right;">
+                        <div>{{'number'|translate}} :</div>
+                        <div>{{'invoice.date'|translate}} :</div>
+                        <div>{{'payment.due'|translate}} :</div>
+                    </div>
+                    <div nz-col nzSpan="2"></div>
+                    <div nz-col nzSpan="4">
+                        <div>{{model.code}}</div>
+                        <div>{{model.issueDate|momentDate:'MMMM D, YYYY'}}</div>
+                        <div>{{model.paymentDueDate|momentDate:'MMMM D, YYYY'}}</div>
+                    </div>
+                </div>
+                <div style="padding: 30px 0;">
+
+                    <nz-table #basicTable nzHideOnSinglePage="true" class="hide-table-placeholder">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{'name'|translate}}</th>
+                                <th>{{'quantity'|translate}}</th>
+                                <th>{{'price'|translate}}</th>
+                                <th>{{'tax'|translate}}</th>
+                                <th class="ta-right">{{'amount'|translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of model.items; let i = index">
+                                <tr class="bg-white">
+                                    <td style="width: 30px;">{{i+1}}</td>
+                                    <td>
+                                        {{item.name}}
+                                    </td>
+                                    <td>
+                                        {{item.quantity}}
+                                    </td>
+                                    <td>
+                                        ৳ {{item.unitPrice}}
+                                        <ng-container *ngIf="item.unit">
+                                            / {{item.unit.name}}
+                                        </ng-container>
+                                    </td>
+                                    <td style="max-width: 150px;">
+
+                                    </td>
+                                    <td class="ta-right">
+                                        <strong>৳ {{ item.total }}</strong>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <tr class="bg-white no-border">
+                                <td colspan="5" class="ta-right">
+                                    <strong>{{'subtotal'|translate}}</strong>
+                                </td>
+                                <td class="ta-right">
+                                    <strong>৳ {{subtotal}}</strong>
+                                </td>
+                            </tr>
+                            <tr class="bg-white no-border">
+                                <td colspan="5" class="ta-right">
+                                    {{model.adjustmentText}}
+                                </td>
+                                <td style="width: 150px;" class="ta-right">
+                                    ৳ {{model.adjustmentAmount}}
+                                </td>
+                            </tr>
+                            <tr class="bg-white no-border">
+                                <td colspan="5" class="ta-right">
+                                    <strong>{{'total'|translate}}</strong>
+                                </td>
+                                <td style="width: 150px;" class="ta-right">
+                                    <strong>৳ {{model.total}}</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="box invoice-top">
         <div class="block header pad-v-12 pad-h-20 box-divider">
             <div class="column content">
                 <div class="header-container">
@@ -67,11 +191,11 @@
                 <div class="title fw-500">{{'customer'|translate}}</div>
                 <div class="content fw-600">
                     <a (click)="showCustomerDrawer()">{{model?.customer?.name}}</a>
-                    <!-- <a (click)="showCustomerDrawer()" nz-popover nzPopoverTrigger="click"
+                    <a (click)="showCustomerDrawer()" nz-popover nzPopoverTrigger="click"
                             [nzPopoverContent]="contentTemplate">sahidul@bitmascot.com</a>
                         <ng-template #contentTemplate>
                             <a (click)="clickMe()">Close</a>
-                        </ng-template> -->
+                        </ng-template>
                 </div>
             </div>
             <div class="column v-divider">
@@ -92,7 +216,6 @@
                 </div>
             </div>
             <div class="column">
-                <!-- <nz-button-group> -->
                 <button nz-button class="btn-custom">
                     <i nz-icon nzType="file-pdf" nzTheme="outline"></i>
                     {{'download.pdf'|translate}}
@@ -105,7 +228,6 @@
                     <i nz-icon nzType="mail" nzTheme="outline"></i>
                     {{'send.email'|translate}}
                 </button>
-                <!-- </nz-button-group> -->
             </div>
         </div>
         <div class="block bg-offset invoice-view box-divider">
@@ -213,7 +335,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <app-payments-add-modal [(show)]="showPaymentModal" [data]="paymentModalData"></app-payments-add-modal>
 

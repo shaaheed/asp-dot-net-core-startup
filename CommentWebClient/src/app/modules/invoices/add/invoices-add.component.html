@@ -1,7 +1,7 @@
 <app-form [content]="content" [component]="self">
     <ng-template #content>
         <form nz-form [formGroup]="form">
-            <div class="block pad-t-20 pad-b-10 box-divider">
+            <div class="block pad-t-20 pad-b-10 box-divider" style="padding-left: 16px;">
                 <div class="content">
                     <div class="invoice-head">
                         <div class="left">
@@ -9,7 +9,7 @@
                                 formControlName="customerId" [content]="customerTemplate">
                                 <ng-template #customerTemplate let-customer>
                                     <div class="mb-14">
-                                        <div class="fs-i"> Bill to</div>
+                                        <div class="fs-i">{{'customer'|translate}}</div>
                                         <div class="fw-600">{{customer.displayName}}</div>
                                         <div>{{customer.contact}}</div>
                                         <div>{{customer.mobile}}</div>

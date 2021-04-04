@@ -344,8 +344,9 @@ nz-table tr:hover {
 
 .box {
     border-radius: 5px;
-    padding-bottom: .1px;;
-    margin: 15px 24px;
+    padding-bottom: .1px;
+    margin-left: 1px;
+    // margin: 15px 24px;
     @include box-shadow-m;
     .block {
         background-color: #fff;
@@ -723,18 +724,18 @@ nz-header .ant-badge-count {
             color: #3d4eac;
         }
     }
-    &.failed, &.due {
+    &.failed, &.due, &.unpaid {
         .ant-tag {
             background-color: #f8e5b9;
             color: #983705;
         }
     }
-    &.unpaid {
-        .ant-tag {
-            background-color: #e3e8ee;
-            color: #4f566b;
-        }
-    }
+    // &.unpaid {
+    //     .ant-tag {
+    //         background-color: #e3e8ee;
+    //         color: #4f566b;
+    //     }
+    // }
 }
 
 .fit-cell {

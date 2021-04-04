@@ -16,6 +16,7 @@ import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { PaymentsAddModalModule } from '../payments-add-modal/payments-add-modal.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzDropDownModule,
     NzDrawerModule,
     NzButtonModule,
-    NzIconModule
+    NzIconModule,
+    NzGridModule
   ],
   exports: [InvoicesViewComponent],
   providers: [InvoiceService]

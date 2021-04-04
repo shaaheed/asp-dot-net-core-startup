@@ -7,7 +7,7 @@
         </ng-container>
     </label>
     <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
-        <nz-date-picker (ngModelChange)="onValueChange($event)" [formControl]="ngControl.control" [nzFormat]="dateFormat" nzPlaceHolder="{{placeholder|translate}}"></nz-date-picker>
+        <nz-date-picker style="width: 100%;" (ngModelChange)="onValueChange($event)" [formControl]="ngControl.control" [nzFormat]="dateFormat" nzPlaceHolder="{{placeholder|translate}}"></nz-date-picker>
         <ng-template #errorTemplate let-control>
             {{control?.errors?.message}}
         </ng-template>

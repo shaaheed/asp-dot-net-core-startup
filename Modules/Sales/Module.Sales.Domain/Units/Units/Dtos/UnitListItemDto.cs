@@ -9,6 +9,8 @@ namespace Module.Sales.Domain.Units
     {
         public string Symbol { get; set; }
         public GuidIdNameDto Type { get; set; }
+        public GuidCodeNameDto BaseUnit { get; set; }
+        public float Factor { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
 
         public static Expression<Func<Unit, UnitListItemDto>> Selector()
@@ -20,6 +22,13 @@ namespace Module.Sales.Domain.Units
                 Code = x.Code,
                 Symbol = x.Symbol,
                 Type = new GuidIdNameDto { Id = x.TypeId, Name = x.Type.Name },
+                BaseUnit = x.BaseUnitId != null ? new GuidCodeNameDto
+                {
+                    Id = (Guid)x.BaseUnitId,
+                    Code = x.BaseUnit.Symbol,
+                    Name = x.BaseUnit.Name
+                } : null,
+                Factor = x.Factor,
                 CreatedAt = x.CreatedAt
             };
         }

@@ -3,9 +3,10 @@ import * as moment from 'moment';
 
 @Pipe({ name: 'momentDate' })
 export class MomentPipe implements PipeTransform {
-    transform(value: Date | moment.Moment): any {
+    transform(value: Date | moment.Moment, args?: any): any {
         if(value) {
-            return moment.utc(value).local().format('MMMM D, YYYY, h:mm:ss A');
+            const format = args || 'MMMM D, YYYY, h:mm:ss A';
+            return moment.utc(value).local().format(format);
         }
         return '';
     }

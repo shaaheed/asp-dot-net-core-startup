@@ -35,7 +35,7 @@ export class InvoicesViewComponent extends BaseComponent {
   ngOnInit() {
 
     const snapshot = this.activatedRoute.snapshot;
-    this.invoiceId = snapshot.data.invoiceId;
+    this.invoiceId = snapshot.params.id;
     this.paymentModalData.invoiceId = this.invoiceId;
     this.get(this.invoiceId);
 
@@ -56,9 +56,9 @@ export class InvoicesViewComponent extends BaseComponent {
       (res: any) => {
         this.model = res.data;
         this.loading = false;
-        if (res.items) {
-          this.subtotal = res.items.reduce((a, c) => a + c.subtotal, 0);
-          this.total = res.items.reduce((a, c) => a + c.total, 0);
+        if (res.data?.items) {
+          this.subtotal = res.data.items.reduce((a, c) => a + c.subtotal, 0);
+          this.total = res.data.items.reduce((a, c) => a + c.total, 0);
           this.paymentModalData.invoiceTotal = this.total;
         }
       },

@@ -14,6 +14,11 @@ import { PaymentsAddModalComponent } from './payments-add-modal.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { InvoiceService } from '../services/invoice.service';
 import { PaymentService } from '../services/payment.service';
+import { DatePickerModule } from 'src/app/shared/date/date.module';
+import { InputModule } from 'src/app/shared/input/input.module';
+import { AppFormModule } from 'src/app/shared/form/form.module';
+import { TextModule } from 'src/app/shared/text/text.module';
+import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,12 @@ import { PaymentService } from '../services/payment.service';
     NzSelectModule,
     NzModalModule,
     NzDatePickerModule,
-    NzButtonModule
+    NzButtonModule,
+    DatePickerModule,
+    InputModule,
+    AppFormModule,
+    TextModule,
+    SelectControlModule
   ],
   exports: [PaymentsAddModalComponent],
   providers: [InvoiceService, PaymentService]
