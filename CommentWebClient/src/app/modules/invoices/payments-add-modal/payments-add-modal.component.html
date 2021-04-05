@@ -8,9 +8,6 @@
                     <span class="header">
                         {{ data.title }}
                     </span>
-                    <!-- <span class="header-description margin-top-5">
-                        Record a payment you’ve already received, such as cash, cheque, or bank payment.
-                    </span> -->
                 </div>
             </div>
         </div>
@@ -51,16 +48,16 @@
     <ng-template #modalFooter>
         <div class="block footer pad-v-12 pad-h-20 box-divider">
             <div class="column">
-                <button (click)="handleCancel()" nz-button class="btn-custom">
-                    {{'cancel'|translate}}
-                </button>
                 <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom" nzType="primary">
                     <span *ngIf="data.mode == 'add'">
-                        {{'add'|translate}}
+                        {{'add.payment'|translate}}
                     </span>
                     <span *ngIf="data.mode == 'edit'">
-                        {{'update'|translate}}
+                        {{'update.payment'|translate}}
                     </span>
+                </button>
+                <button (click)="handleCancel()" nz-button class="btn-custom">
+                    {{'cancel'|translate}}
                 </button>
             </div>
         </div>

@@ -56,6 +56,7 @@
   "refresh": "Refresh",
   "create.new.invoice": "Create new invoice",
   "add.payment": "Add payment",
+  "update.payment": "Update payment",
   "date": "Date",
   "amount.due": "Amount due",
   "due": "Due",
@@ -168,5 +169,6 @@
   "symbol": "Symbol",
   "type": "Type",
   "number": "Number",
-  "adjustment": "Adjustment"
+  "adjustment": "Adjustment",
+  "add.payment.for.invoice.x0": "Add payment for invoice #{{x0}}"
 }

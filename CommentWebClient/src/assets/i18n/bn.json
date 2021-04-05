@@ -54,6 +54,7 @@
   "refresh": "রিফ্রেশ",
   "create.new.invoice": "নতুন চালান তৈরি করুন",
   "add.payment": "পেমেন্ট করুন",
+  "update.payment": "পেমেন্ট সম্পাদনা করুন",
   "date": "তারিখ",
   "amount.due": "বাকি",
   "due": "বাকি",
@@ -166,5 +167,6 @@
   "symbol": "প্রতীক",
   "type": "ধরন",
   "number": "নাম্বার",
-  "adjustment": "সমন্বয়সাধন"
+  "adjustment": "সমন্বয়সাধন",
+  "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন"
 }

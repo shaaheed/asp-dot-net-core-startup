@@ -1,6 +1,7 @@
 ﻿using Module.Sales.Domain.Contacts;
 using Module.Sales.Entities;
 using Module.Systems.Domain;
+using Msi.Data.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,8 @@ namespace Module.Sales.Domain.Invoices
         public string AdjustmentText { get; set; }
         public decimal AdjustmentAmount { get; set; }
 
-        public static Expression<Func<Invoice, InvoiceDto>> Selector()
+        public static Expression<Func<Invoice, InvoiceDto>> Selector(decimal paymentAmount = 0)
         {
-            //var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-            //    .Where(x => x.InvoiceId == request.Id)
-            //    .Select(x => x.Payment.Amount)
-            //    .Sum();
-
             return x => new InvoiceDto
             {
                 Id = x.Id,
@@ -72,8 +68,9 @@ namespace Module.Sales.Domain.Invoices
                         Code = y.LineItem.Unit.Symbol,
                         Name = y.LineItem.Unit.Name
                     } : null
-                })
-                // PaymentAmount = invoicePaymentAmount,
+                }),
+                PaymentAmount = paymentAmount,
+                Total = x.GrandTotal
             };
         }
     }

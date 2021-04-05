@@ -120,6 +120,10 @@ span.ant-table-column-title {
     border-radius: 0;
 }
 
+.no-hover .ant-table-tbody > tr.ant-table-row:hover > td {
+    background: none;
+}
+
 app-layout-default .menu-sidebar {
     box-shadow: none;
 }

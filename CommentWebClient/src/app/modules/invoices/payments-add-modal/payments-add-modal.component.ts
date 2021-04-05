@@ -24,7 +24,6 @@ export class PaymentsAddModalComponent extends FormComponent {
   @Output() showChange = new EventEmitter<boolean>();
   @Input() data: any = {};
 
-  form: FormGroup;
   dateFormat: string = "dd-MM-yyyy";
   paymentMethods: any[] = [];
 
@@ -50,7 +49,7 @@ export class PaymentsAddModalComponent extends FormComponent {
       this.markModeAsAdd()
     }
 
-    this.form = this.fb.group({
+    this.createForm({
       paymentDate: [new Date(), [], this.paymentDateValidator.bind(this)],
       amount: [null, [], this.paymentAmountValidator.bind(this)],
       paymentMethod: [],
@@ -59,7 +58,7 @@ export class PaymentsAddModalComponent extends FormComponent {
     });
 
     this.form.controls.paymentMethod.setValue(2);
-    this.form.controls.amount.setValue(this.data.invoiceTotal);
+    this.form.controls.amount.setValue(this.data.amount || 0);
 
     const snapshot = this.route.snapshot;
     const id = snapshot.params.id
