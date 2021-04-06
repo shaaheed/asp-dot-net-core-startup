@@ -1,5 +1,5 @@
 <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
-<div *ngIf="!loading">
+<div [style.display]="loading ? 'none' : ''">
     <div class="box no-shadow" style="margin-top: 0; padding: 0 16px;">
         <div class="block page-header" style="padding-left: 0;">
             <div class="column" style="flex-direction: column; align-items: flex-start;">
@@ -15,8 +15,8 @@
                 <div style="padding: 10px 0; width: 100%;">
                     <div nz-row>
                         <div nz-col nzSpan="12">
-                            <button style="margin: 0;" nzType="primary" (click)="payment()" nz-button
-                                class="btn-custom">
+                            <button [disabled]="model.amountDue == 0" style="margin: 0;" nzType="primary"
+                                (click)="payment()" nz-button class="btn-custom">
                                 <i nz-icon nzType="plus"></i>
                                 {{'add.payment'|translate}}
                             </button>
@@ -32,21 +32,31 @@
             <div class="content">
                 <div nz-row>
                     <div nz-col nzSpan="17">
-                        <div class="fs-i">{{'customer'|translate}}</div>
-                        <div class="fw-600">{{model.customer.displayName}}</div>
-                        <div>{{model.customer.contact}}</div>
-                        <div>{{model.customer.mobile}}</div>
-                        <div>{{model.customer.email}}</div>
+                        <ng-container *ngIf="model.customer">
+                            <div class="fs-i">{{'customer'|translate}}</div>
+                            <div class="fw-600">{{model.customer?.displayName}}</div>
+                            <div>{{model.customer?.contact}}</div>
+                            <div>{{model.customer?.mobile}}</div>
+                            <div>{{model.customer?.email}}</div>
+                        </ng-container>
                     </div>
                     <div nz-col nzSpan="3" style="text-align: right;">
-                        <div>{{'number'|translate}} :</div>
-                        <div>{{'invoice.date'|translate}} :</div>
-                        <div>{{'payment.due'|translate}} :</div>
+                        <div>{{'number:'|translate}}</div>
+                        <div>{{'invoice.date'|translate}}</div>
+                        <div>{{'payment.due'|translate}}</div>
                     </div>
                     <div nz-col nzSpan="4">
                         <div class="ta-right">{{model.code}}</div>
-                        <div class="ta-right">{{model.issueDate|momentDate:'MMMM D, YYYY'}}</div>
-                        <div class="ta-right">{{model.paymentDueDate|momentDate:'MMMM D, YYYY'}}</div>
+                        <div class="ta-right">
+                            <span nz-tooltip [nzTooltipTitle]="model.issueDate|momentDate">
+                                {{model.issueDate|momentDate:'MMMM DD, YYYY'}}
+                            </span>
+                        </div>
+                        <div class="ta-right">
+                            <span nz-tooltip [nzTooltipTitle]="model.paymentDueDate|momentDate">
+                                {{model.paymentDueDate|momentDate:'MMMM D, YYYY'}}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div style="padding: 30px 0;">
@@ -91,7 +101,7 @@
                                     </td>
                                 </tr>
                             </ng-container>
-                            <tr class="bg-white no-border">
+                            <!-- <tr class="bg-white no-border">
                                 <td colspan="4"></td>
                                 <td class="ta-right">
                                     <strong>{{'subtotal'|translate}}</strong>
@@ -99,7 +109,7 @@
                                 <td class="ta-right">
                                     <strong>৳ {{subtotal}}</strong>
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr class="bg-white no-border">
                                 <td colspan="4"></td>
                                 <td class="ta-right border-bottom">
@@ -121,6 +131,15 @@
                             <tr class="bg-white no-border">
                                 <td colspan="4"></td>
                                 <td class="ta-right border-bottom">
+                                    {{'payments'|translate}}
+                                </td>
+                                <td style="width: 150px;" class="ta-right border-bottom">
+                                    <span style="color: red;">(-) ৳ {{model.paymentAmount}}</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-white no-border">
+                                <td colspan="4"></td>
+                                <td class="ta-right border-bottom">
                                     <strong>{{'due'|translate}}</strong>
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
@@ -132,53 +151,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="block page-header" style="padding-left: 0;">
-            <div class="column" style="flex-direction: column; align-items: flex-start;">
-                <h1 class="no-margin" style="display: flex; align-items: center;">
-                    <span>{{ 'payments'|translate }}</span>
-                </h1>
-            </div>
-        </div>
-        <div class="block pad-t-20">
-            <div class="content">
-                <nz-table #basicTable nzHideOnSinglePage="true" class="hide-table-placeholder">
-                    <thead>
-                        <tr>
-                            <th>{{'name'|translate}}</th>
-                            <th>{{'quantity'|translate}}</th>
-                            <th>{{'price'|translate}}</th>
-                            <th>{{'tax'|translate}}</th>
-                            <th class="ta-right">{{'amount'|translate}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor="let item of model.items; let i = index">
-                            <tr class="bg-white">
-                                <td>
-                                    {{item.name}}
-                                </td>
-                                <td>
-                                    {{item.quantity}}
-                                </td>
-                                <td>
-                                    ৳ {{item.unitPrice}}
-                                    <ng-container *ngIf="item.unit">
-                                        / {{item.unit.name}}
-                                    </ng-container>
-                                </td>
-                                <td style="max-width: 150px;">
-
-                                </td>
-                                <td class="ta-right">
-                                    <strong>৳ {{ item.total }}</strong>
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </nz-table>
-            </div>
-        </div>
+        <app-list [config]="paymentTableConfig"></app-list>
     </div>
 
     <!-- <div class="box invoice-top">
@@ -394,7 +367,8 @@
         </div>
     </div> -->
 
-    <app-payments-add-modal [(show)]="showPaymentModal" [data]="paymentModalData"></app-payments-add-modal>
+    <app-payments-add-modal #paymentModal [(show)]="showPaymentModal" [data]="paymentModalData">
+    </app-payments-add-modal>
 
     <!-- <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
         <div nz-row>

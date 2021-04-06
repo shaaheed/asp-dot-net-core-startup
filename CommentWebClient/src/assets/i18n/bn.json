@@ -49,6 +49,7 @@
   "quantity": "পরিমাণ",
   "items": "আইটেম",
   "amount": "মোট",
+  "payment.amount": "পরিমাণ",
   "subtotal": "সাব টোটাল",
   "total": "মোট",
   "refresh": "রিফ্রেশ",
@@ -58,6 +59,7 @@
   "date": "তারিখ",
   "amount.due": "বাকি",
   "due": "বাকি",
+  "paid": "প্রদত্ত",
   "status": "স্ট্যাটাস",
   "timeline": "টাইম লাইন",
   "details": "বিস্তারিত",
@@ -167,6 +169,7 @@
   "symbol": "প্রতীক",
   "type": "ধরন",
   "number": "নাম্বার",
+  "number:": "নাম্বারঃ",
   "adjustment": "সমন্বয়সাধন",
   "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন"
 }

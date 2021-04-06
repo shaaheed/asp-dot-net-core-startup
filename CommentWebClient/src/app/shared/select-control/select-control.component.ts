@@ -70,6 +70,12 @@ export class SelectControlComponent extends AntControlComponent {
     }
   }
 
+  @Input() set registerFn(fn: (pagination: string, search?: string) => Observable<Object>) {
+    if (fn) {
+      this.register(fn);
+    }
+  }
+
   register(fn: (pagination: string, search?: string) => Observable<Object>) {
     this.fetchFn = fn;
     return this;

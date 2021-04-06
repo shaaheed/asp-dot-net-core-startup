@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
+using Module.Sales.Domain.Services;
 
 namespace Module.Sales.Domain.Invoices
 {
@@ -12,11 +13,14 @@ namespace Module.Sales.Domain.Invoices
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceService _invoiceService;
 
         public UpdateInvoiceCommandHandler(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IInvoiceService invoiceService)
         {
             _unitOfWork = unitOfWork;
+            _invoiceService = invoiceService;
         }
 
         public async Task<long> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
@@ -63,14 +67,9 @@ namespace Module.Sales.Domain.Invoices
             invoice.Calculate();
 
             invoice.AmountDue = 0;
-            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-                .Where(x => x.InvoiceId == invoice.Id)
-                .Select(x => x.Payment.Amount)
-                .Sum();
+            _invoiceService.AddPayment(invoice);
 
-            invoice.AddPayment(invoicePaymentAmount);
-
-            if (invoicePaymentAmount > invoice.GrandTotal)
+            if (false /*invoicePaymentAmount > invoice.GrandTotal*/)
             {
                 //Over paid.
                 //TODO: Create credit note

@@ -38,10 +38,12 @@ export class Column {
         }
     }
 
-    static date(title: string, getCellData?: (data: any) => string): TableColumnConfig {
+    static date(title: string, getCellData?: (data: any) => any): TableColumnConfig {
         return {
             title: title,
-            getCellData: getCellData || (x => AppInjector.get(MomentPipe).transform(x[title]))
+            getCellData: x => AppInjector.get(MomentPipe).transform(getCellData(x), 'MMM DD, YYYY'),
+            hasToolTip: true,
+            getCellToolTipData: x => AppInjector.get(MomentPipe).transform(getCellData(x))
         }
     }
 }

@@ -21,6 +21,7 @@ export class FormBaseComponent extends BaseComponent {
     objectName: string = "";
 
     apiUrl: string;
+    buildApiUrl: (data?: any) => string;
     cancelRoute: string;
 
     onCheckMode: (id: number) => void;
@@ -154,6 +155,12 @@ export class FormBaseComponent extends BaseComponent {
     submit() {
         const body = this.constructObject(this.form.controls);
         this.invoke(this.onBeforeSubmit, body);
+        if (this.buildApiUrl) {
+            const url = this.buildApiUrl();
+            if (url) {
+                this.apiUrl = url;
+            }
+        }
         if (this.isAddMode() && this.apiUrl && body) {
             this.create({
                 request: this._httpService.post(this.apiUrl, body),

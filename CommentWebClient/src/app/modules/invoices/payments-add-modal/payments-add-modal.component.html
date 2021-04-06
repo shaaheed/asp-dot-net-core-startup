@@ -23,7 +23,7 @@
                     <app-input prefix="৳" label="amount" type="number" formControlName="amount" placeholder="amount">
                     </app-input>
 
-                    <app-select-control label="payment.method" #paymentMethodSelect [formControl]="form.controls.paymentMethod">
+                    <app-select-control [registerFn]="registerPaymentMethodSelect" label="payment.method" [formControl]="form.controls.paymentMethod">
                     </app-select-control>
 
                     <!-- <nz-form-item class="field-container">

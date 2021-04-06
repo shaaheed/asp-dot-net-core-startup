@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { Router, ActivatedRoute } from '@angular/router';
-import { InvoiceService } from '../services/invoice.service';
+import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
+import { ListPageConfig } from 'src/app/shared/list/list.config';
+import { Column } from 'src/services/column.service';
+import { PaymentsAddModalComponent } from '../payments-add-modal/payments-add-modal.component';
 
 @Component({
   selector: 'app-invoices-view',
@@ -20,24 +20,41 @@ export class InvoicesViewComponent extends BaseComponent {
   showCustomer: boolean = false;
   showPaymentModal: boolean = false;
   paymentModalData: any = {}
-  invoiceId
+  invoiceId;
+
+  @ViewChild('paymentModal') paymentModal: PaymentsAddModalComponent;
+
+  paymentTableConfig = <ListPageConfig>{
+    getFetchApiUrl: x => `invoices/${this.invoiceId}/payments`,
+    pageTitle: 'payments',
+    createPageRoute: 'payments',
+    editPageRoute: x => 'payments',
+    getDeleteApiUrl: x => `invoices/${this.invoiceId}/payments/${x.id}`,
+    tableColumns: [
+      Column.date('date', x => x.paymentDate),
+      {
+        title: 'payment.amount',
+        getCellData: x => `৳ ${x.amount}`,
+        tdClass: 'fit-cell ta-right'
+      }
+    ]
+  }
 
   constructor(
-    private modalService: NzModalService,
-    private messageService: NzMessageService,
-    private invoiceService: InvoiceService,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit() {
-
     const snapshot = this.activatedRoute.snapshot;
     this.invoiceId = snapshot.params.id;
     this.paymentModalData.invoiceId = this.invoiceId;
     this.get(this.invoiceId);
+  }
+
+  ngAfterViewInit() {
+    this.setPaymentModalApiUrl();
   }
 
   refresh() {
@@ -48,28 +65,38 @@ export class InvoicesViewComponent extends BaseComponent {
     this.loading = true;
     this.subscribe(this._httpService.get(`invoices/${id}`),
       (res: any) => {
-        this.model = res.data;
         this.loading = false;
-        if (this.model?.items) {
-          this.subtotal = this.model.items.reduce((a, c) => a + c.subtotal, 0);
-          this.total = this.model.items.reduce((a, c) => a + c.total, 0);
-          this.paymentModalData.invoiceTotal = this.total;
-        }
-        this.paymentModalData = {
-          title: this._translate.instant('add.payment.for.invoice.x0', {x0: this.model.code}),
-          mode: 'add',
-          amount: this.model.amountDue
+        if (res) {
+          this.model = res.data;
+          if (this.model?.items) {
+            this.subtotal = this.model.items.reduce((a, c) => a + c.subtotal, 0);
+            this.total = this.model.items.reduce((a, c) => a + c.total, 0);
+            this.paymentModalData.invoiceTotal = this.total;
+          }
+          this.paymentModalData = {
+            title: this._translate.instant('add.payment.for.invoice.x0', { x0: this.model.code }),
+            mode: 'add',
+            amount: this.model.amountDue
+          }
+          this.setPaymentModalApiUrl();
         }
       },
       err => {
-        console.log(err);
         this.loading = false;
       }
     );
   }
 
+  setPaymentModalApiUrl() {
+    if (this.paymentModal) {
+      this.paymentModal.buildApiUrl = data => {
+        return `invoices/${this.invoiceId}/payments`;
+      }
+    }
+  }
+
   delete(e) {
-    const deleteModal = this.modalService.confirm({
+    const deleteModal = this._modalService.confirm({
       nzTitle: 'Confirm',
       nzContent: `Do you want to delete?`,
       nzOkText: 'Delete',
@@ -78,10 +105,10 @@ export class InvoicesViewComponent extends BaseComponent {
       nzClosable: false,
       nzOnOk: () => {
         // deleteModal.getInstance().nzOkLoading = true;
-        this.subscribe(this.invoiceService.delete(e.id),
+        this.subscribe(/*this.invoiceService.delete(e.id)*/null,
           res => {
             // deleteModal.getInstance().nzOkLoading = false;
-            this.messageService.success('Successfully deleted');
+            this._messageService.success('Successfully deleted');
             // this.get();
           },
           err => {
@@ -106,7 +133,7 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   add() {
-    
+
   }
 
 }

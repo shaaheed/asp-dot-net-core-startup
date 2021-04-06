@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Modules\Organizations\Module.Organizations\Module.Organizations.csproj" />
+    <ProjectReference Include="..\Modules\Payments\Module.Payments\Module.Payments.csproj" />
     <ProjectReference Include="..\Modules\Permissions\Module.Permissions\Module.Permissions.csproj" />
     <ProjectReference Include="..\Modules\Sales\Module.Sales\Module.Sales.csproj" />
     <ProjectReference Include="..\Modules\Systems\Module.Systems\Module.Systems.csproj" />

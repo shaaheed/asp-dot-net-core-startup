@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { InvoicesViewComponent } from './invoices-view.component';
 import { InvoicesViewRoutingModule } from './invoices-view-routing.module';
 import { CommonModule } from '@angular/common';
@@ -11,12 +10,12 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { PaymentsAddModalModule } from '../payments-add-modal/payments-add-modal.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { ListModule } from 'src/app/shared/list/list.module';
 
 @NgModule({
   declarations: [
@@ -37,9 +36,9 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzDrawerModule,
     NzButtonModule,
     NzIconModule,
-    NzGridModule
+    NzGridModule,
+    ListModule
   ],
-  exports: [InvoicesViewComponent],
-  providers: [InvoiceService]
+  exports: [InvoicesViewComponent]
 })
 export class InvoicesViewModule { }

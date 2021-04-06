@@ -63,12 +63,12 @@ namespace Msi.Data.Abstractions
             where TEntity : BaseEntity
             where TViewModel : class
         {
-            // query = query.Where(x => !x.IsDeleted);
+            query = query.Where(x => !x.IsDeleted);
 
             if (predicate != null)
                 query = query.Where(predicate);
 
-            query = query.ApplySearch(searchOptions); //.OrderByDescending(x => x.UpdatedAt);
+            query = query.ApplySearch(searchOptions).OrderByDescending(x => x.UpdatedAt);
 
             var countQuery = query.Select(x => x.Id);
             var total = await Task.Run(() => countQuery.Count(), cancellationToken);
@@ -198,7 +198,6 @@ namespace Msi.Data.Abstractions
             where TViewModel : class
         {
             var repository = unitOfWork.GetRepository<TEntity>();
-
             return repository.GetAsync(predicate, selector, cancellationToken);
         }
 

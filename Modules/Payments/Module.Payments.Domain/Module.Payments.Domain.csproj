@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Domain\Msi.Domain.Abstractions\Msi.Domain.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Msi\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Msi\Msi.Core\Msi.Core.csproj" />
     <ProjectReference Include="..\Module.Payments.Entities\Module.Payments.Entities.csproj" />

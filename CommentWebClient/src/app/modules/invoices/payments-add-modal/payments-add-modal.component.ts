@@ -1,11 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { of, forkJoin } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { clean } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
-import { InvoiceService } from '../services/invoice.service';
-import { PaymentService } from '../services/payment.service';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 
 @Component({
@@ -16,39 +13,44 @@ export class PaymentsAddModalComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  apiUrl = 'payments';
-  cancelRoute = 'payments';
   objectName = "payment";
 
   @Input() show = false;
   @Output() showChange = new EventEmitter<boolean>();
-  @Input() data: any = {};
-
-  dateFormat: string = "dd-MM-yyyy";
   paymentMethods: any[] = [];
 
-  @ViewChild('paymentMethodSelect') paymentMethodSelect: SelectControlComponent;
+  @ViewChild(SelectControlComponent) paymentMethodSelect: SelectControlComponent;
+  registerPaymentMethodSelect = (pagination, search) => {
+    return this._httpService.get('payments/methods');
+  }
+
+  private _data: any = {};
+
+  @Input() set data(data: any) {
+    this._data = data;
+    if (this.form) {
+      this.form.controls.amount.setValue(this.data.amount || 0);
+    }
+  }
+
+  get data() {
+    return this._data;
+  }
 
   constructor(
-    public fb: FormBuilder,
-    private route: ActivatedRoute,
-    private invoiceService: InvoiceService,
-    private paymentService: PaymentService
+    private route: ActivatedRoute
   ) {
     super();
   }
 
   ngOnInit(): void {
-
-    if (this.data.mode != 'add') {
+    if (this.data.mode == 'edit') {
       this.markModeAsEdit();
     }
-    else
-    {
+    else {
       this.data.mode == 'add';
       this.markModeAsAdd()
     }
-
     this.createForm({
       paymentDate: [new Date(), [], this.paymentDateValidator.bind(this)],
       amount: [null, [], this.paymentAmountValidator.bind(this)],
@@ -58,60 +60,21 @@ export class PaymentsAddModalComponent extends FormComponent {
     });
 
     this.form.controls.paymentMethod.setValue(2);
-    this.form.controls.amount.setValue(this.data.amount || 0);
-
     const snapshot = this.route.snapshot;
     const id = snapshot.params.id
-    let requests = [
-      this.paymentService.getPaymentMethods()
-    ]
     if (id) {
       //requests.push();
     }
     else {
       this.form.controls.paymentDate.setValue(new Date());
     }
-
-    this.subscribe(forkJoin(requests),
-      (res: any[]) => {
-        this.paymentMethods = res[0];
-        this.loading = false;
-      },
-      err => {
-        this.loading = false;
-      }
-    );
-    //super.ngOnInit(snapshot);
   }
 
-  ngAfterViewInit() {
-    // this.paymentMethodSelect.register((pagination, search) => {
-    //   return this._httpService.get('payments/methods');
-    // });
-  }
-
-  submit() {
-    let body: any = this.constructObject(this.form.controls);
-    body.invoiceId = this.data.invoiceId;
-    body.paymentMethodId = body.paymentMethod;
-    body = clean(body);
-    this.submitForm(
-      {
-        request: this.invoiceService.addPayment(this.data.invoiceId, body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.created', x => this._messageService.success(x));
-        }
-      },
-      {
-        request: this.invoiceService.editPayment(this.id, body),
-        succeed: res => {
-          this.cancel();
-          this.translate('successfully.updated', x => this._messageService.success(x));
-        }
-      }
-    );
-  }
+  // ngAfterViewInit() {
+  //   this.paymentMethodSelect.register((pagination, search) => {
+  //     return this._httpService.get('payments/methods');
+  //   });
+  // }
 
   paymentDateValidator(control: FormControl) {
     if (!control.value) {

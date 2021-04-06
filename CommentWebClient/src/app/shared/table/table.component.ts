@@ -78,6 +78,12 @@ export class TableComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    if (this.config?.getFetchApiUrl) {
+      const url = this.config.getFetchApiUrl();
+      if (url) {
+        this.config.fetchApiUrl = url;
+      }
+    }
     if (!this.fetch && this.config?.fetchApiUrl) {
       this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
     }

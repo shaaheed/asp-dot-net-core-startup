@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
+    <ProjectReference Include="..\Module.Payments.Domain\Module.Payments.Domain.csproj" />
   </ItemGroup>
 
 </Project>

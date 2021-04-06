@@ -51,6 +51,7 @@
   "quantity": "Quantity",
   "items": "Items",
   "amount": "Amount",
+  "payment.amount": "Amount",
   "subtotal": "Subtotal",
   "total": "Total",
   "refresh": "Refresh",
@@ -60,6 +61,7 @@
   "date": "Date",
   "amount.due": "Amount due",
   "due": "Due",
+  "paid": "Paid",
   "status": "Status",
   "timeline": "Timeline",
   "details": "Details",
@@ -169,6 +171,7 @@
   "symbol": "Symbol",
   "type": "Type",
   "number": "Number",
+  "number:": "Number :",
   "adjustment": "Adjustment",
   "add.payment.for.invoice.x0": "Add payment for invoice #{{x0}}"
 }

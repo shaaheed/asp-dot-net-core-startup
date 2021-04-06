@@ -3,8 +3,9 @@ using System;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
-    public class GetInvoicePaymentQuery : IQuery<InvoicePaymentDetailsDto>
+    public class DeleteInvoicePaymentCommand : ICommand<long>
     {
         public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
     }
 }

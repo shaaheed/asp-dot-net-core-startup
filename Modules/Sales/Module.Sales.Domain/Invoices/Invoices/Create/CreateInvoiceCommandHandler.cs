@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Module.Sales.Domain.Services;
 
 namespace Module.Sales.Domain.Invoices
 {
@@ -12,11 +13,14 @@ namespace Module.Sales.Domain.Invoices
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceService _invoiceService;
 
         public CreateInvoiceCommandHandler(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IInvoiceService invoiceService)
         {
             _unitOfWork = unitOfWork;
+            _invoiceService = invoiceService;
         }
 
         public async Task<long> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
@@ -48,6 +52,7 @@ namespace Module.Sales.Domain.Invoices
 
             newInvoice.InvoiceLineItems = newInvoiceLineItems.ToList();
             newInvoice.Calculate();
+            _invoiceService.AddPayment(newInvoice);
 
             await invoiceRepo.AddAsync(newInvoice, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

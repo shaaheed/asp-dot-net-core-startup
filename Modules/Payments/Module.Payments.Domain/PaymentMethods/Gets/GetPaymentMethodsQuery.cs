@@ -1,9 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
+﻿using Msi.Domain.Abstractions;
+using Msi.Utilities.Filter;
 
 namespace Module.Payments.Domain
 {
-    public class GetPaymentMethodsQuery : IQuery<IEnumerable<PaymentMethodDto>>
+    public class GetPaymentMethodsQuery : Query<PagedCollection<PaymentMethodDto>>
     {
     }
 }
