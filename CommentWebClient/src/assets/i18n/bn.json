@@ -141,6 +141,7 @@
   "purchase.price": "ক্রয় মূল্য",
   "select.x0": "{{x0}} নির্বাচন করুন",
   "unit": "একক",
+  "parent.unit": "প্যারেন্ট একক",
   "units": "একক",
   "unit.type": "এককের ধরন",
   "unit.types": "এককের ধরন",
@@ -171,5 +172,7 @@
   "number": "নাম্বার",
   "number:": "নাম্বারঃ",
   "adjustment": "সমন্বয়সাধন",
-  "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন"
+  "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন",
+  "conversion.factor": "কনভার্শন ফ্যাক্টর",
+  "back": "ফিরে যান"
 }

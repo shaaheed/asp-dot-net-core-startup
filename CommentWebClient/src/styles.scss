@@ -121,7 +121,7 @@ span.ant-table-column-title {
 }
 
 .no-hover .ant-table-tbody > tr.ant-table-row:hover > td {
-    background: none;
+    background: none !important;
 }
 
 app-layout-default .menu-sidebar {
@@ -189,11 +189,47 @@ nz-sider {
 }
 
 @mixin btn-shadow-primary {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
+    rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
 }
 
 @mixin btn-shadow-primary-hover {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgb(84, 105, 202) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
+    rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, 
+    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+}
+
+@mixin btn-shadow-danger {
+    box-shadow:
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+    rgb(205, 61, 100, 0.16) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+}
+
+@mixin btn-shadow-danger-hover {
+    box-shadow: 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
+    rgb(205, 61, 100, 0.16) 0px 0px 0px 1px, 
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+    rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, 
+    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
 }
 
 // Custom stripe button style
@@ -252,6 +288,15 @@ nz-sider {
     }
     &.ant-btn-primary:hover {
         @include btn-shadow-primary-hover;
+    }
+
+    &.ant-btn-danger {
+        background: #e24520;
+        color: #fff;
+        @include btn-shadow-danger;
+    }
+    &.ant-btn-danger:hover {
+        @include btn-shadow-danger-hover;
     }
 }
 
@@ -426,7 +471,7 @@ nz-table tr:hover {
     position: fixed;
     bottom: 0;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
-    padding: 15px 44px;
+    padding: 15px 16px;
     width: 100%;
     background: #fff;
     margin-left: 1px;

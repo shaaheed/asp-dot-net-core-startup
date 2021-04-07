@@ -13,7 +13,6 @@ export class ProductsAddComponent extends FormComponent {
   loading: boolean = false;
   noData: boolean = false;
   apiUrl = 'products';
-  cancelRoute = 'products';
   objectName = "product";
 
   @ViewChild('salesUnitSelect') salesUnitSelect: SelectControlComponent;

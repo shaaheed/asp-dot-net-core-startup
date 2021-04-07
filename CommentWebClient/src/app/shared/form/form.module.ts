@@ -6,6 +6,7 @@ import { SharedModule } from '../shared.module';
 import { AppFormComponent } from './form.component';
 import { InputModule } from '../input/input.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzFormModule,
     ReactiveFormsModule,
     InputModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule
   ],
   exports: [AppFormComponent]
 })

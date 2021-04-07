@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { message } from 'src/constants/message';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
@@ -19,6 +19,28 @@ export class ValidatorService {
     return (control: FormControl) => {
       if (!control.value) {
         return this.error(error || message.this_field_is_required);
+      }
+      return of(true);
+    }
+  }
+
+  requiredDate(error?: string) {
+    return this.required(error || message.select_date);
+  }
+
+  amount(max?: number, mustBePositive: boolean = true) {
+    return (control: FormControl) => {
+      if (!control.value) {
+        return this.error(message.amount_is_required);
+      }
+      else if (isNaN(Number(control.value))) {
+        return this.error(message.amount_must_be_numeric);
+      }
+      else if (mustBePositive && Number(control.value) <= 0) {
+        return this.error(message.amount_must_be_positive);
+      }
+      else if (max && Number(control.value) > max) {
+        return this.error(message.amount_exceeds);
       }
       return of(true);
     }

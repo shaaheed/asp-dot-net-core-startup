@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
@@ -27,10 +28,15 @@ export class InvoicesViewComponent extends BaseComponent {
   paymentTableConfig = <ListPageConfig>{
     getFetchApiUrl: x => `invoices/${this.invoiceId}/payments`,
     pageTitle: 'payments',
-    createPageRoute: 'payments',
-    editPageRoute: x => 'payments',
     getDeleteApiUrl: x => `invoices/${this.invoiceId}/payments/${x.id}`,
+    onClickButton: source => {
+      console.log(source);
+      if (source?.label == 'new' && this.model?.amountDue > 0) {
+        this.payment();
+      }
+    },
     tableColumns: [
+      Column.column('number', x => x.number),
       Column.date('date', x => x.paymentDate),
       {
         title: 'payment.amount',
@@ -41,7 +47,8 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {
     super();
   }
@@ -58,7 +65,7 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   refresh() {
-    // this.get();
+    this.get(this.invoiceId);
   }
 
   get(id) {
@@ -120,7 +127,7 @@ export class InvoicesViewComponent extends BaseComponent {
     });
   }
 
-  showCustomerDrawer() {
+  showCustomerDrawer(customer: any) {
     this.showCustomer = !this.showCustomer
   }
 
@@ -132,8 +139,16 @@ export class InvoicesViewComponent extends BaseComponent {
     this.showPaymentModal = true;
   }
 
-  add() {
+  edit() {
+    this._router.navigateByUrl(`invoices/${this.invoiceId}/edit`);
+  }
 
+  add() {
+    this._router.navigateByUrl(`invoices/create`);
+  }
+
+  cancel() {
+    this.location.back();
   }
 
 }

@@ -17,25 +17,17 @@
         <app-form [showTitleBar]="false" [showFooter]="false" [content]="content" [component]="self">
             <ng-template #content>
                 <form nz-form [formGroup]="form">
+                    <app-input label="number" formControlName="number" placeholder="number">
+                    </app-input>
+                    
                     <app-date-picker label="payment.date" placeholder="payment.date" formControlName="paymentDate">
                     </app-date-picker>
 
-                    <app-input prefix="৳" label="amount" type="number" formControlName="amount" placeholder="amount">
+                    <app-input prefix="৳" label="payment.amount" type="number" formControlName="amount" placeholder="payment.amount">
                     </app-input>
 
                     <app-select-control [registerFn]="registerPaymentMethodSelect" label="payment.method" [formControl]="form.controls.paymentMethod">
                     </app-select-control>
-
-                    <!-- <nz-form-item class="field-container">
-                        <div>
-                            <label>{{'payment.account'|translate}}</label>
-                        </div>
-                        <nz-form-control nzHasFeedback [nzErrorTip]="errorTemplate">
-                            <nz-select (ngModelChange)="paymentAccountSelectOnChange($event)" formControlName="paymentAccount"
-                                nzShowSearch nzAllowClear [nzPlaceHolder]="'payment.account'|translate">
-                            </nz-select>
-                        </nz-form-control>
-                    </nz-form-item> -->
 
                     <app-text label="memo" formControlName="memo" placeholder="memo">
                     </app-text>

@@ -40,5 +40,17 @@ namespace Module.Sales.Domain.Services
                 .Sum();
             return paymentAmount;
         }
+
+        public string GetNextInvoiceNumber()
+        {
+            var count = _unitOfWork.GetRepository<Invoice>()
+                .AsReadOnly()
+                .Where(x => !x.IsDeleted)
+                .Select(x => x.Id)
+                .LongCount();
+
+            return $"INV-{count + 1}";
+        }
+
     }
 }

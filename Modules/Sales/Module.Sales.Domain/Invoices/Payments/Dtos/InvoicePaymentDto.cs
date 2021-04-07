@@ -7,6 +7,7 @@ namespace Module.Sales.Domain.InvoicePayments
 {
     public class InvoicePaymentDto
     {
+        public string Number { get; set; }
         public Guid Id { get; set; }
         public Guid InvoiceId { get; set; }
         public Guid PaymentId { get; set; }
@@ -37,7 +38,8 @@ namespace Module.Sales.Domain.InvoicePayments
                     Id = (Guid)x.Payment.PaymentMethodId,
                     Name = x.Payment.PaymentMethod.Name
                 } : null,
-                PaymentAccountId = x.Payment.PaymentAccountId
+                PaymentAccountId = x.Payment.PaymentAccountId,
+                Number = x.Payment.Number
             };
         }
     }

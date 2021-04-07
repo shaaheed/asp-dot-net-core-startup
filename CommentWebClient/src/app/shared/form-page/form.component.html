@@ -2,7 +2,13 @@
     <app-box-loader *ngIf="loading"></app-box-loader>
     <div class="box no-shadow" style="margin-top: 0; margin-bottom: 60px;" [style.display]="loading ? 'none' : ''">
         <div class="block page-header">
-            <div class="column">
+            <div class="column" style="flex-direction: column; align-items: flex-start;">
+                <div>
+                    <a (click)="cancel()" style="font-size: 12px;">
+                        <i nz-icon nzType="arrow-left"></i>
+                        {{ 'back'|translate }}
+                    </a>
+                </div>
                 <h1 class="no-margin">
                     <span>{{ title }}</span>
                 </h1>

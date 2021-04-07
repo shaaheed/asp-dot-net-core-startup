@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormComponent } from 'src/app/shared/form.component';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
+import { ValidatorService } from 'src/services/validator.service';
 
 @Component({
   selector: 'app-payments-add-modal',
@@ -11,8 +10,6 @@ import { SelectControlComponent } from 'src/app/shared/select-control/select-con
 })
 export class PaymentsAddModalComponent extends FormComponent {
 
-  loading: boolean = false;
-  noData: boolean = false;
   objectName = "payment";
 
   @Input() show = false;
@@ -38,26 +35,37 @@ export class PaymentsAddModalComponent extends FormComponent {
   }
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private validator: ValidatorService
   ) {
     super();
   }
 
   ngOnInit(): void {
+
+    this.createForm({
+      number: [null, [], this.validator.required()],
+      paymentDate: [new Date(), [], this.validator.requiredDate()],
+      amount: [null, [], this.validator.amount(this.data.invoiceTotal)],
+      paymentMethod: [],
+      paymentAccount: [],
+      memo: []
+    });
+
     if (this.data.mode == 'edit') {
       this.markModeAsEdit();
     }
     else {
       this.data.mode == 'add';
-      this.markModeAsAdd()
+      this.markModeAsAdd();
+      this.subscribe(this._httpService.get(`payments/create-info`),
+        (res: any) => {
+          if (res?.data?.nextPaymentNumber) {
+            this.setValue('number', res.data.nextPaymentNumber);
+          }
+        }
+      );
     }
-    this.createForm({
-      paymentDate: [new Date(), [], this.paymentDateValidator.bind(this)],
-      amount: [null, [], this.paymentAmountValidator.bind(this)],
-      paymentMethod: [],
-      paymentAccount: [],
-      memo: []
-    });
 
     this.form.controls.paymentMethod.setValue(2);
     const snapshot = this.route.snapshot;
@@ -70,50 +78,9 @@ export class PaymentsAddModalComponent extends FormComponent {
     }
   }
 
-  // ngAfterViewInit() {
-  //   this.paymentMethodSelect.register((pagination, search) => {
-  //     return this._httpService.get('payments/methods');
-  //   });
-  // }
-
-  paymentDateValidator(control: FormControl) {
-    if (!control.value) {
-      return this.error('select.date');
-    }
-    return of(true);
-  }
-
-  paymentAmountValidator(control: FormControl) {
-    if (!control.value) {
-      return this.error('amount.is.required');
-    }
-    else if (isNaN(Number(control.value))) {
-      return this.error('amount.must.be.numeric');
-    }
-    else if (Number(control.value) <= 0) {
-      return this.error('amount.must.be.positive');
-    }
-    else if (Number(control.value) > this.data.invoiceTotal) {
-      return this.error('amount.exceeds');
-    }
-    return of(true);
-  }
-
   handleCancel() {
     this.show = false;
     this.showChange.emit(false);
-  }
-
-  cancel() {
-    this._router.navigateByUrl(`invoices`);
-  }
-
-  paymentMethodSelectOnChange(e) {
-
-  }
-
-  paymentAccountSelectOnChange(e) {
-
   }
 
   private prepareForm(data) {

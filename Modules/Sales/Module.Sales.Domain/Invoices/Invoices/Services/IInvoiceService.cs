@@ -11,5 +11,7 @@ namespace Module.Sales.Domain.Services
         void AddPayment(Guid invoiceId);
 
         void AddPayment(Invoice invoice);
+
+        string GetNextInvoiceNumber();
     }
 }

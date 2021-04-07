@@ -11,6 +11,7 @@ import { FormPageRoutingModule } from './form-routing.module';
 import { CheckboxModule } from '../checkbox/checkbox.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SelectControlModule } from '../select-control/select-control.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SelectControlModule } from '../select-control/select-control.module';
     TextModule,
     CheckboxModule,
     SelectControlModule,
-    NzButtonModule
+    NzButtonModule,
+    NzIconModule
   ],
   exports: [FormPageComponent]
 })

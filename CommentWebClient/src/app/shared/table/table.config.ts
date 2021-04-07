@@ -4,6 +4,7 @@ import { ButtonConfig } from '../button.config';
 export interface TableConfig {
     pageTitle?: string;
     createPageRoute?: string;
+    onClickButton?: (source: any) => void;
     editPageRoute?: (data?: any) => string;
     fetch?: (pagination: string, search?: string) => Observable<Object>;
     fetchApiUrl?: string;

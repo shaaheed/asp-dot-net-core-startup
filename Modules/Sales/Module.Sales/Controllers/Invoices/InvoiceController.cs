@@ -49,6 +49,13 @@ namespace Module.Sales.Controllers
             return OkAsync(query);
         }
 
+        [HttpGet("create-info")]
+        //[RequirePermission(InvoiceList, InvoiceManage)]
+        public Task<IActionResult> GetCreateInfo()
+        {
+            return OkAsync(new GetInvoiceCreateInfoQuery());
+        }
+
         [HttpGet("{id}")]
         //[RequirePermission(InvoiceView, InvoiceManage)]
         public Task<IActionResult> Get([FromRoute] GetInvoiceQuery query)

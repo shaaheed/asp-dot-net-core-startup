@@ -7,6 +7,7 @@ import { NzModalComponent } from 'ng-zorro-antd/modal';
 import { environment } from 'src/environments/environment';
 import { message } from 'src/constants/message';
 import { Directive, Input } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Directive()
 export class FormBaseComponent extends BaseComponent {
@@ -17,6 +18,7 @@ export class FormBaseComponent extends BaseComponent {
     id: number;
     submitting: boolean = false;
     loading: boolean = false;
+    noData: boolean = false;
     title: string = "";
     objectName: string = "";
 
@@ -33,6 +35,7 @@ export class FormBaseComponent extends BaseComponent {
     onBeforeSubmit: (data?: any) => void;
 
     fb: FormBuilder;
+    location: Location;
     modalInstance: NzModalComponent;
     private static ADD = "add";
     private static EDIT = "edit";
@@ -40,6 +43,7 @@ export class FormBaseComponent extends BaseComponent {
     constructor() {
         super();
         this.fb = AppInjector.get(FormBuilder);
+        this.location = AppInjector.get(Location);
     }
 
     init() {
@@ -191,6 +195,9 @@ export class FormBaseComponent extends BaseComponent {
     cancel() {
         if (this.cancelRoute) {
             this._router.navigateByUrl(this.cancelRoute);
+        }
+        else {
+            this.location.back();
         }
     }
 

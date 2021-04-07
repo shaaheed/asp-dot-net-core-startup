@@ -1,7 +1,6 @@
 ﻿using Module.Sales.Domain.Contacts;
 using Module.Sales.Entities;
 using Module.Systems.Domain;
-using Msi.Data.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

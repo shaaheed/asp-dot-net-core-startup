@@ -1,10 +1,9 @@
 import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { forEachObj } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
-import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ButtonSelectComponent } from 'src/app/shared/button-select/button-select.component';
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
 import { ValidatorService } from 'src/services/validator.service';
@@ -17,10 +16,7 @@ import { NzSelectComponent } from 'ng-zorro-antd/select';
 })
 export class InvoicesAddComponent extends FormComponent {
 
-  loading: boolean = false;
-  noData: boolean = false;
   apiUrl = 'invoices';
-  cancelRoute = 'invoices';
   objectName = "invoice";
 
   subtotal: number = 0;
@@ -44,7 +40,6 @@ export class InvoicesAddComponent extends FormComponent {
   };
 
   constructor(
-    public fb: FormBuilder,
     private route: ActivatedRoute,
     private validator: ValidatorService
   ) {
@@ -52,28 +47,12 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
-    const requests = [
-      this._httpService.get('products'),
-      this._httpService.get('units'),
-    ]
-    this.subscribe(forkJoin(requests),
-      (success: any) => {
-        if (success) {
-          if (success[0].data?.items) {
-            this.products = success[0].data.items;
-          }
-          if (success[1].data?.items) {
-            this.units = success[1].data.items;
-            this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
-          }
-        }
-      }
-    );
+    super.ngOnInit(this.route.snapshot);
 
     this.createForm({
       code: [null, [], this.validator.required()],
-      issueDate: [new Date(), [], this.invoiceDateValidator.bind(this)],
-      paymentDueDate: [new Date(), [], this.paymentDueValidator.bind(this)],
+      issueDate: [new Date(), [], this.validator.requiredDate()],
+      paymentDueDate: [new Date(), [], this.validator.requiredDate()],
       customerId: [],
       productId: [],
       adjustmentText: ['Adjustment'],
@@ -81,14 +60,40 @@ export class InvoicesAddComponent extends FormComponent {
       items: this.fb.array([])
     });
 
-    super.ngOnInit(this.route.snapshot);
+    const requests = [
+      this._httpService.get('products'),
+      this._httpService.get('units')
+    ];
+    if (this.isAddMode()) {
+      requests.push(this._httpService.get('invoices/create-info'))
+    }
+
+    this.loading = true;
+    this.subscribe(forkJoin(requests),
+      (res: any) => {
+        this.loading = false;
+        if (res) {
+          if (res[0].data?.items) {
+            this.products = res[0].data.items;
+          }
+          if (res[1].data?.items) {
+            this.units = res[1].data.items;
+            this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
+          }
+          if (this.isAddMode() && res[2].data.nextInvoiceNumber) {
+            this.setValue('code', res[2].data.nextInvoiceNumber);
+          }
+        }
+      },
+      err => this.loading = false
+    );
+
     if (this.isAddMode()) {
       setTimeout(() => this.addAnItem(), 0);
     }
   }
 
   ngAfterViewInit() {
-
     this.subscribe(this.autocomplete.changes, (autocompleteList: QueryList<AutocompleteComponent>) => {
       autocompleteList.forEach(autocomplete => {
         const index = autocomplete.name;
@@ -115,62 +120,6 @@ export class InvoicesAddComponent extends FormComponent {
         return this._httpService.get('contacts?Search=Type eq 1');
       });
     }
-  }
-
-  // submit() {
-  //   const obj: any = this.constructObject(this.form.controls);
-  //   let body: any = {
-  //     invoiceDate: obj.invoiceDate,
-  //     paymentDue: obj.paymentDue,
-  //     customerId: obj.customer,
-  //     items: obj.items.map(x => {
-  //       return {
-  //         name: x.name,
-  //         description: x.description,
-  //         quantity: x.quantity,
-  //         unitPrice: x.price,
-  //         price: x.amount,
-  //         total: x.amount,
-  //         subtotal: x.amount,
-  //         productId: x.productId
-  //       }
-  //     })
-  //   }
-  //   body = clean(body);
-  //   this.submitForm(
-  //     {
-  //       request: this.invoiceService.add(body),
-  //       succeed: res => {
-  //         this.cancel();
-  //         this.translate('successfully.created', x => this._messageService.success(x));
-  //       }
-  //     },
-  //     {
-  //       request: this.invoiceService.edit(this.id, body),
-  //       succeed: res => {
-  //         this.cancel();
-  //         this.translate('successfully.updated', x => this._messageService.success(x));
-  //       }
-  //     }
-  //   );
-  // }
-
-  invoiceDateValidator(control: FormControl) {
-    if (!control.value) {
-      return this.error('select.date');
-    }
-    return of(true);
-  }
-
-  paymentDueValidator(control: FormControl) {
-    if (!control.value) {
-      return this.error('select.date');
-    }
-    return of(true);
-  }
-
-  cancel() {
-    this._router.navigateByUrl(`invoices`);
   }
 
   searchProduct(autocomplete: AutocompleteComponent) {

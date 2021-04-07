@@ -286,6 +286,9 @@ export class TableComponent extends BaseComponent {
   executeAction(button) {
     if(button.action) {
       button.action();
+      if (this.config?.onClickButton) {
+        this.config.onClickButton(button);
+      }
     }
   }
 

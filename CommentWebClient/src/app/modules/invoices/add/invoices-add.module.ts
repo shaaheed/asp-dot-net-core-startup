@@ -14,7 +14,6 @@ import { InvoicesAddComponent } from './invoices-add.component';
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
 import { InvoicesAddRoutingModule } from './invoices-add-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { AppFormModule } from 'src/app/shared/form/form.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';

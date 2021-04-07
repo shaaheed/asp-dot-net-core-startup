@@ -15,6 +15,7 @@ export const UNIT_MODULE_CONFIG = {
                 Column.namex(),
                 Column.column('symbol'),
                 Column.column('type', x => x.type?.name),
+                // Column.column('parent.unit', x => x.baseUnit?.)
                 Column.created()
             ]
         }),
@@ -24,6 +25,8 @@ export const UNIT_MODULE_CONFIG = {
                 Control.namex(),
                 Control.input(symbol, symbol, true),
                 Control.select('typeId', 'type', true, accessor => accessor.register((pagination, search) => AppInjector.get(HttpService).get('units/types'))),
+                Control.select('baseUnitId', 'parent.unit', false, accessor => accessor.register((pagination, search) => AppInjector.get(HttpService).get('units'))),
+                Control.number('factor', 'conversion.factor'),
                 Control.description()
             ]
         })

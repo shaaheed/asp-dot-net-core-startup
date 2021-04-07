@@ -22,5 +22,11 @@ namespace Module.Payments.Controllers
             return OkAsync(query);
         }
 
+        [HttpGet("create-info")]
+        public Task<IActionResult> GetCreateInfo()
+        {
+            return OkAsync(new GetPaymentCreateInfoQuery());
+        }
+
     }
 }

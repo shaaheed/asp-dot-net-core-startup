@@ -6,6 +6,7 @@ namespace Module.Sales.Domain.InvoicePayments
 {
     public class CreateInvoicePaymentCommand : ICommand<long>
     {
+        public string Number { get; set; }
         public Guid InvoiceId { get; set; }
         public decimal Amount { get; set; }
         public string Reference { get; set; }
@@ -17,6 +18,7 @@ namespace Module.Sales.Domain.InvoicePayments
         public virtual Payment Map(Payment entity = null)
         {
             entity = entity ?? new Payment();
+            entity.Number = Number;
             entity.Amount = Amount;
             entity.Memo = Memo;
             entity.Reference = Reference;
