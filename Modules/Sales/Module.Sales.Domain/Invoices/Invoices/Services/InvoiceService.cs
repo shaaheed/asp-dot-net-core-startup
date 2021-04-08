@@ -3,7 +3,7 @@ using Msi.Data.Abstractions;
 using System;
 using System.Linq;
 
-namespace Module.Sales.Domain.Services
+namespace Module.Sales.Domain
 {
     public class InvoiceService : IInvoiceService
     {

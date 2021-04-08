@@ -1,4 +1,4 @@
-﻿namespace Module.Sales.Domain.Invoices
+﻿namespace Module.Sales.Domain
 {
     public class InvoiceCreateInfoDto
     {

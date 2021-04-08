@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Utilities.Filter;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class GetInvoicesQueryHandler : IQueryHandler<GetInvoicesQuery, PagedCollection<InvoiceListItemDto>>
     {

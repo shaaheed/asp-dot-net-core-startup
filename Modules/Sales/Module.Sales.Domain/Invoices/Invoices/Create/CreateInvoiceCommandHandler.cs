@@ -1,13 +1,11 @@
 ﻿using Msi.Mediator.Abstractions;
 using Module.Sales.Entities;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Sales.Domain.Services;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class CreateInvoiceCommandHandler : ICommandHandler<CreateInvoiceCommand, long>
     {

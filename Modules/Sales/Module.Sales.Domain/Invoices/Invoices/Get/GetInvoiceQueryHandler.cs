@@ -5,7 +5,7 @@ using Msi.Data.Abstractions;
 using Module.Sales.Entities;
 using System.Linq;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class GetInvoiceQueryHandler : IQueryHandler<GetInvoiceQuery, InvoiceDto>
     {

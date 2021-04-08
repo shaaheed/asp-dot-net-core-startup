@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Payments.Entities;
 using Module.Sales.Entities;
-using Module.Sales.Domain.Services;
 
 namespace Module.Sales.Domain.InvoicePayments
 {

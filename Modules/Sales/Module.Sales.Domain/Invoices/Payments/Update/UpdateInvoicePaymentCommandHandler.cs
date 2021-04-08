@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
-using Module.Sales.Domain.Services;
 
 namespace Module.Sales.Domain.InvoicePayments
 {

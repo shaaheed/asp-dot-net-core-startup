@@ -1,8 +1,7 @@
-﻿using Module.Systems.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class InvoiceLineItemRequestDto
     {

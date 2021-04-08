@@ -1,5 +1,5 @@
 <app-box-loader *ngIf="loading" noData="noData"></app-box-loader>
-<div [style.display]="loading ? 'none' : ''">
+<div id="invoice-view-section" [style.display]="loading ? 'none' : ''">
     <div class="box no-shadow" style="margin-top: 0; padding: 0 16px;">
         <div class="block page-header" style="padding-left: 0;">
             <div class="column" style="flex-direction: column; align-items: flex-start;">
@@ -81,7 +81,7 @@
                 </div>
                 <div style="padding: 30px 0;">
                     <div style="text-align: right; padding-bottom: 15px;">
-                        <button nzType="primary" nz-button class="btn-custom">
+                        <button (click)="print()" nzType="primary" nz-button class="btn-custom">
                             <i nz-icon nzType="printer" nzTheme="outline"></i>
                             {{'print'|translate}}
                         </button>

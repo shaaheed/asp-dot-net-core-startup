@@ -2,7 +2,7 @@
 using Msi.Service;
 using System;
 
-namespace Module.Sales.Domain.Services
+namespace Module.Sales.Domain
 {
     public interface IInvoiceService : ITransientService
     {

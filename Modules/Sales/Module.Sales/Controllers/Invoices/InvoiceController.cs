@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Module.Sales.Domain.Invoices;
+using Module.Sales.Domain;
 using System.Threading.Tasks;
 using static Module.Sales.Common.Permissions;
 using Msi.Web;
@@ -59,6 +59,13 @@ namespace Module.Sales.Controllers
         [HttpGet("{id}")]
         //[RequirePermission(InvoiceView, InvoiceManage)]
         public Task<IActionResult> Get([FromRoute] GetInvoiceQuery query)
+        {
+            return OkAsync(query);
+        }
+
+        [HttpGet("{id}/print")]
+        //[RequirePermission(InvoiceView, InvoiceManage)]
+        public Task<IActionResult> Print([FromRoute] PrintInvoiceQuery query)
         {
             return OkAsync(query);
         }

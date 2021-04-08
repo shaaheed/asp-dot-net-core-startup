@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
     <ProjectReference Include="..\Msi\Data\Msi.Data.EntityFrameworkCore.SqlServer\Msi.Data.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\Msi\Data\Msi.Data.Extensions.Microsoft.DependencyInjection\Msi.Data.Extensions.Microsoft.DependencyInjection.csproj" />
     <ProjectReference Include="..\Msi\Service\Msi.Service.Extensions.Microsoft.DependencyInjection\Msi.Service.Extensions.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Msi\View\Msi.View.Razor\Msi.View.Razor.csproj" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />

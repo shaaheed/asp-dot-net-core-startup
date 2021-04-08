@@ -1,7 +1,6 @@
-﻿using Modules.Sales.Domain.Invoices;
-using Msi.Mediator.Abstractions;
+﻿using Msi.Mediator.Abstractions;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class CreateInvoiceCommand : InvoiceRequestDto, ICommand<long>
     {

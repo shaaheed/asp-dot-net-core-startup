@@ -5,14 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Exceptions\**" />
+    <Compile Remove="Logs\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Exceptions\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Attributes\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>

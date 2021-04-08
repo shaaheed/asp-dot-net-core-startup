@@ -1,7 +1,7 @@
 ﻿using Module.Systems.Domain;
 using System;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class InvoiceLineItemDto
     {

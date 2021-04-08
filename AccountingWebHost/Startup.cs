@@ -98,7 +98,7 @@ namespace AccountingWebHost
 
             //services.AddCorePersistence<CoreEFDataContext, CoreDatabaseOptions>();
 
-            services.AddControllers(options =>
+            services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new ExceptionHandler());
                 options.Filters.Add(new UnitOfWorkCommitFilter());

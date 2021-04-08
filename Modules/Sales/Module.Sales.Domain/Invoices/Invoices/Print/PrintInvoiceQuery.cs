@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public class UpdateInvoiceCommand : InvoiceRequestDto, ICommand<long>
+    public class PrintInvoiceQuery : IQuery<string>
     {
         public Guid Id { get; set; }
     }

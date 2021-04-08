@@ -1,0 +1,118 @@
+﻿@model Module.Sales.Domain.InvoicePrintDto
+
+<style>
+    tr.summary td:first-child {
+        padding-right: 40px;
+    }
+    thead tr th:last-child,
+    tbody tr td:last-child,
+    tr.summary td {
+        text-align: right;
+    }
+</style>
+
+<div style="font-size: 12px; padding: 15px; font-family: SolaimanLipi !important; width: 80mm;">
+    <div style="text-align: center;">
+        <h2 style="margin-bottom: 5px">@Model.Organization.Name</h2>
+        @if (!string.IsNullOrWhiteSpace(Model.Organization.Address))
+        {
+            <div>@Model.Organization.Address</div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Organization.Mobile))
+        {
+            <div>@Model.Organization.Mobile</div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Organization.Email))
+        {
+            <div>@Model.Organization.Email</div>
+        }
+        <h4 style="margin: 10px 0;"><strong>চালান রসিদ</strong> </h4>
+    </div>
+
+    <div>
+        <div>চালান নং: @Model.Number</div>
+        <div>চালান তারিখ: @Model.IssueDate</div>
+        @*April 8, 2021, 6:54:52 AM*@
+    </div>
+
+    @if (Model.Customer != null)
+    {
+        <div style="margin: 10px 0;">
+            <div>ক্রেতা:</div>
+            <div>@Model.Customer.Name</div>
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Address))
+            {
+                <div>@Model.Customer.Address</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Mobile))
+            {
+                <div>@Model.Customer.Mobile</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Customer.Email))
+            {
+                <div>@Model.Customer.Email</div>
+            }
+        </div>
+    }
+
+    <table style="width: 100%; font-size: 12px;">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>পণ্য</th>
+                <th>পরিমাণ</th>
+                <th>মূল্য</th>
+                <th>মোট</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int count = 0;}
+            @foreach (var item in Model.Items)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        <span>@Model.Currency @item.UnitPrice</span>
+                        @if (!string.IsNullOrWhiteSpace(item.Unit))
+                        {
+                            <span>/@item.Unit</span>
+                        }
+                    </td>
+                    <td>@item.Total</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="5" style="padding: 5px 0;"></td>
+            </tr>
+            @if (Model.AdjustmentAmount != 0)
+            {
+                <tr class="summary">
+                    <td colspan="4">
+                        @Model.AdjustmentText
+                    </td>
+                    <td>@Model.Currency @Model.AdjustmentAmount</td>
+                </tr>
+            }
+            <tr class="summary">
+                <td colspan="4">মোট</td>
+                <td>@Model.Currency @Model.Total</td>
+            </tr>
+            <tr class="summary">
+                <td colspan="4">পেমেন্ট</td>
+                <td>(-) @Model.Currency @Model.PaymentAmount</td>
+            </tr>
+            <tr class="summary">
+                <td colspan="4">বাকি</td>
+                <td>@Model.Currency @Model.AmountDue</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Note))
+    {
+        <div>@Model.Note</div>
+    }
+</div>

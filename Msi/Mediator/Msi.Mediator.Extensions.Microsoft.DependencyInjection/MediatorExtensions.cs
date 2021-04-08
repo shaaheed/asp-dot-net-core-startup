@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Msi.Core;
 using Msi.Mediator.Abstractions;
 using System;
 

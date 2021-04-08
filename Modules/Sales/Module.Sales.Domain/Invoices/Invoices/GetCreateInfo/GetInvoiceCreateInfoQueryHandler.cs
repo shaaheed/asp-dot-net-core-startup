@@ -1,9 +1,8 @@
 ﻿using Msi.Mediator.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
-using Module.Sales.Domain.Services;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class GetInvoiceCreateInfoQueryHandler : IQueryHandler<GetInvoiceCreateInfoQuery, InvoiceCreateInfoDto>
     {

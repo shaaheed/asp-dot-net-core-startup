@@ -151,4 +151,24 @@ export class InvoicesViewComponent extends BaseComponent {
     this.location.back();
   }
 
+  print() {
+    this.subscribe(this._httpService.get(`invoices/${this.invoiceId}/print`),
+      (res: any) => {
+        if (res?.data) {
+          const invoicePrintSectionId = 'invoice-print-section';
+          const oldPrintSection = document.getElementById(invoicePrintSectionId);
+          if (oldPrintSection) {
+            oldPrintSection.remove();
+          }
+          const div = document.createElement('div');
+          div.setAttribute('id', invoicePrintSectionId);
+          div.innerHTML = res.data;
+          document.getElementsByTagName('html')[0].appendChild(div);
+          window.print();
+          div.remove();
+        }
+      }
+    );
+  }
+
 }

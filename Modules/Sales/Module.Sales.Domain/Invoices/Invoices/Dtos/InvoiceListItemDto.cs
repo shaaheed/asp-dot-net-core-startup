@@ -3,7 +3,7 @@ using Module.Systems.Domain;
 using System;
 using System.Linq.Expressions;
 
-namespace Module.Sales.Domain.Invoices
+namespace Module.Sales.Domain
 {
     public class InvoiceListItemDto
     {
