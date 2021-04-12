@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { Observable } from 'rxjs';
 import { AntControlComponent } from '../ant-control.component';
+import { SelectConfig } from '../form-page/control.config';
 
 @Component({
   selector: 'app-select-control',
@@ -11,12 +12,12 @@ export class SelectControlComponent extends AntControlComponent {
 
   @Input() labelKey = 'name';
   @Input() idKey = 'id';
-  @Input() info: (item: any) => string | Promise<string>;
+  @Input() info: (data?: any) => string | Promise<string>;
   @Input() mode: string = 'default';
   @Input() noLabel: boolean = false;
   @Output() onOpen = new EventEmitter();
 
-  @ViewChild('select', {static: true}) select: NzSelectComponent;
+  @ViewChild('select', { static: true }) select: NzSelectComponent;
 
   infoText: string = '';
 
@@ -40,6 +41,11 @@ export class SelectControlComponent extends AntControlComponent {
   ngOnInit() {
     this.lastLoadingMoreFetchItems = [];
     this.loadingMoreCallCount = 0;
+    if (this.config) {
+      const config = <SelectConfig>this.config;
+      this.info = config.info;
+    }
+    this.infoPromise();
     super.ngOnInit();
   }
 
@@ -166,7 +172,7 @@ export class SelectControlComponent extends AntControlComponent {
     if (this.onChange) {
       this.onChange.emit(e);
     }
-    this.infoPromise(e);
+    // this.infoPromise(e);
   }
 
   onLoadCompleted(fn: (items?: any[]) => void) {
@@ -191,14 +197,14 @@ export class SelectControlComponent extends AntControlComponent {
     });
   }
 
-  private infoPromise(e) {
-    if (this.info && this.items && this.items.length) {
-      const item = this.items.find(x => x.id == e);
-      if (item) {
-        Promise.resolve(this.info(item)).then(x => {
-          this.infoText = x || '';
-        });
-      }
+  private infoPromise(e?: any) {
+    if (this.info /*&& this.items && this.items.length*/) {
+      // const item = this.items.find(x => x.id == e);
+      // if (item) {
+      Promise.resolve(this.info()).then(x => {
+        this.infoText = x || '';
+      });
+      // }
     }
   }
 

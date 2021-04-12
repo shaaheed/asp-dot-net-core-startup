@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Module.Systems.Attributes;
 using Module.Organizations.Domain;
 using System.Threading.Tasks;
 using System;
@@ -21,7 +20,7 @@ namespace Module.Organizations
         }
 
         [HttpPost]
-        [RequireAnyPermission(OrganizationCreate, OrganizationFullAccess)]
+        //[RequireAnyPermission(OrganizationCreate, OrganizationFullAccess)]
         public async Task<IActionResult> Post([FromBody]CreateOrganizationCommand command)
         {
             var result = await OkAsync(command);
@@ -29,7 +28,7 @@ namespace Module.Organizations
         }
 
         [HttpPut("{id}")]
-        [RequireAnyPermission(OrganizationUpdate, OrganizationFullAccess)]
+        //[RequireAnyPermission(OrganizationUpdate, OrganizationFullAccess)]
         public Task<IActionResult> Put(Guid id, [FromBody]UpdateOrganizationCommand command)
         {
             command.Id = id;
@@ -37,7 +36,7 @@ namespace Module.Organizations
         }
 
         [HttpDelete("{id}")]
-        [RequireAnyPermission(OrganizationDelete, OrganizationFullAccess)]
+        //[RequireAnyPermission(OrganizationDelete, OrganizationFullAccess)]
         public Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteOrganizationCommand { Id = id };
@@ -45,7 +44,7 @@ namespace Module.Organizations
         }
 
         [HttpGet]
-        [RequireAnyPermission(OrganizationList, OrganizationFullAccess)]
+        //[RequireAnyPermission(OrganizationList, OrganizationFullAccess)]
         public Task<IActionResult> Gets([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
         {
             var query = new GetOrganizationsQuery().AddPagingOptions(pagingOptions).AddSearchOptions(searchOptions);
@@ -53,7 +52,7 @@ namespace Module.Organizations
         }
 
         [HttpGet("{id}")]
-        [RequireAnyPermission(OrganizationView, OrganizationFullAccess)]
+        //[RequireAnyPermission(OrganizationView, OrganizationFullAccess)]
         public Task<IActionResult> Get(Guid id)
         {
             return OkAsync(new GetOrganizationQuery { Id = id });

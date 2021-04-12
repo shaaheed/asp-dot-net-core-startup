@@ -52,7 +52,7 @@ namespace AccountingWebHost
             Global.Initialize(new DefaultAssemblyProvider(), _env.EnvironmentName);
             services.AddSwaggerService();
 
-            var assemblies = Global.GetGenericImplementations(typeof(ICommand<>)).Select(x => x.Assembly).Distinct();
+            var assemblies = Global.GetGenericImplementations(typeof(IQuery<>)).Select(x => x.Assembly).Distinct();
             services.AddMediator(opt =>
             {
                 opt.Assemblies.AddRange(assemblies);

@@ -17,7 +17,7 @@ namespace Module.Systems.Domain.Addresses
         public string ZipCode { get; set; }
 
         public Guid? DistrictId { get; set; }
-        public Guid StateOrProvinceId { get; set; }
+        public Guid? StateOrProvinceId { get; set; }
         public Guid? CountryId { get; set; }
 
         public virtual Address Map(Address entity = null)

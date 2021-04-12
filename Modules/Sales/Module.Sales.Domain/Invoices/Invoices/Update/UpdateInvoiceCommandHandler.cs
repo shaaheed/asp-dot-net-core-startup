@@ -26,7 +26,7 @@ namespace Module.Sales.Domain
         {
 
             var invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id && !x.IsDeleted);
 
             if (invoice == null)
                 throw new NotFoundException("Invoice not found");

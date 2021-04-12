@@ -1,11 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
+﻿using System;
 
 namespace Module.Organizations.Domain
 {
-    public class UpdateOrganizationCommand : ICommand<long>
+    public class UpdateOrganizationCommand : CreateOrganizationCommand
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
     }
 }

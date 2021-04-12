@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msi.Data.EntityFrameworkCore.SqlServer;
 
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210412154809_M11")]
+    partial class M11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1904,7 +1906,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StateOrProvinceId")
+                    b.Property<Guid>("StateOrProvinceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -4990,7 +4992,9 @@ namespace AccountingWebHost.Migrations
 
                     b.HasOne("Module.Systems.Entities.StateOrProvince", "StateOrProvince")
                         .WithMany()
-                        .HasForeignKey("StateOrProvinceId");
+                        .HasForeignKey("StateOrProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
 

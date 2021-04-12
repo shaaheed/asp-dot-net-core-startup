@@ -31,6 +31,9 @@ export class FormPageComponent extends FormComponent {
         if (this.config.onBeforeSubmit) {
           this.onBeforeSubmit = this.config.onBeforeSubmit;
         }
+        if (this.config.onSetFormValues) {
+          this.onSetFormValues = this.config.onSetFormValues;
+        }
         const _form = {};
         if (this.config.rows?.length
           && this.config.rows[0].columns?.length

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Systems\Module.Systems\Module.Systems.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
     <ProjectReference Include="..\Module.Organizations.Domain\Module.Organizations.Domain.csproj" />
     <ProjectReference Include="..\Module.Organizations.Entities\Module.Organizations.Entities.csproj" />
   </ItemGroup>

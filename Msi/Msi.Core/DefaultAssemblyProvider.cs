@@ -22,14 +22,14 @@ namespace Msi.Core
               !assembly.FullName.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
               !assembly.FullName.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase);
 
-            //IsCandidateCompilationLibrary = library =>
-            //  !library.Name.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
-            //  !library.Name.StartsWith("netstandard", StringComparison.OrdinalIgnoreCase) &&
-            //  !library.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
-            //  !library.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase) &&
-            //  !library.Name.StartsWith("WindowsBase", StringComparison.OrdinalIgnoreCase);
+            IsCandidateCompilationLibrary = library =>
+              !library.Name.StartsWith("mscorlib", StringComparison.OrdinalIgnoreCase) &&
+              !library.Name.StartsWith("netstandard", StringComparison.OrdinalIgnoreCase) &&
+              !library.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase) &&
+              !library.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase) &&
+              !library.Name.StartsWith("WindowsBase", StringComparison.OrdinalIgnoreCase);
 
-            IsCandidateCompilationLibrary = library => true;
+            //IsCandidateCompilationLibrary = library => true;
             //library.Name.StartsWith("Core.", StringComparison.OrdinalIgnoreCase) ||
             //library.Name.StartsWith("Msi.", StringComparison.OrdinalIgnoreCase) ||
             //library.Name.StartsWith("Module.", StringComparison.OrdinalIgnoreCase);

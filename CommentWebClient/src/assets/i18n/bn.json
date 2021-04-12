@@ -174,5 +174,8 @@
   "adjustment": "সমন্বয়সাধন",
   "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন",
   "conversion.factor": "কনভার্শন ফ্যাক্টর",
-  "back": "ফিরে যান"
+  "back": "ফিরে যান",
+  "owner": "মালিক",
+  "currency": "মুদ্রা",
+  "organization.currency.select.info": "আপনার প্রতিষ্ঠানে লেনদেনের পরে আপনি মুদ্রা পরিবর্তন করতে পারবেন না"
 }

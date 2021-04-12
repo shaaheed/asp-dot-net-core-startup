@@ -176,5 +176,8 @@
   "adjustment": "Adjustment",
   "add.payment.for.invoice.x0": "Add payment for invoice #{{x0}}",
   "conversion.factor": "Conversion factor",
-  "back": "Back"
+  "back": "Back",
+  "owner": "Owner",
+  "currency": "Currency",
+  "organization.currency.select.info": "You can't change the currency after transactions recorded in your organization"
 }

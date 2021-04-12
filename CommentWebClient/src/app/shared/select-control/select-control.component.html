@@ -18,11 +18,11 @@
                 <i nz-icon nzType="loading" class="loading-icon"></i> {{'loading.data'|translate}}
             </nz-option>
         </nz-select>
+        <span *ngIf="infoText">
+            <!-- <i nz-icon nzType="info-circle" nzTheme="outline"></i> -->
+            <span style="font-size: 12px;"> {{infoText}}</span>
+        </span>
     </nz-form-control>
-    <span *ngIf="infoText">
-        <i nz-icon nzType="info-circle" nzTheme="outline"></i>
-        <span> {{infoText}}</span>
-    </span>
 </nz-form-item>
 
 <ng-template #notFoundTemplate>

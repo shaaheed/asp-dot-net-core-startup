@@ -26,7 +26,7 @@ namespace Module.Systems.Entities
         public Guid? DistrictId { get; set; }
         public virtual District District { get; set; }
         
-        public Guid StateOrProvinceId { get; set; }
+        public Guid? StateOrProvinceId { get; set; }
         public virtual StateOrProvince StateOrProvince { get; set; }
 
         public Guid? CountryId { get; set; }

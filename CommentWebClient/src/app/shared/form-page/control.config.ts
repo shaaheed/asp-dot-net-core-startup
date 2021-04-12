@@ -12,6 +12,10 @@ export interface CheckboxConfig extends ControlConfig {
     info?: string;
 }
 
+export interface SelectConfig extends ControlConfig {
+    info?: (item: any) => string | Promise<string>;
+}
+
 export interface ControlConfig {
     name: string;
     controlType: ControlType;

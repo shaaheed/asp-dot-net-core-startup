@@ -14,6 +14,9 @@ namespace Module.Organizations.Entities
         }
 
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string Owner { get; set; }
+        public bool IsDefault { get; set; }
 
         public Guid? TypeId { get; set; }
         public OrganizationType Type { get; set; }

@@ -35,7 +35,7 @@ namespace Module.Sales.Domain
                     Name = x.Customer.DisplayName,
                     Mobile = x.Customer.Mobile
                 } : null,
-                IssueDate = x.IssueDate.ToString(),
+                IssueDate = x.IssueDate.ToLocalTime().ToString("MMMM dd, yyyy, hh:mm:ss tt"),
                 Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto
                 {
                     Name = y.LineItem.Name,

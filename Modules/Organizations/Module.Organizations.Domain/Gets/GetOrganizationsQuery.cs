@@ -3,7 +3,7 @@ using Msi.Utilities.Filter;
 
 namespace Module.Organizations.Domain
 {
-    public class GetOrganizationsQuery : Query<PagedCollection<OrganizationDto>>
+    public class GetOrganizationsQuery : Query<PagedCollection<OrganizationListItemDto>>
     {
     }
 }

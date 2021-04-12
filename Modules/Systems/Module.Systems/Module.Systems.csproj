@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Msi.UtilityKit\Msi.UtilityKit.csproj" />
-    <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Msi\Service\Msi.Service.Abstractions\Msi.Service.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
     <ProjectReference Include="..\Module.Systems.Domain\Module.Systems.Domain.csproj" />

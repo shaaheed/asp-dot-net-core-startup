@@ -31,7 +31,7 @@ export class FormBaseComponent extends BaseComponent {
     onCreate: () => Observable<Object>;
     onFail: (err: any) => void;
     onSuccess: (data: any) => void;
-    onSetFormValues: (data?: any) => void;
+    onSetFormValues: (data?: any, form?: FormGroup, mode?: any) => void;
     onBeforeSubmit: (data?: any) => void;
 
     fb: FormBuilder;
@@ -208,7 +208,7 @@ export class FormBaseComponent extends BaseComponent {
             this.subscribe(this._httpService.get(_url),
                 (res: any) => {
                     this.setValues(this.form.controls, res.data);
-                    this.invoke(this.onSetFormValues, res.data);
+                    this.invoke(this.onSetFormValues, res.data, this.form, this.mode);
                     this.loading = false;
                 }
             )
