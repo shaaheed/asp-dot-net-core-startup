@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Column } from 'src/services/column.service';
 import { Route } from 'src/services/route.service';
+import { CURRENCY } from '../../organizations/organization.service';
 
 const prefix = 'products';
 
@@ -9,7 +10,7 @@ export const PRODUCT_MODULE_CONFIG = {
         Route.list(prefix, {
             tableColumns: [
                 Column.namex(),
-                Column.column('price', x => x.salesPrice ? `৳ ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit.name}` : ''}` : '—'),
+                Column.column('price', x => x.salesPrice ? `${CURRENCY} ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit.name}` : ''}` : '—'),
                 Column.column('quantity', x => x.stockQuantity ?? '—'),
                 Column.created()
             ]

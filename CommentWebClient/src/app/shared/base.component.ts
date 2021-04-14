@@ -1,6 +1,5 @@
 import { Subscription, Observable } from 'rxjs';
 import { on, broadcast, BROADCAST_KEYS } from 'src/services/broadcast.service';
-import { AppInjector } from 'src/app/app.component';
 import { Router, NavigationExtras, UrlTree, ActivatedRouteSnapshot } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -12,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { PermissionService } from 'src/services/permission.service';
 import { Directive } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { AppInjector } from '../app/app.component';
 
 // TODO: Add Angular decorator.
 @Directive()

@@ -28,7 +28,7 @@ namespace Module.Sales.Domain.Bills
             if (bill == null)
                 throw new NotFoundException("Bill not found");
 
-            bill.VendorId = request.VendorId;
+            bill.SupplierId = request.VendorId;
             bill.Note = request.Note;
 
             var billLineItemsRepo = _unitOfWork.GetRepository<BillLineItem>();

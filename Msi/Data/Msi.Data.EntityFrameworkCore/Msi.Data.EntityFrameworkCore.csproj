@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Msi.Core\Msi.Core.csproj" />
+    <ProjectReference Include="..\..\Service\Msi.Service.App\Msi.Service.App.csproj" />
     <ProjectReference Include="..\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
   </ItemGroup>
 

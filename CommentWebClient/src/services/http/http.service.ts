@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { SecurityService } from '../security.service';
+import { ORGANIZATION_ID } from 'src/app/modules/organizations/organization.service';
 
 @Injectable()
 export class HttpService {
@@ -18,7 +19,7 @@ export class HttpService {
     }
 
     post(url: string, body: any) {
-        return this.http.post(`${environment.baseUrl}/${url}`, body/*, { headers: this.getCommonHeader() }*/);
+        return this.http.post(`${environment.baseUrl}/${url}`, body, { headers: this.getCommonHeader() });
     }
 
     postFromData(url: string, body: any) {
@@ -81,6 +82,7 @@ export class HttpService {
         if(t) {
             headers['Authorization'] = `Bearer ${t}`;
         }
+        headers['x-organization-id'] = ORGANIZATION_ID;
         if (token) {
             // headers['Authorization'] = `Bearer ${this.securityService.getAuthData().accessToken}`;
         }

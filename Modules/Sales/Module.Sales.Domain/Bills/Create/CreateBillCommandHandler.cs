@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.Bills
             var newBill = new Bill
             {
                 IssueDate = DateTimeOffset.UtcNow,
-                VendorId = request.CustomerId,
+                SupplierId = request.CustomerId,
                 Note = request.Note
             };
 

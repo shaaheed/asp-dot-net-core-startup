@@ -33,6 +33,7 @@ namespace Msi.Data.EntityFrameworkCore
                 var ignored = item.CustomAttributes.Any(x => x.AttributeType == typeof(IgnoredEntityAttribute));
                 if(!ignored)
                 {
+                    //System.Console.WriteLine(item.ToString());
                     modelBuilder.Entity(item);
                 }
             }

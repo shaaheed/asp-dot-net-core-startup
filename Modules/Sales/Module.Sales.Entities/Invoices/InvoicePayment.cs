@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class InvoicePayment : BaseEntity
+    public class InvoicePayment : RootEntity
     {
         public Guid InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; }

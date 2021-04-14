@@ -9,6 +9,7 @@ namespace Module.Organizations.Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public bool IsDefault { get; set; }
+        public string Currency { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
 
         public static Expression<Func<Organization, OrganizationListItemDto>> Selector()
@@ -18,6 +19,7 @@ namespace Module.Organizations.Domain
                 Id = x.Id,
                 Name = x.Name,
                 IsDefault = x.IsDefault,
+                Currency = x.CurrencyId != null ? x.Currency.Symbol : null,
                 CreatedAt = x.CreatedAt
             };
         }

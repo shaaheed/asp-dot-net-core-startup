@@ -10,8 +10,8 @@ using Msi.Data.EntityFrameworkCore.SqlServer;
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210412164520_M12")]
-    partial class M12
+    [Migration("20210414093441_M1")]
+    partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -507,16 +507,19 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("AmountDue")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("GrandTotal")
@@ -528,17 +531,35 @@ namespace AccountingWebHost.Migrations
                     b.Property<DateTimeOffset>("IssueDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Memo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("PaymentDueDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<bool>("Pinned")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalTaxAmount")
                         .HasColumnType("decimal(18,2)");
@@ -549,10 +570,13 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("VendorId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Bill");
                 });
@@ -566,22 +590,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("BillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("LineItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -602,22 +611,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("BillId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("PaymentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -650,6 +644,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -691,6 +688,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TypeId")
                         .HasColumnType("uniqueidentifier");
@@ -825,6 +825,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -882,6 +885,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -906,25 +912,10 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("TaxId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -934,6 +925,79 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("TaxId");
 
                     b.ToTable("GroupTax");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("AdjustmentDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.ToTable("InventoryAdjustment");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentLineItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InventoryAdjustmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("NewQuantityOnHand")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("QuantityAdjusted")
+                        .HasColumnType("real");
+
+                    b.Property<float>("QuantityAvailable")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryAdjustmentId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InventoryAdjustmentLineItem");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -954,13 +1018,13 @@ namespace AccountingWebHost.Migrations
                     b.Property<decimal>("AmountDue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CustomerId")
@@ -984,11 +1048,26 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("PaymentDueDate")
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("PaymentDueDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("Pinned")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SalesPersonId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -1009,9 +1088,13 @@ namespace AccountingWebHost.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("CurrencyId");
+
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("FromQuoteId");
+
+                    b.HasIndex("SalesPersonId");
 
                     b.ToTable("Invoice");
                 });
@@ -1022,25 +1105,10 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("LineItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1058,25 +1126,10 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("PaymentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1102,6 +1155,12 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("DiscountType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1205,6 +1264,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1240,6 +1302,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -1262,25 +1327,10 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("LineItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1336,6 +1386,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PurchaseAccountId")
                         .HasColumnType("uniqueidentifier");
@@ -1408,28 +1461,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1447,29 +1479,14 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TaxId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1489,8 +1506,8 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1504,7 +1521,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("ExpiresOn")
+                    b.Property<DateTimeOffset?>("ExpiresOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("GrandTotal")
@@ -1516,14 +1533,20 @@ namespace AccountingWebHost.Migrations
                     b.Property<DateTimeOffset>("IssueDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Memo")
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TotalConvertedInvoice")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalTaxAmount")
                         .HasColumnType("decimal(18,2)");
@@ -1535,6 +1558,8 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("CurrencyId");
 
@@ -1549,25 +1574,10 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("LineItemId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("QuoteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -1648,6 +1658,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("Rate")
                         .HasColumnType("real");
 
@@ -1688,6 +1701,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1768,6 +1784,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");
 
@@ -1809,6 +1828,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -4578,6 +4600,27 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.HasOne("Module.Sales.Entities.Contact", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Supplier");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.BillLineItem", b =>
                 {
                     b.HasOne("Module.Sales.Entities.Bill", "Bill")
@@ -4701,11 +4744,43 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Tax");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustment", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentLineItem", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.InventoryAdjustment", "InventoryAdjustment")
+                        .WithMany()
+                        .HasForeignKey("InventoryAdjustmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InventoryAdjustment");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
                 {
                     b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
 
                     b.HasOne("Module.Sales.Entities.Contact", "Customer")
                         .WithMany()
@@ -4715,11 +4790,19 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("FromQuoteId");
 
+                    b.HasOne("Module.Sales.Entities.Contact", "SalesPerson")
+                        .WithMany()
+                        .HasForeignKey("SalesPersonId");
+
                     b.Navigation("Account");
+
+                    b.Navigation("Currency");
 
                     b.Navigation("Customer");
 
                     b.Navigation("FromQuote");
+
+                    b.Navigation("SalesPerson");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.InvoiceLineItem", b =>
@@ -4901,6 +4984,10 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
                 {
+                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
                     b.HasOne("Module.Systems.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
@@ -4908,6 +4995,8 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Sales.Entities.Contact", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
+
+                    b.Navigation("Account");
 
                     b.Navigation("Currency");
 

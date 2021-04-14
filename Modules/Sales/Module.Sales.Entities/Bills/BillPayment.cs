@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class BillPayment : BaseEntity
+    public class BillPayment : RootEntity
     {
         public Guid BillId { get; set; }
         public virtual Bill Bill { get; set; }

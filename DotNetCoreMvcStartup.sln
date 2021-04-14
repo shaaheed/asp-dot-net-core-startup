@@ -169,7 +169,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{A3B22BC9-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.View.Abstraction", "Msi\View\Msi.View.Abstraction\Msi.View.Abstraction.csproj", "{7EBFB8F8-3BFF-4B56-93CA-F4C9260294AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msi.View.Razor", "Msi\View\Msi.View.Razor\Msi.View.Razor.csproj", "{2378F503-D7DA-465C-83EB-4FFB46481E05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.View.Razor", "Msi\View\Msi.View.Razor\Msi.View.Razor.csproj", "{2378F503-D7DA-465C-83EB-4FFB46481E05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Service.App", "Msi\Service\Msi.Service.App\Msi.Service.App.csproj", "{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -401,6 +403,10 @@ Global
 		{2378F503-D7DA-465C-83EB-4FFB46481E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2378F503-D7DA-465C-83EB-4FFB46481E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2378F503-D7DA-465C-83EB-4FFB46481E05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -485,6 +491,7 @@ Global
 		{A3B22BC9-A281-4981-8AE9-F8CC128C5C75} = {B2384412-108B-4755-95E7-D93B454620D5}
 		{7EBFB8F8-3BFF-4B56-93CA-F4C9260294AD} = {A3B22BC9-A281-4981-8AE9-F8CC128C5C75}
 		{2378F503-D7DA-465C-83EB-4FFB46481E05} = {A3B22BC9-A281-4981-8AE9-F8CC128C5C75}
+		{EFDDFA17-90A1-4A9B-AB06-4F4E44A143FE} = {B7C84D29-AA6A-4000-A7B7-B2B7258B0210}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F538F95-67C6-4C89-AF99-77F97C28ABBD}

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Msi.Core;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
+using Msi.Service.App;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,10 +27,12 @@ namespace Msi.Data.EntityFrameworkCore
         private Action<object> _onBeforeSaveChanges;
         private Action<object> _onAfterSaveChanges;
         private readonly ServiceFactory _serviceFactory;
+        private readonly IAppService _appService;
 
         private readonly DateTime _now;
         public UnitOfWork(
             IDataContext dataContext,
+            IAppService appService,
             ServiceFactory serviceFactory
             /*,IEventBus eventBus*/)
         {
@@ -39,11 +42,12 @@ namespace Msi.Data.EntityFrameworkCore
                 throw new ArgumentException($"The {nameof(dataContext)} object must be an instance of the Microsoft.EntityFrameworkCore.DbContext class.");
 
             //_eventBus = eventBus;
-            _serviceFactory = serviceFactory;
             _dataContext = dataContext;
             _dbContext = _dataContext as DbContext;
+            _appService = appService;
             _repositories = new Dictionary<Type, object>();
             _dbConnection = _dbContext.Database.GetDbConnection();
+            _serviceFactory = serviceFactory;
         }
 
         public void OnBeforeSaveChangesAsync(Action<object> action)
@@ -74,7 +78,7 @@ namespace Msi.Data.EntityFrameworkCore
                     foreach (var pipeline in pipelines.Reverse())
                     {
                         var r = pipeline as IUnitOfWorkPipeline<IEntity>;
-                        if(r != null)
+                        if (r != null)
                         {
 
                         }
@@ -93,17 +97,35 @@ namespace Msi.Data.EntityFrameworkCore
 
             foreach (var entry in entries)
             {
-                if(entry.Entity is IAuditableEntity<Guid>)
+                if (entry.Entity is IAuditableEntity<Guid>)
                 {
                     var entity = (IAuditableEntity<Guid>)entry.Entity;
                     if (entry.State == EntityState.Modified)
                     {
                         entity.UpdatedAt = DateTimeOffset.UtcNow;
                     }
-                    if (entry.State == EntityState.Added)
+                    else if (entry.State == EntityState.Added)
                     {
                         entity.CreatedAt = DateTimeOffset.UtcNow;
                         entity.UpdatedAt = DateTimeOffset.UtcNow;
+                    }
+                }
+                if (entry.Entity is IHaveOrganizationEntity)
+                {
+                    var organizationId = _appService.GetOrganizationId();
+                    if (!string.IsNullOrEmpty(organizationId))
+                    {
+                        var organizationGuid = new Guid(organizationId);
+                        var entity = (IHaveOrganizationEntity)entry.Entity;
+                        if (entry.State == EntityState.Added)
+                        {
+                            entity.OrganizationId = organizationGuid;
+                        }
+                        else if (entry.State == EntityState.Modified && entity.OrganizationId != organizationGuid)
+                        {
+                            throw new Exception("Permission denied.");
+                        }
+                        
                     }
                 }
             }

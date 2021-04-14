@@ -4,7 +4,7 @@ using System;
 namespace Module.Sales.Entities
 {
     // Unit of Measurement
-    public class Unit : CodeNameEntity
+    public class Unit : OrganizationCodeNameEntity
     {
         public string Symbol { get; set; }
         public string Description { get; set; }

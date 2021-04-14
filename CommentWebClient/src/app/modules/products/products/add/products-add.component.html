@@ -17,7 +17,7 @@
                 <div nz-col nzSpan="11">
                     <app-checkbox #isSaleCheckbox formControlName="isSale" label="sales.information"></app-checkbox>
 
-                    <app-input [disable]="!form.controls.isSale.value" prefix="৳" label="price" type="number" formControlName="salesPrice" placeholder="price">
+                    <app-input [disable]="!form.controls.isSale.value" [prefix]="currency" label="price" type="number" formControlName="salesPrice" placeholder="price">
                     </app-input>
 
                     <app-select-control label="unit" #salesUnitSelect [formControl]="form.controls.salesUnitId">
@@ -36,7 +36,7 @@
                 <div nz-col nzSpan="11">
                     <app-checkbox formControlName="isPurchase" label="purchase.information"></app-checkbox>
 
-                    <app-input prefix="৳" label="price" type="number" formControlName="purchasePrice" placeholder="price">
+                    <app-input [prefix]="currency" label="price" type="number" formControlName="purchasePrice" placeholder="price">
                     </app-input>
 
                     <app-select-control label="unit" #purchaseUnitSelect [formControl]="form.controls.purchaseUnitId">

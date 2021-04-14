@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { message } from 'src/constants/message';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { AppInjector } from 'src/app/app.component';
+import { AppInjector } from 'src/app/app/app.component';
 
 @Injectable()
 export class ValidatorService {

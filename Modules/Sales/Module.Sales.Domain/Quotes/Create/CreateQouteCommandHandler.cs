@@ -25,7 +25,7 @@ namespace Module.Sales.Domain.Qoutes
             var qouteRepo = _unitOfWork.GetRepository<Quote>();
             var newQoute = new Quote
             {
-                Memo = request.Memo,
+                Note = request.Memo,
                 ExpiresOn = request.ExpiresOn,
                 IssueDate = DateTimeOffset.UtcNow,
                 CustomerId = request.CustomerId

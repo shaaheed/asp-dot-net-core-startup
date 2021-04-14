@@ -1,10 +1,12 @@
 ﻿using Msi.Data.Entity;
+using Msi.Utilities.Expressions;
 using Msi.Utilities.Filter;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +16,8 @@ namespace Msi.Data.Abstractions
     {
 
         private static IUnitOfWork _uow => UnitOfWorkAccessor.Instance;
+        private static PropertyInfo IsDeletedPropery = typeof(BaseEntity).GetProperty("IsDeleted");
+        private static PropertyInfo UpdatedAtPropery = typeof(BaseEntity).GetProperty("UpdatedAt");
 
         public static IEntity Remove<TEntity>(this TEntity entity) where TEntity : class, IEntity
         {
@@ -60,17 +64,19 @@ namespace Msi.Data.Abstractions
         }
 
         public static async Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : IEntity
             where TViewModel : class
         {
-            query = query.Where(x => !x.IsDeleted);
+            
+            query = ApplyDeleteQuery(query); //query = query.Where(x => !x.IsDeleted);
 
             if (predicate != null)
                 query = query.Where(predicate);
 
-            query = query.ApplySearch(searchOptions).OrderByDescending(x => x.UpdatedAt);
+            query = query.ApplySearch(searchOptions);
+            query = ApplyOrderByDecending(query); //.OrderByDescending(x => x.UpdatedAt);
 
-            var countQuery = query.Select(x => x.Id);
+            var countQuery = query; //.Select(x => x.Id);
             var total = await Task.Run(() => countQuery.Count(), cancellationToken);
 
             query = query.ApplyPagination(pagingOptions);
@@ -83,7 +89,7 @@ namespace Msi.Data.Abstractions
         }
 
         public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : RootEntity
             where TViewModel : class
         {
             var result = repository.AsReadOnly().ListAsync(null,
@@ -96,7 +102,7 @@ namespace Msi.Data.Abstractions
         }
 
         public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : RootEntity
             where TViewModel : class
         {
             var result = repository.AsReadOnly().ListAsync(predicate,
@@ -122,7 +128,7 @@ namespace Msi.Data.Abstractions
         //}
 
         public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-           where TEntity : BaseEntity
+           where TEntity : RootEntity
            where TViewModel : class
         {
             var repository = unitOfWork.GetRepository<TEntity>();
@@ -135,7 +141,7 @@ namespace Msi.Data.Abstractions
         }
 
         public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
-           where TEntity : BaseEntity
+           where TEntity : RootEntity
            where TViewModel : class
         {
             var repository = unitOfWork.GetRepository<TEntity>();
@@ -159,10 +165,10 @@ namespace Msi.Data.Abstractions
         //}
 
         public static async Task<TViewModel> GetAsync<TEntity, TViewModel>(this IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : RootEntity
             where TViewModel : class
         {
-            query = query.Where(x => !x.IsDeleted);
+            query = ApplyDeleteQuery(query); // query.Where(x => !x.IsDeleted);
 
             if (predicate != null)
                 query = query.Where(predicate);
@@ -177,7 +183,7 @@ namespace Msi.Data.Abstractions
         }
 
         public static Task<TViewModel> GetAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : RootEntity
             where TViewModel : class
         {
             return repository.AsReadOnly().GetAsync(predicate,
@@ -194,14 +200,14 @@ namespace Msi.Data.Abstractions
         //}
 
         public static Task<TViewModel> GetAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
-            where TEntity : BaseEntity
+            where TEntity : RootEntity
             where TViewModel : class
         {
             var repository = unitOfWork.GetRepository<TEntity>();
             return repository.GetAsync(predicate, selector, cancellationToken);
         }
 
-        //public static Task<IdNameViewModel> GetAsync<TEntity>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+//public static Task<IdNameViewModel> GetAsync<TEntity>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         //    where TEntity : IdNameEntity
         //{
         //    var repository = unitOfWork.GetRepository<TEntity>();
@@ -255,11 +261,10 @@ namespace Msi.Data.Abstractions
             return lambda;
         }
 
-        public static async Task UpdateAsync<TEntity, TKey>(this IRepository<TEntity> repository, IEnumerable<TKey> inputs, Expression<Func<TEntity, bool>> searchAllIdPredicate, Expression<Func<TEntity, TKey>> allIdSelector, Func<TKey, TEntity> newEntitySelector, Func<IEnumerable<TKey>, Expression<Func<TEntity, bool>>> deletedEntityPredicate) where TEntity : BaseEntity
+        public static async Task UpdateAsync<TEntity, TKey>(this IRepository<TEntity> repository, IEnumerable<TKey> inputs, Expression<Func<TEntity, bool>> searchAllIdPredicate, Expression<Func<TEntity, TKey>> allIdSelector, Func<TKey, TEntity> newEntitySelector, Func<IEnumerable<TKey>, Expression<Func<TEntity, bool>>> deletedEntityPredicate) where TEntity : RootEntity
         {
-            var allQuery = repository
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted);
+            var allQuery = repository.AsReadOnly();
+            allQuery = ApplyDeleteQuery(allQuery); // .Where(x => !x.IsDeleted);
 
             if (searchAllIdPredicate != null)
                 allQuery = allQuery.Where(searchAllIdPredicate);
@@ -272,9 +277,8 @@ namespace Msi.Data.Abstractions
 
             // deleted
             var deletedIds = allIds.Except(inputs);
-            var deletedQuery = repository
-                .AsQueryable()
-                .Where(x => !x.IsDeleted);
+            var deletedQuery = repository.AsQueryable();
+            deletedQuery = ApplyDeleteQuery(deletedQuery); // .Where(x => !x.IsDeleted);
 
             if (deletedEntityPredicate != null)
             {
@@ -295,6 +299,32 @@ namespace Msi.Data.Abstractions
                 .PagingOptions(pagingOptions)
                 .SearchOptions(searchOptions);
             return builder;
+        }
+
+        public static IQueryable<T> ApplyDeleteQuery<T>(IQueryable<T> query)
+        {
+            if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+            {
+                var parameter = ExpressionUtilities.Parameter<T>("x");
+                var left = parameter.GetPropertyExpression(IsDeletedPropery);
+                var right = Expression.Constant(false, IsDeletedPropery.PropertyType);
+                var expression = Expression.Equal(left, right);
+                var lambda = ExpressionUtilities.GetLambda<T, bool>(parameter, expression);
+                query = query.DynamicWhere(lambda);
+            }
+            return query;
+        }
+
+        public static IQueryable<T> ApplyOrderByDecending<T>(IQueryable<T> query)
+        {
+            if (typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+            {
+                var parameter = ExpressionUtilities.Parameter<T>("x");
+                var left = Expression.MakeMemberAccess(parameter, UpdatedAtPropery);
+                var lambda = ExpressionUtilities.GetLambda<T, DateTimeOffset?>(parameter, left);
+                query = query.DynamicOrderByDescending(lambda, typeof(DateTimeOffset?));
+            }
+            return query;
         }
 
     }
@@ -345,7 +375,6 @@ namespace Msi.Data.Abstractions
         {
             return _query.ListAsync(_predicate, _selector, _pagingOptions, _searchOptions, cancellationToken);
         }
-
 
     }
 }

@@ -8,7 +8,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { InvoiceService } from '../services/invoice.service';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { RouterModule } from '@angular/router';
 import { InvoiceIdResolver } from './invoice-id.resolver';
@@ -31,6 +30,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzRadioModule
   ],
   exports: [InvoiceHomeComponent],
-  providers: [InvoiceService, InvoiceIdResolver]
+  providers: [InvoiceIdResolver]
 })
 export class InvoiceHomeModule { }

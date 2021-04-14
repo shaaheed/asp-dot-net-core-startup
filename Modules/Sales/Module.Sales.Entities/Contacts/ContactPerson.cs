@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class ContactPerson : BaseEntity
+    public class ContactPerson : OrganizationBaseEntity
     {
         public bool IsPrimary { get; set; }
         public Guid ContactId { get; set; }

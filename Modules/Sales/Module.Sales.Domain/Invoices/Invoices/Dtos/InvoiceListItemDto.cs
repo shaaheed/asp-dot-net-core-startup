@@ -21,7 +21,7 @@ namespace Module.Sales.Domain
             return x => new InvoiceListItemDto
             {
                 Id = x.Id,
-                Code = x.Code,
+                Code = x.Number,
                 AmountDue = x.AmountDue,
                 Customer = x.CustomerId != null ? new GuidIdNameDto
                 {

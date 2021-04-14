@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class OrderLineItem : BaseEntity
+    public class OrderLineItem : RootEntity
     {
         public Guid OrderId { get; set; }
         public virtual Order Order { get; set; }

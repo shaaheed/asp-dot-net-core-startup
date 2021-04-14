@@ -1,8 +1,9 @@
 import { Router, Routes } from '@angular/router';
-import { AppInjector } from 'src/app/app.component';
+import { AppInjector } from 'src/app/app/app.component';
 import { MomentPipe } from 'src/pipes/moment.pipe';
 import { Column } from 'src/services/column.service';
 import { Route } from 'src/services/route.service';
+import { CURRENCY } from '../organizations/organization.service';
 
 const prefix = 'invoices';
 
@@ -14,9 +15,19 @@ export const INVOICE_CONFIG = {
                     AppInjector.get(Router).navigateByUrl(`invoices/${x.id}`);
                 }),
                 Column.column('customer', x => x.customer?.name),
-                Column.column('due', x => x.amountDue),
-                Column.column('total'),
-                Column.date('date', x => AppInjector.get(MomentPipe).transform( x.issueDate)),
+                Column.column('due', x => {
+                    return `${CURRENCY} ${x.amountDue}`
+                }),
+                Column.column('payments', x => {
+                    if (!isNaN(x.total) && !isNaN(x.amountDue)) {
+                        return `${CURRENCY} ${x.total - x.amountDue}`;
+                    }
+                    return '-';
+                }),
+                Column.column('total', x => {
+                    return `${CURRENCY} ${x.total}`
+                }),
+                Column.date('date', x => AppInjector.get(MomentPipe).transform(x.issueDate)),
                 Column.created()
             ]
         }),

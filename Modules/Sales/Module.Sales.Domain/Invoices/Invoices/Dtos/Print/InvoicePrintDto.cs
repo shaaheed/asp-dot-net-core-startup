@@ -25,7 +25,7 @@ namespace Module.Sales.Domain
         {
             return x => new InvoicePrintDto
             {
-                Number = x.Code,
+                Number = x.Number,
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,

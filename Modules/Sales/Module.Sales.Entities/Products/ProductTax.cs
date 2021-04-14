@@ -4,7 +4,7 @@ using System;
 namespace Module.Sales.Entities
 {
     [IgnoredEntity]
-    public class ProductTax : BaseEntity
+    public class ProductTax : RootEntity
     {
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }

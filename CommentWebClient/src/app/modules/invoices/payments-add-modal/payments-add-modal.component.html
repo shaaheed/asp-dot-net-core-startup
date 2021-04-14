@@ -23,7 +23,7 @@
                     <app-date-picker label="payment.date" placeholder="payment.date" formControlName="paymentDate">
                     </app-date-picker>
 
-                    <app-input prefix="৳" label="payment.amount" type="number" formControlName="amount" placeholder="payment.amount">
+                    <app-input [prefix]="data.currency" label="payment.amount" type="number" formControlName="amount" placeholder="payment.amount">
                     </app-input>
 
                     <app-select-control [registerFn]="registerPaymentMethodSelect" label="payment.method" [formControl]="form.controls.paymentMethod">

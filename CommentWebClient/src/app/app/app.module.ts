@@ -13,8 +13,6 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpService } from 'src/services/http/http.service';
 import { SecurityService } from 'src/services/security.service';
-import { AuthGuard } from './guards/auth.guard';
-import { LoginModule } from './components/login/login.module';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { OAuthConfig, initOAuth } from 'src/configs/oauth.config';
 import { AuthService } from 'src/services/auth.service';
@@ -35,6 +33,10 @@ import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { ValidatorService } from 'src/services/validator.service';
 import { NumberService } from 'src/services/number.service';
+import { LoginModule } from '../components/login/login.module';
+import { AuthGuard } from '../guards/auth.guard';
+import { OrganizationsResolver } from '../modules/organizations/organizations.resolver';
+import { OrganizationService } from '../modules/organizations/organization.service';
 
 registerLocaleData(en);
 
@@ -78,6 +80,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BaseHttpService,
     SecurityService,
     PermissionService,
+    OrganizationService,
     // TranslatePipe,
     AuthGuard,
     NzMessageService,
@@ -102,7 +105,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useFactory: permissionFactory,
       deps: [AuthService, SecurityService, PermissionService],
       multi: true
-    }
+    },
+    OrganizationsResolver
   ],
   bootstrap: [AppComponent, []]
 })

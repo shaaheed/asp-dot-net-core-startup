@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class ChartOfAccount : CodeNameEntity
+    public class ChartOfAccount : OrganizationCodeNameEntity
     {
         public string Description { get; set; }
         public bool IsEditable { get; set; }

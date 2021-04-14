@@ -35,7 +35,7 @@ namespace Module.Sales.Domain
         {
             var paymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
                 .AsReadOnly()
-                .Where(x => x.InvoiceId == invoiceId && !x.IsDeleted)
+                .Where(x => x.InvoiceId == invoiceId && !x.Invoice.IsDeleted)
                 .Select(x => x.Payment.Amount)
                 .Sum();
             return paymentAmount;

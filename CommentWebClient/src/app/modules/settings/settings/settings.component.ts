@@ -29,7 +29,19 @@ export class SettingsComponent {
 
   goTo(obj) {
     if (obj && obj.route) {
-      this.router.navigateByUrl(obj.route);
+      const type = typeof (obj.route);
+      if (type == "string") {
+        this.router.navigateByUrl(obj.route);
+      }
+      else if (type == "function") {
+        const url = obj.route();
+        if (url) {
+          this.router.navigateByUrl(url);
+        }
+        else {
+          console.log('invalid url');
+        }
+      }
       this.close();
     }
   }

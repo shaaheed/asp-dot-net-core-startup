@@ -22,6 +22,9 @@ namespace Module.Sales.Entities
 
         public decimal UnitPrice { get; set; }
 
+        public decimal Discount { get; set; }
+        public DiscountType? DiscountType { get; set; }
+
         public Guid? UnitId { get; set; }
         public Unit Unit { get; set; }
 

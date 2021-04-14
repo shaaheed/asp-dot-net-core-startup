@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class InvoiceLineItem : BaseEntity
+    public class InvoiceLineItem : RootEntity
     {
         public Guid InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; }

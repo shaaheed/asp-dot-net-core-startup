@@ -179,5 +179,6 @@
   "back": "Back",
   "owner": "Owner",
   "currency": "Currency",
-  "organization.currency.select.info": "You can't change the currency after transactions recorded in your organization"
+  "organization.currency.select.info": "You can't change the currency after transactions recorded in your organization",
+  "validation.error.occurred": "Validation error occurred"
 }

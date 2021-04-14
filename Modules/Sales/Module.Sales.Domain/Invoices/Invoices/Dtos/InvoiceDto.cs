@@ -17,7 +17,7 @@ namespace Module.Sales.Domain
         public decimal AmountDue { get; set; }
         public decimal Total { get; set; }
         public DateTimeOffset IssueDate { get; set; }
-        public DateTimeOffset PaymentDueDate { get; set; }
+        public DateTimeOffset? PaymentDueDate { get; set; }
         public IEnumerable<InvoiceLineItemDto> Items { get; set; }
         public decimal PaymentAmount { get; set; }
         public string Note { get; set; }
@@ -31,7 +31,7 @@ namespace Module.Sales.Domain
             return x => new InvoiceDto
             {
                 Id = x.Id,
-                Code = x.Code,
+                Code = x.Number,
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,

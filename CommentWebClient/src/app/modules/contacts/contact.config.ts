@@ -14,6 +14,7 @@ export const CONTACT_CONFIG = {
                     Column.column('name', x => x.displayName),
                     Column.column('mobile'),
                     Column.column('email'),
+                    Column.column('address'),
                     Column.created()
                 ]
             }),

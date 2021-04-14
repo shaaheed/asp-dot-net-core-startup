@@ -16,6 +16,7 @@ using Msi.Mediator.Abstractions;
 using System.Linq;
 using Module.Tokens.Domain;
 using Services;
+using Microsoft.OpenApi.Models;
 
 namespace AccountingWebHost
 {
@@ -50,7 +51,16 @@ namespace AccountingWebHost
             });
 
             Global.Initialize(new DefaultAssemblyProvider(), _env.EnvironmentName);
-            services.AddSwaggerService();
+            //services.AddSwaggerService();
+            services.AddSwaggerGen(options =>
+            {
+                string version = "v1";
+                options.SwaggerDoc(version, new OpenApiInfo
+                {
+                    Title = "API",
+                    Version = version
+                });
+            });
 
             var assemblies = Global.GetGenericImplementations(typeof(IQuery<>)).Select(x => x.Assembly).Distinct();
             services.AddMediator(opt =>
@@ -121,7 +131,9 @@ namespace AccountingWebHost
             app.UseRouting();
 
             app.UseCors("default");
-            app.UseSwaggerService();
+            //app.UseSwaggerService();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API"));
 
             app.UseModules();
             app.UseAuthentication();

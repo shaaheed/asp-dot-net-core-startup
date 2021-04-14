@@ -1,6 +1,6 @@
 ﻿namespace Module.Sales.Entities
 {
-    public enum InvoiceStatus
+    public enum Status
     {
         Draft = 1,
         DraftApproved = 2,

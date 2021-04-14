@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Module.Sales.Entities
 {
-    public class Product : CodeNameEntity
+    public class Product : OrganizationCodeNameEntity
     {
         public string Description { get; set; }
 

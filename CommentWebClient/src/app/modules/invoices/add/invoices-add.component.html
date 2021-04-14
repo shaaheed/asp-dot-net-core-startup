@@ -22,7 +22,8 @@
                             <app-input label="number" placeholder="number" formControlName="code"></app-input>
                             <app-date-picker label="invoice.date" placeholder="invoice.date"
                                 formControlName="issueDate"></app-date-picker>
-                            <app-date-picker label="payment.due" placeholder="payment.due" formControlName="paymentDueDate">
+                            <app-date-picker label="payment.due" placeholder="payment.due"
+                                formControlName="paymentDueDate">
                             </app-date-picker>
                         </div>
                     </div>
@@ -30,7 +31,8 @@
             </div>
             <div class="block pad-b-10 box-divider">
                 <div class="content invoice-items">
-                    <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData" class="hide-table-placeholder no-hover">
+                    <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData"
+                        class="hide-table-placeholder no-hover">
                         <thead>
                             <tr>
                                 <th>{{'name'|translate}}</th>
@@ -51,18 +53,20 @@
                                                 placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <app-input [suffix]="unitSuffix" type="number"
+                                            <app-input [canSuffixShow]="units?.length > 0" [suffix]="unitSuffix" type="number"
                                                 [formItemStyle]="formItemStyle" placeholder="quantity"
                                                 formControlName="quantity"
                                                 (onChange)="invoiceItemQuantityChanged(data)"></app-input>
                                             <ng-template #unitSuffix>
-                                                <nz-select [attr.name]="i" #unitSelects formControlName="unitId" style="min-width: 70px;">
-                                                    <nz-option *ngFor="let unit of units" [nzLabel]="unit.symbol" [nzValue]="unit.id"></nz-option>
+                                                <nz-select [attr.name]="i" #unitSelects formControlName="unitId"
+                                                    style="min-width: 70px;">
+                                                    <nz-option *ngFor="let unit of units" [nzLabel]="unit.symbol"
+                                                        [nzValue]="unit.id"></nz-option>
                                                 </nz-select>
                                             </ng-template>
                                         </td>
                                         <td>
-                                            <app-input prefix="৳" type="number" [formItemStyle]="formItemStyle"
+                                            <app-input [prefix]="currency" type="number" [formItemStyle]="formItemStyle"
                                                 placeholder="price" formControlName="unitPrice"
                                                 (onChange)="invoiceItemPriceChanged(data)"></app-input>
                                         </td>
@@ -71,7 +75,7 @@
                                                 #taxSelects [name]="i" formControlName="taxId"></app-select-control>
                                         </td>
                                         <td class="ta-right">
-                                            <strong>৳ {{ data.controls?.amount?.value || 0 }}</strong>
+                                            <strong>{{currency}} {{ data.controls?.amount?.value || 0 }}</strong>
                                         </td>
                                         <td>
                                             <span class="actions">
@@ -99,7 +103,7 @@
                                     <strong>{{'subtotal'|translate}}</strong>
                                 </td>
                                 <td class="ta-right">
-                                    <strong>৳ {{subtotal}}</strong>
+                                    <strong>{{currency}} {{subtotal}}</strong>
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>
@@ -110,7 +114,7 @@
                                         placeholder="adjustment" formControlName="adjustmentText"></app-input>
                                 </td>
                                 <td style="width: 150px;" class="ta-right">
-                                    <app-input type="number" [formItemStyle]="formItemStyle" prefix="৳"
+                                    <app-input type="number" [formItemStyle]="formItemStyle" [prefix]="currency"
                                         placeholder="amount" formControlName="adjustmentAmount"></app-input>
                                 </td>
                                 <td style="width: 25px"></td>
@@ -120,7 +124,7 @@
                                     <strong>{{'total'|translate}}</strong>
                                 </td>
                                 <td style="width: 150px;" class="ta-right">
-                                    <strong>৳ 0</strong>
+                                    <strong>{{currency}} 0</strong>
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>

@@ -3,6 +3,7 @@ import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ValidatorService } from 'src/services/validator.service';
+import { CURRENCY } from 'src/app/modules/organizations/organization.service';
 
 @Component({
   selector: 'app-products-add',
@@ -28,6 +29,8 @@ export class ProductsAddComponent extends FormComponent {
 
   @ViewChild('categoriesSelect') categoriesSelect: SelectControlComponent;
 
+  currency;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private validator: ValidatorService
@@ -36,6 +39,7 @@ export class ProductsAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
+    this.currency = CURRENCY;
     this.createForm({
       name: [null, [], [
         this.validator.required().bind(this),

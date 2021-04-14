@@ -23,7 +23,7 @@ namespace Module.Sales.Domain.Products
         {
             var product = await _unitOfWork.GetAsync(x => x.Id == request.Id, ProductDto.Selector(), cancellationToken);
             var categories = _unitOfWork.GetRepository<ProductCategory>()
-                .Where(x => !x.IsDeleted && x.ProductId == request.Id)
+                .Where(x => x.ProductId == request.Id)
                 .Select(x => new GuidIdNameDto
                 {
                     Id = x.CategoryId,

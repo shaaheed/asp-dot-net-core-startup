@@ -108,7 +108,7 @@
                                         {{item.quantity}}
                                     </td>
                                     <td>
-                                        ৳ {{item.unitPrice}}
+                                        {{currency}} {{item.unitPrice}}
                                         <ng-container *ngIf="item.unit">
                                             / {{item.unit.name}}
                                         </ng-container>
@@ -117,7 +117,7 @@
 
                                     </td>
                                     <td class="ta-right">
-                                        <strong>৳ {{ item.total }}</strong>
+                                        <strong>{{currency}} {{ item.total }}</strong>
                                     </td>
                                 </tr>
                             </ng-container>
@@ -127,7 +127,7 @@
                                     <strong>{{'subtotal'|translate}}</strong>
                                 </td>
                                 <td class="ta-right">
-                                    <strong>৳ {{subtotal}}</strong>
+                                    <strong>{{currency}} {{subtotal}}</strong>
                                 </td>
                             </tr> -->
                             <tr *ngIf="model.adjustmentAmount" class="bg-white no-border">
@@ -136,7 +136,7 @@
                                     {{model.adjustmentText}}
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
-                                    ৳ {{model.adjustmentAmount}}
+                                    {{currency}} {{model.adjustmentAmount}}
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
@@ -145,7 +145,7 @@
                                     <strong>{{'total'|translate}}</strong>
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
-                                    <strong>৳ {{model.total}}</strong>
+                                    <strong>{{currency}} {{model.total}}</strong>
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
@@ -154,7 +154,7 @@
                                     {{'payments'|translate}}
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
-                                    <span style="color: red;">(-) ৳ {{model.paymentAmount}}</span>
+                                    <span style="color: red;">(-) {{currency}} {{model.paymentAmount}}</span>
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
@@ -163,7 +163,7 @@
                                     <strong>{{'due'|translate}}</strong>
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
-                                    <strong>৳ {{model.amountDue}}</strong>
+                                    <strong>{{currency}} {{model.amountDue}}</strong>
                                 </td>
                             </tr>
                         </tbody>

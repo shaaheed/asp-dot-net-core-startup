@@ -8,6 +8,7 @@ import { ButtonSelectComponent } from 'src/app/shared/button-select/button-selec
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
 import { ValidatorService } from 'src/services/validator.service';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
+import { CURRENCY } from '../../organizations/organization.service';
 
 @Component({
   selector: 'app-invoices-add',
@@ -20,7 +21,6 @@ export class InvoicesAddComponent extends FormComponent {
   objectName = "invoice";
 
   subtotal: number = 0;
-
   products: any[] = [];
   units: any[] = [];
 
@@ -34,6 +34,8 @@ export class InvoicesAddComponent extends FormComponent {
   formItemStyle = { padding: 0 };
   adjustFormItemStyle = { padding: 0, display: 'flex', justifyContent: 'flex-end' };
   adjustFormControlStyle = { maxWidth: '170px' };
+  currency;
+  unitSuffix;
 
   onSetFormValues = data => {
     this.prepareForm(data);
@@ -49,6 +51,7 @@ export class InvoicesAddComponent extends FormComponent {
   ngOnInit(): void {
     super.ngOnInit(this.route.snapshot);
 
+    this.currency = CURRENCY;
     this.createForm({
       code: [null, [], this.validator.required()],
       issueDate: [new Date(), [], this.validator.requiredDate()],

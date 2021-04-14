@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class QuoteLineItem : BaseEntity
+    public class QuoteLineItem : RootEntity
     {
         public Guid QuoteId { get; set; }
         public virtual Quote Quote { get; set; }

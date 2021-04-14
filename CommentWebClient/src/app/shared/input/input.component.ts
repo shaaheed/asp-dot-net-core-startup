@@ -11,6 +11,7 @@ export class InputComponent extends AntControlComponent {
   @Input() type = 'text';
   @Input() prefix: string;
   @Input() suffix: string | TemplateRef<any>;
+  @Input() canSuffixShow: boolean = true;
 
   ngOnInit() {
     if (this.config) {

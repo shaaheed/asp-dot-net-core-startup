@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AppInjector } from 'src/app/app.component';
+import { AppInjector } from 'src/app/app/app.component';
 
 @Injectable()
 export class BroadcastService {

@@ -6,12 +6,12 @@
         </ng-container>
     </label>
     <nz-form-control [ngStyle]="formControlStyle" #antFormControl [nzErrorTip]="errorTemplate">
-        <ng-container *ngIf="prefix || suffix">
+        <ng-container *ngIf="prefix || (canSuffixShow && suffix)">
             <nz-input-group [nzAddOnBefore]="prefix" [nzAddOnAfter]="suffix">
                 <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
             </nz-input-group>
         </ng-container>
-        <ng-container *ngIf="!prefix && !suffix">
+        <ng-container *ngIf="!(prefix || (canSuffixShow && suffix))">
             <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
         </ng-container>
 

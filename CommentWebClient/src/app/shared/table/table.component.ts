@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
-import { AppInjector } from 'src/app/app.component';
 import { TableConfig } from './table.config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
 import { NumberService } from 'src/services/number.service';
+import { AppInjector } from 'src/app/app/app.component';
 
 @Component({
   selector: 'app-table',

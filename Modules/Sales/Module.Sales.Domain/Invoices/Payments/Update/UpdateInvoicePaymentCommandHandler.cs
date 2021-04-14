@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.InvoicePayments
         {
             var invoicePaymentRepo = _unitOfWork.GetRepository<InvoicePayment>();
             var payment = invoicePaymentRepo
-                .Where(x => x.InvoiceId == request.InvoiceId && x.Id == request.Id && !x.IsDeleted)
+                .Where(x => x.InvoiceId == request.InvoiceId && x.Id == request.Id)
                 .Select(x => x.Payment)
                 .FirstOrDefault();
 

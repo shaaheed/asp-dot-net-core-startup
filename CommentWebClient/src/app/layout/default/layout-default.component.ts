@@ -1,7 +1,9 @@
-import { Component, Host, OnInit, VERSION } from '@angular/core';
+import { Component, OnInit, VERSION } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { OrganizationService } from 'src/app/modules/organizations/organization.service';
 import { SettingsComponent } from 'src/app/modules/settings/settings/settings.component';
 import { BaseComponent } from 'src/app/shared/base.component';
 
@@ -19,15 +21,24 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
   config: PerfectScrollbarConfigInterface = {};
   permissionLoaded = false;
   visible = false;
+  organizations: any[] = [];
+  currentOrganization: any;
 
   constructor(
     private translation: TranslateService,
-    private drawerService: NzDrawerService
+    private drawerService: NzDrawerService,
+    private activatedRoute: ActivatedRoute,
+    private organizationService: OrganizationService
   ) {
     super();
   }
 
   ngOnInit() {
+    const data = this.activatedRoute.snapshot.data;
+    if (data?.organizations?.data?.items) {
+      this.organizations = data.organizations.data.items;
+    }
+    this.currentOrganization = this.organizationService.getCurrentOrganization();
     this.version = `Angular v${VERSION.full}`
     this.selectedLanguage = localStorage.getItem('lang') || 'bn'
     const nav = [
@@ -123,6 +134,21 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
     this.checkNavGrant(nav);
     this.nav = nav;
     this.permissionLoaded = true;
+  }
+
+  selectOrganization(organization) {
+    if (organization) {
+      const isSameOrganization = this.currentOrganization.id == organization.id;
+      if (!isSameOrganization) {
+        this.currentOrganization = organization;
+        this.organizationService.setCurrentOrganization(organization);
+        window.location.reload();
+      }
+    }
+  }
+
+  newOrganization() {
+    this._router.navigateByUrl('organizations/create');
   }
 
   navClicked(n) {

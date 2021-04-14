@@ -22,9 +22,9 @@ namespace Module.Sales.Domain
             entity = entity ?? new Invoice();
             if (isNew)
             {
-                entity.Status = InvoiceStatus.Unpaid;
+                entity.Status = Status.Unpaid;
             }
-            entity.Code = Code;
+            entity.Number = Code;
             entity.IssueDate = IssueDate ?? DateTimeOffset.UtcNow;
             entity.PaymentDueDate = PaymentDueDate ?? DateTimeOffset.UtcNow;
             entity.CustomerId = CustomerId;

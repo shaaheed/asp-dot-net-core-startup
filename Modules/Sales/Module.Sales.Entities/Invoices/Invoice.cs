@@ -1,10 +1,10 @@
-﻿using Msi.Data.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Module.Sales.Entities
 {
-    public class Invoice : BaseEntity
+    public class Invoice : BaseInvoice
     {
 
         public Invoice()
@@ -12,39 +12,16 @@ namespace Module.Sales.Entities
             InvoiceLineItems = new HashSet<InvoiceLineItem>();
         }
 
-        public string Code { get; set; }
-        public InvoiceStatus Status { get; set; }
+        public string OrderNumber { get; set; }
 
         public Guid? CustomerId { get; set; }
         public virtual Contact Customer { get; set; }
 
-        /// <summary>
-        /// Sum of all line items Subtotal
-        /// </summary>
-        public decimal Subtotal { get; set; }
-
-        /// <summary>
-        /// Sum of all line items Total
-        /// </summary>
-        public decimal GrandTotal { get; set; }
-
-        /// <summary>
-        /// Sum of all line item TotalTaxAmount
-        /// </summary>
-        public decimal TotalTaxAmount { get; set; }
-
-        public decimal AmountDue { get; set; }
-        public DateTimeOffset IssueDate { get; set; }
-        public DateTimeOffset PaymentDueDate { get; set; }
-        public bool Pinned { get; set; }
-        public string Note { get; set; }
-        public string Memo { get; set; }
+        public Guid? SalesPersonId { get; set; }
+        public virtual Contact SalesPerson { get; set; }
 
         public string AdjustmentText { get; set; }
         public decimal AdjustmentAmount { get; set; }
-
-        public Guid? AccountId { get; set; }
-        public ChartOfAccount Account { get; set; }
 
         public Guid? FromQuoteId { get; set; }
         public virtual Quote FromQuote { get; set; }
@@ -54,32 +31,7 @@ namespace Module.Sales.Entities
 
         public void Calculate()
         {
-            GrandTotal = 0;
-            Subtotal = 0;
-            foreach (var item in InvoiceLineItems)
-            {
-                GrandTotal += item.LineItem.Total;
-                Subtotal += item.LineItem.Subtotal;
-            }
-        }
-
-        public void AddPayment(decimal paymentAmount)
-        {
-            if(GrandTotal == paymentAmount)
-            {
-                // Full payment
-                Status = InvoiceStatus.Paid;
-                AmountDue = 0;
-            }
-            else if (GrandTotal > paymentAmount)
-            {
-                Status = InvoiceStatus.Due;
-            }
-
-            if (paymentAmount <= GrandTotal)
-            {
-                AmountDue = GrandTotal - paymentAmount;
-            }
+            Calculate(InvoiceLineItems.Select(x => x.LineItem));
         }
     }
 }

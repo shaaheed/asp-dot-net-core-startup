@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { ListPageConfig } from 'src/app/shared/list/list.config';
 import { Column } from 'src/services/column.service';
+import { CURRENCY } from '../../organizations/organization.service';
 import { PaymentsAddModalComponent } from '../payments-add-modal/payments-add-modal.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class InvoicesViewComponent extends BaseComponent {
   showPaymentModal: boolean = false;
   paymentModalData: any = {}
   invoiceId;
+  currency = '';
 
   @ViewChild('paymentModal') paymentModal: PaymentsAddModalComponent;
 
@@ -40,7 +42,7 @@ export class InvoicesViewComponent extends BaseComponent {
       Column.date('date', x => x.paymentDate),
       {
         title: 'payment.amount',
-        getCellData: x => `৳ ${x.amount}`,
+        getCellData: x => `${this.currency} ${x.amount}`,
         tdClass: 'fit-cell ta-right'
       }
     ]
@@ -54,6 +56,7 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    this.currency = CURRENCY;
     const snapshot = this.activatedRoute.snapshot;
     this.invoiceId = snapshot.params.id;
     this.paymentModalData.invoiceId = this.invoiceId;
@@ -83,7 +86,8 @@ export class InvoicesViewComponent extends BaseComponent {
           this.paymentModalData = {
             title: this._translate.instant('add.payment.for.invoice.x0', { x0: this.model.code }),
             mode: 'add',
-            amount: this.model.amountDue
+            amount: this.model.amountDue,
+            currency: this.currency
           }
           this.setPaymentModalApiUrl();
         }

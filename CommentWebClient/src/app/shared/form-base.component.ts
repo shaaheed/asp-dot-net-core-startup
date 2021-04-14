@@ -1,5 +1,4 @@
-import { FormGroup, FormBuilder, AbstractControlOptions, AbstractControl } from '@angular/forms';
-import { AppInjector } from 'src/app/app.component';
+import { FormGroup, FormBuilder, AbstractControlOptions } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
@@ -8,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { message } from 'src/constants/message';
 import { Directive, Input } from '@angular/core';
 import { Location } from '@angular/common';
+import { AppInjector } from '../app/app.component';
 
 @Directive()
 export class FormBaseComponent extends BaseComponent {
@@ -233,6 +233,9 @@ export class FormBaseComponent extends BaseComponent {
                         }
                     })
                 }
+            }
+            if (!this.form.valid) {
+                this.failed('validation.error.occurred');
             }
             this.busy(false);
         }

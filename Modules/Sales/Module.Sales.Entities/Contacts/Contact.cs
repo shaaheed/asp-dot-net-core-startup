@@ -5,7 +5,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class Contact : BaseEntity
+    public class Contact : OrganizationBaseEntity
     {
         public bool IsBusiness { get; set; }
         public bool IsIndividual { get; set; }

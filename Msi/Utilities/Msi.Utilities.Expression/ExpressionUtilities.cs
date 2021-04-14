@@ -68,8 +68,8 @@ namespace Msi.Utilities.Expressions
 
         public static PropertyInfo GetPropertyInfo<T>(this string name) => typeof(T).GetProperties().Single(p => p.Name == name);
 
-        public static ParameterExpression Parameter<T>()
-            => Expression.Parameter(typeof(T));
+        public static ParameterExpression Parameter<T>(string name = null)
+            => Expression.Parameter(typeof(T), name);
 
         public static MemberExpression GetPropertyExpression(this ParameterExpression obj, PropertyInfo property)
             => Expression.Property(obj, property);
@@ -88,6 +88,16 @@ namespace Msi.Utilities.Expressions
             var whereMethodBuilder = QueryableMethods
                 .First(x => x.Name == "Where" && x.GetParameters().Length == 2)
                 .MakeGenericMethod(new[] { typeof(T) });
+
+            return (IQueryable<T>)whereMethodBuilder
+                .Invoke(null, new object[] { query, predicate });
+        }
+
+        public static IQueryable<T> DynamicOrderByDescending<T>(this IQueryable<T> query, LambdaExpression predicate, Type key)
+        {
+            var whereMethodBuilder = QueryableMethods
+                .First(x => x.Name == "OrderByDescending" && x.GetParameters().Length == 2)
+                .MakeGenericMethod(new[] { typeof(T), key });
 
             return (IQueryable<T>)whereMethodBuilder
                 .Invoke(null, new object[] { query, predicate });

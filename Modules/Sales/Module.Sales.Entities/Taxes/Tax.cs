@@ -2,7 +2,7 @@
 
 namespace Module.Sales.Entities
 {
-    public class Tax : CodeNameEntity
+    public class Tax : OrganizationCodeNameEntity
     {
         public float Rate { get; set; }
         public string Description { get; set; }

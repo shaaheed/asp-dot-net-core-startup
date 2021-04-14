@@ -2,7 +2,7 @@
 
 namespace Module.Sales.Entities
 {
-    public class Category : CodeNameEntity
+    public class Category : OrganizationCodeNameEntity
     {
         public string Description { get; set; }
     }

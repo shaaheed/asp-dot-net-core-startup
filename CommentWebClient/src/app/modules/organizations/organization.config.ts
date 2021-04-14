@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { AppInjector } from 'src/app/app.component';
+import { AppInjector } from 'src/app/app/app.component';
 import { ControlType, SelectConfig } from 'src/app/shared/form-page/control.config';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { Column } from 'src/services/column.service';
