@@ -6,8 +6,8 @@ namespace Module.Sales.Domain
 {
     public class InvoiceRequestDto
     {
-        public string Code { get; set; }
-        public Guid? CustomerId { get; set; }
+        public string Number { get; set; }
+        public Guid? ContactId { get; set; }
         public DateTime? IssueDate { get; set; }
         public DateTime? PaymentDueDate { get; set; }
         public string Note { get; set; }
@@ -24,10 +24,10 @@ namespace Module.Sales.Domain
             {
                 entity.Status = Status.Unpaid;
             }
-            entity.Number = Code;
+            entity.Number = Number;
             entity.IssueDate = IssueDate ?? DateTimeOffset.UtcNow;
             entity.PaymentDueDate = PaymentDueDate ?? DateTimeOffset.UtcNow;
-            entity.CustomerId = CustomerId;
+            entity.CustomerId = ContactId;
             entity.Note = Note;
             entity.Memo = Memo;
             entity.AdjustmentText = AdjustmentText;

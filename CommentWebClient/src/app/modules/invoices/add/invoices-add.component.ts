@@ -18,13 +18,16 @@ import { CURRENCY } from '../../organizations/organization.service';
 export class InvoicesAddComponent extends FormComponent {
 
   apiUrl = 'invoices';
-  objectName = "invoice";
+  contactApiUrl = 'contacts?Search=Type eq 1';
+  objectName = 'invoice';
+  contactTitle = 'customer';
+  chooseAnotherTitle = 'choose.a.different.customer';
 
   subtotal: number = 0;
   products: any[] = [];
   units: any[] = [];
 
-  @ViewChild('customerSelect') customerSelect: ButtonSelectComponent;
+  @ViewChild('contactSelect') contactSelect: ButtonSelectComponent;
   @ViewChildren('autocomplete') autocomplete: QueryList<AutocompleteComponent>;
   @ViewChildren('unitSelects') unitSelects: QueryList<NzSelectComponent>;
 
@@ -40,6 +43,7 @@ export class InvoicesAddComponent extends FormComponent {
   onSetFormValues = data => {
     this.prepareForm(data);
   };
+  onSetInvoiceNumber: () => string;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,14 +53,18 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   ngOnInit(): void {
+    const data = this.route.snapshot.data;
+    if (data?.componentAccessor) {
+      data.componentAccessor(this);
+    }
     super.ngOnInit(this.route.snapshot);
 
     this.currency = CURRENCY;
     this.createForm({
-      code: [null, [], this.validator.required()],
+      number: [null, [], this.validator.required()],
       issueDate: [new Date(), [], this.validator.requiredDate()],
       paymentDueDate: [new Date(), [], this.validator.requiredDate()],
-      customerId: [],
+      contactId: [],
       productId: [],
       adjustmentText: ['Adjustment'],
       adjustmentAmount: [],
@@ -67,7 +75,7 @@ export class InvoicesAddComponent extends FormComponent {
       this._httpService.get('products'),
       this._httpService.get('units')
     ];
-    if (this.isAddMode()) {
+    if (!this.onSetInvoiceNumber && this.isAddMode()) {
       requests.push(this._httpService.get('invoices/create-info'))
     }
 
@@ -83,8 +91,16 @@ export class InvoicesAddComponent extends FormComponent {
             this.units = res[1].data.items;
             this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
           }
-          if (this.isAddMode() && res[2].data.nextInvoiceNumber) {
-            this.setValue('code', res[2].data.nextInvoiceNumber);
+
+          let nextInvoiceNumber = null;
+          if (!this.onSetInvoiceNumber && this.isAddMode() && res[2].data.nextInvoiceNumber) {
+            nextInvoiceNumber = res[2].data.nextInvoiceNumber;
+          }
+          else if (this.onSetInvoiceNumber) {
+            nextInvoiceNumber = this.onSetInvoiceNumber();
+          }
+          if (nextInvoiceNumber) {
+            this.setValue('number', nextInvoiceNumber);
           }
         }
       },
@@ -118,9 +134,9 @@ export class InvoicesAddComponent extends FormComponent {
       this.setItemUnitIdDefaultValue(selects.toArray());
     });
 
-    if (this.customerSelect?.select) {
-      this.customerSelect.select.register((pagination, search) => {
-        return this._httpService.get('contacts?Search=Type eq 1');
+    if (this.contactSelect?.select) {
+      this.contactSelect.select.register((pagination, search) => {
+        return this._httpService.get(this.contactApiUrl);
       });
     }
   }

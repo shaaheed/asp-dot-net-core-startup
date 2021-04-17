@@ -5,21 +5,21 @@
                 <div class="content">
                     <div class="invoice-head">
                         <div class="left">
-                            <app-button-select labelKey="displayName" #customerSelect label="customer"
-                                formControlName="customerId" [content]="customerTemplate">
-                                <ng-template #customerTemplate let-customer>
+                            <app-button-select labelKey="displayName" #contactSelect [label]="contactTitle"
+                                formControlName="contactId" [content]="contactTemplate">
+                                <ng-template #contactTemplate let-contact>
                                     <div class="mb-14">
-                                        <div class="fs-i">{{'customer'|translate}}</div>
-                                        <div class="fw-600">{{customer.displayName}}</div>
-                                        <div>{{customer.contact}}</div>
-                                        <div>{{customer.mobile}}</div>
-                                        <div>{{customer.email}}</div>
+                                        <div class="fs-i">{{contactTitle|translate}}</div>
+                                        <div class="fw-600">{{contact.displayName}}</div>
+                                        <div>{{contact.contact}}</div>
+                                        <div>{{contact.mobile}}</div>
+                                        <div>{{contact.email}}</div>
                                     </div>
                                 </ng-template>
                             </app-button-select>
                         </div>
                         <div class="right">
-                            <app-input label="number" placeholder="number" formControlName="code"></app-input>
+                            <app-input label="number" placeholder="number" formControlName="number"></app-input>
                             <app-date-picker label="invoice.date" placeholder="invoice.date"
                                 formControlName="issueDate"></app-date-picker>
                             <app-date-picker label="payment.due" placeholder="payment.due"

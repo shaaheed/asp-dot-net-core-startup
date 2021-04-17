@@ -1,6 +1,6 @@
 <app-box-loader *ngIf="loading"></app-box-loader>
 <div class="box no-shadow" style="margin: 0; margin-left: 1px;" *ngIf="!loading">
-    <div class="block page-header" style="border-bottom: 1px solid #e4e4e4; padding: 16px;">
+    <div [ngStyle]="headerStyle" class="block page-header">
         <div class="column">
             <h1 class="no-margin">{{config?.pageTitle|translate}}</h1>
         </div>

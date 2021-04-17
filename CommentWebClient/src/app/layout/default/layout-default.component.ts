@@ -97,6 +97,12 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
         nav: [
           {
             level: 2,
+            title: 'bills',
+            route: '/bills',
+            fn: () => true,
+          },
+          {
+            level: 2,
             title: 'suppliers',
             route: '/suppliers',
             fn: () => true,

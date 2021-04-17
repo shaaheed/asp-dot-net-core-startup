@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
@@ -25,6 +25,7 @@ export class TableComponent extends BaseComponent {
   @Input() config: TableConfig;
   @Output() dataLoadCompleted = new EventEmitter();
   @Input() onDataLoadCompleted: () => void;
+  @Input() headerStyle: any = {};
 
   loading: boolean = true;
   total: number = 0;
@@ -47,6 +48,10 @@ export class TableComponent extends BaseComponent {
   private _fn: (pagination: string, search: string) => Observable<Object>;
   private vcr: ViewContainerRef;
   private cfr: ComponentFactoryResolver;
+  private defaultHeaderStyle = {
+    borderBottom: '1px solid #e4e4e4',
+    padding: '16px'
+  };
 
   // dataLoadCompleted = () => {
   //   this.changeDetector.detectChanges();
@@ -69,7 +74,6 @@ export class TableComponent extends BaseComponent {
 
   constructor(
     private router: Router,
-    private changeDetector: ChangeDetectorRef,
     public numberService: NumberService
   ) {
     super();
@@ -78,6 +82,12 @@ export class TableComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    if (this.config) {
+      if (this.config.headerStyle) {
+        this.headerStyle = this.config.headerStyle;
+      }
+    }
+    this.headerStyle = Object.assign(this.defaultHeaderStyle, this.headerStyle);
     if (this.config?.getFetchApiUrl) {
       const url = this.config.getFetchApiUrl();
       if (url) {
@@ -284,7 +294,7 @@ export class TableComponent extends BaseComponent {
   }
 
   executeAction(button) {
-    if(button.action) {
+    if (button.action) {
       button.action();
       if (this.config?.onClickButton) {
         this.config.onClickButton(button);

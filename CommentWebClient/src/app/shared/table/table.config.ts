@@ -14,4 +14,5 @@ export interface TableConfig {
     */
     getDeleteApiUrl?: (data: any) => string;
     topRightButtons?: ButtonConfig[];
+    headerStyle?: any;
 }

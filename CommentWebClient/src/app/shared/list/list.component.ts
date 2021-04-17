@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListPageConfig } from './list.config';
 
@@ -15,8 +15,7 @@ export class ListComponent {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
+    private activatedRoute: ActivatedRoute
   ) {
   }
 

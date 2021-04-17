@@ -45,7 +45,10 @@ export class InvoicesViewComponent extends BaseComponent {
         getCellData: x => `${this.currency} ${x.amount}`,
         tdClass: 'fit-cell ta-right'
       }
-    ]
+    ],
+    headerStyle: {
+      padding: '10px 0'
+    }
   }
 
   constructor(

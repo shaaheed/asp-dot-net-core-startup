@@ -11,6 +11,7 @@ export class ButtonSelectComponent extends AntControlComponent {
   @Input() item: any;
   @Input() clicked: boolean = false;
   @Input() labelKey: string = 'name';
+  @Input() chooseAnotherTitle: string = '';
   @Input() content: TemplateRef<any>;
   @ViewChild('select') select: SelectControlComponent;
 

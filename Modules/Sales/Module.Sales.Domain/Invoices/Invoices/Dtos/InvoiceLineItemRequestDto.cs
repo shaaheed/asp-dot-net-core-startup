@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Module.Sales.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Module.Sales.Domain
@@ -18,5 +19,20 @@ namespace Module.Sales.Domain
         public string Note { get; set; }
         public Guid? UnitId { get; set; }
         public List<Guid> Taxes { get; set; }
+
+        public virtual LineItem Map(LineItem entity = null)
+        {
+            entity = entity ?? new LineItem();
+            entity.Name = Name;
+            entity.Description = Description;
+            entity.ProductId = ProductId;
+            entity.Quantity = Quantity;
+            entity.Subtotal = Subtotal;
+            entity.Total = (decimal)Quantity * UnitPrice;
+            entity.UnitPrice = UnitPrice;
+            entity.UnitId = UnitId;
+            entity.Note = Note;
+            return entity;
+        }
     }
 }

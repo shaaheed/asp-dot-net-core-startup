@@ -17,6 +17,6 @@
 <div *ngIf="item && !clicked" class="customer info-customer">
     <ng-container *ngTemplateOutlet="content; context: { $implicit: item }"></ng-container>
     <div>
-        <a class="fw-600" (click)="add()">{{'choose.a.different.customer'|translate}}</a>
+        <a class="fw-600" (click)="add()">{{chooseAnotherTitle|translate}}</a>
     </div>
 </div>

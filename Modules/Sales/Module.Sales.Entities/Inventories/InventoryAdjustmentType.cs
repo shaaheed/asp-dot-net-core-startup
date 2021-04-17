@@ -2,8 +2,8 @@
 {
     public enum InventoryAdjustmentType
     {
-        Adjustment = 1,
-        Bill = 2,
-        Invoice = 3
+        Adjusted = 1,
+        Billed = 2,
+        Invoiced = 3
     }
 }

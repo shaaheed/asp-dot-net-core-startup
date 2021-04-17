@@ -13,6 +13,7 @@ import { TAX_MODULE_CONFIG } from 'src/app/modules/taxes/tax.module.config';
 import { CUSTOMER_CONFIG } from 'src/app/modules/customers/customer.config';
 import { SUPPLIER_CONFIG } from 'src/app/modules/suppliers/supplier.config';
 import { INVOICE_CONFIG } from 'src/app/modules/invoices/invoice.config';
+import { BILL_CONFIG } from 'src/app/modules/bills/bill.config';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
       ...CUSTOMER_CONFIG.ROUTES,
       ...SUPPLIER_CONFIG.ROUTES,
       ...INVOICE_CONFIG.ROUTES,
+      ...BILL_CONFIG.ROUTES,
       // { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }
     ]
   }
