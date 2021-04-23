@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { convertValueToBengali } from 'src/services/utilities.service';
 @Pipe({
-  name: 'bangla'
+  name: 'bn'
 })
 export class BanglaPipe implements PipeTransform {
 

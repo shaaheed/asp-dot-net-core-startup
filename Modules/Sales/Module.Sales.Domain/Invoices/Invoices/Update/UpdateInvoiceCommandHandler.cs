@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
-using System;
 using System.Collections.Generic;
 
 namespace Module.Sales.Domain
@@ -15,13 +14,16 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
+        private readonly IProductService _productService;
 
         public UpdateInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
-            IInvoiceService invoiceService)
+            IInvoiceService invoiceService,
+            IProductService productService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
+            _productService = productService;
         }
 
         public async Task<long> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
@@ -35,28 +37,13 @@ namespace Module.Sales.Domain
 
             var productRepo = _unitOfWork.GetRepository<Product>();
             var requestProductIds = request.Items
-                .Where(x => x.Id != null)
-                .Select(x => x.Id.Value)
+                .Where(x => x.ProductId != null)
+                .Select(x => x.ProductId.Value)
                 .ToList();
+            await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var duplicateProductIds = requestProductIds.Except(requestProductIds.Distinct()).ToList();
-            if (duplicateProductIds.Count > 0)
-            {
-                var firstDuplicateProduct = productRepo
-                    .AsReadOnly()
-                    .Where(x => x.Id == duplicateProductIds[0])
-                    .Select(x => new { Id = x.Id, Name = x.Name })
-                    .FirstOrDefault();
-                if (firstDuplicateProduct != null)
-                    throw new ValidationException($"{firstDuplicateProduct.Name} not found");
-
-                throw new ValidationException($"{firstDuplicateProduct.Name} duplicate entry.");
-            }
-
-            var savedProducts = productRepo
-                .AsReadOnly()
-                .Where(x => requestProductIds.Contains(x.Id))
-                .Select(x => new
+            var savedProducts = await productRepo
+                .ListAsyncAsReadOnly(x => requestProductIds.Contains(x.Id), x => new
                 {
                     Id = x.Id,
                     Quantity = x.StockQuantity,
@@ -65,7 +52,7 @@ namespace Module.Sales.Domain
                     IsInventory = x.IsInventory,
                     IsSale = x.IsSale,
                     IsDeleted = x.IsDeleted
-                });
+                }, cancellationToken);
 
             var notFoundProducts = savedProducts
                 .Where(x => !requestProductIds.Contains(x.Id))
@@ -74,192 +61,128 @@ namespace Module.Sales.Domain
             if (notFoundProducts.Count() > 0)
                 throw new ValidationException($"{notFoundProducts[0].Name} not found.");
 
-            var invoiceLineItemRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
+            var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
             var invoiceLineItems = new List<InvoiceLineItem>();
 
-            var savedInvoiceLineItems = invoiceLineItemRepo
-                .AsReadOnly()
-                .Where(x => x.InvoiceId == invoice.Id)
-                .Select(x => new
+            var savedInvoiceLineItems = await invoiceLineItemsRepo
+                .ListAsyncAsReadOnly(x => x.InvoiceId == invoice.Id, x => new
                 {
                     Id = x.Id,
                     LineItemId = x.LineItemId,
                     ProductId = x.LineItem.ProductId,
                     ProductName = x.LineItem.Product.Name,
                     LineItemQuantity = x.LineItem.Quantity
-                })
-                .ToList();
+                }, cancellationToken);
 
             var inventoryAdjustmentLineItemRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
             var inventoryAdjustments = new List<InventoryAdjustmentLineItem>();
             var adjustedProducts = new List<Product>();
 
-            foreach (var requestItem in request.Items)
+            var result = 0;
+            foreach (var requestLineItem in request.Items)
             {
                 var invoiceLineItem = new InvoiceLineItem();
-                if (requestItem.Id.HasValue)
+                if (requestLineItem.Id.HasValue)
                 {
-                    var savedItem = savedInvoiceLineItems.FirstOrDefault(x => x.Id == requestItem.Id);
+                    // update
+                    var savedLineItem = savedInvoiceLineItems.FirstOrDefault(x => x.Id == requestLineItem.Id);
 
-                    if (savedItem == null)
+                    if (savedLineItem == null)
                         throw new ValidationException("Line item not found");
 
-                    await _invoiceService.CreateOrUpdateInvoiceLineItem(requestItem, savedItem.LineItemId, cancellationToken);
+                    result += await _invoiceService.CreateOrUpdateInvoiceLineItem(requestLineItem, invoice.Id, savedLineItem.LineItemId, cancellationToken);
 
                     // invoice line item product changed
-                    if (requestItem.ProductId.HasValue && savedItem.ProductId.HasValue && requestItem.ProductId.Value != savedItem.ProductId.Value)
+                    if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value != savedLineItem.ProductId.Value)
                     {
-                        // increase saved invoice line item product stock
-                        // because it is removed from UI invoice
-                        await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                            invoice.Number,
-                            savedItem.ProductId.Value,
-                            requestItem.Quantity,
-                            true,
-                            false,
-                            cancellationToken);
+                        // reducing product stock as new product is added to invoice line item
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
 
-                        // decrease newly added invoice line item product stock
-                        // becasue it is added UI in invoice
-                        await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                            invoice.Number,
-                            requestItem.ProductId.Value,
-                            requestItem.Quantity,
-                            false,
-                            true,
-                            cancellationToken);
+                        // increasing product stock as product is removed from invoice line item
+                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
+
                     // invoice line item product not changed but quantiy may changed
-                    else if (requestItem.ProductId.HasValue && savedItem.ProductId.HasValue && requestItem.ProductId.Value == savedItem.ProductId.Value)
+                    else if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value == savedLineItem.ProductId.Value)
                     {
-                        var savedProduct = productRepo
-                            .Where(x => x.Id == savedItem.Id)
-                            .Select(x => new
-                            {
-                                Id = x.Id,
-                                StockQuantity = x.StockQuantity
-                            })
-                            .FirstOrDefault();
-
-                        if (savedProduct == null)
-                            throw new ValidationException("Product not found");
-
-                        if (requestItem.Quantity > savedProduct.StockQuantity)
+                        if (requestLineItem.Quantity > savedLineItem.LineItemQuantity)
                         {
-                            // more quantity added
-                            var adjustedStock = requestItem.Quantity - savedProduct.StockQuantity;
-                            await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                                invoice.Number,
-                                requestItem.ProductId.Value,
-                                adjustedStock,
-                                true,
-                                false,
-                                cancellationToken);
+                            // product stock quantity will be  decrease
+                            var quantityToBeDecrease = requestLineItem.Quantity - savedLineItem.LineItemQuantity;
+                            result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeDecrease, cancellationToken);
                         }
-                        else if (savedProduct.StockQuantity < requestItem.Quantity)
+                        else if (savedLineItem.LineItemQuantity < requestLineItem.Quantity)
                         {
-                            // quantity reduced
-                            var adjustedStock = savedProduct.StockQuantity - requestItem.Quantity;
-                            await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                                invoice.Number,
-                                requestItem.ProductId.Value,
-                                adjustedStock,
-                                false,
-                                true,
-                                cancellationToken);
+                            // product stock quantity will be increase
+                            var quantityToBeIncrease = savedLineItem.LineItemQuantity - requestLineItem.Quantity;
+                            result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeIncrease, cancellationToken);
                         }
                     }
-                    else if (requestItem.ProductId.HasValue && !savedItem.ProductId.HasValue)
+
+                    else if (requestLineItem.ProductId.HasValue && !savedLineItem.ProductId.HasValue)
                     {
-                        // product added to invoice line item
-                        // product stock need to reduce
-                        await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                            invoice.Number,
-                            requestItem.ProductId.Value,
-                            requestItem.Quantity,
-                            false,
-                            true,
-                            cancellationToken);
+                        // new product added to invoice line item
+                        // product stock quantity will be decrease
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
-                    else if (!requestItem.ProductId.HasValue && savedItem.ProductId.HasValue)
+
+                    else if (!requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue)
                     {
                         // product removed from invoice line item
-                        // product stock need to increase
-                        await _invoiceService.CreateOrUpdateInventoryAdjustment(
-                            invoice.Number,
-                            savedItem.ProductId.Value,
-                            savedItem.LineItemQuantity,
-                            true,
-                            false,
-                            cancellationToken);
+                        // product stock quantity will be increase
+                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
-
                 }
                 else
                 {
-                    await _invoiceService.CreateOrUpdateInvoiceLineItem(requestItem, null, cancellationToken);
+                    if (requestLineItem.ProductId.HasValue)
+                    {
+                        var product = await _productService.GetProductAsReadOnly(requestLineItem.ProductId.Value, x => new
+                        {
+                            Name = requestLineItem.Name,
+                            IsInventory = x.IsInventory,
+                            IsSale = x.IsSale,
+                            IsDeleted = x.IsDeleted
+                        }, cancellationToken);
+
+                        if (product == null)
+                            throw new ValidationException($"{product.Name} product not found");
+
+                        if (!product.IsSale || !product.IsInventory || product.IsDeleted)
+                            throw new ValidationException($"{product.Name} product is not salable");
+
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                    }
+
+                    result += await _invoiceService.CreateOrUpdateInvoiceLineItem(requestLineItem, invoice.Id, null, cancellationToken);
                 }
             }
 
             var deletedInvoiceLineItems = new List<InvoiceLineItem>();
             var deletedLineItems = new List<LineItem>();
-            var modifiedLineItems = new List<Guid>();
-            foreach (var savedInvoiceLineItem in savedInvoiceLineItems)
+            foreach (var savedLineItem in savedInvoiceLineItems)
             {
-                var requestModifiedItemIds = new List<Guid>();
-                if (!requestModifiedItemIds.Contains(savedInvoiceLineItem.Id))
+                var requestItem = request.Items.FirstOrDefault(x => x.Id == savedLineItem.Id);
+                if (requestItem == null)
                 {
-                    // saved items not provided in request means it is deleted
-                    deletedInvoiceLineItems.Add(new InvoiceLineItem { Id = savedInvoiceLineItem.Id });
-                    deletedLineItems.Add(new LineItem { Id = savedInvoiceLineItem.LineItemId });
-                }
-                else
-                {
-                    var requestModifiedItem = request.Items
-                        .Where(x => x.Id == savedInvoiceLineItem.Id)
-                        .Select(x =>
-                        {
-                            var lineItem = x.Map();
-                            lineItem.Id = savedInvoiceLineItem.Id;
-                            return x;
-                        });
-                    modifiedLineItems.Add(savedInvoiceLineItem.LineItemId);
+                    // delete saved item
+                    deletedInvoiceLineItems.Add(new InvoiceLineItem { Id = savedLineItem.Id });
+                    deletedLineItems.Add(new LineItem { Id = savedLineItem.LineItemId });
+
+                    // increase product stock as product line item is deleted
+                    if (savedLineItem.ProductId.HasValue)
+                    {
+                        await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                    }
                 }
             }
 
-            var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
-            var invoiceLineItemsToBeRemoved = invoiceLineItemsRepo.Where(x => x.InvoiceId == request.Id);
-            var lineItemsToBeRemoved = invoiceLineItemsToBeRemoved.Select(x => x.LineItem);
-
-            invoiceLineItemsRepo.RemoveRange(invoiceLineItemsToBeRemoved);
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
-            lineItemRepo.RemoveRange(lineItemsToBeRemoved);
+            lineItemRepo.RemoveRange(deletedLineItems);
+            invoiceLineItemsRepo.RemoveRange(deletedInvoiceLineItems);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            var newLineItems = request.Items.Select(x => new LineItem
-            {
-                Name = x.Name,
-                Description = x.Description,
-                ProductId = x.ProductId,
-                Quantity = x.Quantity,
-                Subtotal = x.Subtotal,
-                Total = (decimal)x.Quantity * x.UnitPrice,
-                UnitPrice = x.UnitPrice,
-                UnitId = x.UnitId,
-                Note = x.Note
-            });
-
-            var newInvoiceLineItems = newLineItems.Select(x => new InvoiceLineItem
-            {
-                Invoice = invoice,
-                LineItem = x
-            });
-
-            invoice.InvoiceLineItems = newInvoiceLineItems.ToList();
-            invoice.Calculate();
-
-            invoice.AmountDue = 0;
+            _invoiceService.Calculate(invoice);
             _invoiceService.AddPayment(invoice);
 
             if (false /*invoicePaymentAmount > invoice.GrandTotal*/)
@@ -268,7 +191,7 @@ namespace Module.Sales.Domain
                 //TODO: Create credit note
             }
 
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return result;
         }

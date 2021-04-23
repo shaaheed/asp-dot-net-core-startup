@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
+using Msi.Service.App;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,14 @@ namespace Msi.Data.EntityFrameworkCore
     {
 
         private readonly DbContext _dataContext;
+        private readonly IAppService _appService;
 
-        public Repository(IDataContext dataContext)
+        public Repository(
+            IDataContext dataContext,
+            IAppService appService)
         {
             _dataContext = dataContext as DbContext;
+            _appService = appService;
         }
 
         public Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -52,14 +57,38 @@ namespace Msi.Data.EntityFrameworkCore
             return _dataContext.Set<TEntity>().LongCountAsync(predicate, cancellationToken);
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool readOnly = false, CancellationToken cancellationToken = default)
+        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            var set = _dataContext.Set<TEntity>();
+            return _dataContext
+                .Set<TEntity>()
+                .FirstOrDefaultAsync(predicate, cancellationToken);
+        }
 
-            if (readOnly)
-                set.AsNoTracking();
+        public Task<TEntity> FirstOrDefaultAsyncAsReadOnly(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(predicate, cancellationToken);
+        }
 
-            return set.FirstOrDefaultAsync(predicate, cancellationToken);
+        public Task<TViewModel> FirstOrDefaultAsyncAsReadOnly<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .AsNoTracking()
+                .Where(predicate)
+                .Select(selector)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public Task<TViewModel> FirstOrDefaultAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .Where(predicate)
+                .Select(selector)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public TEntity Remove(TEntity entity)
@@ -75,6 +104,16 @@ namespace Msi.Data.EntityFrameworkCore
         public void AttachRange(IEnumerable<TEntity> entities)
         {
             _dataContext.Set<TEntity>().AttachRange(entities);
+        }
+
+        public void Attach(TEntity entity)
+        {
+            if (entity is IHaveOrganizationEntity)
+            {
+                var _entity = entity as IHaveOrganizationEntity;
+                _entity.OrganizationId = new Guid(_appService.GetOrganizationId());
+            }
+            _dataContext.Set<TEntity>().Attach(entity);
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -96,13 +135,38 @@ namespace Msi.Data.EntityFrameworkCore
             _dataContext.Set<TEntity>().Update(entity);
         }
 
-        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate, bool readOnly = false)
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
-            var set = _dataContext.Set<TEntity>();
-            if (readOnly)
-                set.AsNoTracking();
+            return _dataContext
+                .Set<TEntity>()
+                .Where(predicate);
+        }
 
-            return set.Where(predicate);
+        public IQueryable<TEntity> WhereAsReadOnly(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .AsNoTracking()
+                .Where(predicate);
+        }
+
+        public Task<List<TViewModel>> ListAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken);
+        }
+
+        public Task<List<TViewModel>> ListAsyncAsReadOnly<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default)
+        {
+            return _dataContext
+                .Set<TEntity>()
+                .AsNoTracking()
+                .Where(predicate)
+                .Select(selector)
+                .ToListAsync(cancellationToken);
         }
 
         public Task<TResponse> MatchAsync<TResponse>(ICriteria<TEntity, TResponse> criteria)

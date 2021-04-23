@@ -60,7 +60,7 @@ namespace Module.Sales.Domain.Bills
             });
 
             bill.BillLineItems = newBillLineItems.ToList();
-            bill.Calculate();
+            //bill.Calculate();
 
             bill.AmountDue = 0;
             //var billPaymentAmount = _unitOfWork.GetRepository<BillPayment>()

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Module.Sales.Entities
 {
@@ -28,10 +27,5 @@ namespace Module.Sales.Entities
 
         public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
         public virtual ICollection<InvoicePayment> InvoicePayments { get; set; }
-
-        public void Calculate()
-        {
-            Calculate(InvoiceLineItems.Select(x => x.LineItem));
-        }
     }
 }

@@ -168,7 +168,7 @@ namespace Msi.Data.EntityFrameworkCore
                 return _repositories[typeof(TSet)] as IRepository<TSet>;
             }
 
-            var repository = new Repository<TSet>(_dataContext);
+            var repository = new Repository<TSet>(_dataContext, _appService);
             _repositories.Add(typeof(TSet), repository);
             return repository;
         }

@@ -1,7 +1,6 @@
 ﻿using Msi.Data.Entity;
 using Module.Systems.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace Module.Sales.Entities
 {
@@ -34,17 +33,6 @@ namespace Module.Sales.Entities
 
         public Guid? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
-
-        public void Calculate(IEnumerable<LineItem> LineItems)
-        {
-            GrandTotal = 0;
-            Subtotal = 0;
-            foreach (var item in LineItems)
-            {
-                GrandTotal += item.Total;
-                Subtotal += item.Subtotal;
-            }
-        }
 
     }
 }

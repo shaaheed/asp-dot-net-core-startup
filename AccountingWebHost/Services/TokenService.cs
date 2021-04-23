@@ -27,7 +27,7 @@ namespace Services
 
         public override async Task<IUser<Guid>> GetUser(Guid userId)
         {
-            return await _userRepository.FirstOrDefaultAsync(x => x.Id == userId, true);
+            return await _userRepository.FirstOrDefaultAsyncAsReadOnly(x => x.Id == userId);
         }
     }
 }

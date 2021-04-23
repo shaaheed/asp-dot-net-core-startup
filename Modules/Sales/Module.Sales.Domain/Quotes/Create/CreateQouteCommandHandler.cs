@@ -52,7 +52,7 @@ namespace Module.Sales.Domain.Qoutes
             });
 
             newQoute.QuoteLineItems = newQouteLineItems.ToList();
-            newQoute.Calculate();
+            //newQoute.Calculate();
 
             await qouteRepo.AddAsync(newQoute, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

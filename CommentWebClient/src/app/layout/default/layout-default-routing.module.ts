@@ -14,6 +14,7 @@ import { CUSTOMER_CONFIG } from 'src/app/modules/customers/customer.config';
 import { SUPPLIER_CONFIG } from 'src/app/modules/suppliers/supplier.config';
 import { INVOICE_CONFIG } from 'src/app/modules/invoices/invoice.config';
 import { BILL_CONFIG } from 'src/app/modules/bills/bill.config';
+import { INVENTORY_ADJUSTMENT_MODULE_CONFIG } from 'src/app/modules/inventories/adjustments/products/adjustment.module.config';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
       ...SUPPLIER_CONFIG.ROUTES,
       ...INVOICE_CONFIG.ROUTES,
       ...BILL_CONFIG.ROUTES,
+      ...INVENTORY_ADJUSTMENT_MODULE_CONFIG.ROUTES
       // { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }
     ]
   }

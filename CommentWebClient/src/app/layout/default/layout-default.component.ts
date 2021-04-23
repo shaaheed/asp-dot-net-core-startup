@@ -67,6 +67,12 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             route: '/products/categories',
             fn: () => true,
           },
+          {
+            level: 2,
+            title: 'inventory.adjustment',
+            route: '/inventories/adjustments',
+            fn: () => true,
+          },
         ]
       },
       {

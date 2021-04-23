@@ -11,7 +11,7 @@ namespace Module.Sales.Domain
     public class InvoiceDto
     {
         public Guid Id { get; set; }
-        public string Code { get; set; }
+        public string Number { get; set; }
         public string Status { get; set; }
         public ContactDto Customer { get; set; }
         public decimal AmountDue { get; set; }
@@ -31,7 +31,7 @@ namespace Module.Sales.Domain
             return x => new InvoiceDto
             {
                 Id = x.Id,
-                Code = x.Number,
+                Number = x.Number,
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,

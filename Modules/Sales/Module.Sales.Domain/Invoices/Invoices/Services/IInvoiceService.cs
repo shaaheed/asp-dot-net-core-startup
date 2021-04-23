@@ -10,23 +10,14 @@ namespace Module.Sales.Domain
     {
         decimal GetInvoicePaymentsAmount(Guid invoiceId);
 
+        void Calculate(Invoice invoice);
+
         void AddPayment(Guid invoiceId);
 
         void AddPayment(Invoice invoice);
 
         string GetNextInvoiceNumber();
 
-        Task<int> CreateOrUpdateInvoiceLineItem(
-            InvoiceLineItemRequestDto request,
-            Guid? lineItemId,
-            CancellationToken cancellationToken = default);
-
-        Task<int> CreateOrUpdateInventoryAdjustment(
-            string invoiceNumber,
-            Guid productId,
-            float productQuantity,
-            bool increase,
-            bool decrease,
-            CancellationToken cancellationToken = default);
+        Task<int> CreateOrUpdateInvoiceLineItem(InvoiceLineItemRequestDto request, Guid invoiceId, Guid? lineItemId, CancellationToken cancellationToken = default);
     }
 }

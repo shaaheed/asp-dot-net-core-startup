@@ -182,5 +182,8 @@
   "owner": "Owner",
   "currency": "Currency",
   "organization.currency.select.info": "You can't change the currency after transactions recorded in your organization",
-  "validation.error.occurred": "Validation error occurred"
+  "validation.error.occurred": "Validation error occurred",
+  "inventory.adjustment": "Inventory Adjustment",
+  "reason": "Reason",
+  "reference": "Reference"
 }

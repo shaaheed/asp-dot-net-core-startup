@@ -8,7 +8,7 @@ namespace Module.Sales.Domain
     public class InvoiceListItemDto
     {
         public Guid Id { get; set; }
-        public string Code { get; set; }
+        public string Number { get; set; }
         public string Status { get; set; }
         public GuidIdNameDto Customer { get; set; }
         public decimal AmountDue { get; set; }
@@ -21,7 +21,7 @@ namespace Module.Sales.Domain
             return x => new InvoiceListItemDto
             {
                 Id = x.Id,
-                Code = x.Number,
+                Number = x.Number,
                 AmountDue = x.AmountDue,
                 Customer = x.CustomerId != null ? new GuidIdNameDto
                 {

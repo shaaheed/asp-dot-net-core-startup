@@ -59,7 +59,7 @@ namespace Module.Sales.Domain.Qoutes
             });
 
             qoute.QuoteLineItems = newQouteLineItems.ToList();
-            qoute.Calculate();
+            //qoute.Calculate();
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 

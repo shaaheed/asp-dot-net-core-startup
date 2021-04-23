@@ -180,5 +180,8 @@
   "owner": "মালিক",
   "currency": "মুদ্রা",
   "organization.currency.select.info": "আপনার প্রতিষ্ঠানে লেনদেনের পরে আপনি মুদ্রা পরিবর্তন করতে পারবেন না",
-  "validation.error.occurred": "আপনার দেওয়া তথ্যের সমস্যা আছে। তথ্য পুনরায় যাচাই করুন।"
+  "validation.error.occurred": "আপনার দেওয়া তথ্যের সমস্যা আছে। তথ্য পুনরায় যাচাই করুন।",
+  "inventory.adjustment": "ইনভেন্টরি এডজাস্টমেন্ট",
+  "reason": "কারণ",
+  "reference": "রেফারেন্স"
 }

@@ -10,7 +10,7 @@ const prefix = 'invoices';
 export const makeListRoute = (prefix: string, contactTitle: string): Route => {
     return Route.list(prefix, {
         tableColumns: [
-            Column.column('number', x => x.code, x => {
+            Column.column('number', x => x.number, x => {
                 AppInjector.get(Router).navigateByUrl(`${prefix}/${x.id}`);
             }),
             Column.column(contactTitle, x => x[contactTitle]?.name),

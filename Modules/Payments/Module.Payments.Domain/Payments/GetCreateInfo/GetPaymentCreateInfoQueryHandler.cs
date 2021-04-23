@@ -21,8 +21,7 @@ namespace Module.Payments.Domain
         public Task<PaymentCreateInfoDto> Handle(GetPaymentCreateInfoQuery request, CancellationToken cancellationToken)
         {
             var count = _unitOfWork.GetRepository<Payment>()
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
+                .WhereAsReadOnly(x => !x.IsDeleted)
                 .Select(x => x.Id)
                 .LongCount();
             var nextPaymentNumber = $"PAY-{count + 1}";

@@ -242,6 +242,7 @@ export class InvoicesAddComponent extends FormComponent {
 
   private createInvoiceItemFormGroup(data: any) {
     const formGroup = this.fb.group({
+      id: [],
       name: [null, [], this.validator.required()],
       description: [],
       quantity: [null, [], this.validator.required()],

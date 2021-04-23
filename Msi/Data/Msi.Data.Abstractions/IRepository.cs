@@ -15,11 +15,19 @@ namespace Msi.Data.Abstractions
 
         Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
-        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicatebool, bool readOnly = false);
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicatebool);
+
+        IQueryable<TEntity> WhereAsReadOnly(Expression<Func<TEntity, bool>> predicate);
+
+        Task<List<TViewModel>> ListAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default);
+
+        Task<List<TViewModel>> ListAsyncAsReadOnly<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default);
 
         TEntity Remove(TEntity entity);
 
         void AttachRange(IEnumerable<TEntity> entities);
+
+        void Attach(TEntity entity);
 
         void RemoveRange(IEnumerable<TEntity> entities);
 
@@ -35,7 +43,13 @@ namespace Msi.Data.Abstractions
 
         Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool readOnly = false, CancellationToken cancellationToken = default);
 
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool readOnly = false, CancellationToken cancellationToken = default);
+        Task<TEntity> FirstOrDefaultAsyncAsReadOnly(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+        Task<TViewModel> FirstOrDefaultAsync<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default);
+
+        Task<TViewModel> FirstOrDefaultAsyncAsReadOnly<TViewModel>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, CancellationToken cancellationToken = default);
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

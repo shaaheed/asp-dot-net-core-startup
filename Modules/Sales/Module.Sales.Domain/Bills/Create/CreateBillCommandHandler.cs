@@ -51,7 +51,7 @@ namespace Module.Sales.Domain.Bills
             });
 
             newBill.BillLineItems = newBillLineItems.ToList();
-            newBill.Calculate();
+            //newBill.Calculate();
 
             await billRepo.AddAsync(newBill, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

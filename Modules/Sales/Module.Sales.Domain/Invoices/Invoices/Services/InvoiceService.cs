@@ -2,7 +2,6 @@
 using Msi.Core;
 using Msi.Data.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,18 +11,45 @@ namespace Module.Sales.Domain
     public class InvoiceService : IInvoiceService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Invoice> _invoiceRepo;
+        private readonly IRepository<InvoiceLineItem> _invoiceLineItemRepo;
 
         public InvoiceService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _invoiceRepo = _unitOfWork.GetRepository<Invoice>();
+            _invoiceLineItemRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
         }
 
         public void AddPayment(Guid invoiceId)
         {
-            var invoice = _unitOfWork.GetRepository<Invoice>()
+            var invoice = _invoiceRepo
                 .Where(x => x.Id == invoiceId && !x.IsDeleted)
                 .FirstOrDefault();
             AddPayment(invoice);
+        }
+
+        public void Calculate(Invoice invoice)
+        {
+            if (invoice != null)
+            {
+                decimal grandTotal = 0;
+                decimal subtotal = 0;
+                var lineItems = _invoiceLineItemRepo
+                    .WhereAsReadOnly(x => x.InvoiceId == invoice.Id)
+                    .Select(x => new
+                    {
+                        Total = x.LineItem.Total,
+                        Subtotal = x.LineItem.Subtotal
+                    });
+                foreach (var item in lineItems)
+                {
+                    grandTotal += item.Total;
+                    subtotal += item.Subtotal;
+                }
+                invoice.GrandTotal = grandTotal;
+                invoice.Subtotal = subtotal;
+            }
         }
 
         public void AddPayment(Invoice invoice)
@@ -31,15 +57,28 @@ namespace Module.Sales.Domain
             if (invoice != null)
             {
                 var paymentsAmount = GetInvoicePaymentsAmount(invoice.Id);
-                invoice.AddPayment(paymentsAmount);
+                if (invoice.GrandTotal == paymentsAmount)
+                {
+                    // Full payment
+                    invoice.Status = Status.Paid;
+                    invoice.AmountDue = 0;
+                }
+                else if (invoice.GrandTotal > paymentsAmount)
+                {
+                    invoice.Status = Status.Due;
+                }
+
+                if (paymentsAmount <= invoice.GrandTotal)
+                {
+                    invoice.AmountDue = invoice.GrandTotal - paymentsAmount;
+                }
             }
         }
 
         public decimal GetInvoicePaymentsAmount(Guid invoiceId)
         {
             var paymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-                .AsReadOnly()
-                .Where(x => x.InvoiceId == invoiceId && !x.Invoice.IsDeleted)
+                .WhereAsReadOnly(x => x.InvoiceId == invoiceId && !x.Invoice.IsDeleted)
                 .Select(x => x.Payment.Amount)
                 .Sum();
             return paymentAmount;
@@ -47,9 +86,8 @@ namespace Module.Sales.Domain
 
         public string GetNextInvoiceNumber()
         {
-            var count = _unitOfWork.GetRepository<Invoice>()
-                .AsReadOnly()
-                .Where(x => !x.IsDeleted)
+            var count = _invoiceRepo
+                .WhereAsReadOnly(x => !x.IsDeleted)
                 .Select(x => x.Id)
                 .LongCount();
 
@@ -58,132 +96,44 @@ namespace Module.Sales.Domain
 
         public async Task<int> CreateOrUpdateInvoiceLineItem(
             InvoiceLineItemRequestDto request,
+            Guid invoiceId,
             Guid? lineItemId,
             CancellationToken cancellationToken = default)
         {
             var lineItem = request.Map();
-            if (lineItemId.HasValue)
-            {
-                lineItem.Id = lineItemId.Value;
-            }
-
-            var invoiceLineItem = new InvoiceLineItem
-            {
-                LineItem = lineItem
-            };
+            var invoiceLineItem = new InvoiceLineItem();
             if (request.Id.HasValue)
             {
-                invoiceLineItem.Id = request.Id.Value;
-            }
-            _unitOfWork.GetRepository<InvoiceLineItem>()
-                .AttachRange(new List<InvoiceLineItem> { invoiceLineItem });
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result;
-        }
-
-        public async Task<int> CreateOrUpdateInventoryAdjustment(
-            string invoiceNumber,
-            Guid productId,
-            float productQuantity,
-            bool increase,
-            bool decrease,
-            CancellationToken cancellationToken = default)
-        {
-
-            if (increase != decrease)
-            {
-                throw new ValidationException("Can not increase or decrease product quantity at the same time");
-            }
-
-            var productRepo = _unitOfWork.GetRepository<Product>();
-            var product = productRepo
-                .Where(x => x.Id == productId && !x.IsDeleted)
-                .Select(x => new
-                {
-                    Id = x.Id,
-                    Stock = x.StockQuantity,
-                    IsSale = x.IsSale,
-                    IsInventory = x.IsInventory,
-                    Name = x.Name
-                })
-                .FirstOrDefault();
-
-            if (product == null)
-                throw new ValidationException("Product not found.");
-
-            if (!product.IsSale) throw new ValidationException($"{product.Name} is not salable.");
-
-            int result = 0;
-            if (product.IsInventory)
-            {
-                float newStock = 0;
-                if (increase)
-                {
-                    newStock = product.Stock + productQuantity;
-                }
-                else if (decrease)
-                {
-                    if (product.Stock < productQuantity)
-                    {
-                        throw new ValidationException($"{product.Name} out of stock");
-                    }
-                    newStock = product.Stock - productQuantity;
-                }
-
-                var adjustmentRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
-                var savedAdjustments = adjustmentRepo
-                    .AsReadOnly()
-                    .Where(x => x.InventoryAdjustment.Reference == invoiceNumber && x.ProductId == productId)
-                    .Select(x => new
+                var savedInvoiceLineItem = await _invoiceLineItemRepo
+                    .FirstOrDefaultAsyncAsReadOnly(x => x.Id == request.Id.Value, x => new
                     {
                         Id = x.Id,
-                        QuantityAdjusted = x.QuantityAdjusted
-                    })
-                    .ToList();
+                        LineItemId = x.LineItemId
+                    });
 
-                if (savedAdjustments.Count() > 0)
-                    throw new ValidationException("Can not have multiple adjustment line.");
+                if (savedInvoiceLineItem == null)
+                    throw new ValidationException("Line item not found");
 
-                var adjustment = new InventoryAdjustmentLineItem();
-                if (savedAdjustments.Count() > 0)
+                invoiceLineItem.Id = request.Id.Value;
+                _invoiceLineItemRepo.Attach(invoiceLineItem);
+                if (lineItemId.HasValue)
                 {
-                    // existing adjustment
-                    adjustment.Id = savedAdjustments[0].Id;
-                    if (increase)
-                    {
-                        adjustment.QuantityAdjusted = savedAdjustments[0].QuantityAdjusted + productQuantity;
-                    }
-                    else if (decrease)
-                    {
-                        adjustment.QuantityAdjusted = savedAdjustments[0].QuantityAdjusted - productQuantity;
-                    }
-                }
-                else
-                {
-                    // new adjustment
-                    adjustment.InventoryAdjustment = new InventoryAdjustment
-                    {
-                        AdjustmentDate = DateTimeOffset.UtcNow,
-                        Reference = invoiceNumber,
-                        Type = InventoryAdjustmentType.Invoiced
-                    };
-                }
+                    var savedLineItem = await _unitOfWork.GetRepository<LineItem>()
+                        .FirstOrDefaultAsyncAsReadOnly(x => x.Id == lineItemId.Value && !x.IsDeleted, x => new { Id = x.Id }, cancellationToken);
+                    if (savedLineItem == null)
+                        throw new ValidationException("Line item not found.");
 
-                adjustment.ProductId = productId;
-                adjustment.QuantityAdjusted = productQuantity;
-                adjustment.NewQuantityOnHand = newStock;
-                adjustment.QuantityAvailable = newStock;
-                adjustmentRepo.AttachRange(new List<InventoryAdjustmentLineItem> { adjustment });
-
-                productRepo.AttachRange(new List<Product> {
-                new Product {
-                    Id = productId,
-                    StockQuantity = newStock
+                    lineItem.Id = lineItemId.Value;
+                    invoiceLineItem.LineItemId = lineItemId.Value;
+                    invoiceLineItem.LineItem = lineItem;
                 }
-            });
-                result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
-
+            else
+            {
+                invoiceLineItem.LineItem = lineItem;
+                await _invoiceLineItemRepo.AddAsync(invoiceLineItem, cancellationToken);
+            }
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result;
         }
 

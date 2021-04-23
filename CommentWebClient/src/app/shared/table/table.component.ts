@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
@@ -74,7 +74,8 @@ export class TableComponent extends BaseComponent {
 
   constructor(
     private router: Router,
-    public numberService: NumberService
+    public numberService: NumberService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super();
     this.vcr = AppInjector.get(ViewContainerRef);
@@ -196,6 +197,7 @@ export class TableComponent extends BaseComponent {
           this.fill(res);
           this.loading = false;
           this.dataLoadCompleted.emit();
+          this.changeDetectorRef.detectChanges();
         },
         err => {
           this.log(err);

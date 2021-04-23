@@ -35,7 +35,7 @@ namespace Module.Organizations.Domain
                 if (org.AddressId != null)
                 {
                     var address = await  _unitOfWork.GetRepository<Address>()
-                        .FirstOrDefaultAsync(x => x.Id == org.AddressId && !x.IsDeleted, false, cancellationToken);
+                        .FirstOrDefaultAsync(x => x.Id == org.AddressId && !x.IsDeleted, cancellationToken);
                     if (address != null)
                     {
                         address.Phone = request.Mobile;

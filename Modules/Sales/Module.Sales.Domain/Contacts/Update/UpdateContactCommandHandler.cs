@@ -31,7 +31,7 @@ namespace Module.Sales.Domain.Contacts
                 throw new NotFoundException("Contact not found");
 
             request.Map(entity);
-            
+
             var billingAddressId = await UpdateAddress(entity.BillingAddressId, request.BillingAddress, cancellationToken);
             if (billingAddressId != null)
             {
@@ -54,7 +54,7 @@ namespace Module.Sales.Domain.Contacts
                 if (addressId != null)
                 {
                     var address = await _unitOfWork.GetRepository<Address>()
-                        .FirstOrDefaultAsync(x => x.Id == addressId && !x.IsDeleted, false, cancellationToken);
+                        .FirstOrDefaultAsync(x => x.Id == addressId && !x.IsDeleted, cancellationToken);
                     if (address != null)
                     {
                         request.Map(address);

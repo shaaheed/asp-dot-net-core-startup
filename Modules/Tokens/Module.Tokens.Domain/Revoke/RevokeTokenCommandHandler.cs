@@ -23,7 +23,7 @@ namespace Module.Tokens.Domain
 
         public async Task<bool> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
         {
-            var userToken = await _tokenRepository.FirstOrDefaultAsync(x => x.RefreshToken.Token == request.RefreshToken, false, cancellationToken);
+            var userToken = await _tokenRepository.FirstOrDefaultAsync(x => x.RefreshToken.Token == request.RefreshToken, cancellationToken);
 
             if (userToken == null)
                 throw new NotFoundException("Invalid token");

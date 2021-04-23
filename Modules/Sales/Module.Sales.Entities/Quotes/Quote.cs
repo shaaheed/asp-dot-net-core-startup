@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Module.Sales.Entities
 {
@@ -17,11 +16,6 @@ namespace Module.Sales.Entities
         public DateTimeOffset? ExpiresOn { get; set; }
 
         public virtual ICollection<QuoteLineItem> QuoteLineItems { get; set; }
-
-        public void Calculate()
-        {
-            Calculate(QuoteLineItems.Select(x => x.LineItem));
-        }
 
     }
 }
