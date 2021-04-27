@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
-import { ListPageConfig } from 'src/app/shared/list/list.config';
+import { TableConfig } from 'src/app/shared/table2/table.config';
 import { Column } from 'src/services/column.service';
 import { CURRENCY } from '../../organizations/organization.service';
 import { PaymentsAddModalComponent } from '../payments-add-modal/payments-add-modal.component';
@@ -27,7 +27,7 @@ export class InvoicesViewComponent extends BaseComponent {
 
   @ViewChild('paymentModal') paymentModal: PaymentsAddModalComponent;
 
-  paymentTableConfig = <ListPageConfig>{
+  paymentTableConfig = <TableConfig>{
     getFetchApiUrl: x => `invoices/${this.invoiceId}/payments`,
     pageTitle: 'payments',
     getDeleteApiUrl: x => `invoices/${this.invoiceId}/payments/${x.id}`,
@@ -87,7 +87,7 @@ export class InvoicesViewComponent extends BaseComponent {
             this.paymentModalData.invoiceTotal = this.total;
           }
           this.paymentModalData = {
-            title: this._translate.instant('add.payment.for.invoice.x0', { x0: this.model.code }),
+            title: this._translate.instant('add.payment.for.invoice.x0', { x0: this.model.number }),
             mode: 'add',
             amount: this.model.amountDue,
             currency: this.currency

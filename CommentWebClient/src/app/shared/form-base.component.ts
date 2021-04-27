@@ -194,7 +194,8 @@ export class FormBaseComponent extends BaseComponent {
 
     cancel() {
         if (this.cancelRoute) {
-            this._router.navigateByUrl(this.cancelRoute);
+            this._router.navigateByUrl(`${this.cancelRoute}?v=${Date.now()}`);
+            // this.location.back();
         }
         else {
             this.location.back();

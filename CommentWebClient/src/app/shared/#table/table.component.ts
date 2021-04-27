@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
@@ -9,6 +9,7 @@ import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
 import { NumberService } from 'src/services/number.service';
 import { AppInjector } from 'src/app/app/app.component';
+import { NzTableComponent } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-table',
@@ -26,6 +27,7 @@ export class TableComponent extends BaseComponent {
   @Output() dataLoadCompleted = new EventEmitter();
   @Input() onDataLoadCompleted: () => void;
   @Input() headerStyle: any = {};
+  @ViewChild('basicTable', {static: true}) table: NzTableComponent;
 
   loading: boolean = true;
   total: number = 0;
@@ -75,7 +77,8 @@ export class TableComponent extends BaseComponent {
   constructor(
     private router: Router,
     public numberService: NumberService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private appRef: ApplicationRef
   ) {
     super();
     this.vcr = AppInjector.get(ViewContainerRef);
@@ -125,12 +128,20 @@ export class TableComponent extends BaseComponent {
           this.total = response.data.length;
         }
         else {
+          // setTimeout(() => this.items = [], 0);
+          // setTimeout(() => this.items = response.data.items, 0);
           this.items = [];
-          this.items = response.data.items;
+          this.items = [...response.data.items];
+          this.changeDetectorRef.detectChanges();
+          if (this.table) {
+            this.table.ngOnInit();
+            // this.table.nzData = this.items;
+          }
+          // this.appRef.tick();
         }
       }
     }
-    this.loading = false;
+    this._loading(false);
   }
 
   async delete(e) {
@@ -157,7 +168,7 @@ export class TableComponent extends BaseComponent {
             this.success(text);
             this.invoke(this.onDeleted, res);
             //refresh data
-            this.load();
+            this.load(this._fn);
           },
           err => {
             // deleteModal.getInstance().nzOkLoading = false;
@@ -185,7 +196,7 @@ export class TableComponent extends BaseComponent {
     }
     const pagination = `offset=${offset}&limit=${this.pageSize}`;
     let search = this.getSearchTerms();
-    this.loading = true;
+    this._loading(true);
     let listFn;
     if (fn) {
       listFn = fn(pagination, search);
@@ -195,15 +206,15 @@ export class TableComponent extends BaseComponent {
         (res: any) => {
           this.invoke(this.onDataLoadCompleted);
           this.fill(res);
-          this.loading = false;
+          this._loading(false);
           this.dataLoadCompleted.emit();
-          this.changeDetectorRef.detectChanges();
+          // this.changeDetectorRef.detectChanges();
         },
         err => {
           this.log(err);
-          this.loading = false;
+          this._loading(false);
           this.dataLoadCompleted.emit();
-          this.invoke(this.onDataLoadCompleted);
+          // this.invoke(this.onDataLoadCompleted);
         }
       );
     }
@@ -292,7 +303,9 @@ export class TableComponent extends BaseComponent {
   }
 
   refresh() {
+    // this.appRef.tick();
     this.gets();
+    // this.appRef.tick();
   }
 
   executeAction(button) {
@@ -314,6 +327,11 @@ export class TableComponent extends BaseComponent {
     }
     const _url = `${url}?${_args.join('&')}`;
     return _url;
+  }
+
+  private _loading(value: boolean) {
+    this.loading = value;
+    // setTimeout(() => this.loading = value, 0);
   }
 
 }

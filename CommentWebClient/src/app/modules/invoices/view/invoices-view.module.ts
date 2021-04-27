@@ -16,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { ListModule } from 'src/app/shared/list/list.module';
+import { TableModule } from 'src/app/shared/table2/table.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ListModule } from 'src/app/shared/list/list.module';
     NzButtonModule,
     NzIconModule,
     NzGridModule,
-    ListModule
+    ListModule,
+    TableModule
   ],
   exports: [InvoicesViewComponent]
 })

@@ -7,6 +7,7 @@ const prefix = 'inventories/adjustments';
 export const INVENTORY_ADJUSTMENT_MODULE_CONFIG = {
     ROUTES: <Routes>[
         Route.list(prefix, {
+            pageTitle: 'inventory.adjustment',
             tableColumns: [
                 Column.date('date', x => x.adjustmentDate ?? '—'),
                 Column.column('reference', x => x.reference ?? '—'),

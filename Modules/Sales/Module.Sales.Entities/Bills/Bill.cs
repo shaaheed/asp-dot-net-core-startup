@@ -11,6 +11,11 @@ namespace Module.Sales.Entities
             BillLineItems = new HashSet<BillLineItem>();
         }
 
+        public string OrderNumber { get; set; }
+
+        public string AdjustmentText { get; set; }
+        public decimal AdjustmentAmount { get; set; }
+
         public Guid? SupplierId { get; set; }
         public virtual Contact Supplier { get; set; }
 

@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
 
 export interface TableConfig {
+    tableColumns?: TableColumnConfig[];
     pageTitle?: string;
     createPageRoute?: string;
     onClickButton?: (source: any) => void;
@@ -15,4 +16,16 @@ export interface TableConfig {
     getDeleteApiUrl?: (data: any) => string;
     topRightButtons?: ButtonConfig[];
     headerStyle?: any;
+}
+
+export interface TableColumnConfig {
+    type?: string;
+    title: string;
+    propertyName?: string;
+    thClass?: string;
+    tdClass?: string;
+    hasToolTip?: boolean;
+    getCellData?: (data?: any) => string;
+    getCellToolTipData?: (data?: any) => string;
+    onClick?: (data?: any) => void;
 }

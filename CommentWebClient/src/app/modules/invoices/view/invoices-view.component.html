@@ -171,7 +171,8 @@
                 </div>
             </div>
         </div>
-        <app-list [config]="paymentTableConfig"></app-list>
+        <!-- <app-list [config]="paymentTableConfig"></app-list> -->
+        <app-table [config]="paymentTableConfig"></app-table>
     </div>
 
     <app-payments-add-modal #paymentModal [(show)]="showPaymentModal" [data]="paymentModalData">

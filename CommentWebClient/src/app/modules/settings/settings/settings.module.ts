@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { SettingsComponent } from './settings.component';
-import { TableModule } from 'src/app/shared/table/table.module';
+import { TableModule } from 'src/app/shared/#table/table.module';
 import { TimeAgoPipeModule } from 'src/pipes/time-ago.pipe';
 import { MomentPipeModule } from 'src/pipes/moment.pipe';
 import { TranslateModule } from '@ngx-translate/core';

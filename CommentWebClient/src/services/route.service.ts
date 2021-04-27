@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { FormPageConfig } from 'src/app/shared/form-page/form.config';
-import { ListPageConfig } from 'src/app/shared/list/list.config';
+import { TableConfig } from 'src/app/shared/table2/table.config';
 
 export class Route {
     static addEdit(prefix: string, config: FormPageConfig): Routes {
@@ -24,7 +24,7 @@ export class Route {
         ]
     }
     
-    static list(prefix: string, config: ListPageConfig): Route {
+    static list(prefix: string, config: TableConfig): Route {
         config.pageTitle = config.pageTitle || prefix;
         config.fetchApiUrl = config.fetchApiUrl || prefix;
         if (!config.getDeleteApiUrl) {
@@ -36,7 +36,7 @@ export class Route {
         }
         return {
             path: prefix,
-            loadChildren: () => import('src/app/shared/list/list.module').then(m => m.ListModule),
+            loadChildren: () => import('src/app/shared/table2/table.module').then(m => m.TableModule),
             data: {
                 pageData: config
             }

@@ -1,5 +1,5 @@
 import { AppInjector } from "src/app/app/app.component";
-import { TableColumnConfig } from "src/app/shared/list/list.config";
+import { TableColumnConfig } from "src/app/shared/table2/table.config";
 import { MomentPipe } from "src/pipes/moment.pipe";
 import { TimeAgoPipe } from "src/pipes/time-ago.pipe";
 

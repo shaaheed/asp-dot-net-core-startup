@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
-using System.Collections.Generic;
 
 namespace Module.Sales.Domain
 {
