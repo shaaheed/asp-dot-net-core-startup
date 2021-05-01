@@ -66,7 +66,7 @@ namespace Module.Sales.Domain
                         .Select(x => x.Quantity)
                         .Sum();
 
-                    result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(request.Number, InventoryAdjustmentType.Billed, savedProduct.Id, quantityToBuy, cancellationToken);
+                    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(request.Number, InventoryAdjustmentType.Billed, savedProduct.Id, quantityToBuy, cancellationToken);
                 }
             }
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);

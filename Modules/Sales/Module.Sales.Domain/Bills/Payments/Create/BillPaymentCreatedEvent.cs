@@ -2,7 +2,7 @@
 
 namespace Module.Sales.Domain
 {
-    public class InvoicePaymentCreatedEvent : EventBase
+    public class BillPaymentCreatedEvent : EventBase
     {
         
     }

@@ -7,40 +7,40 @@ using Module.Sales.Domain;
 
 namespace Module.Sales.Controllers
 {
-    [Route("api/invoices/{invoiceId}/payments")]
+    [Route("api/bills/{billId}/payments")]
     [ApiController]
     [ETag]
-    public class InvoicePaymentController : BaseController
+    public class BillPaymentController : BaseController
     {
 
         [HttpPost]
         //[RequirePermission(InvoicePaymentCreate, InvoicePaymentManage)]
-        public async Task<IActionResult> Post(Guid invoiceId, [FromBody] CreateInvoicePaymentCommand command)
+        public async Task<IActionResult> Post(Guid billId, [FromBody] CreateBillPaymentCommand command)
         {
-            command.InvoiceId = invoiceId;
+            command.BillId = billId;
             var result = await OkAsync(command);
             return result.ToCreatedResult();
         }
 
         [HttpPut("{id}")]
         //[RequirePermission(InvoicePaymentUpdate, InvoicePaymentManage)]
-        public Task<IActionResult> Put(Guid invoiceId, Guid id, [FromBody] UpdateInvoicePaymentCommand command)
+        public Task<IActionResult> Put(Guid billId, Guid id, [FromBody] UpdateBillPaymentCommand command)
         {
-            command.InvoiceId = invoiceId;
+            command.BillId = billId;
             command.Id = id;
             return OkAsync(command);
         }
 
         [HttpDelete("{id}")]
         //[RequirePermission(InvoicePaymentDelete, InvoicePaymentManage)]
-        public Task<IActionResult> Delete([FromRoute] DeleteInvoicePaymentCommand command)
+        public Task<IActionResult> Delete([FromRoute] DeleteBillPaymentCommand command)
         {
             return DeleteAsync(command);
         }
 
         [HttpGet]
         //[RequirePermission(InvoicePaymentList, InvoicePaymentManage)]
-        public Task<IActionResult> Gets([FromRoute] GetInvoicePaymentsQuery query, [FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
+        public Task<IActionResult> Gets([FromRoute] GetBillPaymentsQuery query, [FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
         {
             query.PagingOptions = pagingOptions;
             query.SearchOptions = searchOptions;
@@ -49,7 +49,7 @@ namespace Module.Sales.Controllers
 
         [HttpGet("{id}")]
         //[RequirePermission(InvoicePaymentView, InvoicePaymentManage)]
-        public Task<IActionResult> Get([FromRoute] GetInvoicePaymentQuery query)
+        public Task<IActionResult> Get([FromRoute] GetBillPaymentQuery query)
         {
             return OkAsync(query);
         }

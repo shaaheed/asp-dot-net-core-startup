@@ -2,7 +2,7 @@
 
 namespace Module.Sales.Domain
 {
-    public class UpdateInvoicePaymentCommand : CreateInvoicePaymentCommand
+    public class UpdateBillPaymentCommand : CreateBillPaymentCommand
     {
         public Guid Id { get; set; }
     }

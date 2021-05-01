@@ -3,9 +3,9 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public class GetInvoicePaymentQuery : IQuery<InvoicePaymentDto>
+    public class GetBillPaymentQuery : IQuery<BillPaymentDto>
     {
-        public Guid InvoiceId { get; set; }
+        public Guid BillId { get; set; }
         public Guid Id { get; set; }
     }
 }

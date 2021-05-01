@@ -1,6 +1,6 @@
 ﻿using Msi.Mediator.Abstractions;
 
-namespace Module.Sales.Domain.InvoicePayments
+namespace Module.Sales.Domain
 {
     public class InvoicePaymentDeletedEvent : EventBase
     {

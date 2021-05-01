@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Payments.Entities;
 
-namespace Module.Sales.Domain.InvoicePayments
+namespace Module.Sales.Domain
 {
     public class DeleteInvoicePaymentCommandHandler : ICommandHandler<DeleteInvoicePaymentCommand, long>
     {

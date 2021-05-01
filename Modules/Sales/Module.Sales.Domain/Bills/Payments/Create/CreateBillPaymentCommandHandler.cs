@@ -7,38 +7,38 @@ using Module.Sales.Entities;
 
 namespace Module.Sales.Domain
 {
-    public class CreateInvoicePaymentCommandHandler : ICommandHandler<CreateInvoicePaymentCommand, long>
+    public class CreateBillPaymentCommandHandler : ICommandHandler<CreateBillPaymentCommand, long>
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IInvoiceService _invoiceService;
+        private readonly IBillService _billService;
 
-        public CreateInvoicePaymentCommandHandler(
+        public CreateBillPaymentCommandHandler(
             IUnitOfWork unitOfWork,
-            IInvoiceService invoiceService)
+            IBillService billService)
         {
             _unitOfWork = unitOfWork;
-            _invoiceService = invoiceService;
+            _billService = billService;
         }
 
-        public async Task<long> Handle(CreateInvoicePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<long> Handle(CreateBillPaymentCommand request, CancellationToken cancellationToken)
         {
             var payment = request.Map();
             await _unitOfWork.GetRepository<Payment>().AddAsync(payment);
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var invoicePayment = new InvoicePayment
+            var invoicePayment = new BillPayment
             {
                 PaymentId = payment.Id,
-                InvoiceId = request.InvoiceId
+                BillId = request.BillId
             };
 
-            await _unitOfWork.GetRepository<InvoicePayment>().AddAsync(invoicePayment);
+            await _unitOfWork.GetRepository<BillPayment>().AddAsync(invoicePayment);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var invoice = await _unitOfWork.GetRepository<Invoice>()
-                .FirstOrDefaultAsync(x => x.Id == request.InvoiceId);
-            _invoiceService.AddPayment(invoice);
+            var bill = await _unitOfWork.GetRepository<Bill>()
+                .FirstOrDefaultAsync(x => x.Id == request.BillId);
+            _billService.AddPayment(bill);
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -42,6 +42,7 @@
   "invoices": "Invoices",
   "invoice": "Invoice",
   "invoice.date": "Invoice date",
+  "bill.date": "Bill date",
   "select.date": "Select date",
   "payment.due": "Payment due",
   "select.customer": "Select customer",

@@ -5,16 +5,16 @@ using System.Linq.Expressions;
 
 namespace Module.Sales.Domain
 {
-    public class InvoicePaymentDto : BaseInvoicePaymentDto
+    public class BillPaymentDto : BaseInvoicePaymentDto
     {
-        public Guid InvoiceId { get; set; }
+        public Guid BillId { get; set; }
 
-        public static Expression<Func<InvoicePayment, InvoicePaymentDto>> Selector()
+        public static Expression<Func<BillPayment, BillPaymentDto>> Selector()
         {
-            return x => new InvoicePaymentDto
+            return x => new BillPaymentDto
             {
                 Id = x.Id,
-                InvoiceId = x.InvoiceId,
+                BillId = x.BillId,
                 PaymentId = x.PaymentId,
                 Amount = x.Payment.Amount,
                 CustomerId = x.Payment.CustomerId,

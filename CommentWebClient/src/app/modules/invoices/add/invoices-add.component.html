@@ -20,7 +20,7 @@
                         </div>
                         <div class="right">
                             <app-input label="number" placeholder="number" formControlName="number"></app-input>
-                            <app-date-picker label="invoice.date" placeholder="invoice.date"
+                            <app-date-picker [label]="dateLabel" [placeholder]="dateLabel"
                                 formControlName="issueDate"></app-date-picker>
                             <app-date-picker label="payment.due" placeholder="payment.due"
                                 formControlName="paymentDueDate">

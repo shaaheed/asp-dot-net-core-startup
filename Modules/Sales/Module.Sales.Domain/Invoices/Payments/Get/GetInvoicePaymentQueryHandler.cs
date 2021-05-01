@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Sales.Entities;
 
-namespace Module.Sales.Domain.InvoicePayments
+namespace Module.Sales.Domain
 {
     public class GetInvoicePaymentQueryHandler : IQueryHandler<GetInvoicePaymentQuery, InvoicePaymentDto>
     {

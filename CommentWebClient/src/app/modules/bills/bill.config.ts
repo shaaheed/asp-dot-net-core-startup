@@ -7,9 +7,13 @@ const prefix = 'bills';
 const addEditData = {
     componentAccessor: (c: InvoicesAddComponent) => {
         c.apiUrl = 'bills';
+        c.objectName = 'bill';
         c.contactTitle = 'supplier';
         c.contactApiUrl = 'contacts?Search=Type eq 2';
         c.chooseAnotherTitle = 'choose.a.different.supplier';
+        c.createInfoUrl = 'bills/create-info';
+        c.getNextNumber = x => x.nextBillNumber;
+        c.dateLabel = 'bill.date';
     }
 }
 

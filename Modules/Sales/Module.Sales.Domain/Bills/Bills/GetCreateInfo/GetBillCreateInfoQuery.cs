@@ -2,8 +2,7 @@
 
 namespace Module.Sales.Domain
 {
-    public class InvoicePaymentCreatedEvent : EventBase
+    public class GetBillCreateInfoQuery : IQuery<BillCreateInfoDto>
     {
-        
     }
 }

@@ -40,6 +40,7 @@
   "invoices": "চালান",
   "invoice": "চালান",
   "invoice.date": "চালান তারিখ",
+  "bill.date": "রসিদ তারিখ",
   "select.date": "তারিখ নির্বাচন করুন",
   "payment.due": "পরিশোধযোগ্য তারিখ",
   "select.customer": "ক্রেতা নির্বাচন করুন",

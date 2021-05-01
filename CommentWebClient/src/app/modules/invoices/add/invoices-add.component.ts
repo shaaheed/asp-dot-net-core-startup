@@ -18,10 +18,12 @@ import { CURRENCY } from '../../organizations/organization.service';
 export class InvoicesAddComponent extends FormComponent {
 
   apiUrl = 'invoices';
+  createInfoUrl = 'invoices/create-info';
   contactApiUrl = 'contacts?Search=Type eq 1';
   objectName = 'invoice';
   contactTitle = 'customer';
   chooseAnotherTitle = 'choose.a.different.customer';
+  dateLabel = 'invoice.date';
 
   subtotal: number = 0;
   products: any[] = [];
@@ -43,7 +45,7 @@ export class InvoicesAddComponent extends FormComponent {
   onSetFormValues = data => {
     this.prepareForm(data);
   };
-  onSetInvoiceNumber: () => string;
+  getNextNumber: (data: any) => string;
 
   constructor(
     private route: ActivatedRoute,
@@ -75,8 +77,8 @@ export class InvoicesAddComponent extends FormComponent {
       this._httpService.get('products'),
       this._httpService.get('units')
     ];
-    if (!this.onSetInvoiceNumber && this.isAddMode()) {
-      requests.push(this._httpService.get('invoices/create-info'))
+    if (this.isAddMode()) {
+      requests.push(this._httpService.get(this.createInfoUrl))
     }
 
     this.loading = true;
@@ -92,15 +94,15 @@ export class InvoicesAddComponent extends FormComponent {
             this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
           }
 
-          let nextInvoiceNumber = null;
-          if (!this.onSetInvoiceNumber && this.isAddMode() && res[2].data.nextInvoiceNumber) {
-            nextInvoiceNumber = res[2].data.nextInvoiceNumber;
+          let nextNumber = null;
+          if (!this.getNextNumber && this.isAddMode() && res[2].data.nextInvoiceNumber) {
+            nextNumber = res[2].data.nextInvoiceNumber;
           }
-          else if (this.onSetInvoiceNumber) {
-            nextInvoiceNumber = this.onSetInvoiceNumber();
+          else if (this.getNextNumber) {
+            nextNumber = this.getNextNumber(res[2].data);
           }
-          if (nextInvoiceNumber) {
-            this.setValue('number', nextInvoiceNumber);
+          if (nextNumber) {
+            this.setValue('number', nextNumber);
           }
         }
       },

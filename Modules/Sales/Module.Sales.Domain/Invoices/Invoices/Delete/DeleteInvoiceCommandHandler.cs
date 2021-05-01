@@ -48,8 +48,6 @@ namespace Module.Sales.Domain
             var lineItemsToBeDeleted = savedInvoiceLineItems.Select(x => new LineItem { Id = x.LineItemId });
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             lineItemRepo.RemoveRange(lineItemsToBeDeleted);
-
-            var invoiceLineItemsToBeDeleted = savedInvoiceLineItems.Select(x => new InvoiceLineItem { Id = x.Id });
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             invoiceRepo.Remove(invoice);

@@ -48,8 +48,6 @@ namespace Module.Sales.Domain
             var lineItemsToBeDeleted = savedBillLineItems.Select(x => new LineItem { Id = x.LineItemId });
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             lineItemRepo.RemoveRange(lineItemsToBeDeleted);
-
-            var invoiceLineItemsToBeDeleted = savedBillLineItems.Select(x => new InvoiceLineItem { Id = x.Id });
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             billRepo.Remove(bill);
@@ -58,11 +56,11 @@ namespace Module.Sales.Domain
             var allowedStatuses = new List<Status> { Status.Due };
             if (result > 0 && allowedStatuses.Contains(bill.Status))
             {
-                // increase product stock as bill has been deleted.
+                // decrease product stock as bill has been deleted.
                 var savedLineItemsHasProduct = savedBillLineItems.Where(x => x.ProductId.HasValue);
                 foreach (var savedBillLineItem in savedLineItemsHasProduct)
                 {
-                    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(bill.Number, InventoryAdjustmentType.Billed, savedBillLineItem.ProductId.Value, savedBillLineItem.LineItemQuantity, cancellationToken);
+                    result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(bill.Number, InventoryAdjustmentType.Billed, savedBillLineItem.ProductId.Value, savedBillLineItem.LineItemQuantity, cancellationToken);
                 }
             }
             return result;

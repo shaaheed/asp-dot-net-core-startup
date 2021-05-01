@@ -1,11 +1,10 @@
 ﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Utilities.Filter;
 
-namespace Module.Sales.Domain.InvoicePayments
+namespace Module.Sales.Domain
 {
     public class GetInvoicePaymentsQueryHandler : IQueryHandler<GetInvoicePaymentsQuery, PagedCollection<InvoicePaymentDto>>
     {
