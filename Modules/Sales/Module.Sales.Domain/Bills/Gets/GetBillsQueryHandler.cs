@@ -1,14 +1,12 @@
 ﻿using Msi.Mediator.Abstractions;
-using Module.Sales.Entities;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Msi.Utilities.Filter;
+using System.Threading.Tasks;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
-    public class GetBillsQueryHandler : IQueryHandler<GetBillsQuery, IEnumerable<BillDto>>
+    public class GetBillsQueryHandler : IQueryHandler<GetBillsQuery, PagedCollection<BillListItemDto>>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -19,25 +17,9 @@ namespace Module.Sales.Domain.Bills
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<BillDto>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
+        public Task<PagedCollection<BillListItemDto>> Handle(GetBillsQuery request, CancellationToken cancellationToken)
         {
-            var results = _unitOfWork.GetRepository<Bill>()
-                .AsQueryable()
-                .Select(x => new BillDto
-                {
-                    Id = x.Id,
-                    //Vendor = x.VendorId != null ? new IdNameDto<Guid>
-                    //{
-                    //    Id = (Guid)x.VendorId,
-                    //    Name = x.Vendor.FirstName
-                    //} : null,
-                    AmountDue = x.AmountDue,
-                    Total = x.GrandTotal,
-                    IssueDate = x.IssueDate,
-                    Status = x.Status.ToString()
-                })
-                .ToList();
-            return await Task.FromResult(results);
+            return _unitOfWork.ListAsync(BillListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
         }
     }
 }

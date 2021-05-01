@@ -26,7 +26,12 @@ namespace Module.Sales.Domain
         public async Task<long> Handle(DeleteInvoiceCommand request, CancellationToken cancellationToken)
         {
             var invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id, x => new Invoice { Id = x.Id, Status = x.Status, Reference = x.Reference }, cancellationToken);
+            var invoice = await invoiceRepo.FirstOrDefaultAsync(x => x.Id == request.Id, x => new Invoice
+            {
+                Id = x.Id,
+                Status = x.Status,
+                Reference = x.Reference
+            }, cancellationToken);
 
             if (invoice == null)
                 throw new ValidationException("Invoice not found.");
@@ -57,7 +62,7 @@ namespace Module.Sales.Domain
                 var savedLineItemsHasProduct = savedInvoiceLineItems.Where(x => x.ProductId.HasValue);
                 foreach (var savedInvoiceLineItem in savedLineItemsHasProduct)
                 {
-                    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedInvoiceLineItem.ProductId.Value, savedInvoiceLineItem.LineItemQuantity, cancellationToken);
+                    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedInvoiceLineItem.ProductId.Value, savedInvoiceLineItem.LineItemQuantity, cancellationToken);
                 }
             }
             return result;

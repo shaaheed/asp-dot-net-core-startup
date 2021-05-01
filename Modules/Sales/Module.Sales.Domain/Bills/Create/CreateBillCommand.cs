@@ -2,11 +2,11 @@
 using Msi.Mediator.Abstractions;
 using System.Collections.Generic;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
     public class CreateBillCommand : BaseInvoiceRequestDto<Bill>, ICommand<long>
     {
-        public List<InvoiceLineItemRequestDto> Items { get; set; }
+        public List<BillLineItemRequestDto> Items { get; set; }
 
         public override Bill Map(Bill entity = null)
         {

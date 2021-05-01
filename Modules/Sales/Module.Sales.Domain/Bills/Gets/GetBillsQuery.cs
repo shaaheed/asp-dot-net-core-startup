@@ -1,9 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System.Collections.Generic;
+﻿using Msi.Domain.Abstractions;
+using Msi.Utilities.Filter;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
-    public class GetBillsQuery : IQuery<IEnumerable<BillDto>>
+    public class GetBillsQuery : Query<PagedCollection<BillListItemDto>>
     {
     }
 }

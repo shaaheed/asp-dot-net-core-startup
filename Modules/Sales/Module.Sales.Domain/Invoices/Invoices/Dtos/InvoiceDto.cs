@@ -12,6 +12,8 @@ namespace Module.Sales.Domain
     {
         public Guid Id { get; set; }
         public string Number { get; set; }
+        public string OrderNumber { get; set; }
+        public string Reference { get; set; }
         public string Status { get; set; }
         public ContactDto Customer { get; set; }
         public decimal AmountDue { get; set; }
@@ -32,6 +34,8 @@ namespace Module.Sales.Domain
             {
                 Id = x.Id,
                 Number = x.Number,
+                OrderNumber = x.OrderNumber,
+                Reference = x.Reference,
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,

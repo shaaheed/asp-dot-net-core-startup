@@ -1,7 +1,7 @@
 ﻿using Msi.Mediator.Abstractions;
 using System;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
     public class DeleteBillCommand : ICommand<long>
     {

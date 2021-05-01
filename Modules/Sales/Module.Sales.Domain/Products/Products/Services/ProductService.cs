@@ -1,7 +1,6 @@
 ﻿using Module.Sales.Entities;
 using Msi.Core;
 using Msi.Data.Abstractions;
-using Msi.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -242,6 +241,57 @@ namespace Module.Sales.Domain
         {
             var product = await GetProductAsReadOnly(productId, x => new { Id = x.Id }, cancellationToken);
             return product != null;
+        }
+
+        public Task<List<SavedProductDto>> GetSavedProducts(List<Guid> productIds, CancellationToken cancellationToken = default)
+        {
+            return _repository
+                .ListAsyncAsReadOnly(x => productIds.Contains(x.Id), x => new SavedProductDto
+                {
+                    Id = x.Id,
+                    StockQuantity = x.StockQuantity,
+                    Name = x.Name,
+                    IsInventory = x.IsInventory,
+                    IsSale = x.IsSale,
+                    IsDeleted = x.IsDeleted
+                }, cancellationToken);
+        }
+
+        public void CheckProductNotFound(List<SavedProductDto> savedProducts)
+        {
+            var productIds = savedProducts.Select(x => x.Id);
+            var notFoundProducts = savedProducts
+                .Where(x => !productIds.Contains(x.Id))
+                .ToList();
+
+            if (notFoundProducts.Count() > 0)
+                throw new ValidationException($"{notFoundProducts[0].Name} not found.");
+        }
+
+        public async Task CheckProductNotFound(List<Guid> productIds, CancellationToken cancellationToken = default)
+        {
+            var savedProducts = await GetSavedProducts(productIds, cancellationToken);
+            CheckProductNotFound(savedProducts);
+        }
+
+        public async Task CheckProductSelable(Guid? productId, string productName, CancellationToken cancellationToken = default)
+        {
+            if (productId.HasValue)
+            {
+                var product = await GetProductAsReadOnly(productId.Value, x => new
+                {
+                    Name = productName,
+                    IsInventory = x.IsInventory,
+                    IsSale = x.IsSale,
+                    IsDeleted = x.IsDeleted
+                }, cancellationToken);
+
+                if (product == null)
+                    throw new ValidationException($"{product.Name} product not found");
+
+                if (!product.IsSale || !product.IsInventory || product.IsDeleted)
+                    throw new ValidationException($"{product.Name} product is not salable");
+            }
         }
     }
 }

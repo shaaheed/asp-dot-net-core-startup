@@ -33,5 +33,13 @@ namespace Module.Sales.Domain
         Task<bool> IsProductExists(Guid? productId, CancellationToken cancellationToken = default);
 
         Task<bool> IsProductExists(Guid productId, CancellationToken cancellationToken = default);
+
+        Task<List<SavedProductDto>> GetSavedProducts(List<Guid> productIds, CancellationToken cancellationToken = default);
+
+        void CheckProductNotFound(List<SavedProductDto> savedProducts);
+
+        Task CheckProductNotFound(List<Guid> productIds, CancellationToken cancellationToken = default);
+
+        Task CheckProductSelable(Guid? productId, string productName, CancellationToken cancellationToken = default);
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Module.Sales.Domain.Bills
+﻿namespace Module.Sales.Domain
 {
-    public class BillLineItemDto : BillLineItemBaseDto
+    public class BillLineItemDto : BaseInvoiceLineItemDto
     {
-        public Guid Id { get; set; }
     }
 }

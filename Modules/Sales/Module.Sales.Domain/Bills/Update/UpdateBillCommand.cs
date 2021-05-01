@@ -1,15 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
-    public class UpdateBillCommand : ICommand<long>
+    public class UpdateBillCommand : CreateBillCommand
     {
         public Guid Id { get; set; }
-        public Guid? VendorId { get; set; }
-        public DateTime? IssueDate { get; set; }
-        public string Note { get; set; }
-        public List<UpdateBillLineItemDto> Items { get; set; }
     }
 }

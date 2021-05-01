@@ -6,20 +6,23 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
 
-namespace Module.Sales.Domain.Bills
+namespace Module.Sales.Domain
 {
     public class CreateBillCommandHandler : ICommandHandler<CreateBillCommand, long>
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
+        private readonly IBillService _billService;
 
         public CreateBillCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService)
+            IProductService productService,
+            IBillService billService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
+            _billService = billService;
         }
 
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
@@ -32,29 +35,40 @@ namespace Module.Sales.Domain.Bills
 
             await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var savedProducts = await productRepo
-                .ListAsyncAsReadOnly(x => requestProductIds.Contains(x.Id), x => new
-                {
-                    Id = x.Id,
-                    Quantity = x.StockQuantity,
-                    Name = x.Name,
-                    IsInventory = x.IsInventory,
-                    IsSale = x.IsSale,
-                    IsDeleted = x.IsDeleted
-                }, cancellationToken);
-
-            var notFoundProducts = savedProducts
-                .Where(x => !requestProductIds.Contains(x.Id))
-                .ToList();
-
-            if (notFoundProducts.Count() > 0)
-                throw new ValidationException($"{notFoundProducts[0].Name} not found.");
+            var savedProducts = await _productService.GetSavedProducts(requestProductIds, cancellationToken);
+            _productService.CheckProductNotFound(savedProducts);
 
             int result = 0;
             var billRepo = _unitOfWork.GetRepository<Bill>();
             var newBill = request.Map();
 
+            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
+            var newBillLineItems = request.Items.Select(x => new BillLineItem
+            {
+                Bill = newBill,
+                LineItem = x.Map()
+            });
+
+            newBill.BillLineItems = newBillLineItems.ToList();
             await billRepo.AddAsync(newBill, cancellationToken);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+            _billService.Calculate(newBill);
+            _billService.AddPayment(newBill);
+
+            foreach (var savedProduct in savedProducts)
+            {
+                if (!savedProduct.IsSale || savedProduct.IsDeleted) throw new ValidationException($"{savedProduct.Name} is not salable.");
+
+                if (savedProduct.IsInventory)
+                {
+                    var quantityToBuy = request.Items
+                        .Where(x => x.ProductId == savedProduct.Id)
+                        .Select(x => x.Quantity)
+                        .Sum();
+
+                    result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(request.Number, InventoryAdjustmentType.Billed, savedProduct.Id, quantityToBuy, cancellationToken);
+                }
+            }
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return result;

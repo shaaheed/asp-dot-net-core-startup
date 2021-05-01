@@ -35,23 +35,8 @@ namespace Module.Sales.Domain
 
             await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var savedProducts = await productRepo
-                .ListAsyncAsReadOnly(x => requestProductIds.Contains(x.Id), x => new
-                {
-                    Id = x.Id,
-                    Quantity = x.StockQuantity,
-                    Name = x.Name,
-                    IsInventory = x.IsInventory,
-                    IsSale = x.IsSale,
-                    IsDeleted = x.IsDeleted
-                }, cancellationToken);
-
-            var notFoundProducts = savedProducts
-                .Where(x => !requestProductIds.Contains(x.Id))
-                .ToList();
-
-            if (notFoundProducts.Count() > 0)
-                throw new ValidationException($"{notFoundProducts[0].Name} not found.");
+            var savedProducts = await _productService.GetSavedProducts(requestProductIds, cancellationToken);
+            _productService.CheckProductNotFound(savedProducts);
 
             int result = 0;
             var invoiceRepo = _unitOfWork.GetRepository<Invoice>();

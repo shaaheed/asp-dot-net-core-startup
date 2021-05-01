@@ -42,24 +42,8 @@ namespace Module.Sales.Domain
                 .ToList();
             await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var savedProducts = await productRepo
-                .ListAsyncAsReadOnly(x => requestProductIds.Contains(x.Id), x => new
-                {
-                    Id = x.Id,
-                    Quantity = x.StockQuantity,
-                    Name = x.Name,
-                    Stock = x.StockQuantity,
-                    IsInventory = x.IsInventory,
-                    IsSale = x.IsSale,
-                    IsDeleted = x.IsDeleted
-                }, cancellationToken);
-
-            var notFoundProducts = savedProducts
-                .Where(x => !requestProductIds.Contains(x.Id))
-                .ToList();
-
-            if (notFoundProducts.Count() > 0)
-                throw new ValidationException($"{notFoundProducts[0].Name} not found.");
+            var savedProducts = await _productService.GetSavedProducts(requestProductIds, cancellationToken);
+            _productService.CheckProductNotFound(savedProducts);
 
             var invoiceLineItemsRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
             var invoiceLineItems = new List<InvoiceLineItem>();
@@ -81,7 +65,6 @@ namespace Module.Sales.Domain
             var result = 0;
             foreach (var requestLineItem in request.Items)
             {
-                var invoiceLineItem = new InvoiceLineItem();
                 if (requestLineItem.Id.HasValue)
                 {
                     // update
@@ -111,7 +94,7 @@ namespace Module.Sales.Domain
                             var quantityToBeDecrease = requestLineItem.Quantity - savedLineItem.LineItemQuantity;
                             result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeDecrease, cancellationToken);
                         }
-                        else if (savedLineItem.LineItemQuantity < requestLineItem.Quantity)
+                        else if (requestLineItem.Quantity < savedLineItem.LineItemQuantity)
                         {
                             // product stock quantity will be increase
                             var quantityToBeIncrease = savedLineItem.LineItemQuantity - requestLineItem.Quantity;
@@ -137,19 +120,7 @@ namespace Module.Sales.Domain
                 {
                     if (requestLineItem.ProductId.HasValue)
                     {
-                        var product = await _productService.GetProductAsReadOnly(requestLineItem.ProductId.Value, x => new
-                        {
-                            Name = requestLineItem.Name,
-                            IsInventory = x.IsInventory,
-                            IsSale = x.IsSale,
-                            IsDeleted = x.IsDeleted
-                        }, cancellationToken);
-
-                        if (product == null)
-                            throw new ValidationException($"{product.Name} product not found");
-
-                        if (!product.IsSale || !product.IsInventory || product.IsDeleted)
-                            throw new ValidationException($"{product.Name} product is not salable");
+                        await _productService.CheckProductSelable(requestLineItem.ProductId, requestLineItem.Name, cancellationToken);
 
                         result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
@@ -192,7 +163,6 @@ namespace Module.Sales.Domain
             }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return result;
         }
     }
