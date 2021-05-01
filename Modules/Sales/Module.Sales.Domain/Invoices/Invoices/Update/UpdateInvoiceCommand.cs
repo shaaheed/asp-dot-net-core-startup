@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public class UpdateInvoiceCommand : InvoiceRequestDto, ICommand<long>
+    public class UpdateInvoiceCommand : CreateInvoiceCommand, ICommand<long>
     {
         public Guid Id { get; set; }
     }

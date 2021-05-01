@@ -131,6 +131,7 @@ namespace Module.Sales.Domain
             else
             {
                 invoiceLineItem.LineItem = lineItem;
+                invoiceLineItem.InvoiceId = invoiceId;
                 await _invoiceLineItemRepo.AddAsync(invoiceLineItem, cancellationToken);
             }
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

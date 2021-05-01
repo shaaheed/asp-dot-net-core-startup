@@ -15,13 +15,17 @@
           <ul nz-menu class="organization-dropdown">
             <ng-container *ngFor="let o of organizations">
               <li nz-menu-item (click)="selectOrganization(o)">
-                <nz-avatar nzIcon="bank"></nz-avatar>
-                <span>{{o.name}}</span>
+                <div>
+                  <nz-avatar nzIcon="bank"></nz-avatar>
+                  <span>{{o.name}}</span>
+                </div>
               </li>
             </ng-container>
             <li nz-menu-item (click)="newOrganization()">
-              <nz-avatar nzIcon="plus"></nz-avatar>
-              <span>{{'new'|translate}}</span>
+              <div>
+                <nz-avatar nzIcon="plus"></nz-avatar>
+                <span>{{'new'|translate}}</span>
+              </div>
             </li>
           </ul>
         </nz-dropdown-menu>
@@ -98,12 +102,21 @@
             <ng-template #menuTemplate let-nav>
               <ng-container *ngFor="let n of nav">
                 <ng-container *ngIf="n.granted">
-                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="n.level * 24">
-                    <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
-                    <span><a>{{n.title|translate}}</a></span>
+                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10"
+                    style="height: auto;">
+                    <div class="li-inner-div" [ngStyle]="{'paddingLeft': n.level * 10+'px'}">
+                      <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
+                      <span>{{n.title|translate}}</span>
+                    </div>
                   </li>
-                  <li (click)="navClicked(n)" *ngIf="n.nav" nz-submenu nzTitle="{{n.title|translate}}" [nzIcon]="n.icon"
-                    [nzPaddingLeft]="n.level * 24">
+                  <!-- nzTitle="{{n.title|translate}}" [nzIcon]="n.icon" -->
+                  <li (click)="navClicked(n)" [nzTitle]="titleTpl" *ngIf="n.nav" nz-submenu [nzPaddingLeft]="10" style="height: auto;" [nzMenuClassName]="'x-sub-menu'">
+                    <ng-template #titleTpl>
+                      <div class="li-inner-div" style="height: auto;">
+                        <i *ngIf="n.icon" nz-icon [nzType]="n.icon"></i>
+                        <span>{{n.title|translate}}</span>
+                      </div>
+                    </ng-template>
                     <ul>
                       <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: n.nav }">
                       </ng-container>
@@ -194,7 +207,7 @@
         </perfect-scrollbar>
         <!-- <div>{{version}}</div> -->
       </nz-sider>
-      <nz-content style="padding-top: 1px;">
+      <nz-content>
         <perfect-scrollbar [config]="config" style="height: calc(100vh - 63px);">
           <!-- <nz-breadcrumb style="padding: 10px 40px 0 40px;">
             <nz-breadcrumb-item>

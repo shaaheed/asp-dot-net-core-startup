@@ -96,10 +96,10 @@ namespace Module.Sales.Domain
                     if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value != savedLineItem.ProductId.Value)
                     {
                         // reducing product stock as new product is added to invoice line item
-                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
 
                         // increasing product stock as product is removed from invoice line item
-                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
 
                     // invoice line item product not changed but quantiy may changed
@@ -109,13 +109,13 @@ namespace Module.Sales.Domain
                         {
                             // product stock quantity will be  decrease
                             var quantityToBeDecrease = requestLineItem.Quantity - savedLineItem.LineItemQuantity;
-                            result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeDecrease, cancellationToken);
+                            result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeDecrease, cancellationToken);
                         }
                         else if (savedLineItem.LineItemQuantity < requestLineItem.Quantity)
                         {
                             // product stock quantity will be increase
                             var quantityToBeIncrease = savedLineItem.LineItemQuantity - requestLineItem.Quantity;
-                            result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeIncrease, cancellationToken);
+                            result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, quantityToBeIncrease, cancellationToken);
                         }
                     }
 
@@ -123,14 +123,14 @@ namespace Module.Sales.Domain
                     {
                         // new product added to invoice line item
                         // product stock quantity will be decrease
-                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
 
                     else if (!requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue)
                     {
                         // product removed from invoice line item
                         // product stock quantity will be increase
-                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
                 }
                 else
@@ -151,7 +151,7 @@ namespace Module.Sales.Domain
                         if (!product.IsSale || !product.IsInventory || product.IsDeleted)
                             throw new ValidationException($"{product.Name} product is not salable");
 
-                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
 
                     result += await _invoiceService.CreateOrUpdateInvoiceLineItem(requestLineItem, invoice.Id, null, cancellationToken);
@@ -172,7 +172,7 @@ namespace Module.Sales.Domain
                     // increase product stock as product line item is deleted
                     if (savedLineItem.ProductId.HasValue)
                     {
-                        await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Reference, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                        await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
                 }
             }

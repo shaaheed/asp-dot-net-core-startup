@@ -41,7 +41,7 @@
   
 body {
     color: #3c4257;
-    // background-color: #f7fafc;
+    background-color: #f0f2f5;
     font-family: SolaimanLipi !important;
 }
 
@@ -159,8 +159,8 @@ app-layout-default .menu-sidebar {
 nz-sider {
     // z-index: -1;
     &.menu-sidebar {
-        margin-top: 1px;
-        background-color: #f7fafc;
+        // margin-top: 1px;
+        // background-color: #f7fafc;
     }
     .ant-menu {
         font-size: 15px;
@@ -170,7 +170,7 @@ nz-sider {
         border: unset;
     }
     .ant-layout-sider-children {
-        box-shadow: 1px 1px #e3e8ee;
+        // box-shadow: 1px 1px #e3e8ee;
     }
     .ant-menu-inline,
     .ant-menu-vertical,
@@ -179,10 +179,10 @@ nz-sider {
     }
     .ant-layout-sider-trigger {
         color: #1a1f36;
-        box-shadow: 0 -1px #e3e8ee;
+        // box-shadow: 0 -1px #e3e8ee;
         height: 35px;
         line-height: 35px;
-        background-color: #fff;
+        background-color: #f0f2f5;
     }
 }
 
@@ -280,9 +280,9 @@ nz-sider {
 .ant-modal-confirm-btns button {
     font-weight: 500;
     border: none;
-    height: 28px;
+    // height: 28px;
     padding: 0 8px;
-    font-size: 15px;
+    font-size: 16px;
     &.ant-btn-default, &.ant-btn {
         @include btn-shadow
     }
@@ -404,7 +404,7 @@ nz-table tr:hover {
 .box {
     border-radius: 5px;
     padding-bottom: .1px;
-    margin-left: 1px;
+    // margin-left: 1px;
     // margin: 15px 24px;
     @include box-shadow-m;
     .block {
@@ -443,16 +443,22 @@ nz-table tr:hover {
             input,
             nz-form-control {
                 max-width: 350px;
+                font-size: 15px;
             }
             textarea {
                 max-width: 450px;
                 margin-top: 3px;
+                font-size: 15px;
             }
             label {
                 font-weight: 500;
                 color: #1a1f36;
                 min-width: 170px;
                 display: inline-block;
+                font-size: 15px;
+            }
+            nz-select-placeholder {
+                font-size: 15px;
             }
         }
 
@@ -482,9 +488,8 @@ nz-table tr:hover {
     bottom: 0;
     box-shadow: 0 -4px 5px -3px rgb(0 0 0 / 10%);
     padding: 15px 16px;
-    width: 100%;
+    width: calc(100% - 244px);
     background: #fff;
-    margin-left: 1px;
 }
 
 input[nz-input]:hover,
@@ -767,6 +772,10 @@ nz-header .ant-badge-count {
 .ant-modal-body,
 .ant-modal-footer {
     padding: 0;
+}
+
+.ant-modal-header {
+    padding: 20px 0;
 }
 
 .status-badge {

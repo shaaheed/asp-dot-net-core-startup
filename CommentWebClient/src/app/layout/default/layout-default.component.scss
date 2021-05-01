@@ -53,9 +53,24 @@
     font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
     vertical-align: middle;
   }
+
+  .li-inner-div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    &:hover {
+      background-color: #e3e8ee;
+    }
+  }
   
+  .inner-content {
+    margin-top: 15px;
+    margin-right: 24px;
+    margin-left: 10px;
+  }
+
   nz-header {
-    background-color: #f7fafc;
+    // background-color: #f7fafc;
     color: #8792a2;
     padding: 10px 24px;
     width: 100%;
