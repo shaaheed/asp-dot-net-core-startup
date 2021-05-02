@@ -11,7 +11,8 @@
 }
 
 @mixin box-shadow-m {
-    box-shadow: 0 7px 14px 0 rgba(60,66,87, 0.12), 0 3px 6px 0 rgba(0,0,0, 0.12);
+    // box-shadow: 0 7px 14px 0 rgba(60,66,87, 0.12), 0 3px 6px 0 rgba(0,0,0, 0.12);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 20%);
 }
 
 @mixin error-color {
@@ -110,6 +111,7 @@ span.ant-table-column-title {
 }
 
 .ant-table {
+    font-size: 15px;
     .action-column {
         text-align: right;
         >span {
@@ -154,6 +156,34 @@ app-layout-default .menu-sidebar {
 .ant-menu-item .anticon,
 .ant-menu-submenu-title .anticon {
     font-size: 16px;
+}
+
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+    padding-left: 20px !important;
+}
+
+.ant-menu-inline {
+    .ant-menu-item {
+        padding-right: 0;
+        margin: 0 !important;
+        line-height: 32px;
+    }
+    .ant-menu-submenu-title {
+        padding-right: 0 !important;
+        height: auto !important;
+        line-height: 34px !important;
+        margin: 0 !important;
+    }
+    .li-inner-div {
+        border-radius: 5px;
+        padding: 5px 10px;
+        &:active {
+            background-color: #D8D9DC;
+        }
+        &:hover {
+          background-color: #E4E6E9;
+        }
+      }
 }
 
 nz-sider {
@@ -404,8 +434,6 @@ nz-table tr:hover {
 .box {
     border-radius: 5px;
     padding-bottom: .1px;
-    // margin-left: 1px;
-    // margin: 15px 24px;
     @include box-shadow-m;
     .block {
         background-color: #fff;
@@ -459,6 +487,13 @@ nz-table tr:hover {
             }
             nz-select-placeholder {
                 font-size: 15px;
+            }
+            .ant-checkbox-inner {
+                width: 18px;
+                height: 18px;
+                &:after {
+                    left: 25%;
+                }
             }
         }
 
@@ -570,6 +605,8 @@ nz-header .ant-badge-count {
     font-size: 11px;
     line-height: 18px;
     background-color: #e24520;
+    top: 4px;
+    right: 3px;
 }
 
 .cursor-pointer {

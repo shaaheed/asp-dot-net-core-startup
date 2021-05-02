@@ -1,34 +1,36 @@
 <nz-layout class="app-layout" [class.bn]="selectedLanguage == 'bn'">
   <div class="app-layout-body">
     <nz-header class="top-header">
-      <div class="organization cursor-pointer">
-        <div class="name-container" nz-dropdown [nzDropdownMenu]="orgMenu" nzTrigger="click">
-          <div class="image display-flex">
-            <nz-avatar class="shadow-m" nzIcon="bank"></nz-avatar>
+      <div class="organization-outer">
+        <div class="organization cursor-pointer">
+          <div class="name-container" nz-dropdown [nzDropdownMenu]="orgMenu" nzTrigger="click">
+            <div class="image display-flex">
+              <nz-avatar class="shadow-m" nzIcon="bank"></nz-avatar>
+            </div>
+            <div class="name" *ngIf="currentOrganization">
+              <span style="line-height: 1;">{{currentOrganization.name}}</span>
+              <i nz-icon nzType="down" nzTheme="outline"></i>
+            </div>
           </div>
-          <div class="name" *ngIf="currentOrganization">
-            <span style="line-height: 1;">{{currentOrganization.name}}</span>
-            <i nz-icon nzType="down" nzTheme="outline"></i>
-          </div>
-        </div>
-        <nz-dropdown-menu #orgMenu="nzDropdownMenu">
-          <ul nz-menu class="organization-dropdown">
-            <ng-container *ngFor="let o of organizations">
-              <li nz-menu-item (click)="selectOrganization(o)">
+          <nz-dropdown-menu #orgMenu="nzDropdownMenu">
+            <ul nz-menu class="organization-dropdown">
+              <ng-container *ngFor="let o of organizations">
+                <li nz-menu-item (click)="selectOrganization(o)">
+                  <div>
+                    <nz-avatar nzIcon="bank"></nz-avatar>
+                    <span>{{o.name}}</span>
+                  </div>
+                </li>
+              </ng-container>
+              <li nz-menu-item (click)="newOrganization()">
                 <div>
-                  <nz-avatar nzIcon="bank"></nz-avatar>
-                  <span>{{o.name}}</span>
+                  <nz-avatar nzIcon="plus"></nz-avatar>
+                  <span>{{'new'|translate}}</span>
                 </div>
               </li>
-            </ng-container>
-            <li nz-menu-item (click)="newOrganization()">
-              <div>
-                <nz-avatar nzIcon="plus"></nz-avatar>
-                <span>{{'new'|translate}}</span>
-              </div>
-            </li>
-          </ul>
-        </nz-dropdown-menu>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
       </div>
       <div class="column search">
         <nz-input-group [nzPrefix]="prefixIconSearch">
@@ -45,51 +47,59 @@
             <nz-option nzLabel="বাংলা" nzValue="bn"></nz-option>
           </nz-select>
         </div>
-        <div>
-          <i class="cursor-pointer font-18" nz-tooltip nzTooltipTitle="{{'quick.create'|translate}}"
-            nzTooltipPlacement="bottom" nz-icon nzType="plus-circle" nzTheme="fill"></i>
+        <div class="icon-btn" nz-tooltip nzTooltipTitle="{{'quick.create'|translate}}" nzTooltipPlacement="bottom">
+          <div>
+            <i nz-icon nzType="plus"></i>
+          </div>
         </div>
-        <div nz-dropdown>
-          <nz-badge [nzCount]="count" class="font-18">
-            <i class="cursor-pointer" nz-tooltip nzTooltipTitle="{{'notifications'|translate}}"
-              nzTooltipPlacement="bottom" nz-icon nzType="bell" nzTheme="outline"></i>
-          </nz-badge>
-        </div>
-        <div>
-          <i (click)="openSettingsDrawer()" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
-            nzTooltipPlacement="bottom" class="font-18 cursor-pointer" nz-icon nzType="setting" nzTheme="outline"></i>
-        </div>
-        <div class="display-flex cursor-pointer" nz-popover nzPopoverTrigger="click"
-          [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight">
-          <nz-avatar class="shadow-m" nzIcon="user"></nz-avatar>
-          <ng-template #contentTemplate>
-            <div class="user-dropdown ">
-              <div>
-                <div class="name">
-                  <span>Sahidul Islam</span>
-                </div>
-                <div class="role">
-                  <span>Administrator</span>
-                </div>
-              </div>
-              <div>
-                <ul>
-                  <li>
-                    <a>
-                      <i nz-icon nzType="profile" nzTheme="outline"></i>
-                      {{'profile'|translate}}
-                    </a>
-                  </li>
-                  <li>
-                    <a>
-                      <i nz-icon nzType="logout" nzTheme="outline"></i>
-                      {{'sign.out'|translate}}
-                    </a>
-                  </li>
-                </ul>
-              </div>
+        <nz-badge [nzCount]="count">
+          <div class="icon-btn" nz-dropdown nz-tooltip nzTooltipTitle="{{'notifications'|translate}}"
+            nzTooltipPlacement="bottom">
+            <div>
+              <i nz-icon nzType="notification"></i>
             </div>
-          </ng-template>
+          </div>
+        </nz-badge>
+        <div class="icon-btn" (click)="openSettingsDrawer()" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
+          nzTooltipPlacement="bottom">
+          <div>
+            <i nz-icon nzType="setting"></i>
+          </div>
+        </div>
+        <div class="icon-btn" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"
+          nzPopoverPlacement="bottomRight">
+          <!-- <nz-avatar class="shadow-m" nzIcon="user"></nz-avatar> -->
+          <div>
+            <i nz-icon nzType="caret-down"></i>
+            <ng-template #contentTemplate>
+              <div class="user-dropdown ">
+                <div>
+                  <div class="name">
+                    <span>Sahidul Islam</span>
+                  </div>
+                  <div class="role">
+                    <span>Administrator</span>
+                  </div>
+                </div>
+                <div>
+                  <ul>
+                    <li>
+                      <a>
+                        <i nz-icon nzType="profile" nzTheme="outline"></i>
+                        {{'profile'|translate}}
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <i nz-icon nzType="logout" nzTheme="outline"></i>
+                        {{'sign.out'|translate}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+          </div>
         </div>
       </div>
     </nz-header>
@@ -102,15 +112,15 @@
             <ng-template #menuTemplate let-nav>
               <ng-container *ngFor="let n of nav">
                 <ng-container *ngIf="n.granted">
-                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10"
-                    style="height: auto;">
+                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10" style="height: auto;">
                     <div class="li-inner-div" [ngStyle]="{'paddingLeft': n.level * 10+'px'}">
                       <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
                       <span>{{n.title|translate}}</span>
                     </div>
                   </li>
                   <!-- nzTitle="{{n.title|translate}}" [nzIcon]="n.icon" -->
-                  <li (click)="navClicked(n)" [nzTitle]="titleTpl" *ngIf="n.nav" nz-submenu [nzPaddingLeft]="10" style="height: auto;" [nzMenuClassName]="'x-sub-menu'">
+                  <li (click)="navClicked(n)" [nzTitle]="titleTpl" *ngIf="n.nav" nz-submenu [nzPaddingLeft]="10"
+                    style="height: auto;" [nzMenuClassName]="'x-sub-menu'">
                     <ng-template #titleTpl>
                       <div class="li-inner-div" style="height: auto;">
                         <i *ngIf="n.icon" nz-icon [nzType]="n.icon"></i>

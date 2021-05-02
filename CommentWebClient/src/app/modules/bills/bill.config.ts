@@ -27,6 +27,7 @@ export const BILL_CONFIG = {
         },
         {
             path: `${prefix}/:id/edit`,
+            data: addEditData,
             loadChildren: () => import('../invoices/add/invoices-add.module').then(x => x.InvoicesAddModule)
         },
         // { path: `${prefix}/:id`, loadChildren: () => import('./view/invoices-view.module').then(x => x.InvoicesViewModule) }
