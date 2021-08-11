@@ -138,5 +138,13 @@ namespace Module.Sales.Domain
             return result;
         }
 
+        public decimal GetPaymentAmount(Guid invoiceId)
+        {
+            return _unitOfWork.GetRepository<InvoicePayment>()
+               .Where(x => x.InvoiceId == invoiceId)
+               .Select(x => x.Payment.Amount)
+               .Sum();
+        }
+
     }
 }

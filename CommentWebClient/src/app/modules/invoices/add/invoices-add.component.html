@@ -6,7 +6,8 @@
                     <div class="invoice-head">
                         <div class="left">
                             <app-button-select labelKey="displayName" #contactSelect [label]="contactTitle"
-                                formControlName="contactId" [content]="contactTemplate">
+                                formControlName="contactId" [content]="contactTemplate"
+                                [chooseAnotherTitle]="chooseAnotherTitle">
                                 <ng-template #contactTemplate let-contact>
                                     <div class="mb-14">
                                         <div class="fs-i">{{contactTitle|translate}}</div>
@@ -20,8 +21,8 @@
                         </div>
                         <div class="right">
                             <app-input label="number" placeholder="number" formControlName="number"></app-input>
-                            <app-date-picker [label]="dateLabel" [placeholder]="dateLabel"
-                                formControlName="issueDate"></app-date-picker>
+                            <app-date-picker [label]="dateLabel" [placeholder]="dateLabel" formControlName="issueDate">
+                            </app-date-picker>
                             <app-date-picker label="payment.due" placeholder="payment.due"
                                 formControlName="paymentDueDate">
                             </app-date-picker>
@@ -53,8 +54,8 @@
                                                 placeholder="name" formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
-                                            <app-input [canSuffixShow]="units?.length > 0" [suffix]="unitSuffix" type="number"
-                                                [formItemStyle]="formItemStyle" placeholder="quantity"
+                                            <app-input [canSuffixShow]="units?.length > 0" [suffix]="unitSuffix"
+                                                type="number" [formItemStyle]="formItemStyle" placeholder="quantity"
                                                 formControlName="quantity"
                                                 (onChange)="invoiceItemQuantityChanged(data)"></app-input>
                                             <ng-template #unitSuffix>

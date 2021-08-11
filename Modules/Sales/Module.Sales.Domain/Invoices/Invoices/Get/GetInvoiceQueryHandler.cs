@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using Module.Sales.Entities;
-using System.Linq;
 
 namespace Module.Sales.Domain
 {
@@ -11,20 +9,20 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceService _invoiceService;
 
         public GetInvoiceQueryHandler(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IInvoiceService invoiceService)
         {
             _unitOfWork = unitOfWork;
+            _invoiceService = invoiceService;
         }
 
         public Task<InvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var invoicePaymentAmount = _unitOfWork.GetRepository<InvoicePayment>()
-                .Where(x => x.InvoiceId == request.Id)
-                .Select(x => x.Payment.Amount)
-                .Sum();
-            return _unitOfWork.GetAsync(x => x.Id == request.Id, InvoiceDto.Selector(invoicePaymentAmount), cancellationToken);
+            var paymentAmount = _invoiceService.GetPaymentAmount(request.Id);
+            return _unitOfWork.GetAsync(x => x.Id == request.Id, InvoiceDto.Selector(paymentAmount), cancellationToken);
         }
     }
 }

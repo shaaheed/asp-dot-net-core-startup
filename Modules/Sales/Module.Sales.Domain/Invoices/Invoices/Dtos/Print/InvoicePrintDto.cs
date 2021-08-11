@@ -46,7 +46,8 @@ namespace Module.Sales.Domain
                     Unit = y.LineItem.UnitId != null ? y.LineItem.Unit.Name : null
                 }),
                 PaymentAmount = paymentAmount,
-                Total = x.GrandTotal
+                Total = x.GrandTotal,
+                Organization = x.OrganizationId != null ? new InvoiceOrganizationPrintDto { Id = x.OrganizationId } : null
             };
         }
     }

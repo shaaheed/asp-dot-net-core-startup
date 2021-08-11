@@ -35,6 +35,8 @@ namespace Module.Sales.Domain
             if (invoice == null)
                 throw new NotFoundException("Invoice not found");
 
+            request.Map(invoice);
+
             var productRepo = _unitOfWork.GetRepository<Product>();
             var requestProductIds = request.Items
                 .Where(x => x.ProductId != null)

@@ -56,17 +56,19 @@
     </div>
 
     <div class="form-footer" [style.display]="loading ? 'none' : ''">
-        <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom margin-right px10"
-            nzType="primary">
-            <span *ngIf="submitButtonText">
-                {{submitButtonText|translate}}
-            </span>
-            <span *ngIf="!submitButtonText">
-                {{'save'|translate}}
-            </span>
-        </button>
-        <button (click)="cancel()" nz-button class="btn-custom">
-            {{'cancel'|translate}}
-        </button>
+        <div class="inner">
+            <button [nzLoading]="submitting" (click)="submit()" nz-button class="btn-custom margin-right px10"
+                nzType="primary">
+                <span *ngIf="submitButtonText">
+                    {{submitButtonText|translate}}
+                </span>
+                <span *ngIf="!submitButtonText">
+                    {{'save'|translate}}
+                </span>
+            </button>
+            <button (click)="cancel()" nz-button class="btn-custom">
+                {{'cancel'|translate}}
+            </button>
+        </div>
     </div>
 </ng-container>
