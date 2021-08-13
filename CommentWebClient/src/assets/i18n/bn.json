@@ -184,5 +184,6 @@
   "validation.error.occurred": "আপনার দেওয়া তথ্য পুনরায় যাচাই করুন।",
   "inventory.adjustment": "এডজাস্টমেন্ট",
   "reason": "কারণ",
-  "reference": "রেফারেন্স"
+  "reference": "রেফারেন্স",
+  "give.x0.as.discount": "{{x0}} ছাড় দিন"
 }

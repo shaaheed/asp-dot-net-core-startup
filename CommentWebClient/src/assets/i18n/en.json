@@ -186,5 +186,6 @@
   "validation.error.occurred": "Validation error occurred",
   "inventory.adjustment": "Inventory Adjustment",
   "reason": "Reason",
-  "reference": "Reference"
+  "reference": "Reference",
+  "give.x0.as.discount": "Pay {{x0}} as discount"
 }

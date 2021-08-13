@@ -20,6 +20,7 @@ namespace Module.Sales.Domain
         public decimal Total { get; set; }
         public string Currency { get; set; }
         public string Note { get; set; }
+        public string Status { get; set; }
 
         public static Expression<Func<Invoice, InvoicePrintDto>> Selector(decimal paymentAmount = 0)
         {
@@ -48,7 +49,8 @@ namespace Module.Sales.Domain
                 }),
                 PaymentAmount = paymentAmount,
                 Total = x.GrandTotal,
-                Organization = x.OrganizationId != null ? new InvoiceOrganizationPrintDto { Id = x.OrganizationId } : null
+                Organization = x.OrganizationId != null ? new InvoiceOrganizationPrintDto { Id = x.OrganizationId } : null,
+                Status = x.Status.ToString()
             };
         }
     }

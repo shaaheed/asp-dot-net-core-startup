@@ -157,12 +157,18 @@
                                     <span style="color: red;">(-) {{currency}} {{model.paymentAmount}}</span>
                                 </td>
                             </tr>
-                            <tr class="bg-white no-border" style="font-size: 24px;">
+                            <tr class="bg-white no-border due-row">
                                 <td colspan="4"></td>
-                                <td class="border-bottom">
+                                <td class="border-bottom due-text">
                                     <strong>{{'due'|translate}}</strong>
+                                    <span *ngIf="model.amountDue">
+                                        <a>
+                                            <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>
+                                            {{'give.x0.as.discount'|translate:{x0: currency + model.amountDue} }}
+                                        </a>
+                                    </span>
                                 </td>
-                                <td style="width: 150px;" class="ta-right border-bottom">
+                                <td style="width: 150px;" class="ta-right border-bottom due-amount">
                                     <strong>{{currency}} {{model.amountDue}}</strong>
                                 </td>
                             </tr>

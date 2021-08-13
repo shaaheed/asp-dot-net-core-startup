@@ -1,5 +1,12 @@
-app-table .box {
-    box-shadow: none !important;
+.due-row {
+    font-size: 24px;
+    .due-text {
+        span {
+            font-size: 12px;
+        }
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .border-bottom {

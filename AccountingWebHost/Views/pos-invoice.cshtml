@@ -6,6 +6,30 @@
         padding: 15px;
         font-family: SolaimanLipi !important;
         width: 80mm;
+        position: relative;
+    }
+    .pos-invoice-print-preview .title {
+        padding: 4px 10px;
+        background-color: #f1f1f1;
+        border-radius: 15px;
+        text-transform: uppercase;
+        border: 1px solid #c5c5c5;
+        display: inline-block;
+        line-height: 1;
+        font-size: 14px;
+    }
+    .pos-invoice-print-preview .status {
+        padding: 3px 10px;
+        border-radius: 15px;
+        line-height: 1;
+        position: absolute;
+        font-size: 65px;
+        font-weight: bold;
+        transform: translate(-50%, -50%) rotate( -20deg );
+        left: 50%;
+        color: #0000001a;
+        top: 50%;
+        border: 5px solid #0000001a;
     }
     .pos-invoice-print-preview .center {
         text-align: center;
@@ -18,13 +42,16 @@
     .pos-invoice-print-preview tr.summary {
         vertical-align: top;
     }
-    .pos-invoice-print-preview tr.summary .pad-right {
-        padding-top: 5px;
-        padding-right: 40px;
+    .pos-invoice-print-preview tr.summary td:not(:first-child) {
+        padding: 5px 0 5px 2px;
+        border-bottom: 1px dashed;
+    }
+    .pos-invoice-print-preview tr.summary .text {
+        text-align: left;
     }
     .pos-invoice-print-preview thead tr th:last-child,
     .pos-invoice-print-preview tbody tr td:last-child,
-    .pos-invoice-print-preview tr.summary td {
+    .pos-invoice-print-preview tr.summary td:last-child {
         padding-top: 5px;
         text-align: right;
     }
@@ -52,10 +79,15 @@
             }
         </div>
     }
-    <h4><strong>চালান রসিদ</strong></h4>
+    <h4 class="center">
+        <strong>
+            <span class="title">চালান রসিদ</span>
+        </strong>
+    </h4>
+    <span class="status">@Model.Status</span>
     <div>
         <div>চালান নং: @Model.Number</div>
-        <div style="margin-top: 3px; ">চালান তারিখ: @Model.IssueDate</div>
+        <div style="margin-top: 3px; ">তারিখ: @Model.IssueDate</div>
     </div>
 
     @if (Model.Customer != null)
@@ -99,30 +131,27 @@
                     <td>@item.Total</td>
                 </tr>
             }
-            <tr>
-                <td colspan="5" style="padding: 5px 0;"></td>
-            </tr>
             @if (Model.AdjustmentAmount != 0)
             {
                 <tr class="summary">
                     <td colspan="3"></td>
-                    <td class="pad-right">@Model.AdjustmentText</td>
+                    <td class="text">@Model.AdjustmentText</td>
                     <td>@Model.Currency @Model.AdjustmentAmount</td>
                 </tr>
             }
             <tr class="summary">
                 <td colspan="3"></td>
-                <td class="pad-right">মোট</td>
+                <td class="text">মোট</td>
                 <td>@Model.Currency @Model.Total</td>
             </tr>
             <tr class="summary">
                 <td colspan="3"></td>
-                <td class="pad-right">পেমেন্ট</td>
+                <td class="text">পেমেন্ট</td>
                 <td>(-) @Model.Currency @Model.PaymentAmount</td>
             </tr>
             <tr class="summary">
                 <td colspan="3"></td>
-                <td class="pad-right">বাকি</td>
+                <td class="text">বাকি</td>
                 <td>@Model.Currency @Model.AmountDue</td>
             </tr>
         </tbody>
