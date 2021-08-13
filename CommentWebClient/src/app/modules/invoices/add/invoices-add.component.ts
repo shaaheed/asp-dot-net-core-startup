@@ -45,7 +45,15 @@ export class InvoicesAddComponent extends FormComponent {
   onSetFormValues = data => {
     this.prepareForm(data);
   };
+
   getNextNumber: (data: any) => string;
+
+  onGetData = (data: any) => {
+    if (this.isEditMode() && this.contactSelect && data) {
+      this.contactSelect.item = data.customer;
+      this.contactSelect.select.value = data.customer.id;
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,

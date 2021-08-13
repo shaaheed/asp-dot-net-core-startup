@@ -877,9 +877,26 @@ nz-header .ant-badge-count {
         }
     }
 }
+
 .drawer-body {
     padding: 15px 20px;
     li[nz-menu-item] {
         padding-left: 0;
+    }
+}
+
+app-layout-default {
+    nz-content {
+        margin-top: -1px;
+        .ps-content {
+            height: calc(100% - 15px);
+            .inner-content {
+                height: 100%;
+                .box {
+                    height: 100%;
+                    background: #fff;
+                }
+            }
+        }
     }
 }

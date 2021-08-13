@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://localhost:44347/api',
+  baseUrl: 'https://localhost:44302/api',
   langFilePath: '/assets/i18n/'
 };
 

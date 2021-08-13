@@ -134,7 +134,9 @@
                                     {{model.adjustmentText}}
                                 </td>
                                 <td style="width: 150px;" class="ta-right border-bottom">
-                                    {{currency}} {{model.adjustmentAmount}}
+                                    <span [style.color]="model.adjustmentColor">
+                                        {{model.adjustmentPrefix}} {{currency}} {{model.adjustmentAmount}}
+                                    </span>
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
@@ -155,7 +157,7 @@
                                     <span style="color: red;">(-) {{currency}} {{model.paymentAmount}}</span>
                                 </td>
                             </tr>
-                            <tr class="bg-white no-border">
+                            <tr class="bg-white no-border" style="font-size: 24px;">
                                 <td colspan="4"></td>
                                 <td class="border-bottom">
                                     <strong>{{'due'|translate}}</strong>

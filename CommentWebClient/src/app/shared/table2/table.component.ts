@@ -27,6 +27,7 @@ export class TableComponent extends BaseComponent {
   @Output() dataLoadCompleted = new EventEmitter();
   @Input() onDataLoadCompleted: () => void;
   @Input() headerStyle: any = {};
+  @Input() boxStyle: any = {};
   @ViewChild('basicTable', {static: true}) table: NzTableComponent;
 
   loading: boolean = true;
@@ -53,6 +54,9 @@ export class TableComponent extends BaseComponent {
   private defaultHeaderStyle = {
     borderBottom: '1px solid #e4e4e4',
     padding: '16px'
+  };
+  private defaultBoxStyle = {
+    margin: 0
   };
 
   // dataLoadCompleted = () => {
@@ -91,21 +95,25 @@ export class TableComponent extends BaseComponent {
     if (snapshot?.data?.pageData) {
       this.config = snapshot.data.pageData
     }
+    
     if (this.config) {
-      if (this.config.headerStyle) {
-        this.headerStyle = this.config.headerStyle;
-      }
+      this.headerStyle = this.config.headerStyle ?? this.headerStyle;
+      this.boxStyle = this.config.boxStyle ?? this.boxStyle;
     }
     this.headerStyle = Object.assign(this.defaultHeaderStyle, this.headerStyle);
+    this.boxStyle = Object.assign(this.defaultBoxStyle, this.boxStyle);
+
     if (this.config?.getFetchApiUrl) {
       const url = this.config.getFetchApiUrl();
       if (url) {
         this.config.fetchApiUrl = url;
       }
     }
+
     if (!this.fetch && this.config?.fetchApiUrl) {
       this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
     }
+
     if (!this.config.topRightButtons?.length) {
       this.config.topRightButtons = [
         {
@@ -121,6 +129,7 @@ export class TableComponent extends BaseComponent {
         }
       ];
     }
+    
     this.gets();
   }
 

@@ -47,6 +47,7 @@ namespace Module.Sales.Domain
                     grandTotal += item.Total;
                     subtotal += item.Subtotal;
                 }
+                grandTotal += invoice.AdjustmentAmount;
                 invoice.GrandTotal = grandTotal;
                 invoice.Subtotal = subtotal;
             }

@@ -48,6 +48,9 @@ export class InvoicesViewComponent extends BaseComponent {
     ],
     headerStyle: {
       padding: '10px 0'
+    },
+    boxStyle: {
+      boxShadow: 'none'
     }
   }
 
@@ -81,17 +84,27 @@ export class InvoicesViewComponent extends BaseComponent {
         this.loading = false;
         if (res) {
           this.model = res.data;
+
           if (this.model?.items) {
             this.subtotal = this.model.items.reduce((a, c) => a + c.subtotal, 0);
             this.total = this.model.items.reduce((a, c) => a + c.total, 0);
             this.paymentModalData.invoiceTotal = this.total;
           }
+
           this.paymentModalData = {
             title: this._translate.instant('add.payment.for.invoice.x0', { x0: this.model.number }),
             mode: 'add',
             amount: this.model.amountDue,
             currency: this.currency
           }
+
+          if (this.model.adjustmentAmount) {
+            const isPositive = this.model.adjustmentAmount > 0
+            this.model.adjustmentPrefix = isPositive ? '' : '(-)';
+            this.model.adjustmentColor = isPositive ? 'black' : 'red';
+            this.model.adjustmentAmount = Math.abs(this.model.adjustmentAmount);
+          }
+
           this.setPaymentModalApiUrl();
         }
       },

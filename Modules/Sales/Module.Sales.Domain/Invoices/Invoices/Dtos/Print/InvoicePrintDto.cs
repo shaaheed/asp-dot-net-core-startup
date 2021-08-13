@@ -33,7 +33,8 @@ namespace Module.Sales.Domain
                 {
                     Email = x.Customer.Email,
                     Name = x.Customer.DisplayName,
-                    Mobile = x.Customer.Mobile
+                    Mobile = x.Customer.Mobile,
+                    Address = x.Customer.BillingAddressId != null ? x.Customer.BillingAddress.AddressLine1 : null
                 } : null,
                 IssueDate = x.IssueDate.ToLocalTime().ToString("MMMM dd, yyyy, hh:mm:ss tt"),
                 Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto

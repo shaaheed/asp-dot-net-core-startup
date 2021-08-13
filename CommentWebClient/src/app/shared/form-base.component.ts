@@ -33,6 +33,7 @@ export class FormBaseComponent extends BaseComponent {
     onSuccess: (data: any) => void;
     onSetFormValues: (data?: any, form?: FormGroup, mode?: any) => void;
     onBeforeSubmit: (data?: any) => void;
+    onGetData?: (data?: any) => void;
 
     fb: FormBuilder;
     location: Location;
@@ -210,6 +211,7 @@ export class FormBaseComponent extends BaseComponent {
                 (res: any) => {
                     this.setValues(this.form.controls, res.data);
                     this.invoke(this.onSetFormValues, res.data, this.form, this.mode);
+                    this.invoke(this.onGetData, res.data);
                     this.loading = false;
                 }
             )
