@@ -14,15 +14,18 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
         private readonly IProductService _productService;
+        private readonly IContactService _contactService;
 
         public CreateInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
             IInvoiceService invoiceService,
-            IProductService productService)
+            IProductService productService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
             _productService = productService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
@@ -58,7 +61,8 @@ namespace Module.Sales.Domain
 
             foreach (var savedProduct in savedProducts)
             {
-                if (!savedProduct.IsSale || savedProduct.IsDeleted) throw new ValidationException($"{savedProduct.Name} is not salable.");
+                if (!savedProduct.IsSale || savedProduct.IsDeleted)
+                    throw new ValidationException($"{savedProduct.Name} is not salable.");
 
                 if (savedProduct.IsInventory)
                 {
@@ -71,6 +75,9 @@ namespace Module.Sales.Domain
                 }
             }
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            decimal receivablesAmount = _invoiceService.GetReceivablesAmount(request.ContactId);
+            await _contactService.UpdateDueAmount(request.ContactId, receivablesAmount, cancellationToken);
 
             return result;
         }

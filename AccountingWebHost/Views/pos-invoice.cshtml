@@ -29,7 +29,7 @@
         left: 50%;
         color: #0000001a;
         top: 50%;
-        border: 5px solid #0000001a;
+        border: 5px double #0000001a;
     }
     .pos-invoice-print-preview .center {
         text-align: center;
@@ -58,6 +58,10 @@
 </style>
 
 <div class="pos-invoice-print-preview">
+    @if(!string.IsNullOrEmpty(Model.TopTextLine))
+    {
+        <div class="center" style="font-size: 11px; margin-bottom: 5px;">@Model.TopTextLine</div>
+    }
     @if (Model.Organization != null)
     {
         <div style="text-align: center; margin-bottom: 10px;">
@@ -108,8 +112,8 @@
                 <th class="center">#</th>
                 <th>পণ্য</th>
                 <th class="center">পরিমাণ</th>
-                <th>মূল্য</th>
-                <th>মোট</th>
+                <th>মূল্য (@Model.Currency)</th>
+                <th>মোট (@Model.Currency)</th>
             </tr>
         </thead>
         <tbody>
@@ -119,10 +123,10 @@
                 count++;
                 <tr class="item-row">
                     <td class="center">@count</td>
-                    <td>@item.Name</td>
+                    <td style="max-width: 80px;">@item.Name</td>
                     <td class="center">@item.Quantity</td>
                     <td>
-                        <span>@Model.Currency @item.UnitPrice</span>
+                        <span>@item.UnitPrice</span>
                         @if (!string.IsNullOrWhiteSpace(item.Unit))
                         {
                             <span>/@item.Unit</span>
@@ -136,23 +140,23 @@
                 <tr class="summary">
                     <td colspan="3"></td>
                     <td class="text">@Model.AdjustmentText</td>
-                    <td>@Model.Currency @Model.AdjustmentAmount</td>
+                    <td>@Model.AdjustmentAmountText</td>
                 </tr>
             }
             <tr class="summary">
                 <td colspan="3"></td>
-                <td class="text">মোট</td>
-                <td>@Model.Currency @Model.Total</td>
+                <td style="border: none;" class="text">মোট</td>
+                <td style="border: none;">@Model.Total</td>
             </tr>
             <tr class="summary">
                 <td colspan="3"></td>
                 <td class="text">পেমেন্ট</td>
-                <td>(-) @Model.Currency @Model.PaymentAmount</td>
+                <td>-@Model.PaymentAmount</td>
             </tr>
             <tr class="summary">
                 <td colspan="3"></td>
-                <td class="text">বাকি</td>
-                <td>@Model.Currency @Model.AmountDue</td>
+                <td style="border: none;" class="text">বাকি</td>
+                <td style="border: none;">@Model.AmountDue</td>
             </tr>
         </tbody>
     </table>
@@ -160,5 +164,27 @@
     @if (!string.IsNullOrWhiteSpace(Model.Note))
     {
         <div>@Model.Note</div>
+    }
+
+    @if (!(string.IsNullOrEmpty(Model.ThankyouMessage) && string.IsNullOrEmpty(Model.ThankyouMessage2) && string.IsNullOrEmpty(Model.PrintedOn) && string.IsNullOrEmpty(Model.SoftwareBy)))
+    {
+        <div style="margin-top: 20px;">
+            @if (!string.IsNullOrWhiteSpace(Model.ThankyouMessage))
+            {
+                <div class="center">@Model.ThankyouMessage</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.ThankyouMessage2))
+            {
+                <div class="center">@Model.ThankyouMessage2</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.PrintedOn))
+            {
+                <div style="margin-top: 20px; font-size: 11px;">Printed on: @Model.PrintedOn</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.SoftwareBy))
+            {
+                <div style="font-size: 11px;">Software by: @Model.SoftwareBy</div>
+            }
+        </div>
     }
 </div>

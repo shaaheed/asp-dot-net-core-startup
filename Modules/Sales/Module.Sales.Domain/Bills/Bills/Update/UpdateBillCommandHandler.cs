@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
 using System.Collections.Generic;
+using System;
 
 namespace Module.Sales.Domain.Bills
 {
@@ -15,15 +16,18 @@ namespace Module.Sales.Domain.Bills
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
         private readonly IProductService _productService;
+        private readonly IContactService _contactService;
 
         public UpdateBillCommandHandler(
             IUnitOfWork unitOfWork,
             IBillService billService,
-            IProductService productService)
+            IProductService productService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = billService;
             _productService = productService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(UpdateBillCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,10 @@ namespace Module.Sales.Domain.Bills
 
             if (bill == null)
                 throw new NotFoundException("Bill not found");
+
+            Guid? billSupplierId = bill.SupplierId;
+            Guid? requestSupplierId = request.ContactId;
+            request.Map(bill);
 
             var productRepo = _unitOfWork.GetRepository<Product>();
             var requestProductIds = request.Items
@@ -163,6 +171,16 @@ namespace Module.Sales.Domain.Bills
             }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            decimal payablesAmount = _billService.GetPayablesAmount(requestSupplierId);
+            await _contactService.UpdateDueAmount(requestSupplierId, payablesAmount, cancellationToken);
+
+            if (requestSupplierId != billSupplierId)
+            {
+                payablesAmount = _billService.GetPayablesAmount(billSupplierId);
+                await _contactService.UpdateDueAmount(requestSupplierId, payablesAmount, cancellationToken);
+            }
+
             return result;
         }
     }

@@ -139,12 +139,22 @@ namespace Module.Sales.Domain
             return result;
         }
 
-        public decimal GetPaymentAmount(Guid invoiceId)
+        public decimal GetReceivablesAmount(Guid? customerId)
         {
-            return _unitOfWork.GetRepository<InvoicePayment>()
-               .Where(x => x.InvoiceId == invoiceId)
-               .Select(x => x.Payment.Amount)
-               .Sum();
+            if (customerId == null) return 0;
+            decimal amount = _invoiceRepo
+                .WhereAsReadOnly(x => x.CustomerId == customerId && x.AmountDue > 0 && !x.IsDeleted)
+                .Select(x => x.AmountDue)
+                .Sum();
+            return amount;
+        }
+
+        public Guid? GetCustomerId(Guid invoiceId)
+        {
+            return _invoiceRepo
+                .WhereAsReadOnly(x => x.Id == invoiceId && !x.IsDeleted)
+                .Select(x => x.CustomerId)
+                .FirstOrDefault();
         }
 
     }

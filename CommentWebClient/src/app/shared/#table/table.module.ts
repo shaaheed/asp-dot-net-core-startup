@@ -9,11 +9,11 @@ import { TableComponent } from './table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TableActionsModule } from 'src/app/shared/table-actions.component';
 import { TableRowComponent, TableRowModule } from './table-row.component';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { TableActionsModule } from 'src/app/shared/table-actions/table-actions.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [

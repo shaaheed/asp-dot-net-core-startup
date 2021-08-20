@@ -139,5 +139,22 @@ namespace Module.Sales.Domain
             return result;
         }
 
+        public decimal GetPayablesAmount(Guid? supplierId)
+        {
+            if (supplierId == null) return 0;
+            decimal amount = _billRepo
+                .WhereAsReadOnly(x => x.SupplierId == supplierId && x.AmountDue > 0 && !x.IsDeleted)
+                .Select(x => x.AmountDue)
+                .Sum();
+            return amount;
+        }
+
+        public Guid? GetSupplierId(Guid billId)
+        {
+            return _billRepo
+                .WhereAsReadOnly(x => x.Id == billId && !x.IsDeleted)
+                .Select(x => x.SupplierId)
+                .FirstOrDefault();
+        }
     }
 }

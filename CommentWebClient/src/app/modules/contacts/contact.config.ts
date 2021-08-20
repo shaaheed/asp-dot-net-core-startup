@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { Column } from 'src/services/column.service';
 import { Control } from 'src/services/control.service';
 import { Route } from 'src/services/route.service';
+import { CURRENCY } from '../organizations/organization.service';
 
 export const CONTACT_CONFIG = {
     ROUTES: (prefix: string, objectName: string, type: number) => {
@@ -15,6 +16,7 @@ export const CONTACT_CONFIG = {
                     Column.column('mobile'),
                     Column.column('email'),
                     Column.column('address'),
+                    Column.column('total.due', x => `${CURRENCY}${x.totalDueAmount}`),
                     Column.created()
                 ]
             }),

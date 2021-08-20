@@ -21,7 +21,7 @@ namespace Module.Sales.Domain
 
         public Task<InvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var paymentAmount = _invoiceService.GetPaymentAmount(request.Id);
+            var paymentAmount = _invoiceService.GetInvoicePaymentsAmount(request.Id);
             return _unitOfWork.GetAsync(x => x.Id == request.Id, InvoiceDto.Selector(paymentAmount), cancellationToken);
         }
     }

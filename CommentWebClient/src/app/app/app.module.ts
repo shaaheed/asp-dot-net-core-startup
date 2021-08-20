@@ -3,8 +3,6 @@ import { NgModule, APP_INITIALIZER, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IconsProviderModule } from './icons-provider.module';
-import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,8 +19,6 @@ import {TranslateModule, TranslateLoader, TranslatePipe, TranslateService} from 
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BroadcastService } from 'src/services/broadcast.service';
 import { ErrorInterceptor } from './error.interceptor';
-import * as AllIcons from '@ant-design/icons-angular/icons'
-import { IconDefinition } from '@ant-design/icons-angular';
 import { environment } from 'src/environments/environment';
 import { permissionFactory, PermissionService } from 'src/services/permission.service';
 import { CacheService } from 'src/services/cache.service';
@@ -37,13 +33,10 @@ import { LoginModule } from '../components/login/login.module';
 import { AuthGuard } from '../guards/auth.guard';
 import { OrganizationsResolver } from '../modules/organizations/organizations.resolver';
 import { OrganizationService } from '../modules/organizations/organization.service';
+import { IconModule } from './icon.module';
+import { getLang } from 'src/services/utilities.service';
 
 registerLocaleData(en);
-
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -57,7 +50,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    IconsProviderModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -71,11 +63,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       }
     }),
     TimeAgoPipeModule,
-    MomentPipeModule
+    MomentPipeModule,
+    IconModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
-    { provide: NZ_ICONS, useValue: icons },
     HttpService,
     BaseHttpService,
     SecurityService,
@@ -111,5 +103,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   bootstrap: [AppComponent, []]
 })
 export class AppModule {
-  
+  constructor(private translate: TranslateService) {
+    translate.use(getLang());
+  }
 }

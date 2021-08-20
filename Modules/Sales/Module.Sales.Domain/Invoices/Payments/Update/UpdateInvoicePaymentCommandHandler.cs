@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
+using System;
 
 namespace Module.Sales.Domain.InvoicePayments
 {
@@ -13,13 +14,16 @@ namespace Module.Sales.Domain.InvoicePayments
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
+        private readonly IContactService _contactService;
 
         public UpdateInvoicePaymentCommandHandler(
             IUnitOfWork unitOfWork,
-            IInvoiceService invoiceService)
+            IInvoiceService invoiceService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(UpdateInvoicePaymentCommand request, CancellationToken cancellationToken)
@@ -38,6 +42,10 @@ namespace Module.Sales.Domain.InvoicePayments
 
             _invoiceService.AddPayment(request.InvoiceId);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            Guid? customerId = _invoiceService.GetCustomerId(request.InvoiceId);
+            decimal receivablesAmount = _invoiceService.GetReceivablesAmount(customerId);
+            await _contactService.UpdateDueAmount(customerId, receivablesAmount, cancellationToken);
 
             return result;
         }

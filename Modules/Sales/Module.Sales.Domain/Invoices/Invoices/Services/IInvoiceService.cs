@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public interface IInvoiceService : ITransientService
+    public interface IInvoiceService : IScopedService
     {
         decimal GetInvoicePaymentsAmount(Guid invoiceId);
 
@@ -20,6 +20,8 @@ namespace Module.Sales.Domain
 
         Task<int> CreateOrUpdateInvoiceLineItem(InvoiceLineItemRequestDto request, Guid invoiceId, Guid? lineItemId, CancellationToken cancellationToken = default);
 
-        decimal GetPaymentAmount(Guid invoiceId);
+        decimal GetReceivablesAmount(Guid? customerId);
+
+        Guid? GetCustomerId(Guid invoiceId);
     }
 }

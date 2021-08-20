@@ -48,6 +48,12 @@ namespace Msi.Data.EntityFrameworkCore
             _repositories = new Dictionary<Type, object>();
             _dbConnection = _dbContext.Database.GetDbConnection();
             _serviceFactory = serviceFactory;
+
+            string httpMethod = _appService.GetHttpMethod();
+            if (!string.IsNullOrEmpty(httpMethod) && httpMethod != "GET")
+            {
+                _transaction = _dbContext.Database.BeginTransaction();
+            } 
         }
 
         public void OnBeforeSaveChangesAsync(Action<object> action)
@@ -211,7 +217,7 @@ namespace Msi.Data.EntityFrameworkCore
         {
             _dbContext?.Dispose();
             _transaction?.Dispose();
-            //_dbConnection?.Dispose();
+            _dbConnection?.Dispose();
         }
     }
 }

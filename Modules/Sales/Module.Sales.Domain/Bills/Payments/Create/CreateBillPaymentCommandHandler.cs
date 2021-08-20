@@ -12,13 +12,16 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
+        private readonly IContactService _contactService;
 
         public CreateBillPaymentCommandHandler(
             IUnitOfWork unitOfWork,
-            IBillService billService)
+            IBillService billService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = billService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(CreateBillPaymentCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,9 @@ namespace Module.Sales.Domain
             _billService.AddPayment(bill);
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            decimal payablesAmount = _billService.GetPayablesAmount(bill.SupplierId);
+            await _contactService.UpdateDueAmount(bill.SupplierId, payablesAmount, cancellationToken);
 
             return result;
         }

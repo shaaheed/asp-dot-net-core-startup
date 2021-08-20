@@ -58,7 +58,6 @@ body {
   animation: load7 1.8s infinite ease-in-out;
 }
 .loader {
-//   color: #ffffff;
   @include edit-color;
   font-size: 10px;
   margin: 80px auto;
@@ -187,20 +186,12 @@ app-layout-default .menu-sidebar {
 }
 
 nz-sider {
-    // z-index: -1;
-    &.menu-sidebar {
-        // margin-top: 1px;
-        // background-color: #f7fafc;
-    }
     .ant-menu {
         font-size: 15px;
         color: #1a1f36;
     }
     .ant-menu-inline {
         border: unset;
-    }
-    .ant-layout-sider-children {
-        // box-shadow: 1px 1px #e3e8ee;
     }
     .ant-menu-inline,
     .ant-menu-vertical,
@@ -209,7 +200,6 @@ nz-sider {
     }
     .ant-layout-sider-trigger {
         color: #1a1f36;
-        // box-shadow: 0 -1px #e3e8ee;
         height: 35px;
         line-height: 35px;
         background-color: #f0f2f5;
@@ -310,7 +300,6 @@ nz-sider {
 .ant-modal-confirm-btns button {
     font-weight: 500;
     border: none;
-    // height: 28px;
     padding: 0 8px;
     font-size: 16px;
     &.ant-btn-default, &.ant-btn {
@@ -319,7 +308,7 @@ nz-sider {
     &.ant-btn-default:hover, &.ant-btn:hover {
         @include btn-shadow-hover;
     }
-    &.ant-btn-default/*, &.ant-btn*/ {
+    &.ant-btn-default {
         color: rgb(60, 66, 87);
     }
 
@@ -838,12 +827,6 @@ nz-header .ant-badge-count {
             color: #983705;
         }
     }
-    // &.unpaid {
-    //     .ant-tag {
-    //         background-color: #e3e8ee;
-    //         color: #4f566b;
-    //     }
-    // }
 }
 
 .fit-cell {
@@ -896,6 +879,19 @@ app-layout-default {
                     height: 100%;
                     background: #fff;
                 }
+            }
+        }
+    }
+}
+
+app-table-actions {
+    .action-buttons {
+        .outer-action-buttons {
+            span:not(:first-child) {
+                padding-left: 6px;
+            }
+            span:hover {
+                color: #5469d4;
             }
         }
     }

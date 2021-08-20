@@ -14,13 +14,19 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
+        private readonly IBillService _billService;
+        private readonly IContactService _contactService;
 
         public DeleteBillCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService)
+            IProductService productService,
+            IBillService billService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
+            _billService = billService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(DeleteBillCommand request, CancellationToken cancellationToken)
@@ -63,6 +69,10 @@ namespace Module.Sales.Domain
                     result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(bill.Number, InventoryAdjustmentType.Billed, savedBillLineItem.ProductId.Value, savedBillLineItem.LineItemQuantity, cancellationToken);
                 }
             }
+
+            decimal payablesAmount = _billService.GetPayablesAmount(bill.SupplierId);
+            await _contactService.UpdateDueAmount(bill.SupplierId, payablesAmount, cancellationToken);
+
             return result;
         }
     }

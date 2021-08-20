@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
+using System;
 
 namespace Module.Sales.Domain
 {
@@ -13,13 +14,16 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
+        private readonly IContactService _contactService;
 
         public UpdateBillPaymentCommandHandler(
             IUnitOfWork unitOfWork,
-            IBillService invoiceService)
+            IBillService invoiceService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = invoiceService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(UpdateBillPaymentCommand request, CancellationToken cancellationToken)
@@ -38,6 +42,10 @@ namespace Module.Sales.Domain
 
             _billService.AddPayment(request.BillId);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            Guid? supplierId = _billService.GetSupplierId(request.BillId);
+            decimal payablesAmount = _billService.GetPayablesAmount(supplierId);
+            await _contactService.UpdateDueAmount(supplierId, payablesAmount, cancellationToken);
 
             return result;
         }

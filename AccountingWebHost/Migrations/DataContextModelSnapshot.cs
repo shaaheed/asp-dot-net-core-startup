@@ -896,14 +896,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("TotalBalance")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalBalance")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalCredit")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalCredit")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalDueAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalDueAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

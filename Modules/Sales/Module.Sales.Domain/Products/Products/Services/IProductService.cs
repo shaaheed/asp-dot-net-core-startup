@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public interface IProductService : ITransientService
+    public interface IProductService : IScopedService
     {
         Task CheckDuplicate(IEnumerable<Guid> ids, CancellationToken cancellationToken);
 

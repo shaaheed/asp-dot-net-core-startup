@@ -21,8 +21,8 @@ import { DatePickerModule } from 'src/app/shared/date/date.module';
 import { ButtonSelectModule } from '../../../shared/button-select/button-select.module';
 import { InputModule } from 'src/app/shared/input/input.module';
 import { TextModule } from 'src/app/shared/text/text.module';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AutocompleteModule } from 'src/app/shared/autocomplete/autocomplete.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [

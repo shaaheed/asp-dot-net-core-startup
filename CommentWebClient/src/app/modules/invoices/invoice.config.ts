@@ -17,12 +17,12 @@ export const makeListRoute = (prefix: string, contactTitle: string): Route => {
             Column.column('due', x => {
                 return `${CURRENCY} ${x.amountDue}`
             }),
-            Column.column('payments', x => {
-                if (!isNaN(x.total) && !isNaN(x.amountDue)) {
-                    return `${CURRENCY} ${x.total - x.amountDue}`;
-                }
-                return '-';
-            }),
+            // Column.column('payments', x => {
+            //     if (!isNaN(x.total) && !isNaN(x.amountDue)) {
+            //         return `${CURRENCY} ${x.total - x.amountDue}`;
+            //     }
+            //     return '-';
+            // }),
             Column.column('total', x => {
                 return `${CURRENCY} ${x.total}`
             }),

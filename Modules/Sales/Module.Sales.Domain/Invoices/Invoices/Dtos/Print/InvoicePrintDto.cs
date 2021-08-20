@@ -8,6 +8,7 @@ namespace Module.Sales.Domain
 {
     public class InvoicePrintDto
     {
+        public string TopTextLine { get; set; }
         public InvoiceOrganizationPrintDto Organization { get; set; }
         public InvoiceCustomerPrintDto Customer { get; set; }
         public string Number { get; set; }
@@ -16,11 +17,16 @@ namespace Module.Sales.Domain
         public decimal PaymentAmount { get; set; }
         public string AdjustmentText { get; set; }
         public decimal AdjustmentAmount { get; set; }
+        public string AdjustmentAmountText { get; set; }
         public decimal AmountDue { get; set; }
         public decimal Total { get; set; }
         public string Currency { get; set; }
         public string Note { get; set; }
         public string Status { get; set; }
+        public string ThankyouMessage { get; set; }
+        public string ThankyouMessage2 { get; set; }
+        public string PrintedOn { get; set; }
+        public string SoftwareBy { get; set; }
 
         public static Expression<Func<Invoice, InvoicePrintDto>> Selector(decimal paymentAmount = 0)
         {
@@ -37,7 +43,7 @@ namespace Module.Sales.Domain
                     Mobile = x.Customer.Mobile,
                     Address = x.Customer.BillingAddressId != null ? x.Customer.BillingAddress.AddressLine1 : null
                 } : null,
-                IssueDate = x.IssueDate.ToLocalTime().ToString("MMMM dd, yyyy, hh:mm:ss tt"),
+                IssueDate = x.IssueDate.ToLocalTime().ToString("dddd, MMMM dd, yyyy, hh:mm:ss tt"),
                 Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto
                 {
                     Name = y.LineItem.Name,

@@ -45,6 +45,8 @@ namespace AccountingWebHost
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("http://localhost:4200")
+                    .WithOrigins("http://othoba.xyz:4200")
+                    .WithOrigins("http://othoba.xyz")
                     .WithOrigins("https://shaaheed.github.io")
                     .AllowCredentials();
                 });

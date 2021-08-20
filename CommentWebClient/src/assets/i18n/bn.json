@@ -175,7 +175,7 @@
   "number": "নাম্বার",
   "number:": "নাম্বারঃ",
   "adjustment": "সমন্বয়সাধন",
-  "add.payment.for.invoice.x0": "চালান নং #{{x0}} এর জন্য পেমেন্ট করুন",
+  "add.payment.for.x0.x1": "{{x0}} নং #{{x1}} এর জন্য পেমেন্ট করুন",
   "conversion.factor": "কনভার্শন ফ্যাক্টর",
   "back": "ফিরে যান",
   "owner": "মালিক",
@@ -185,5 +185,6 @@
   "inventory.adjustment": "এডজাস্টমেন্ট",
   "reason": "কারণ",
   "reference": "রেফারেন্স",
-  "give.x0.as.discount": "{{x0}} ছাড় দিন"
+  "give.x0.as.discount": "{{x0}} ছাড় দিন",
+  "total.due": "সর্বমোট বাকি"
 }

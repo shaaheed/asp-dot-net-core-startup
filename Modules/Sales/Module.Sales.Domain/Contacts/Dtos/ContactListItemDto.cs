@@ -14,6 +14,7 @@ namespace Module.Sales.Domain.Contacts
         public string Mobile { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        public decimal TotalDueAmount { get; set; }
 
         public DateTimeOffset? CreatedAt { get; set; }
 
@@ -29,7 +30,8 @@ namespace Module.Sales.Domain.Contacts
                 Phone = x.Phone,
                 Type = x.Type.ToString(),
                 Address = x.BillingAddressId != null ? x.BillingAddress.AddressLine1 : null,
-                CreatedAt = x.CreatedAt
+                CreatedAt = x.CreatedAt,
+                TotalDueAmount = x.TotalDueAmount
             };
         }
     }

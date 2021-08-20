@@ -14,8 +14,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TextModule } from 'src/app/shared/text/text.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AppFormModule } from 'src/app/shared/form/form.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [

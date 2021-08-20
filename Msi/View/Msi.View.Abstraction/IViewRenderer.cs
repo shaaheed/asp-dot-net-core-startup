@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Msi.View.Abstraction
 {
-    public interface IViewRenderer : ITransientService
+    public interface IViewRenderer : IScopedService
     {
         Task<string> RenderAsync<TModel>(string viewName, TModel model);
     }

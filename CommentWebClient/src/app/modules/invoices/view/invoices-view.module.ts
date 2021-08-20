@@ -13,10 +13,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BoxLoaderModule } from 'src/app/shared/box-loader.component';
 import { PaymentsAddModalModule } from '../payments-add-modal/payments-add-modal.module';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { ListModule } from 'src/app/shared/list/list.module';
 import { TableModule } from 'src/app/shared/table2/table.module';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [

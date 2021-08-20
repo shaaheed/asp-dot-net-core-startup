@@ -10,7 +10,7 @@ using Msi.Data.EntityFrameworkCore.SqlServer;
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210414093441_M1")]
+    [Migration("20210816154418_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,56 @@ namespace AccountingWebHost.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("Branch");
+                });
 
             modelBuilder.Entity("Module.Organizations.Entities.Organization", b =>
                 {
@@ -510,6 +560,12 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("AdjustmentAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("AdjustmentText")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("AmountDue")
                         .HasColumnType("decimal(18,2)");
 
@@ -538,6 +594,9 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("OrganizationId")
@@ -617,6 +676,8 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BillId");
+
+                    b.HasIndex("PaymentId");
 
                     b.ToTable("BillPayment");
                 });
@@ -837,6 +898,15 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("TotalBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalCredit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalDueAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -954,8 +1024,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Reason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -4546,6 +4622,27 @@ namespace AccountingWebHost.Migrations
                     b.HasDiscriminator().HasValue("ProductSalesTax");
                 });
 
+            modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
+                {
+                    b.HasOne("Module.Systems.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.HasOne("Module.Systems.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Currency");
+                });
+
             modelBuilder.Entity("Module.Organizations.Entities.Organization", b =>
                 {
                     b.HasOne("Module.Systems.Entities.Address", "Address")
@@ -4648,7 +4745,15 @@ namespace AccountingWebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Module.Payments.Entities.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Bill");
+
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.ChartOfAccount", b =>

@@ -6,7 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { HttpService } from 'src/services/http/http.service';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { invoke, getLang, forEachObj } from 'src/services/utilities.service';
+import { invoke, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 import { PermissionService } from 'src/services/permission.service';
 import { Directive } from '@angular/core';
@@ -176,7 +176,6 @@ export class BaseComponent {
     }
 
     translate(key: string, onTranslate: (msg: string) => void) {
-        this._translate.use(getLang());
         const s = this._translate.get(key).subscribe(x => this.invoke(onTranslate, x));
         this._subscriptions.push(s);
     }
@@ -186,7 +185,6 @@ export class BaseComponent {
     }
 
     t(key: string, interpolateParams?: Object) {
-        this._translate.use(getLang());
         return this._translate.get(key, interpolateParams).toPromise()
     }
 

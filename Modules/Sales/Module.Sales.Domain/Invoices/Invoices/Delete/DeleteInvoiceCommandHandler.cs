@@ -14,13 +14,19 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
+        private readonly IInvoiceService _invoiceService;
+        private readonly IContactService _contactService;
 
         public DeleteInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService)
+            IProductService productService,
+            IInvoiceService invoiceService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
+            _invoiceService = invoiceService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(DeleteInvoiceCommand request, CancellationToken cancellationToken)
@@ -63,6 +69,10 @@ namespace Module.Sales.Domain
                     result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedInvoiceLineItem.ProductId.Value, savedInvoiceLineItem.LineItemQuantity, cancellationToken);
                 }
             }
+
+            decimal receivablesAmount = _invoiceService.GetReceivablesAmount(invoice.CustomerId);
+            await _contactService.UpdateDueAmount(invoice.CustomerId, receivablesAmount, cancellationToken);
+
             return result;
         }
     }

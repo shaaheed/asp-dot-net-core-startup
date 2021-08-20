@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
 using System.Collections.Generic;
+using System;
 
 namespace Module.Sales.Domain
 {
@@ -15,15 +16,18 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
         private readonly IProductService _productService;
+        private readonly IContactService _contactService;
 
         public UpdateInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
             IInvoiceService invoiceService,
-            IProductService productService)
+            IProductService productService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
             _productService = productService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
@@ -35,6 +39,8 @@ namespace Module.Sales.Domain
             if (invoice == null)
                 throw new NotFoundException("Invoice not found");
 
+            Guid? invoiceCustomerId = invoice.CustomerId;
+            Guid? requestCustomerId = request.ContactId;
             request.Map(invoice);
 
             var productRepo = _unitOfWork.GetRepository<Product>();
@@ -165,6 +171,15 @@ namespace Module.Sales.Domain
             }
 
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            decimal receivablesAmount = _invoiceService.GetReceivablesAmount(requestCustomerId);
+            await _contactService.UpdateDueAmount(requestCustomerId, receivablesAmount, cancellationToken);
+            if (requestCustomerId != invoiceCustomerId)
+            {
+                receivablesAmount = _invoiceService.GetReceivablesAmount(invoice.CustomerId);
+                await _contactService.UpdateDueAmount(invoiceCustomerId, receivablesAmount, cancellationToken);
+            }
+
             return result;
         }
     }

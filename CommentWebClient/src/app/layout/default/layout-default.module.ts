@@ -10,7 +10,6 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
@@ -20,6 +19,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true

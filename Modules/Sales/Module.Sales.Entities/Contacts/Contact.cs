@@ -26,9 +26,9 @@ namespace Module.Sales.Entities
         public Guid? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
 
-        public double TotalBalance { get; set; }
-        public double TotalDueAmount { get; set; }
-        public double TotalCredit { get; set; }
+        public decimal TotalBalance { get; set; }
+        public decimal TotalDueAmount { get; set; }
+        public decimal TotalCredit { get; set; }
 
         // Portal language
         public Guid? LanguageId { get; set; }

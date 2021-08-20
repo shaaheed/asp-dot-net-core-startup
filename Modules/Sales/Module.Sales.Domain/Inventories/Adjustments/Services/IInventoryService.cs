@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public interface IInventoryService : ITransientService
+    public interface IInventoryService : IScopedService
     {
         Task<int> CreateOrUpdateInventoryAdjustment(
             string reference,

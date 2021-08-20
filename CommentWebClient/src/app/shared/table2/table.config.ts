@@ -10,10 +10,8 @@ export interface TableConfig {
     fetch?: (pagination: string, search?: string) => Observable<Object>;
     fetchApiUrl?: string;
     getFetchApiUrl?: (data?: any) => string;
-    /**
-    * Provide delete API.
-    */
     getDeleteApiUrl?: (data: any) => string;
+    onRowDeleted?: (data: any) => void;
     topRightButtons?: ButtonConfig[];
     headerStyle?: any;
     boxStyle?: any;

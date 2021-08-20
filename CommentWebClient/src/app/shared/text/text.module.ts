@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextComponent } from './text.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { getLang } from 'src/services/utilities.service';
 import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
@@ -20,8 +19,4 @@ import { NzFormModule } from 'ng-zorro-antd/form';
   ],
   exports: [TextComponent]
 })
-export class TextModule {
-  constructor(private translate: TranslateService) {
-    translate.use(getLang());
-  }
-}
+export class TextModule {}

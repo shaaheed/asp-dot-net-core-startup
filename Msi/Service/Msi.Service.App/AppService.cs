@@ -29,5 +29,10 @@ namespace Msi.Service.App
             if (_httpRequest == null) return null;
             return $"{_httpRequest.Scheme}://{_httpRequest.Host}";
         }
+
+        public string GetHttpMethod()
+        {
+            return _httpRequest?.Method ?? null;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.View.Abstraction;
 using Module.Organizations.Entities;
+using System;
 
 namespace Module.Sales.Domain
 {
@@ -26,7 +27,7 @@ namespace Module.Sales.Domain
 
         public async Task<string> Handle(PrintInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var paymentAmount = _invoiceService.GetPaymentAmount(request.Id);
+            var paymentAmount = _invoiceService.GetInvoicePaymentsAmount(request.Id);
             var invoice = await _unitOfWork.GetAsync(x => x.Id == request.Id, InvoicePrintDto.Selector(paymentAmount), cancellationToken);
 
             var organization = new InvoiceOrganizationPrintDto
@@ -36,20 +37,31 @@ namespace Module.Sales.Domain
                 Mobile = "০১৮১৫০০১২৪৫",
                 Email = "alamgribrother@gmail.com"
             };
-            if (invoice.Organization != null)
-            {
-                organization = await _unitOfWork.GetAsync<Organization, InvoiceOrganizationPrintDto>(x => x.Id == invoice.Organization.Id, x => new InvoiceOrganizationPrintDto
-                {
-                    Id = x.Id,
-                    Address = x.AddressId != null ? x.Address.AddressLine1 : "",
-                    Mobile = x.Address.Phone,
-                    Email = x.Email,
-                    Name = x.Name
-                }, cancellationToken);
 
-            }
             if (invoice != null)
             {
+                invoice.TopTextLine = "বিসমিল্লাহির রাহমানির রাহিম।";
+                if (invoice.Organization != null)
+                {
+                    organization = await _unitOfWork.GetAsync<Organization, InvoiceOrganizationPrintDto>(x => x.Id == invoice.Organization.Id, x => new InvoiceOrganizationPrintDto
+                    {
+                        Id = x.Id,
+                        Address = x.AddressId != null ? x.Address.AddressLine1 : "",
+                        Mobile = x.Address.Phone,
+                        Email = x.Email,
+                        Name = x.Name
+                    }, cancellationToken);
+
+                }
+
+                bool isPositiveAdjustment = invoice.AdjustmentAmount >= 0;
+                invoice.AdjustmentAmountText = isPositiveAdjustment ? $"+{invoice.AdjustmentAmount}" : invoice.AdjustmentAmount.ToString();
+
+                invoice.ThankyouMessage = "আমাদের সাথে কেনাকাটা করার জন্য আপনাকে ধন্যবাদ।";
+                invoice.ThankyouMessage2 = "আবার আসবেন ইনশাআল্লাহ।";
+                invoice.PrintedOn = DateTime.Now.ToString("dddd, MMMM dd, yyyy, hh:mm:ss tt");
+                invoice.SoftwareBy = "https://shaaheed.github.io/me";
+
                 invoice.Currency = "৳";
                 invoice.Organization = organization;
                 var html = await _viewRenderer.RenderAsync("/Views/pos-invoice.cshtml", invoice);

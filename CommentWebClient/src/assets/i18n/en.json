@@ -177,7 +177,7 @@
   "number": "Number",
   "number:": "Number :",
   "adjustment": "Adjustment",
-  "add.payment.for.invoice.x0": "Add payment for invoice #{{x0}}",
+  "add.payment.for.x0.x1": "Add payment for {{x0}} #{{x1}}",
   "conversion.factor": "Conversion factor",
   "back": "Back",
   "owner": "Owner",
@@ -187,5 +187,6 @@
   "inventory.adjustment": "Inventory Adjustment",
   "reason": "Reason",
   "reference": "Reference",
-  "give.x0.as.discount": "Pay {{x0}} as discount"
+  "give.x0.as.discount": "Pay {{x0}} as discount",
+  "total.due": "Total due"
 }

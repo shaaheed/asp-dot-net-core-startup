@@ -816,8 +816,10 @@ namespace AccountingWebHost.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AdjustmentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -885,6 +887,46 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Branch",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branch", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Branch_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Branch_Country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Country",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Branch_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contact",
                 columns: table => new
                 {
@@ -900,6 +942,9 @@ namespace AccountingWebHost.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TotalBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalDueAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalCredit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BillingAddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingAddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -1085,6 +1130,9 @@ namespace AccountingWebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdjustmentText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdjustmentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1354,6 +1402,12 @@ namespace AccountingWebHost.Migrations
                         name: "FK_BillPayment_Bill_BillId",
                         column: x => x.BillId,
                         principalTable: "Bill",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BillPayment_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -2003,6 +2057,26 @@ namespace AccountingWebHost.Migrations
                 column: "BillId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BillPayment_PaymentId",
+                table: "BillPayment",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Branch_AddressId",
+                table: "Branch",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Branch_CountryId",
+                table: "Branch",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Branch_CurrencyId",
+                table: "Branch",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChartOfAccount_TypeId",
                 table: "ChartOfAccount",
                 column: "TypeId");
@@ -2380,6 +2454,9 @@ namespace AccountingWebHost.Migrations
 
             migrationBuilder.DropTable(
                 name: "BillPayment");
+
+            migrationBuilder.DropTable(
+                name: "Branch");
 
             migrationBuilder.DropTable(
                 name: "ContactPerson");

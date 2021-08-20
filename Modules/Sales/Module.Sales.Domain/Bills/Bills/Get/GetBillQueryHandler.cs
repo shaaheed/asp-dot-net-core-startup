@@ -11,20 +11,20 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBillService _billService;
 
         public GetBillQueryHandler(
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IBillService billService)
         {
             _unitOfWork = unitOfWork;
+            _billService = billService;
         }
 
         public Task<BillDto> Handle(GetBillQuery request, CancellationToken cancellationToken)
         {
-            var invoicePaymentAmount = _unitOfWork.GetRepository<BillPayment>()
-                .Where(x => x.BillId == request.Id)
-                .Select(x => x.Payment.Amount)
-                .Sum();
-            return _unitOfWork.GetAsync(x => x.Id == request.Id, BillDto.Selector(invoicePaymentAmount), cancellationToken);
+            var paymentAmount = _billService.GetBillPaymentsAmount(request.Id);
+            return _unitOfWork.GetAsync(x => x.Id == request.Id, BillDto.Selector(paymentAmount), cancellationToken);
         }
     }
 }

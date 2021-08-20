@@ -14,15 +14,18 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
         private readonly IBillService _billService;
+        private readonly IContactService _contactService;
 
         public CreateBillCommandHandler(
             IUnitOfWork unitOfWork,
             IProductService productService,
-            IBillService billService)
+            IBillService billService,
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;
             _billService = billService;
+            _contactService = contactService;
         }
 
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
@@ -70,7 +73,8 @@ namespace Module.Sales.Domain
                 }
             }
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-
+            decimal payablesAmount = _billService.GetPayablesAmount(request.ContactId);
+            await _contactService.UpdateDueAmount(request.ContactId, payablesAmount, cancellationToken);
             return result;
         }
     }

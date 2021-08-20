@@ -21,6 +21,8 @@ export class PaymentsAddModalComponent extends FormComponent {
     return this._httpService.get('payments/methods');
   }
 
+  onCancel: () => void;
+
   private _data: any = {};
 
   @Input() set data(data: any) {
@@ -81,6 +83,11 @@ export class PaymentsAddModalComponent extends FormComponent {
   handleCancel() {
     this.show = false;
     this.showChange.emit(false);
+  }
+
+  cancel() {
+    this.invoke(this.onCancel);
+    this.handleCancel();
   }
 
   private prepareForm(data) {

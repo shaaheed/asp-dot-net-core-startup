@@ -16,6 +16,7 @@ namespace Module.Sales.Domain.Contacts
         public string CompanyName { get; set; }
 
         public PersonDto PrimaryPerson { get; set; }
+        public decimal TotalDueAmount { get; set; }
 
         public string Phone { get; set; }
         public string Mobile { get; set; }
@@ -44,6 +45,7 @@ namespace Module.Sales.Domain.Contacts
                 Mobile = x.Mobile,
                 Phone = x.Phone,
                 Website = x.Website,
+                TotalDueAmount = x.TotalDueAmount,
                 Currency = x.CurrencyId != null ? new GuidCodeNameDto
                 {
                     Id = x.Currency.Id,

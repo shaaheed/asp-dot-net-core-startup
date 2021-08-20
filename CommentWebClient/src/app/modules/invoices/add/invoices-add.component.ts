@@ -101,16 +101,17 @@ export class InvoicesAddComponent extends FormComponent {
             this.units = res[1].data.items;
             this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
           }
-
-          let nextNumber = null;
-          if (!this.getNextNumber && this.isAddMode() && res[2].data.nextInvoiceNumber) {
-            nextNumber = res[2].data.nextInvoiceNumber;
-          }
-          else if (this.getNextNumber) {
-            nextNumber = this.getNextNumber(res[2].data);
-          }
-          if (nextNumber) {
-            this.setValue('number', nextNumber);
+          if (this.isAddMode()) {
+            let nextNumber = null;
+            if (!this.getNextNumber && res[2].data.nextInvoiceNumber) {
+              nextNumber = res[2].data.nextInvoiceNumber;
+            }
+            else if (this.getNextNumber) {
+              nextNumber = this.getNextNumber(res[2].data);
+            }
+            if (nextNumber) {
+              this.setValue('number', nextNumber);
+            }
           }
         }
       },

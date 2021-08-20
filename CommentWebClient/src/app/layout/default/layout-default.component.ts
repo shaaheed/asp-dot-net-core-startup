@@ -6,6 +6,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { OrganizationService } from 'src/app/modules/organizations/organization.service';
 import { SettingsComponent } from 'src/app/modules/settings/settings/settings.component';
 import { BaseComponent } from 'src/app/shared/base.component';
+import { getLang } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-layout-default',
@@ -39,8 +40,8 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
       this.organizations = data.organizations.data.items;
     }
     this.currentOrganization = this.organizationService.getCurrentOrganization();
-    this.version = `Angular v${VERSION.full}`
-    this.selectedLanguage = localStorage.getItem('lang') || 'bn'
+    this.version = `Angular v${VERSION.full}`;
+    this.selectedLanguage = getLang();
     const nav = [
       {
         level: 1,
@@ -177,7 +178,7 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
 
   languageChanged(language) {
     this.translation.use(language);
-    localStorage.setItem('lang', language);
+    localStorage.setItem('app_lang', language);
     this.log('language', language);
   }
 

@@ -28,7 +28,7 @@ export class TableComponent extends BaseComponent {
   @Input() onDataLoadCompleted: () => void;
   @Input() headerStyle: any = {};
   @Input() boxStyle: any = {};
-  @ViewChild('basicTable', {static: true}) table: NzTableComponent;
+  @ViewChild('basicTable', { static: true }) table: NzTableComponent;
 
   loading: boolean = true;
   total: number = 0;
@@ -95,7 +95,7 @@ export class TableComponent extends BaseComponent {
     if (snapshot?.data?.pageData) {
       this.config = snapshot.data.pageData
     }
-    
+
     if (this.config) {
       this.headerStyle = this.config.headerStyle ?? this.headerStyle;
       this.boxStyle = this.config.boxStyle ?? this.boxStyle;
@@ -129,7 +129,7 @@ export class TableComponent extends BaseComponent {
         }
       ];
     }
-    
+
     this.gets();
   }
 
@@ -181,6 +181,7 @@ export class TableComponent extends BaseComponent {
             const text = this.instant(message.successfully_deleted);
             this.success(text);
             this.invoke(this.onDeleted, res);
+            this.invoke(this.config?.onRowDeleted, res);
             //refresh data
             this.load(this._fn);
           },
