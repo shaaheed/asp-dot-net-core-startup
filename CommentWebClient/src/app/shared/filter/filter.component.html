@@ -1,0 +1,47 @@
+<!-- [(nzVisible)]="visible" -->
+<button #popover class="btn-custom" nz-button nz-popover nzPopoverTrigger="click"
+    [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight">
+    <i nz-icon nzType="filter"></i>
+    <span>{{'filter'|translate}}</span>
+    <span *ngIf="filterCount">
+        <span style="padding: 0 5px;">|</span>
+        <span>{{filterCount}}</span>
+    </span>
+</button>
+<ng-template #contentTemplate>
+    <div class="filter-container">
+        <div class="header pad8 bg">
+            <button (click)="clear()" nz-button class="btn-custom">{{'filter.clear'|translate}}</button>
+            <button (click)="apply()" nz-button class="btn-custom"
+                nzType="primary">{{'filter.apply'|translate}}</button>
+        </div>
+        <ng-container *ngIf="config && config.filters">
+            <div class="filter" *ngFor="let f of config?.filters">
+                <label class="label pad8" nz-checkbox [(ngModel)]="f.active"
+                    (ngModelChange)="activeChanged($event)">{{f.label|translate}}</label>
+
+                <!-- [@animation] -->
+                <div class="pad8 bg value-container" *ngIf="f.active">
+                    <div class="row operators padb8" *ngIf="f.operators">
+                        <nz-select (ngModelChange)="operatorChanged($event, f)" [(ngModel)]="f.operator">
+                            <nz-option *ngFor="let o of f.operators" [nzLabel]="o.label" [nzValue]="o.value">
+                            </nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="row value padb8">
+                        <i nz-icon nzType="enter"></i>
+                        <!-- TEXT -->
+                        <input *ngIf="f.type == 'text'" [(ngModel)]="f.value" nz-input>
+                        <!-- NUMBER -->
+                        <input type="number" *ngIf="f.type == 'number'" [(ngModel)]="f.value" nz-input>
+                        <!-- DATE -->
+                        <nz-date-picker *ngIf="f.type == 'date' && f.operator != 'between'" [(ngModel)]="f.value">
+                        </nz-date-picker>
+                        <!-- DATE RANGE -->
+                        <nz-range-picker *ngIf="f.type == 'date' && f.operator == 'between'"></nz-range-picker>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>

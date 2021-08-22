@@ -186,5 +186,7 @@
   "reason": "কারণ",
   "reference": "রেফারেন্স",
   "give.x0.as.discount": "{{x0}} ছাড় দিন",
-  "total.due": "সর্বমোট বাকি"
+  "total.due": "সর্বমোট বাকি",
+  "filter.clear": "বাতিল",
+  "filter.apply": "ছাঁকুন "
 }

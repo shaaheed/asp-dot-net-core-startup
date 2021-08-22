@@ -4,6 +4,8 @@ using Msi.Web;
 using Module.Sales.Domain.Contacts;
 using System;
 using Msi.Utilities.Filter;
+using Msi.Data.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Module.Sales.Controllers
 {
@@ -12,6 +14,16 @@ namespace Module.Sales.Controllers
     [ETag]
     public class ContactController : BaseController
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ContactController(
+            IUnitOfWork unitOfWork,
+            IHttpContextAccessor httpContextAccessor)
+        {
+            _unitOfWork = unitOfWork;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         [HttpPost]
         //[RequirePermission(CustomerCreate, CustomerManage)]

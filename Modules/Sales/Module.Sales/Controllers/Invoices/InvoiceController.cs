@@ -49,6 +49,13 @@ namespace Module.Sales.Controllers
             return OkAsync(query);
         }
 
+        [HttpGet("meta")]
+        //[RequirePermission(InvoiceList, InvoiceManage)]
+        public Task<IActionResult> GetMeta()
+        {
+            return OkAsync(new GetInvoicesMetaQuery());
+        }
+
         [HttpGet("create-info")]
         //[RequirePermission(InvoiceList, InvoiceManage)]
         public Task<IActionResult> GetCreateInfo()

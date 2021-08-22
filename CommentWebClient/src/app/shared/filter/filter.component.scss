@@ -1,0 +1,52 @@
+.filter-container {
+    min-width: 250px;
+    .filter {
+        border-bottom: 1px solid #e8e8e8;
+        .value-container {
+            border-top: 1px solid #e8e8e8;
+        }
+    }
+    .filter:last-child {
+        border: none;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        button {
+            height: 25px;
+            line-height: 1;
+            font-size: 14px;
+        }
+    }
+    .value-container {
+        .row:last-child {
+            padding: 0;
+        }
+        .row.value {
+            display: flex;
+            align-items: center;
+            i.anticon {
+                transform: scaleX(-1);
+                color: #5469d4;
+                padding-left: 8px;
+                padding-right: 5px;
+            }
+            input {
+                width: auto;
+            }
+        }
+    }
+    nz-select,
+    nz-date-picker {
+        width: 100% !important;
+    }
+}
+.pad8 {
+    padding: 8px;
+}
+.padb8 {
+    padding-bottom: 8px;
+}
+.bg {
+    background-color: #f7fafc;
+}

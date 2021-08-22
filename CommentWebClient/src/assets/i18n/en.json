@@ -188,5 +188,7 @@
   "reason": "Reason",
   "reference": "Reference",
   "give.x0.as.discount": "Pay {{x0}} as discount",
-  "total.due": "Total due"
+  "total.due": "Total due",
+  "filter.clear": "Clear",
+  "filter.apply": "Apply"
 }

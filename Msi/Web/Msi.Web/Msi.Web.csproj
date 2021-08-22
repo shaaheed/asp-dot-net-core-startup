@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\Msi.Core\Msi.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Query\" />
-  </ItemGroup>
-
 </Project>

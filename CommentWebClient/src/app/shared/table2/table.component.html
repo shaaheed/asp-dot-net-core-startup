@@ -6,10 +6,7 @@
             <h1 class="no-margin">{{config?.pageTitle|translate}}</h1>
         </div>
         <div class="column">
-            <!-- <button nz-button class="btn-custom">
-                <i nz-icon nzType="filter" nzTheme="fill"></i>
-                {{'filter'|translate}}
-            </button> -->
+            <app-filter></app-filter>
             <ng-container *ngFor="let b of config?.topRightButtons">
                 <button [nzType]="b.type" (click)="executeAction(b)" nz-button class="btn-custom">
                     <i *ngIf="b.icon" nz-icon [nzType]="b.icon"></i>
