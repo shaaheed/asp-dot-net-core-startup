@@ -213,6 +213,7 @@ swagger-ui.sublime-workspace
 node_modules/*
 /nbproject/private/
 dist/
+dest/
 dist/specs/
 test/specs/local/
 src/Logs/**/*
