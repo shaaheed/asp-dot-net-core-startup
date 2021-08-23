@@ -39,12 +39,11 @@ namespace Module.Sales.Controllers
 
         [HttpGet]
         //[RequirePermission(InvoiceList, InvoiceManage)]
-        public Task<IActionResult> Gets([FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
+        public Task<IActionResult> Gets([FromQuery]FilterOptions filterOptions)
         {
             var query = new GetBillsQuery
             {
-                PagingOptions = pagingOptions,
-                SearchOptions = searchOptions
+                FilterOptions = filterOptions
             };
             return OkAsync(query);
         }

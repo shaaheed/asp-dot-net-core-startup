@@ -24,7 +24,7 @@ namespace Module.Sales.Domain.Products
 
         public async Task<PagedCollection<ProductListItemDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _unitOfWork.ListAsync(ProductListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            var products = await _unitOfWork.ListAsync(ProductListItemDto.Selector(), request.FilterOptions, cancellationToken);
             var productIds = products.Items.Select(x => x.Id).ToList();
             return products;
         }

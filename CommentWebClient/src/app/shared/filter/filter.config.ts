@@ -8,7 +8,7 @@ export interface Filter {
     label: string;
     field: string;
     type: string;
-    active: boolean;
+    active?: boolean;
     value?: any;
     operator?: string;
     operators?: {value: string, label: string}[];

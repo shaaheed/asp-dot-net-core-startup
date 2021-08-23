@@ -1,5 +1,4 @@
-<!-- [(nzVisible)]="visible" -->
-<button #popover class="btn-custom" nz-button nz-popover nzPopoverTrigger="click"
+<button #popover class="btn-custom" nz-button nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
     [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight">
     <i nz-icon nzType="filter"></i>
     <span>{{'filter'|translate}}</span>

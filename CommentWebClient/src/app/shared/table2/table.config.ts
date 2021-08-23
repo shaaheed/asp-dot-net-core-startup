@@ -1,7 +1,9 @@
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
+import { FilterConfig } from '../filter/filter.config';
 
 export interface TableConfig {
+    filterConfig?: FilterConfig,
     tableColumns?: TableColumnConfig[];
     pageTitle?: string;
     createPageRoute?: string;

@@ -28,7 +28,15 @@ export const makeListRoute = (prefix: string, contactTitle: string): Route => {
             }),
             Column.date('date', x => AppInjector.get(MomentPipe).transform(x.issueDate)),
             Column.created()
-        ]
+        ],
+        filterConfig: {
+            filters: [
+                { field: 'Number', type: 'text', label: 'number' },
+                { field: 'AmountDue', type: 'number', label: 'due' },
+                { field: 'GrandTotal', type: 'number', label: 'total' },
+                { field: 'CreatedAt', type: 'date', label: 'created' }
+            ]
+        }
     })
 }
 

@@ -1,10 +1,9 @@
 import { trigger, transition, style, animate } from '@angular/animations'
-import { ChangeDetectionStrategy, Component, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { NumberService } from 'src/services/number.service';
 import { Filter, FilterConfig } from './filter.config';
 import { eq, ne, gt, lt, ge, le, contains, startsWith, endsWith, between } from './operators';
-import { NzPopoverComponent } from 'ng-zorro-antd/popover';
 
 @Component({
   selector: 'app-filter',
@@ -34,8 +33,6 @@ export class FilterComponent extends BaseComponent {
   @Input() config: FilterConfig;
   
   visible = false;
-  @ViewChild('popover') popover: NzPopoverComponent;
-
   filterCount: number = 0;
 
   constructor(
@@ -85,17 +82,27 @@ export class FilterComponent extends BaseComponent {
 
   clear() {
     this.visible = false;
-    this.popover._visible = false;
     this.invoke(this.onClear);
     this.invoke(this.config?.onClear);
   }
 
   apply() {
     this.visible = false;
-    this.popover._visible = false;
-    this.log('popover', this.popover);
-    this.invoke(this.onApply, "");
-    this.invoke(this.config?.onApply, "");
+    let filter = '';
+    if (this.config.filters) {
+      const filters: string[] = [];
+      this.config.filters.forEach(x => {
+        if (x.active && x.value) {
+          filters.push(`${x.field} ${x.operator} ${x.value}`);
+        }
+      });
+      if (filters) {
+        filter = filters.join(' and ');
+      }
+    }
+    this.log(filter);
+    this.invoke(this.onApply, filter);
+    this.invoke(this.config?.onApply, filter);
   }
 
   change(e) {
@@ -103,12 +110,10 @@ export class FilterComponent extends BaseComponent {
   }
 
   operatorChanged(e, filter: Filter) {
-    this.log('operatorChanged', e);
     filter.value = '';
   }
 
   activeChanged(e) {
-    this.log('activeChanged', e);
     if (e) {
       this.filterCount += 1;
     }
@@ -122,7 +127,6 @@ export class FilterComponent extends BaseComponent {
       }
     }
     this.invoke(this.onFilterCount, this.filterCount);
-    this.log('filter count', this.filterCount);
   }
 
   getOperators(filter: Filter): { value: string, label: string }[] {

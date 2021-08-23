@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef, Type, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
@@ -8,7 +8,6 @@ import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
 import { NumberService } from 'src/services/number.service';
-import { AppInjector } from 'src/app/app/app.component';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
 @Component({
@@ -28,7 +27,7 @@ export class TableComponent extends BaseComponent {
   @Input() onDataLoadCompleted: () => void;
   @Input() headerStyle: any = {};
   @Input() boxStyle: any = {};
-  @ViewChild('basicTable', { static: true }) table: NzTableComponent;
+  @ViewChild('basicTable', { static: true }) table: NzTableComponent<any>;
 
   loading: boolean = true;
   total: number = 0;
@@ -49,8 +48,6 @@ export class TableComponent extends BaseComponent {
   bottomTitle: string;
 
   private _fn: (pagination: string, search: string) => Observable<Object>;
-  private vcr: ViewContainerRef;
-  private cfr: ComponentFactoryResolver;
   private defaultHeaderStyle = {
     borderBottom: '1px solid #e4e4e4',
     padding: '16px'
@@ -58,10 +55,6 @@ export class TableComponent extends BaseComponent {
   private defaultBoxStyle = {
     margin: 0
   };
-
-  // dataLoadCompleted = () => {
-  //   this.changeDetector.detectChanges();
-  // }
 
   defaultRowButtons: ButtonConfig[] = [
     {
@@ -82,12 +75,9 @@ export class TableComponent extends BaseComponent {
     private router: Router,
     public numberService: NumberService,
     private changeDetectorRef: ChangeDetectorRef,
-    private appRef: ApplicationRef,
     private activatedRoute: ActivatedRoute
   ) {
     super();
-    this.vcr = AppInjector.get(ViewContainerRef);
-    this.cfr = AppInjector.get(ComponentFactoryResolver);
   }
 
   ngOnInit() {
@@ -97,38 +87,50 @@ export class TableComponent extends BaseComponent {
     }
 
     if (this.config) {
+
       this.headerStyle = this.config.headerStyle ?? this.headerStyle;
       this.boxStyle = this.config.boxStyle ?? this.boxStyle;
-    }
-    this.headerStyle = Object.assign(this.defaultHeaderStyle, this.headerStyle);
-    this.boxStyle = Object.assign(this.defaultBoxStyle, this.boxStyle);
 
-    if (this.config?.getFetchApiUrl) {
-      const url = this.config.getFetchApiUrl();
-      if (url) {
-        this.config.fetchApiUrl = url;
+      if (this.config.getFetchApiUrl) {
+        const url = this.config.getFetchApiUrl();
+        if (url) {
+          this.config.fetchApiUrl = url;
+        }
+      }
+
+      if (!this.fetch && this.config.fetchApiUrl) {
+        this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
+      }
+
+      if (!this.config.topRightButtons) {
+        this.config.topRightButtons = [
+          {
+            action: () => this.add(),
+            label: 'new',
+            icon: 'plus',
+            type: 'primary'
+          },
+          {
+            action: () => this.refresh(),
+            label: 'refresh',
+            icon: 'sync'
+          }
+        ];
+      }
+
+      if (this.config.filterConfig) {
+        this.config.filterConfig.onApply = filter => {
+          if (filter) {
+            this.load((pagination: string, search: string) => {
+              return this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search, `filter=${filter}`));
+            })
+          }
+        }
       }
     }
 
-    if (!this.fetch && this.config?.fetchApiUrl) {
-      this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
-    }
-
-    if (!this.config.topRightButtons?.length) {
-      this.config.topRightButtons = [
-        {
-          action: () => this.add(),
-          label: 'new',
-          icon: 'plus',
-          type: 'primary'
-        },
-        {
-          action: () => this.refresh(),
-          label: 'refresh',
-          icon: 'sync'
-        }
-      ];
-    }
+    this.headerStyle = Object.assign(this.defaultHeaderStyle, this.headerStyle);
+    this.boxStyle = Object.assign(this.defaultBoxStyle, this.boxStyle);
 
     this.gets();
   }
@@ -142,16 +144,12 @@ export class TableComponent extends BaseComponent {
           this.total = response.data.length;
         }
         else {
-          // setTimeout(() => this.items = [], 0);
-          // setTimeout(() => this.items = response.data.items, 0);
           this.items = [];
           this.items = [...response.data.items];
           this.changeDetectorRef.detectChanges();
           if (this.table) {
             this.table.ngOnInit();
-            // this.table.nzData = this.items;
           }
-          // this.appRef.tick();
         }
       }
     }
@@ -219,17 +217,14 @@ export class TableComponent extends BaseComponent {
     if (listFn) {
       this.subscribe(listFn,
         (res: any) => {
-          // this.invoke(this.onDataLoadCompleted);
           this.fill(res);
           this._loading(false);
           this.dataLoadCompleted.emit();
-          // this.changeDetectorRef.detectChanges();
         },
         err => {
           this.log(err);
           this._loading(false);
           this.dataLoadCompleted.emit();
-          // this.invoke(this.onDataLoadCompleted);
         }
       );
     }
@@ -278,7 +273,7 @@ export class TableComponent extends BaseComponent {
     const modal = modalService.create({
       nzWidth: '50%',
       nzContent: component,
-      nzGetContainer: () => document.body,
+      // nzGetContainer: () => document.body,
       nzComponentParams: params,
       nzFooter: null
     });
@@ -318,9 +313,7 @@ export class TableComponent extends BaseComponent {
   }
 
   refresh() {
-    // this.appRef.tick();
     this.gets();
-    // this.appRef.tick();
   }
 
   executeAction(button) {
@@ -346,7 +339,6 @@ export class TableComponent extends BaseComponent {
 
   private _loading(value: boolean) {
     this.loading = value;
-    // setTimeout(() => this.loading = value, 0);
   }
 
 }

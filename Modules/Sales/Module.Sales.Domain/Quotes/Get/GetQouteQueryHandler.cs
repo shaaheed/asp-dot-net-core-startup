@@ -16,7 +16,7 @@ namespace Module.Sales.Domain.Qoutes
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<QouteDetailsDto> Handle(GetQouteQuery request, CancellationToken cancellationToken)
+        public Task<QouteDetailsDto> Handle(GetQouteQuery request, CancellationToken cancellationToken)
         {
             //var result = _unitOfWork.GetRepository<Qoute>()
             //    .AsQueryable()

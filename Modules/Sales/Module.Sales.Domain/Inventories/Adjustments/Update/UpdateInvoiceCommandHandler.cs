@@ -76,7 +76,7 @@ namespace Module.Sales.Domain
                     await lineItemRepo.AddAsync(newAdjustmentLine);
 
                     // adjust product stock
-                    _productService.UpdateStockQuantity(requestLineItem.ProductId, newStock);
+                    await _productService.UpdateStockQuantity(requestLineItem.ProductId, newStock);
                 }
                 else
                 {

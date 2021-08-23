@@ -12,12 +12,11 @@ namespace Module.Payments.Controllers
     {
 
         [HttpGet("methods")]
-        public Task<IActionResult> GetPaymentMethods([FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
+        public Task<IActionResult> GetPaymentMethods([FromQuery] FilterOptions filterOptions)
         {
             var query = new GetPaymentMethodsQuery
             {
-                PagingOptions = pagingOptions,
-                SearchOptions = searchOptions
+                FilterOptions = filterOptions
             };
             return OkAsync(query);
         }

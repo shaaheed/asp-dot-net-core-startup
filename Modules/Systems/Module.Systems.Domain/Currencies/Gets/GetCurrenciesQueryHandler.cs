@@ -19,7 +19,7 @@ namespace Module.Systems.Domain
 
         public Task<PagedCollection<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(CurrencyDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(CurrencyDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

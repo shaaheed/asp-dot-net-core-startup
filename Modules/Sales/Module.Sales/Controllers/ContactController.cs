@@ -50,12 +50,11 @@ namespace Module.Sales.Controllers
 
         [HttpGet]
         //[RequirePermission(CustomerList, CustomerManage)]
-        public Task<IActionResult> Gets([FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
+        public Task<IActionResult> Gets([FromQuery] FilterOptions filterOptions)
         {
             var query = new GetContactsQuery
             {
-                PagingOptions = pagingOptions,
-                SearchOptions = searchOptions
+                FilterOptions = filterOptions
             };
             return OkAsync(query);
         }

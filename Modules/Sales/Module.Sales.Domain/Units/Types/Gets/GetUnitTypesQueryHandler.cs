@@ -19,7 +19,7 @@ namespace Module.Sales.Domain.Units
 
         public Task<PagedCollection<UnitTypeDto>> Handle(GetUnitTypesQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(UnitTypeDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(UnitTypeDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

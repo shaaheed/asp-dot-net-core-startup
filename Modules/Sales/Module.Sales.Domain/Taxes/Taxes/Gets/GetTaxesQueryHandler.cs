@@ -19,7 +19,7 @@ namespace Module.Sales.Domain.Taxes
 
         public Task<PagedCollection<TaxListItemDto>> Handle(GetTaxesQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(TaxListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(TaxListItemDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

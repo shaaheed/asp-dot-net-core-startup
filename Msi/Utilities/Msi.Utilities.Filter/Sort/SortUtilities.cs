@@ -11,7 +11,7 @@ namespace Msi.Utilities.Filter
 
         private static string decendingString = "desc";
 
-        public static IQueryable<T> ApplySort<T>(this IQueryable<T> query, ISortOptions options)
+        public static IQueryable<T> ApplySort<T>(this IQueryable<T> query, IFilterOptions options)
         {
             if (options?.OrderBy?.Length > 0)
             {
@@ -60,7 +60,7 @@ namespace Msi.Utilities.Filter
             return query;
         }
 
-        public static IQueryable<T> ApplySort<T, TKey>(this IQueryable<T> query, ISortOptions options, Expression<Func<T, TKey>> keySelector)
+        public static IQueryable<T> ApplySort<T, TKey>(this IQueryable<T> query, IFilterOptions options, Expression<Func<T, TKey>> keySelector)
         {
             if (options?.OrderBy?.Length > 0)
             {

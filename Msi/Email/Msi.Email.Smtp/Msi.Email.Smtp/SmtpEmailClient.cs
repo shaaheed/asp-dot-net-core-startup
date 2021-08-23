@@ -48,7 +48,7 @@ namespace Msi.Email.Smtp
                     await client.SendAsync(_message);
                     await client.DisconnectAsync(true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //_logger.LogError("Email send error: " + ex.Message);
                 }

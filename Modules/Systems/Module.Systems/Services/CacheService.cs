@@ -16,12 +16,12 @@ namespace Module.Systems.Services
         private static string ETAG = "ETag";
 
         public CacheService(
-            //IHttpContextAccessor httpContext,
+            IHttpContextAccessor httpContext,
             IETagGeneratorService eTagGeneratorService
             /*IDistributedCache distributedCache*/)
         {
             /*_distributedCache = distributedCache;*/
-            //_httpContext = httpContext;
+            _httpContext = httpContext;
             _eTagGeneratorService = eTagGeneratorService;
         }
 

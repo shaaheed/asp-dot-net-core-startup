@@ -15,13 +15,13 @@ namespace Msi.Utilities.Filter
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         string[] Sort { get; set; }
 
-        public PagedCollection(IList<T> items, int totalCount, IPagingOptions options, ISortOptions sortOptions = null)
+        public PagedCollection(IList<T> items, int totalCount, IFilterOptions options)
         {
             Offset = options?.Offset;
             Limit = options?.Limit;
             Size = totalCount;
             Items = items;
-            Sort = sortOptions?.OrderBy;
+            Sort = options?.OrderBy;
         }
 
         //public T First { get; set; }

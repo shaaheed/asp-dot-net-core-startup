@@ -40,10 +40,9 @@ namespace Module.Sales.Controllers
 
         [HttpGet]
         //[RequirePermission(InvoicePaymentList, InvoicePaymentManage)]
-        public Task<IActionResult> Gets([FromRoute] GetBillPaymentsQuery query, [FromQuery] SearchOptions searchOptions, [FromQuery] PagingOptions pagingOptions)
+        public Task<IActionResult> Gets([FromRoute] GetBillPaymentsQuery query, [FromQuery] FilterOptions filterOptions)
         {
-            query.PagingOptions = pagingOptions;
-            query.SearchOptions = searchOptions;
+            query.FilterOptions = filterOptions;
             return OkAsync(query);
         }
 

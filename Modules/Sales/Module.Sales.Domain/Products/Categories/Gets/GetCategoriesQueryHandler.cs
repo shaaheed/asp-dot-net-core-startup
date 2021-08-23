@@ -19,7 +19,7 @@ namespace Module.Sales.Domain.Products
 
         public Task<PagedCollection<CategoryListItemDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(CategoryListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(CategoryListItemDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

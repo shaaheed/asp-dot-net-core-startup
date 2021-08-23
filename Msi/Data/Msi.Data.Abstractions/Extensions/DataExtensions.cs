@@ -63,7 +63,7 @@ namespace Msi.Data.Abstractions
             return _uow.GetRepository<TEntity>();
         }
 
-        public static async Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public static async Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IQueryable<TEntity> query, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
             where TEntity : IEntity
             where TViewModel : class
         {
@@ -73,48 +73,46 @@ namespace Msi.Data.Abstractions
             if (predicate != null)
                 query = query.Where(predicate);
 
-            query = query.ApplySearch(searchOptions);
+            query = query.ApplySearch(filterOptions);
             query = ApplyOrderByDecending(query); //.OrderByDescending(x => x.UpdatedAt);
 
             var countQuery = query; //.Select(x => x.Id);
             var total = await Task.Run(() => countQuery.Count(), cancellationToken);
 
-            query = query.ApplyPagination(pagingOptions);
+            query = query.ApplyPagination(filterOptions);
 
             var results = query.Select(selector);
             var items = await Task.Run(() => results.ToList(), cancellationToken);
 
-            var result = new PagedCollection<TViewModel>(items, total, pagingOptions);
+            var result = new PagedCollection<TViewModel>(items, total, filterOptions);
             return result;
         }
 
-        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, TViewModel>> selector, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
             where TEntity : RootEntity
             where TViewModel : class
         {
             var result = repository.AsReadOnly().ListAsync(null,
                 selector,
-                pagingOptions,
-                searchOptions,
+                filterOptions,
                 cancellationToken);
 
             return result;
         }
 
-        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IRepository<TEntity> repository, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
             where TEntity : RootEntity
             where TViewModel : class
         {
             var result = repository.AsReadOnly().ListAsync(predicate,
                 selector,
-                pagingOptions,
-                searchOptions,
+                filterOptions,
                 cancellationToken);
 
             return result;
         }
 
-        //public static Task<PagedCollection<IdNameViewModel>> ListAsync<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        //public static Task<PagedCollection<IdNameViewModel>> ListAsync<T>(this IRepository<T> repository, Expression<Func<T, bool>> predicate, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
         //    where T : IdNameEntity
         //{
         //    var selector = DynamicSelect<T>(new HashSet<string> { "Id", "Name", "IsDeleted" });
@@ -122,12 +120,11 @@ namespace Msi.Data.Abstractions
 
         //    return repository.ListAsync(predicate,
         //        IdNameViewModel.Select<T>(),
-        //        pagingOptions,
-        //        searchOptions,
+        //        filterOptions,
         //        cancellationToken);
         //}
 
-        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TViewModel>> selector, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
            where TEntity : RootEntity
            where TViewModel : class
         {
@@ -135,12 +132,11 @@ namespace Msi.Data.Abstractions
 
             return repository.ListAsync(predicate,
                 selector,
-                pagingOptions,
-                searchOptions,
+                filterOptions,
                 cancellationToken);
         }
 
-        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, TViewModel>> selector, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        public static Task<PagedCollection<TViewModel>> ListAsync<TEntity, TViewModel>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, TViewModel>> selector, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
            where TEntity : RootEntity
            where TViewModel : class
         {
@@ -148,19 +144,17 @@ namespace Msi.Data.Abstractions
 
             return repository.ListAsync(null,
                 selector,
-                pagingOptions,
-                searchOptions,
+                filterOptions,
                 cancellationToken);
         }
 
-        //public static Task<PagedCollection<IdNameViewModel>> ListAsync<TEntity>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, CancellationToken cancellationToken = default)
+        //public static Task<PagedCollection<IdNameViewModel>> ListAsync<TEntity>(this IUnitOfWork unitOfWork, Expression<Func<TEntity, bool>> predicate, IFilterOptions filterOptions = default, CancellationToken cancellationToken = default)
         //    where TEntity : IdNameEntity
         //{
         //    var repository = unitOfWork.GetRepository<TEntity>();
 
         //    return repository.ListAsync(predicate,
-        //        pagingOptions,
-        //        searchOptions,
+        //        filterOptions,
         //        cancellationToken);
         //}
 
@@ -290,14 +284,13 @@ namespace Msi.Data.Abstractions
             repository.RemoveRange(deletedItems);
         }
 
-        public static PaginateQueryBuilder<TEntity, TViewModel> Paginate<TEntity, TViewModel>(this IRepository<TEntity> repository, IPagingOptions pagingOptions, ISearchOptions searchOptions = default)
+        public static PaginateQueryBuilder<TEntity, TViewModel> Paginate<TEntity, TViewModel>(this IRepository<TEntity> repository, IFilterOptions filterOptions = default)
             where TEntity : BaseEntity
             where TViewModel : class
         {
             var builder = new PaginateQueryBuilder<TEntity, TViewModel>()
                 .Repository(repository)
-                .PagingOptions(pagingOptions)
-                .SearchOptions(searchOptions);
+                .FilterOptions(filterOptions);
             return builder;
         }
 
@@ -334,8 +327,7 @@ namespace Msi.Data.Abstractions
         where TViewModel : class
     {
         private IRepository<TEntity> _repository;
-        private IPagingOptions _pagingOptions;
-        private ISearchOptions _searchOptions;
+        private IFilterOptions _filterOptions;
         private IQueryable<TEntity> _query;
         private Expression<Func<TEntity, bool>> _predicate;
         private Expression<Func<TEntity, TViewModel>> _selector;
@@ -347,15 +339,9 @@ namespace Msi.Data.Abstractions
             return this;
         }
 
-        public PaginateQueryBuilder<TEntity, TViewModel> PagingOptions(IPagingOptions pagingOptions)
+        public PaginateQueryBuilder<TEntity, TViewModel> FilterOptions(IFilterOptions filterOptions)
         {
-            _pagingOptions = pagingOptions;
-            return this;
-        }
-
-        public PaginateQueryBuilder<TEntity, TViewModel> SearchOptions(ISearchOptions searchOptions)
-        {
-            _searchOptions = searchOptions;
+            _filterOptions = filterOptions;
             return this;
         }
 
@@ -373,7 +359,7 @@ namespace Msi.Data.Abstractions
 
         public Task<PagedCollection<TViewModel>> ToListAsync(CancellationToken cancellationToken = default)
         {
-            return _query.ListAsync(_predicate, _selector, _pagingOptions, _searchOptions, cancellationToken);
+            return _query.ListAsync(_predicate, _selector, _filterOptions, cancellationToken);
         }
 
     }

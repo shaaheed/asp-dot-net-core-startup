@@ -97,9 +97,9 @@ namespace Msi.Web
             return Ok(await QueryBus.SendAsync(command), status, message);
         }
 
-        public async Task<IActionResult> OkAsync<T>(IQuery<T> query, IPagingOptions pagingOptions, ISearchOptions searchOptions = default, int status = 200, string message = default)
+        public async Task<IActionResult> OkAsync<T>(IQuery<T> query, IFilterOptions filterOptions, int status = 200, string message = default)
         {
-            return Ok(await QueryBus.SendAsync(query, pagingOptions, searchOptions), status, message);
+            return Ok(await QueryBus.SendAsync(query, filterOptions), status, message);
         }
 
         public async Task<IActionResult> Ok<T>(IQuery<PagedCollection<T>> query, int status = 200, string message = default)

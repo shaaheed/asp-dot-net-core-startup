@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, EventEmitter, Input, Output, TemplateRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, TemplateRef, Type, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ButtonConfig } from '../button.config';
@@ -8,7 +8,6 @@ import { getSearchableProperties } from 'src/decorators/searchable.decorator';
 import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
 import { NumberService } from 'src/services/number.service';
-import { AppInjector } from 'src/app/app/app.component';
 import { NzTableComponent } from 'ng-zorro-antd/table';
 
 @Component({
@@ -27,14 +26,13 @@ export class TableComponent extends BaseComponent {
   @Output() dataLoadCompleted = new EventEmitter();
   @Input() onDataLoadCompleted: () => void;
   @Input() headerStyle: any = {};
-  @ViewChild('basicTable', {static: true}) table: NzTableComponent;
+  @ViewChild('basicTable', {static: true}) table: NzTableComponent<any>;
 
   loading: boolean = true;
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 500;
   items = [];
-  additionalSearchTerm;
 
   onDeleted: (res: any) => void;
   onDeleteFailed: (res: any) => void;
@@ -48,16 +46,10 @@ export class TableComponent extends BaseComponent {
   bottomTitle: string;
 
   private _fn: (pagination: string, search: string) => Observable<Object>;
-  private vcr: ViewContainerRef;
-  private cfr: ComponentFactoryResolver;
   private defaultHeaderStyle = {
     borderBottom: '1px solid #e4e4e4',
     padding: '16px'
   };
-
-  // dataLoadCompleted = () => {
-  //   this.changeDetector.detectChanges();
-  // }
 
   defaultRowButtons: ButtonConfig[] = [
     {
@@ -78,11 +70,8 @@ export class TableComponent extends BaseComponent {
     private router: Router,
     public numberService: NumberService,
     private changeDetectorRef: ChangeDetectorRef,
-    private appRef: ApplicationRef
   ) {
     super();
-    this.vcr = AppInjector.get(ViewContainerRef);
-    this.cfr = AppInjector.get(ComponentFactoryResolver);
   }
 
   ngOnInit() {
@@ -90,6 +79,7 @@ export class TableComponent extends BaseComponent {
       if (this.config.headerStyle) {
         this.headerStyle = this.config.headerStyle;
       }
+      this.config
     }
     this.headerStyle = Object.assign(this.defaultHeaderStyle, this.headerStyle);
     if (this.config?.getFetchApiUrl) {
@@ -128,16 +118,12 @@ export class TableComponent extends BaseComponent {
           this.total = response.data.length;
         }
         else {
-          // setTimeout(() => this.items = [], 0);
-          // setTimeout(() => this.items = response.data.items, 0);
           this.items = [];
           this.items = [...response.data.items];
           this.changeDetectorRef.detectChanges();
           if (this.table) {
             this.table.ngOnInit();
-            // this.table.nzData = this.items;
           }
-          // this.appRef.tick();
         }
       }
     }
@@ -208,13 +194,11 @@ export class TableComponent extends BaseComponent {
           this.fill(res);
           this._loading(false);
           this.dataLoadCompleted.emit();
-          // this.changeDetectorRef.detectChanges();
         },
         err => {
           this.log(err);
           this._loading(false);
           this.dataLoadCompleted.emit();
-          // this.invoke(this.onDataLoadCompleted);
         }
       );
     }
@@ -263,7 +247,7 @@ export class TableComponent extends BaseComponent {
     const modal = modalService.create({
       nzWidth: '50%',
       nzContent: component,
-      nzGetContainer: () => document.body,
+      // nzGetContainer: () => document.body,
       nzComponentParams: params,
       nzFooter: null
     });
@@ -303,9 +287,7 @@ export class TableComponent extends BaseComponent {
   }
 
   refresh() {
-    // this.appRef.tick();
     this.gets();
-    // this.appRef.tick();
   }
 
   executeAction(button) {
@@ -331,7 +313,6 @@ export class TableComponent extends BaseComponent {
 
   private _loading(value: boolean) {
     this.loading = value;
-    // setTimeout(() => this.loading = value, 0);
   }
 
 }

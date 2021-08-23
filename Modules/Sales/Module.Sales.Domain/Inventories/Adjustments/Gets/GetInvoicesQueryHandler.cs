@@ -19,7 +19,7 @@ namespace Module.Sales.Domain
 
         public Task<PagedCollection<InventoryAdjustmentListItemDto>> Handle(GetInventoryAdjustmentsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(InventoryAdjustmentListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(InventoryAdjustmentListItemDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

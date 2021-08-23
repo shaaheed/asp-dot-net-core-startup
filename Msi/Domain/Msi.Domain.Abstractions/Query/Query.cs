@@ -5,29 +5,16 @@ namespace Msi.Domain.Abstractions
 {
     public class Query<TResponse> : IQuery<TResponse>
     {
-        public IPagingOptions PagingOptions { get; set; }
-        public ISearchOptions SearchOptions { get; set; }
+        public IFilterOptions FilterOptions { get; set; }
 
         public Query()
         {
             //
         }
 
-        public Query(IPagingOptions pagingOptions, ISearchOptions searchOptions)
+        public Query<TResponse> AddFilterOptions(IFilterOptions filterOptions)
         {
-            PagingOptions = pagingOptions;
-            SearchOptions = searchOptions;
-        }
-
-        public Query<TResponse> AddPagingOptions(IPagingOptions pagingOptions)
-        {
-            PagingOptions = pagingOptions;
-            return this;
-        }
-
-        public Query<TResponse> AddSearchOptions(ISearchOptions searchOptions)
-        {
-            SearchOptions = searchOptions;
+            FilterOptions = filterOptions;
             return this;
         }
     }

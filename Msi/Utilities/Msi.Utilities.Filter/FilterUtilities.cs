@@ -6,24 +6,32 @@ using System.Reflection;
 
 namespace Msi.Utilities.Filter
 {
-    public static class SearchUtilities
+    public static class FilterUtilities
     {
 
-        private static SearchUtilitiesOptions _utilitiesOptions;
+        private static FilterUtilitiesOptions _options;
         private static IComparisonExpressionProviderFactory _comparisonExpressionProviderFactory;
 
-        public static IQueryable<T> ApplySearch<T>(this IQueryable<T> query, ISearchOptions options)
+        public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> query, IFilterOptions options)
         {
+            _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
+            options = options ?? _options.Options;
+
+            options.Offset = options.Offset ?? _options.Options.Offset;
+            options.Limit = options.Limit ?? _options.Options.Limit;
+
+            query = query.Skip(options.Offset.Value).Take(options.Limit.Value);
+
+            return query;
+        }
+
+        public static IQueryable<T> ApplySearch<T>(this IQueryable<T> query, IFilterOptions options)
+        {
+             _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
+            options = options ?? _options.Options;
 
             if (options?.Search?.Length > 0)
             {
-
-                if (_utilitiesOptions == null)
-                {
-                    _utilitiesOptions = SearchUtilitiesOptions.DefaultOptions;
-                    _comparisonExpressionProviderFactory = _utilitiesOptions.ComparisonExpressionProviderFactory;
-                }
-
                 var _searchQuery = options.Search;
                 var searchQueryLength = _searchQuery.Length;
 
@@ -34,7 +42,6 @@ namespace Msi.Utilities.Filter
                 // iterate over all terms
                 for (int i = 0; i < searchQueryLength; i++)
                 {
-
                     if (string.IsNullOrEmpty(_searchQuery[i])) continue;
 
                     // expression -> name eq shahid
@@ -114,16 +121,30 @@ namespace Msi.Utilities.Filter
             return query;
         }
 
-        public static void Configure(Action<SearchUtilitiesOptions> options)
+        public static void Configure(Action<FilterUtilitiesOptions> options)
         {
-            _utilitiesOptions = new SearchUtilitiesOptions();
-            options.Invoke(_utilitiesOptions);
+            _options = new FilterUtilitiesOptions();
+            options.Invoke(_options);
+        }
+
+        public static string BuildSql(this IFilterOptions filterOptions)
+        {
+            _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
+            filterOptions = filterOptions ?? _options.Options;
+            if (filterOptions != null)
+            {
+                var offset = filterOptions.Offset.Value;
+                var limit = filterOptions.Limit.Value;
+                return $"offset {offset} rows fetch next {limit} rows only";
+            }
+            return string.Empty;
         }
 
         private static Type GetSafePropertyType(this PropertyInfo propertyInfo)
         {
             return Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
         }
+
 
     }
 }

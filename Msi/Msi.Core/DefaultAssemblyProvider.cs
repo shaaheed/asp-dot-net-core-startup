@@ -64,7 +64,7 @@ namespace Msi.Core
                         }
                     }
 
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //logger.LogWarning("Error loading assembly '{0}'", compilationLibrary.Name);
                         //logger.LogWarning(e.ToString());
@@ -93,7 +93,7 @@ namespace Msi.Core
                         }
                     }
 
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //logger.LogWarning("Error loading assembly '{0}'", extensionPath);
                         //logger.LogWarning(e.ToString());

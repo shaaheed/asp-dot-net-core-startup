@@ -28,9 +28,9 @@ namespace Modules.User.Controllers
 
         [HttpGet]
         [RequireAnyPermission(UserList, UserFullAccess)]
-        public Task<IActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public Task<IActionResult> List([FromQuery]FilterOptions filterOptions)
         {
-            return OkAsync(new GetUsersQuery(), pagingOptions, searchOptions) ;
+            return OkAsync(new GetUsersQuery(), filterOptions) ;
         }
 
         [HttpGet("{id}")]

@@ -21,7 +21,7 @@ namespace Module.Users.Domain
         public Task<PagedCollection<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             var selector = DataExtensions.DynamicSelect<User>(new HashSet<string> { "Id", "FirstName", "Email", "Mobile" });
-            return _unitOfWork.ListAsync(UserDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(UserDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Module.Payments.Domain
 
         public Task<PagedCollection<PaymentMethodDto>> Handle(GetPaymentMethodsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(PaymentMethodDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(PaymentMethodDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

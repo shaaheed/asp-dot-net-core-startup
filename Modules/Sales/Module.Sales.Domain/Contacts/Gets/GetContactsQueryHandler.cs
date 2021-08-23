@@ -19,7 +19,7 @@ namespace Module.Sales.Domain.Contacts
 
         public Task<PagedCollection<ContactListItemDto>> Handle(GetContactsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(ContactListItemDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(ContactListItemDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }

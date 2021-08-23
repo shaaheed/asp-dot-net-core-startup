@@ -20,9 +20,9 @@ namespace Modules.User.Controllers
 
         [HttpGet]
         [RequireAnyPermission(RoleList, RoleFullAccess)]
-        public Task<IActionResult> List([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public Task<IActionResult> List([FromQuery] FilterOptions filterOptions)
         {
-            return OkAsync(new GetRolesQuery(), pagingOptions, searchOptions) ;
+            return OkAsync(new GetRolesQuery(), filterOptions) ;
         }
 
         [HttpGet("{id}")]

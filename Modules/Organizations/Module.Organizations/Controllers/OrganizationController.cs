@@ -45,9 +45,9 @@ namespace Module.Organizations
 
         [HttpGet]
         //[RequireAnyPermission(OrganizationList, OrganizationFullAccess)]
-        public Task<IActionResult> Gets([FromQuery]PagingOptions pagingOptions, [FromQuery]SearchOptions searchOptions)
+        public Task<IActionResult> Gets([FromQuery] FilterOptions filterOptions)
         {
-            var query = new GetOrganizationsQuery().AddPagingOptions(pagingOptions).AddSearchOptions(searchOptions);
+            var query = new GetOrganizationsQuery().AddFilterOptions(filterOptions);
             return OkAsync(query);
         }
 

@@ -11,11 +11,9 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HttpService } from 'src/services/http/http.service';
 import { SecurityService } from 'src/services/security.service';
-import { OAuthModule } from 'angular-oauth2-oidc';
-import { OAuthConfig, initOAuth } from 'src/configs/oauth.config';
 import { AuthService } from 'src/services/auth.service';
 import { IdentityService } from 'src/services/identity.service';
-import {TranslateModule, TranslateLoader, TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BroadcastService } from 'src/services/broadcast.service';
 import { ErrorInterceptor } from './error.interceptor';
@@ -54,7 +52,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HttpClientModule,
     BrowserAnimationsModule,
     LoginModule,
-    OAuthModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -73,17 +70,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SecurityService,
     PermissionService,
     OrganizationService,
-    // TranslatePipe,
     AuthGuard,
     NzMessageService,
     NzModalService,
-    // OAuthConfig,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initOAuth,
-    //   deps: [OAuthConfig],
-    //   multi: true
-    // },
     AuthService,
     IdentityService,
     BroadcastService,

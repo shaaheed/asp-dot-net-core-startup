@@ -19,7 +19,7 @@ namespace Module.Sales.Domain
 
         public Task<PagedCollection<InvoicePaymentDto>> Handle(GetInvoicePaymentsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(x => x.InvoiceId == request.InvoiceId, InvoicePaymentDto.Selector(), request.PagingOptions, request.SearchOptions, cancellationToken);
+            return _unitOfWork.ListAsync(x => x.InvoiceId == request.InvoiceId, InvoicePaymentDto.Selector(), request.FilterOptions, cancellationToken);
         }
     }
 }
