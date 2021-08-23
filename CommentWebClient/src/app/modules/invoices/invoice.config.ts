@@ -1,9 +1,10 @@
 import { Router, Routes } from '@angular/router';
 import { AppInjector } from 'src/app/app/app.component';
 import { MomentPipe } from 'src/pipes/moment.pipe';
-import { Column } from 'src/services/column.service';
+import { Column } from 'src/app/shared/table2/column.service';
 import { Route } from 'src/services/route.service';
 import { CURRENCY } from '../organizations/organization.service';
+import { Filter } from 'src/app/shared/filter/filter';
 
 const prefix = 'invoices';
 
@@ -17,12 +18,6 @@ export const makeListRoute = (prefix: string, contactTitle: string): Route => {
             Column.column('due', x => {
                 return `${CURRENCY} ${x.amountDue}`
             }),
-            // Column.column('payments', x => {
-            //     if (!isNaN(x.total) && !isNaN(x.amountDue)) {
-            //         return `${CURRENCY} ${x.total - x.amountDue}`;
-            //     }
-            //     return '-';
-            // }),
             Column.column('total', x => {
                 return `${CURRENCY} ${x.total}`
             }),
@@ -31,10 +26,9 @@ export const makeListRoute = (prefix: string, contactTitle: string): Route => {
         ],
         filterConfig: {
             filters: [
-                { field: 'Number', type: 'text', label: 'number' },
-                { field: 'AmountDue', type: 'number', label: 'due' },
-                { field: 'GrandTotal', type: 'number', label: 'total' },
-                { field: 'CreatedAt', type: 'date', label: 'created' }
+                Filter.text('number', 'Number'),
+                Filter.number('due', 'AmountDue'),
+                Filter.number('total', 'GrandTotal')
             ]
         }
     })

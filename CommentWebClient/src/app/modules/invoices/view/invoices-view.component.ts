@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { TableComponent } from 'src/app/shared/table2/table.component';
 import { TableConfig } from 'src/app/shared/table2/table.config';
-import { Column } from 'src/services/column.service';
+import { Column } from 'src/app/shared/table2/column.service';
 import { CURRENCY } from '../../organizations/organization.service';
 import { PaymentsAddModalComponent } from '../payments-add-modal/payments-add-modal.component';
 

@@ -1,5 +1,6 @@
 ﻿using Msi.Utilities.Expressions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,8 +11,8 @@ namespace Msi.Utilities.Filter
     {
 
         private static FilterUtilitiesOptions _options;
-        private static IComparisonExpressionProviderFactory _comparisonExpressionProviderFactory;
-
+        private static Parser _parser = null;
+        
         public static IQueryable<T> ApplyPagination<T>(this IQueryable<T> query, IFilterOptions options)
         {
             _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
@@ -25,9 +26,33 @@ namespace Msi.Utilities.Filter
             return query;
         }
 
-        public static IQueryable<T> ApplySearch<T>(this IQueryable<T> query, IFilterOptions options)
+        public static IQueryable<T> ApplyFilter<T>(this IQueryable<T> query, IFilterOptions options)
         {
              _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
+            options = options ?? _options.Options;
+
+            if (!string.IsNullOrEmpty(options?.Filter))
+            {
+                if (_parser == null)
+                {
+                    _parser = new Parser();
+                }
+
+                IEnumerable<Token> tokens = _parser.Tokenize(options.Filter);
+                IEnumerable<Token> postfix = _parser.ToShuntingYard(tokens);
+                LambdaExpression expression = _parser.ToExpression<T>(postfix);
+
+                // query = query.Where...
+                if (expression == null) return query;
+
+                query = query.DynamicWhere(expression);
+            }
+            return query;
+        }
+
+        public static IQueryable<T> ApplySearch<T>(this IQueryable<T> query, IFilterOptions options)
+        {
+            _options = _options ?? FilterUtilitiesOptions.DefaultOptions;
             options = options ?? _options.Options;
 
             if (options?.Search?.Length > 0)
@@ -103,15 +128,15 @@ namespace Msi.Utilities.Filter
                                 var right = Expression.Constant(constantValue, property.PropertyType);
 
                                 // x.Property == "Value"
-                                var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(@operator.ToLower());
-                                var comparisonExpression = comparisonExpressionProvider.GetExpression(left, right);
+                                //var comparisonExpressionProvider = _comparisonExpressionProviderFactory.CreateProvider(@operator.ToLower());
+                                //var comparisonExpression = comparisonExpressionProvider.GetExpression(left, right);
 
-                                // x => x.Property == "Value"
-                                var lambda = ExpressionUtilities
-                                    .GetLambda<T, bool>(parameter, comparisonExpression);
+                                //// x => x.Property == "Value"
+                                //var lambda = ExpressionUtilities
+                                //    .GetLambda<T, bool>(parameter, comparisonExpression);
 
-                                // query = query.Where...
-                                query = query.DynamicWhere(lambda);
+                                //// query = query.Where...
+                                //query = query.DynamicWhere(lambda);
 
                             }
                         }
@@ -144,7 +169,6 @@ namespace Msi.Utilities.Filter
         {
             return Nullable.GetUnderlyingType(propertyInfo.PropertyType) ?? propertyInfo.PropertyType;
         }
-
 
     }
 }

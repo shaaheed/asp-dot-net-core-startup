@@ -5,7 +5,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { ORGANIZATION_CONFIG } from 'src/app/modules/organizations/organization.config';
 import { USER_MODULE_CONFIG } from 'src/app/modules/users/user.module.config';
 import { ROLE_MODULE_CONFIG } from 'src/app/modules/roles/role.module.config';
-import { PRODUCT_MODULE_CONFIG } from 'src/app/modules/products/products/product.module.config';
+import { PRODUCT_MODULE_CONFIG } from 'src/app/modules/products/products/product.config';
 import { UNIT_MODULE_CONFIG } from 'src/app/modules/units/unit.module.config';
 import { UNIT_TYPE_MODULE_CONFIG } from 'src/app/modules/units/type.module.config';
 import { CATEGORY_MODULE_CONFIG } from 'src/app/modules/products/category.module.config';

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { Column } from 'src/services/column.service';
+import { Filter } from 'src/app/shared/filter/filter';
+import { Column } from 'src/app/shared/table2/column.service';
 import { Route } from 'src/services/route.service';
 import { CURRENCY } from '../../organizations/organization.service';
 
@@ -13,7 +14,14 @@ export const PRODUCT_MODULE_CONFIG = {
                 Column.column('price', x => x.salesPrice ? `${CURRENCY} ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit.name}` : ''}` : '—'),
                 Column.column('quantity', x => `${x.stockQuantity} ${x.salesUnit ? x.salesUnit.name : ''}` ?? '—'),
                 Column.created()
-            ]
+            ],
+            filterConfig: {
+                filters: [
+                    Filter.text('name', 'Name'),
+                    Filter.number('price', 'SalesPrice'),
+                    Filter.number('quantity', 'StockQuantity')
+                ]
+            }
         }),
         {
             path: `${prefix}/create`,

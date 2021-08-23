@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Msi.Web;
 using Module.Sales.Domain.Products;
 using System;
+using Msi.Utilities.Filter;
 
 namespace Module.Sales.Controllers
 {
@@ -37,9 +38,9 @@ namespace Module.Sales.Controllers
 
         [HttpGet]
         //[RequirePermission(ProductList, ProductManage)]
-        public Task<IActionResult> Gets()
+        public Task<IActionResult> Gets([FromQuery] FilterOptions filterOptions)
         {
-            return OkAsync(new GetProductsQuery());
+            return OkAsync(new GetProductsQuery().AddFilterOptions(filterOptions));
         }
 
         [HttpGet("{id}")]

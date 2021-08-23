@@ -9,6 +9,7 @@ import { BaseComponent } from '../base.component';
 import { message } from 'src/constants/message';
 import { NumberService } from 'src/services/number.service';
 import { NzTableComponent } from 'ng-zorro-antd/table';
+import { getFilterString } from '../filter/filter.config';
 
 @Component({
   selector: 'app-table',
@@ -20,7 +21,7 @@ export class TableComponent extends BaseComponent {
   @Input() pageTitle: string;
   @Input() body: TemplateRef<any>;
   @Input() head: TemplateRef<any>;
-  @Input() fetch: (pagination: string, search: string) => Observable<Object>;
+  @Input() fetch: (queryParams: string[]) => Observable<Object>;
 
   @Input() config: TableConfig;
   @Output() dataLoadCompleted = new EventEmitter();
@@ -47,7 +48,7 @@ export class TableComponent extends BaseComponent {
   pageSizeOptions = [50, 100, 500];
   bottomTitle: string;
 
-  private _fn: (pagination: string, search: string) => Observable<Object>;
+  private _fn: (queryParams: string[]) => Observable<Object>;
   private defaultHeaderStyle = {
     borderBottom: '1px solid #e4e4e4',
     padding: '16px'
@@ -98,8 +99,22 @@ export class TableComponent extends BaseComponent {
         }
       }
 
+      if (this.config.filterConfig) {
+        this.config.filterConfig.onApply = filter => {
+          if (filter) {
+            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+          }
+        }
+
+        this.config.filterConfig.onClear = () => {
+          this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+        }
+      }
+
       if (!this.fetch && this.config.fetchApiUrl) {
-        this.fetch = (pagination, search) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search))
+        this.fetch = (queryParams: string[]) => {
+          return this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams))
+        }
       }
 
       if (!this.config.topRightButtons) {
@@ -116,16 +131,6 @@ export class TableComponent extends BaseComponent {
             icon: 'sync'
           }
         ];
-      }
-
-      if (this.config.filterConfig) {
-        this.config.filterConfig.onApply = filter => {
-          if (filter) {
-            this.load((pagination: string, search: string) => {
-              return this._httpService.get(this.buildUrl(this.config.fetchApiUrl, pagination, search, `filter=${filter}`));
-            })
-          }
-        }
       }
     }
 
@@ -201,18 +206,26 @@ export class TableComponent extends BaseComponent {
     return "";
   }
 
-  load(fn?: (pagination: string, search: string) => Observable<Object>) {
+  load(fn?: (queryParams: string[]) => Observable<Object>) {
     this._fn = fn;
     let offset = 0;
     if (this.pageIndex > 1) {
       offset = (this.pageSize * this.pageIndex) - this.pageSize;
     }
-    const pagination = `offset=${offset}&limit=${this.pageSize}`;
-    let search = this.getSearchTerms();
+    const queryParams: string[] = [];
+    queryParams.push(`offset=${offset}`);
+    queryParams.push(`limit=${this.pageSize}`);
+
+    const filter = getFilterString(this.config?.filterConfig);
+    if (filter) {
+      queryParams.push(`filter=${filter}`);
+    }
+
+    // let search = this.getSearchTerms();
     this._loading(true);
     let listFn;
     if (fn) {
-      listFn = fn(pagination, search);
+      listFn = fn(queryParams);
     }
     if (listFn) {
       this.subscribe(listFn,

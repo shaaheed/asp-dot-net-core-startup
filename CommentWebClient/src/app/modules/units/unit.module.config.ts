@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { HttpService } from 'src/services/http/http.service';
 import { Control } from 'src/services/control.service';
-import { Column } from 'src/services/column.service';
+import { Column } from 'src/app/shared/table2/column.service';
 import { Route } from 'src/services/route.service';
 import { AppInjector } from 'src/app/app/app.component';
 

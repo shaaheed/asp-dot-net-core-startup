@@ -73,7 +73,7 @@ namespace Msi.Data.Abstractions
             if (predicate != null)
                 query = query.Where(predicate);
 
-            query = query.ApplySearch(filterOptions);
+            query = query.ApplyFilter(filterOptions);
             query = ApplyOrderByDecending(query); //.OrderByDescending(x => x.UpdatedAt);
 
             var countQuery = query; //.Select(x => x.Id);

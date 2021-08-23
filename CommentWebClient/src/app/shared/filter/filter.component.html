@@ -34,7 +34,7 @@
                         <!-- NUMBER -->
                         <input type="number" *ngIf="f.type == 'number'" [(ngModel)]="f.value" nz-input>
                         <!-- DATE -->
-                        <nz-date-picker *ngIf="f.type == 'date' && f.operator != 'between'" [(ngModel)]="f.value">
+                        <nz-date-picker [nzFormat]="'dd-MM-yyyy'" *ngIf="f.type == 'date' && f.operator != 'between'" [(ngModel)]="f.value">
                         </nz-date-picker>
                         <!-- DATE RANGE -->
                         <nz-range-picker *ngIf="f.type == 'date' && f.operator == 'between'"></nz-range-picker>

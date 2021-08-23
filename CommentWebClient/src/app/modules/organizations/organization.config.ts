@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app/app.component';
 import { ControlType, SelectConfig } from 'src/app/shared/form-page/control.config';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
-import { Column } from 'src/services/column.service';
+import { Column } from 'src/app/shared/table2/column.service';
 import { Control } from 'src/services/control.service';
 import { HttpService } from 'src/services/http/http.service';
 import { Route } from 'src/services/route.service';

@@ -2,8 +2,6 @@
 {
     public class FilterUtilitiesOptions
     {
-        public IComparisonExpressionProviderFactory ComparisonExpressionProviderFactory { get; set; }
-
         public FilterOptions Options { get; set; }
 
         public static FilterUtilitiesOptions DefaultOptions
@@ -16,8 +14,7 @@
                     {
                         Limit = 20,
                         Offset = 0
-                    },
-                    ComparisonExpressionProviderFactory = new ComparisonExpressionProviderFactory()
+                    }
                 };
             }
         }

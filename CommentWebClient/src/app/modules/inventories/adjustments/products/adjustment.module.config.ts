@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Column } from 'src/services/column.service';
+import { Column } from 'src/app/shared/table2/column.service';
 import { Route } from 'src/services/route.service';
 
 const prefix = 'inventories/adjustments';

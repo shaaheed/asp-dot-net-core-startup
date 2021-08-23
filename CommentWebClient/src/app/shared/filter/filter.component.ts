@@ -2,8 +2,8 @@ import { trigger, transition, style, animate } from '@angular/animations'
 import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { NumberService } from 'src/services/number.service';
-import { Filter, FilterConfig } from './filter.config';
-import { eq, ne, gt, lt, ge, le, contains, startsWith, endsWith, between } from './operators';
+import { IFilter, FilterConfig, getFilterString } from './filter.config';
+import { getOperators } from './operators';
 
 @Component({
   selector: 'app-filter',
@@ -44,7 +44,7 @@ export class FilterComponent extends BaseComponent {
   ngOnInit() {
     if (!this.config) {
       this.config = {
-        filters: <Filter[]>[
+        filters: <IFilter[]>[
           {
             label: 'number',
             field: 'number',
@@ -74,7 +74,7 @@ export class FilterComponent extends BaseComponent {
         if (x.active) {
           this.filterCount += 1;
         }
-        x.operators = this.getOperators(x);
+        x.operators = getOperators(x);
       })
       this.invoke(this.onFilterCount, this.filterCount);
     }
@@ -82,25 +82,20 @@ export class FilterComponent extends BaseComponent {
 
   clear() {
     this.visible = false;
+    if (this.config?.filters) {
+      this.filterCount = 0;
+      this.config.filters.forEach(x => {
+        x.active = false;
+        x.value = '';
+      });
+    }
     this.invoke(this.onClear);
     this.invoke(this.config?.onClear);
   }
 
   apply() {
     this.visible = false;
-    let filter = '';
-    if (this.config.filters) {
-      const filters: string[] = [];
-      this.config.filters.forEach(x => {
-        if (x.active && x.value) {
-          filters.push(`${x.field} ${x.operator} ${x.value}`);
-        }
-      });
-      if (filters) {
-        filter = filters.join(' and ');
-      }
-    }
-    this.log(filter);
+    const filter = getFilterString(this.config);
     this.invoke(this.onApply, filter);
     this.invoke(this.config?.onApply, filter);
   }
@@ -109,7 +104,7 @@ export class FilterComponent extends BaseComponent {
     this.log("change", e);
   }
 
-  operatorChanged(e, filter: Filter) {
+  operatorChanged(e, filter: IFilter) {
     filter.value = '';
   }
 
@@ -129,22 +124,7 @@ export class FilterComponent extends BaseComponent {
     this.invoke(this.onFilterCount, this.filterCount);
   }
 
-  getOperators(filter: Filter): { value: string, label: string }[] {
-    const _type = filter.type?.toLocaleLowerCase();
-    let operators: { value: string, label: string }[] = [];
-    if (_type == 'text') {
-      operators = [eq, ne, contains, startsWith, endsWith];
-    }
-    else if (_type == 'number') {
-      operators = [eq, ne, gt, lt, ge, le];
-    }
-    else if (_type == 'date') {
-      operators = [eq, ne, gt, lt, ge, le, between];
-    }
-    if (!filter.operator && operators) {
-      filter.operator = operators[0].value;
-    }
-    return operators;
+  onChangeDate(e) {
+    this.log('onChangeDate', e);
   }
-
 }
