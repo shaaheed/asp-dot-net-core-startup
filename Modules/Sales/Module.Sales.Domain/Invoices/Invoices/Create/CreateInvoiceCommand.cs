@@ -8,7 +8,7 @@ namespace Module.Sales.Domain
     public class CreateInvoiceCommand : BaseInvoiceRequestDto<Invoice>, ICommand<long>
     {
         public Guid? SalesPersonId { get; set; }
-        public List<InvoiceLineItemRequestDto> Items { get; set; }
+        public List<LineItemRequestDto> Items { get; set; }
 
         public override Invoice Map(Invoice entity = null)
         {

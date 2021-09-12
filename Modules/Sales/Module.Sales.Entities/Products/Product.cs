@@ -6,29 +6,37 @@ namespace Module.Sales.Entities
 {
     public class Product : OrganizationCodeNameEntity
     {
+        // Barcode should be unique across the system
+        public string Barcode { get; set; }
+
         public string Description { get; set; }
 
         #region Sales Properties
         public bool IsSale { get; set; }
+        //public decimal? AvgSalesPrice { get; set; }
         public decimal? SalesPrice { get; set; }
         public string SalesDescription { get; set; }
-        
+
+        // Maximum retail price (MRP)
+        public decimal? MRP { get; set; }
+
         public Guid? SalesUnitId { get; set; }
         public virtual Unit SalesUnit { get; set; }
 
         public Guid? SalesAccountId { get; set; }
-        public virtual ChartOfAccount SalesAccount { get; set; }
+        public virtual Account SalesAccount { get; set; }
         #endregion
 
         #region Purchase Properties
         public bool IsPurchase { get; set; }
         public decimal? PurchasePrice { get; set; }
+        //public decimal? AvgPurchasePrice { get; set; }
         public string PurchaseDescription { get; set; }
         public Guid? PurchaseUnitId { get; set; }
         public virtual Unit PurchaseUnit { get; set; }
         
         public Guid? PurchaseAccountId { get; set; }
-        public virtual ChartOfAccount PurchaseAccount { get; set; }
+        public virtual Account PurchaseAccount { get; set; }
 
         public Guid? SupplierId { get; set; }
         public virtual Contact Supplier { get; set; }
@@ -40,7 +48,7 @@ namespace Module.Sales.Entities
         public float StockQuantity { get; set; }
         public float LowStockQuantity { get; set; }
         public Guid? InventoryAccountId { get; set; }
-        public virtual ChartOfAccount InventoryAccount { get; set; }
+        public virtual Account InventoryAccount { get; set; }
         #endregion
 
         public DateTimeOffset? StartDate { get; set; }
@@ -48,6 +56,11 @@ namespace Module.Sales.Entities
 
         public DateTimeOffset? SupportStartDate { get; set; }
         public DateTimeOffset? SupportEndDate { get; set; }
+
+        // Minimum Order Quantity
+        public float? MinOrderQty { get; set; }
+        // Maximum Order Quantity
+        public float? MaxOrderQty { get; set; }
 
         public virtual ICollection<ProductTax> Taxes { get; set; }
 

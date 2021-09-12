@@ -6,7 +6,7 @@ namespace Module.Sales.Domain
 {
     public class CreateBillCommand : BaseInvoiceRequestDto<Bill>, ICommand<long>
     {
-        public List<BillLineItemRequestDto> Items { get; set; }
+        public List<LineItemRequestDto> Items { get; set; }
 
         public override Bill Map(Bill entity = null)
         {

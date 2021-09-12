@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public class BaseInvoiceLineItemDto
+    public class LineItemDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

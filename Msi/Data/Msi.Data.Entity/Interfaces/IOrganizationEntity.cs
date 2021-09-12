@@ -2,7 +2,7 @@
 
 namespace Msi.Data.Entity
 {
-    public interface IHaveOrganizationEntity
+    public interface IOrganizationEntity
     {
         Guid? OrganizationId { get; set; }
     }

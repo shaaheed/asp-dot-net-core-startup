@@ -1,11 +1,9 @@
 ﻿using Msi.Mediator.Abstractions;
 using Module.Sales.Entities;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Core;
-using System.Collections.Generic;
 
 namespace Module.Sales.Domain
 {
@@ -13,20 +11,20 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductService _productService;
         private readonly IBillService _billService;
         private readonly IContactService _contactService;
+        private readonly ILineItemService _lineItemService;
 
         public DeleteBillCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService,
             IBillService billService,
-            IContactService contactService)
+            IContactService contactService,
+            ILineItemService lineItemService)
         {
             _unitOfWork = unitOfWork;
-            _productService = productService;
             _billService = billService;
             _contactService = contactService;
+            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(DeleteBillCommand request, CancellationToken cancellationToken)
@@ -42,36 +40,24 @@ namespace Module.Sales.Domain
             if (bill == null)
                 throw new ValidationException("Bill not found.");
 
-            var billLineItemRepo = _unitOfWork.GetRepository<BillLineItem>();
-            var savedBillLineItems = await billLineItemRepo.ListAsyncAsReadOnly(x => x.BillId == bill.Id, x => new
-            {
-                Id = x.Id,
-                LineItemId = x.LineItemId,
-                ProductId = x.LineItem.ProductId,
-                LineItemQuantity = x.LineItem.Quantity
-            }, cancellationToken);
-
-            var lineItemsToBeDeleted = savedBillLineItems.Select(x => new LineItem { Id = x.LineItemId });
-            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
-            lineItemRepo.RemoveRange(lineItemsToBeDeleted);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var result = await _lineItemService.DeleteAsync(LineItemType.Purchase, bill.Id, cancellationToken);
 
             billRepo.Remove(bill);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var allowedStatuses = new List<Status> { Status.Due };
-            if (result > 0 && allowedStatuses.Contains(bill.Status))
-            {
-                // decrease product stock as bill has been deleted.
-                var savedLineItemsHasProduct = savedBillLineItems.Where(x => x.ProductId.HasValue);
-                foreach (var savedBillLineItem in savedLineItemsHasProduct)
-                {
-                    result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(bill.Number, InventoryAdjustmentType.Billed, savedBillLineItem.ProductId.Value, savedBillLineItem.LineItemQuantity, cancellationToken);
-                }
-            }
+            //var allowedStatuses = new List<Status> { Status.Due };
+            //if (result > 0 && allowedStatuses.Contains(bill.Status))
+            //{
+            //    // decrease product stock as bill has been deleted.
+            //    var savedLineItemsHasProduct = savedBillLineItems.Where(x => x.ProductId.HasValue);
+            //    foreach (var savedBillLineItem in savedLineItemsHasProduct)
+            //    {
+            //        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(bill.Number, InventoryAdjustmentType.Billed, savedBillLineItem.ProductId.Value, savedBillLineItem.LineItemQuantity, cancellationToken);
+            //    }
+            //}
 
             decimal payablesAmount = _billService.GetPayablesAmount(bill.SupplierId);
-            await _contactService.UpdateDueAmount(bill.SupplierId, payablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(bill.SupplierId, payablesAmount, cancellationToken);
 
             return result;
         }

@@ -17,17 +17,20 @@ namespace Module.Sales.Domain
         private readonly IInvoiceService _invoiceService;
         private readonly IProductService _productService;
         private readonly IContactService _contactService;
+        private readonly ILineItemService _lineItemService;
 
         public UpdateInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
             IInvoiceService invoiceService,
             IProductService productService,
-            IContactService contactService)
+            IContactService contactService,
+            ILineItemService lineItemService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
             _productService = productService;
             _contactService = contactService;
+            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
@@ -42,6 +45,15 @@ namespace Module.Sales.Domain
             Guid? invoiceCustomerId = invoice.CustomerId;
             Guid? requestCustomerId = request.ContactId;
             request.Map(invoice);
+
+            var result = await _lineItemService.UpdateAsync(LineItemType.Sale, invoice.Id, request.Items, cancellationToken);
+
+
+
+
+
+
+
 
             var productRepo = _unitOfWork.GetRepository<Product>();
             var requestProductIds = request.Items
@@ -84,14 +96,14 @@ namespace Module.Sales.Domain
                     result += await _invoiceService.CreateOrUpdateInvoiceLineItem(requestLineItem, invoice.Id, savedLineItem.LineItemId, cancellationToken);
 
                     // invoice line item product changed
-                    if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value != savedLineItem.ProductId.Value)
-                    {
-                        // reducing product stock as new product is added to invoice line item
-                        result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                    //if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value != savedLineItem.ProductId.Value)
+                    //{
+                    //    // reducing product stock as new product is added to invoice line item
+                    //    result += await _productService.DecreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
 
-                        // increasing product stock as product is removed from invoice line item
-                        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
-                    }
+                    //    // increasing product stock as product is removed from invoice line item
+                    //    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                    //}
 
                     // invoice line item product not changed but quantiy may changed
                     else if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value == savedLineItem.ProductId.Value)
@@ -173,11 +185,11 @@ namespace Module.Sales.Domain
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             decimal receivablesAmount = _invoiceService.GetReceivablesAmount(requestCustomerId);
-            await _contactService.UpdateDueAmount(requestCustomerId, receivablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(requestCustomerId, receivablesAmount, cancellationToken);
             if (requestCustomerId != invoiceCustomerId)
             {
                 receivablesAmount = _invoiceService.GetReceivablesAmount(invoice.CustomerId);
-                await _contactService.UpdateDueAmount(invoiceCustomerId, receivablesAmount, cancellationToken);
+                await _contactService.UpdateBalance(invoiceCustomerId, receivablesAmount, cancellationToken);
             }
 
             return result;

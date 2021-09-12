@@ -1,7 +1,7 @@
 <div [ngStyle]="{'display': item && !clicked ? 'none' : 'flex'}">
     <div class="select-customer-container">
         <div *ngIf="!clicked" class="select-customer-btn">
-            <button (click)="add()" nz-button class="btn-custom">
+            <button type="button" (click)="add()" nz-button class="btn-custom">
                 <i nz-icon nzType="search" nzTheme="outline"></i>
                 {{ 'select.x0'|translate:{x0: label|translate } }}
             </button>

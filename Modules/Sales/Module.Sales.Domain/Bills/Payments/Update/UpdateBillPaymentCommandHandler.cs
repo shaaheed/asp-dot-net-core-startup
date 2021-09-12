@@ -45,7 +45,7 @@ namespace Module.Sales.Domain
 
             Guid? supplierId = _billService.GetSupplierId(request.BillId);
             decimal payablesAmount = _billService.GetPayablesAmount(supplierId);
-            await _contactService.UpdateDueAmount(supplierId, payablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(supplierId, payablesAmount, cancellationToken);
 
             return result;
         }

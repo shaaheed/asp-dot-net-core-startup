@@ -1,10 +1,8 @@
 ﻿using Msi.Mediator.Abstractions;
 using Module.Sales.Entities;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using System.Collections.Generic;
 using Msi.Core;
 
 namespace Module.Sales.Domain
@@ -13,20 +11,20 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductService _productService;
         private readonly IInvoiceService _invoiceService;
         private readonly IContactService _contactService;
+        private readonly ILineItemService _lineItemService;
 
         public DeleteInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService,
             IInvoiceService invoiceService,
-            IContactService contactService)
+            IContactService contactService,
+            ILineItemService lineItemService)
         {
             _unitOfWork = unitOfWork;
-            _productService = productService;
             _invoiceService = invoiceService;
             _contactService = contactService;
+            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(DeleteInvoiceCommand request, CancellationToken cancellationToken)
@@ -42,36 +40,24 @@ namespace Module.Sales.Domain
             if (invoice == null)
                 throw new ValidationException("Invoice not found.");
 
-            var invoiceLineItemRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
-            var savedInvoiceLineItems = await invoiceLineItemRepo.ListAsyncAsReadOnly(x => x.InvoiceId == invoice.Id, x => new
-            {
-                Id = x.Id,
-                LineItemId = x.LineItemId,
-                ProductId = x.LineItem.ProductId,
-                LineItemQuantity = x.LineItem.Quantity
-            }, cancellationToken);
-
-            var lineItemsToBeDeleted = savedInvoiceLineItems.Select(x => new LineItem { Id = x.LineItemId });
-            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
-            lineItemRepo.RemoveRange(lineItemsToBeDeleted);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var result = await _lineItemService.DeleteAsync(LineItemType.Sale, invoice.Id, cancellationToken);
 
             invoiceRepo.Remove(invoice);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var allowedStatuses = new List<Status> { Status.Due };
-            if (result > 0 && allowedStatuses.Contains(invoice.Status))
-            {
-                // increase product stock as invoice has been deleted.
-                var savedLineItemsHasProduct = savedInvoiceLineItems.Where(x => x.ProductId.HasValue);
-                foreach (var savedInvoiceLineItem in savedLineItemsHasProduct)
-                {
-                    result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedInvoiceLineItem.ProductId.Value, savedInvoiceLineItem.LineItemQuantity, cancellationToken);
-                }
-            }
+            //var allowedStatuses = new List<Status> { Status.Due };
+            //if (result > 0 && allowedStatuses.Contains(invoice.Status))
+            //{
+            //    // increase product stock as invoice has been deleted.
+            //    var savedLineItemsHasProduct = savedInvoiceLineItems.Where(x => x.ProductId.HasValue);
+            //    foreach (var savedInvoiceLineItem in savedLineItemsHasProduct)
+            //    {
+            //        result += await _productService.IncreaseStockQuantityWithInventoryAdjustment(invoice.Number, InventoryAdjustmentType.Invoiced, savedInvoiceLineItem.ProductId.Value, savedInvoiceLineItem.LineItemQuantity, cancellationToken);
+            //    }
+            //}
 
             decimal receivablesAmount = _invoiceService.GetReceivablesAmount(invoice.CustomerId);
-            await _contactService.UpdateDueAmount(invoice.CustomerId, receivablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(invoice.CustomerId, receivablesAmount, cancellationToken);
 
             return result;
         }

@@ -61,3 +61,29 @@
 .invoice-customer-option {
     font-weight: normal;
 }
+
+.option-container {
+    display: flex;
+    justify-content: space-between;
+    .right {
+        text-align: right;
+    }
+}
+
+.product-global {
+    max-width: 40%;
+    .ant-input-affix-wrapper {
+        & > input.ant-input {
+            background: none;
+            line-height: 25px;
+        }
+    }
+    input:focus,
+    input:hover {
+        border: none !important;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+        box-shadow: none !important;
+    }
+}

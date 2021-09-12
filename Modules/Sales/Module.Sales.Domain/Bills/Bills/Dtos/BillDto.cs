@@ -1,9 +1,7 @@
 ﻿using Module.Sales.Domain.Contacts;
 using Module.Sales.Entities;
-using Module.Systems.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Module.Sales.Domain
@@ -20,7 +18,7 @@ namespace Module.Sales.Domain
         public decimal Total { get; set; }
         public DateTimeOffset IssueDate { get; set; }
         public DateTimeOffset? PaymentDueDate { get; set; }
-        public IEnumerable<BillLineItemDto> Items { get; set; }
+        public IEnumerable<LineItemDto> Items { get; set; }
         public decimal PaymentAmount { get; set; }
         public string Note { get; set; }
         public string Memo { get; set; }
@@ -54,24 +52,24 @@ namespace Module.Sales.Domain
                 Note = x.Note,
                 Status = x.Status.ToString(),
                 PaymentDueDate = x.PaymentDueDate,
-                Items = x.BillLineItems.Select(y => new BillLineItemDto
-                {
-                    Id = y.Id,
-                    Name = y.LineItem.Name,
-                    Description = y.LineItem.Description,
-                    ProductId = y.LineItem.ProductId,
-                    Quantity = y.LineItem.Quantity,
-                    Subtotal = y.LineItem.Subtotal,
-                    Total = y.LineItem.Total,
-                    UnitPrice = y.LineItem.UnitPrice,
-                    Note = y.LineItem.Note,
-                    Unit = y.LineItem.UnitId != null ? new GuidCodeNameDto
-                    {
-                        Id = (Guid)y.LineItem.UnitId,
-                        Code = y.LineItem.Unit.Symbol,
-                        Name = y.LineItem.Unit.Name
-                    } : null
-                }),
+                //Items = x.BillLineItems.Select(y => new BillLineItemDto
+                //{
+                //    Id = y.Id,
+                //    Name = y.LineItem.Name,
+                //    Description = y.LineItem.Description,
+                //    ProductId = y.LineItem.ProductId,
+                //    Quantity = y.LineItem.Quantity,
+                //    Subtotal = y.LineItem.Subtotal,
+                //    Total = y.LineItem.Total,
+                //    UnitPrice = y.LineItem.UnitPrice,
+                //    Note = y.LineItem.Note,
+                //    Unit = y.LineItem.UnitId != null ? new GuidCodeNameDto
+                //    {
+                //        Id = (Guid)y.LineItem.UnitId,
+                //        Code = y.LineItem.Unit.Symbol,
+                //        Name = y.LineItem.Unit.Name
+                //    } : null
+                //}),
                 PaymentAmount = paymentAmount,
                 Total = x.GrandTotal
             };

@@ -55,12 +55,12 @@ namespace Module.Sales.Domain
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> DecreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeDecrease, CancellationToken cancellationToken = default)
-        {
-            var result = await DecreaseStockQuantity(productId, quantityToBeDecrease, cancellationToken);
-            result += await AdjustInventoryByReference(reference, adjustmentType, productId, -quantityToBeDecrease, cancellationToken);
-            return result;
-        }
+        //public async Task<int> DecreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeDecrease, CancellationToken cancellationToken = default)
+        //{
+        //    var result = await DecreaseStockQuantity(productId, quantityToBeDecrease, cancellationToken);
+        //    result += await AdjustInventoryByReference(reference, adjustmentType, productId, -quantityToBeDecrease, cancellationToken);
+        //    return result;
+        //}
 
         public string GetNextNumber()
         {
@@ -88,12 +88,12 @@ namespace Module.Sales.Domain
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> IncreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeIncrease, CancellationToken cancellationToken = default)
-        {
-            var result = await IncreaseStockQuantity(productId, quantityToBeIncrease, cancellationToken);
-            result += await AdjustInventoryByReference(reference, adjustmentType, productId, quantityToBeIncrease, cancellationToken);
-            return result;
-        }
+        //public async Task<int> IncreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeIncrease, CancellationToken cancellationToken = default)
+        //{
+        //    var result = await IncreaseStockQuantity(productId, quantityToBeIncrease, cancellationToken);
+        //    result += await AdjustInventoryByReference(reference, adjustmentType, productId, quantityToBeIncrease, cancellationToken);
+        //    return result;
+        //}
 
         public async Task<int> UpdateStockQuantity(Guid productId, float newQuantity, CancellationToken cancellationToken = default)
         {
@@ -121,31 +121,32 @@ namespace Module.Sales.Domain
             return result;
         }
 
-        public async Task<int> UpdateStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float newQuantity, CancellationToken cancellationToken = default)
-        {
-            int result = 0;
-            var savedProduct = await GetProductAsReadOnly(productId, x => new
-            {
-                StockQuantity = x.StockQuantity,
-                Name = x.Name
-            }, cancellationToken);
+        //public async Task<int> UpdateStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float newQuantity, CancellationToken cancellationToken = default)
+        //{
+        //    int result = 0;
+        //    var savedProduct = await GetProductAsReadOnly(productId, x => new
+        //    {
+        //        StockQuantity = x.StockQuantity,
+        //        Name = x.Name
+        //    }, cancellationToken);
 
-            // 10 < 15 = 5
-            if (savedProduct.StockQuantity < newQuantity)
-            {
-                // increase
-                float quantityToBeIncrease = newQuantity - savedProduct.StockQuantity;
-                result += await IncreaseStockQuantityWithInventoryAdjustment(reference, adjustmentType, productId, quantityToBeIncrease, cancellationToken);
-            }
-            // 15 > 10 = 5
-            else if (savedProduct.StockQuantity > newQuantity)
-            {
-                // decrease
-                float quantityToBeDecrease = savedProduct.StockQuantity - newQuantity;
-                result += await DecreaseStockQuantityWithInventoryAdjustment(reference, adjustmentType, productId, quantityToBeDecrease, cancellationToken);
-            }
-            return result;
-        }
+        //    // 10 < 15 = 5
+        //    if (savedProduct.StockQuantity < newQuantity)
+        //    {
+        //        // increase
+        //        float quantityToBeIncrease = newQuantity - savedProduct.StockQuantity;
+        //        result += await IncreaseStockQuantityWithInventoryAdjustment(reference, adjustmentType, productId, quantityToBeIncrease, cancellationToken);
+        //    }
+        //    // 15 > 10 = 5
+        //    else if (savedProduct.StockQuantity > newQuantity)
+        //    {
+        //        // decrease
+        //        float quantityToBeDecrease = savedProduct.StockQuantity - newQuantity;
+        //        result += await DecreaseStockQuantityWithInventoryAdjustment(reference, adjustmentType, productId, quantityToBeDecrease, cancellationToken);
+        //    }
+        //    return result;
+        //}
+
         /// <summary>
         /// This method must be called after updating the product stock quantity
         /// </summary>
@@ -154,71 +155,71 @@ namespace Module.Sales.Domain
         /// <param name="quantityAdjusted"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<int> AdjustInventoryByReference(
-            string reference,
-            InventoryAdjustmentType adjustmentType,
-            Guid productId,
-            float quantityAdjusted,
-            CancellationToken cancellationToken = default)
-        {
-            var savedProduct = await GetProductAsReadOnly(productId, x => new
-            {
-                Id = x.Id,
-                StockQuantity = x.StockQuantity,
-                IsSale = x.IsSale,
-                IsInventory = x.IsInventory,
-                Name = x.Name
-            }, cancellationToken);
+        //public async Task<int> AdjustInventoryByReference(
+        //    string reference,
+        //    InventoryAdjustmentType adjustmentType,
+        //    Guid productId,
+        //    float quantityAdjusted,
+        //    CancellationToken cancellationToken = default)
+        //{
+        //    var savedProduct = await GetProductAsReadOnly(productId, x => new
+        //    {
+        //        Id = x.Id,
+        //        StockQuantity = x.StockQuantity,
+        //        IsSale = x.IsSale,
+        //        IsInventory = x.IsInventory,
+        //        Name = x.Name
+        //    }, cancellationToken);
 
-            if (!savedProduct.IsSale) throw new ValidationException($"{savedProduct.Name} is not salable.");
+        //    if (!savedProduct.IsSale) throw new ValidationException($"{savedProduct.Name} is not salable.");
 
-            int result = 0;
-            if (savedProduct.IsInventory)
-            {
-                var adjustmentLineRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
+        //    int result = 0;
+        //    if (savedProduct.IsInventory)
+        //    {
+        //        var adjustmentLineRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
 
-                var savedAdjustmentLines = await adjustmentLineRepo
-                    .ListAsyncAsReadOnly(x => x.InventoryAdjustment.Reference == reference && x.ProductId == productId && !x.InventoryAdjustment.IsDeleted, x => new
-                    {
-                        Id = x.Id,
-                        QuantityAdjusted = x.QuantityAdjusted
-                    }, cancellationToken);
+        //        var savedAdjustmentLines = await adjustmentLineRepo
+        //            .ListAsyncAsReadOnly(x => x.InventoryAdjustment.Reference == reference && x.ProductId == productId && !x.InventoryAdjustment.IsDeleted, x => new
+        //            {
+        //                Id = x.Id,
+        //                QuantityAdjusted = x.QuantityAdjusted
+        //            }, cancellationToken);
 
-                if (savedAdjustmentLines.Count > 0)
-                {
-                    var linesToBeDeleted = savedAdjustmentLines.Skip(1).Select(x => new InventoryAdjustmentLineItem { Id = x.Id });
-                    adjustmentLineRepo.RemoveRange(linesToBeDeleted);
+        //        if (savedAdjustmentLines.Count > 0)
+        //        {
+        //            var linesToBeDeleted = savedAdjustmentLines.Skip(1).Select(x => new InventoryAdjustmentLineItem { Id = x.Id });
+        //            adjustmentLineRepo.RemoveRange(linesToBeDeleted);
 
-                    // update
-                    var adjustmentLine = new InventoryAdjustmentLineItem { Id = savedAdjustmentLines[0].Id };
-                    adjustmentLineRepo.Attach(adjustmentLine);
-                    adjustmentLine.QuantityAdjusted = quantityAdjusted;
-                    adjustmentLine.NewQuantityOnHand = savedProduct.StockQuantity;
-                    adjustmentLine.QuantityAvailable = savedProduct.StockQuantity;
-                    result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-                }
-                else
-                {
-                    // new
-                    var _newAdjustment = new InventoryAdjustmentLineItem
-                    {
-                        InventoryAdjustment = new InventoryAdjustment
-                        {
-                            AdjustmentDate = DateTimeOffset.UtcNow,
-                            Reference = reference,
-                            Type = adjustmentType
-                        },
-                        ProductId = productId,
-                        QuantityAdjusted = quantityAdjusted,
-                        QuantityAvailable = savedProduct.StockQuantity,
-                        NewQuantityOnHand = savedProduct.StockQuantity
-                    };
-                    await adjustmentLineRepo.AddAsync(_newAdjustment, cancellationToken);
-                    result += await _unitOfWork.SaveChangesAsync(cancellationToken);
-                }
-            }
-            return result;
-        }
+        //            // update
+        //            var adjustmentLine = new InventoryAdjustmentLineItem { Id = savedAdjustmentLines[0].Id };
+        //            adjustmentLineRepo.Attach(adjustmentLine);
+        //            adjustmentLine.QuantityAdjusted = quantityAdjusted;
+        //            adjustmentLine.NewQuantityOnHand = savedProduct.StockQuantity;
+        //            adjustmentLine.QuantityAvailable = savedProduct.StockQuantity;
+        //            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+        //        }
+        //        else
+        //        {
+        //            // new
+        //            var _newAdjustment = new InventoryAdjustmentLineItem
+        //            {
+        //                InventoryAdjustment = new InventoryAdjustment
+        //                {
+        //                    AdjustmentDate = DateTimeOffset.UtcNow,
+        //                    Reference = reference,
+        //                    Type = adjustmentType
+        //                },
+        //                ProductId = productId,
+        //                QuantityAdjusted = quantityAdjusted,
+        //                QuantityAvailable = savedProduct.StockQuantity,
+        //                NewQuantityOnHand = savedProduct.StockQuantity
+        //            };
+        //            await adjustmentLineRepo.AddAsync(_newAdjustment, cancellationToken);
+        //            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
+        //        }
+        //    }
+        //    return result;
+        //}
 
         public async Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Product, TViewModel>> selector, CancellationToken cancellationToken = default)
         {

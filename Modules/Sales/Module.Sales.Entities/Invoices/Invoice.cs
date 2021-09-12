@@ -5,13 +5,10 @@ namespace Module.Sales.Entities
 {
     public class Invoice : BaseInvoice
     {
-
-        public Invoice()
-        {
-            InvoiceLineItems = new HashSet<InvoiceLineItem>();
-        }
-
         public string OrderNumber { get; set; }
+
+        // If invoice amount is $110 and customer pays $120 as Cash then $10 must be return amount.
+        public decimal? ReturnAmount { get; set; }
 
         public Guid? CustomerId { get; set; }
         public virtual Contact Customer { get; set; }
@@ -25,7 +22,6 @@ namespace Module.Sales.Entities
         public Guid? FromQuoteId { get; set; }
         public virtual Quote FromQuote { get; set; }
 
-        public virtual ICollection<InvoiceLineItem> InvoiceLineItems { get; set; }
         public virtual ICollection<InvoicePayment> InvoicePayments { get; set; }
     }
 }

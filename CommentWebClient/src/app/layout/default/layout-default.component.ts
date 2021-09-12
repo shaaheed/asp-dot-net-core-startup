@@ -61,6 +61,7 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             title: 'products',
             route: '/products',
             fn: () => true,
+            createRoute: '/products/create'
           },
           {
             level: 2,
@@ -167,6 +168,12 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
   navClicked(n) {
     if (n.route) {
       this.goTo(n.route);
+    }
+  }
+
+  navCreateRouteClicked(n) {
+    if (n.createRoute) {
+      this.goTo(n.createRoute);
     }
   }
 

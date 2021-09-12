@@ -45,7 +45,7 @@ namespace Module.Sales.Domain.InvoicePayments
 
             Guid? customerId = _invoiceService.GetCustomerId(request.InvoiceId);
             decimal receivablesAmount = _invoiceService.GetReceivablesAmount(customerId);
-            await _contactService.UpdateDueAmount(customerId, receivablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(customerId, receivablesAmount, cancellationToken);
 
             return result;
         }

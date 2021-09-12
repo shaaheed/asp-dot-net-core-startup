@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Sales.Entities
 {
-    public class Order : OrganizationBaseEntity
+    public class Order : OrganizationEntity
     {
         public Guid? CustomerId { get; set; }
         public DateTime? StartDate { get; set; }

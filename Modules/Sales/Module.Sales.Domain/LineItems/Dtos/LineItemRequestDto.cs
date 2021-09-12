@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Module.Sales.Domain
 {
-    public class BaseInvoiceLineItemRequestDto
+    public class LineItemRequestDto
     {
         public Guid? Id { get; set; }
         public string Name { get; set; }

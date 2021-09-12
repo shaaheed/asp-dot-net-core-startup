@@ -23,6 +23,8 @@ import { InputModule } from 'src/app/shared/input/input.module';
 import { TextModule } from 'src/app/shared/text/text.module';
 import { AutocompleteModule } from 'src/app/shared/autocomplete/autocomplete.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzDropDownModule,
     SharedModule,
     NzSelectModule,
+    NzInputModule,
     BoxLoaderModule,
     NzDatePickerModule,
     NzButtonModule,
@@ -51,7 +54,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     InputModule,
     TextModule,
     NzIconModule,
-    AutocompleteModule
+    AutocompleteModule,
+    NzAutocompleteModule
   ],
   exports: [InvoicesAddComponent]
 })

@@ -32,7 +32,7 @@
           </nz-dropdown-menu>
         </div>
       </div>
-      <div class="column search">
+      <div class="column search-global">
         <nz-input-group [nzPrefix]="prefixIconSearch">
           <input type="text" nz-input placeholder="{{'search'|translate}}" />
         </nz-input-group>
@@ -113,8 +113,15 @@
                 <ng-container *ngIf="n.granted">
                   <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10" style="height: auto;">
                     <div class="li-inner-div" [ngStyle]="{'paddingLeft': n.level * 10+'px'}">
-                      <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
-                      <span>{{n.title|translate}}</span>
+                      <div style="flex: 1">
+                        <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
+                        <span>{{n.title|translate}}</span>
+                      </div>
+                      <div *ngIf="n.createRoute">
+                        <span (click)="navCreateRouteClicked(n)" class="create-button">
+                          <i nz-icon nzType="plus"></i>
+                        </span>
+                      </div>
                     </div>
                   </li>
                   <!-- nzTitle="{{n.title|translate}}" [nzIcon]="n.icon" -->

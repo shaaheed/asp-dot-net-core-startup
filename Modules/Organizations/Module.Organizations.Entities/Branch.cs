@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Organizations.Entities
 {
-    public class Branch : OrganizationBaseEntity
+    public class Branch : OrganizationEntity
     {
         public Branch() { }
 

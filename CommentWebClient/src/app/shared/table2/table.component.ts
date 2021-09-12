@@ -106,8 +106,10 @@ export class TableComponent extends BaseComponent {
           }
         }
 
-        this.config.filterConfig.onClear = () => {
-          this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+        this.config.filterConfig.onClear = (filterCount?: number) => {
+          if (filterCount) {
+            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+          }
         }
       }
 

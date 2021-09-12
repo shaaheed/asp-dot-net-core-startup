@@ -1,4 +1,3 @@
-import { environment } from 'src/environments/environment';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -167,4 +166,24 @@ export function getNumberMap() {
         '8': '৮',
         '9': '৯'
     }
+}
+
+export function clone(obj: any): any {
+    if (obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+    return obj;
+}
+
+export function beep(vol = 90, freq = 500, duration = 150) {
+    var a = new AudioContext()
+    var v = a.createOscillator()
+    var u = a.createGain()
+    v.connect(u)
+    v.frequency.value = freq
+    v.type = "square"
+    u.connect(a.destination)
+    u.gain.value = vol * 0.01
+    v.start(a.currentTime)
+    v.stop(a.currentTime + duration * 0.001)
 }

@@ -16,17 +16,17 @@ namespace Module.Sales.Domain
 
         Task<int> UpdateStockQuantity(Guid productId, float newQuantity, CancellationToken cancellationToken = default);
 
-        Task<int> UpdateStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float newQuantity, CancellationToken cancellationToken = default);
+        //Task<int> UpdateStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float newQuantity, CancellationToken cancellationToken = default);
 
         Task<int> IncreaseStockQuantity(Guid productId, float quantityToBeIncrease, CancellationToken cancellationToken = default);
 
-        Task<int> IncreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeIncrease, CancellationToken cancellationToken = default);
+        //Task<int> IncreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeIncrease, CancellationToken cancellationToken = default);
 
         Task<int> DecreaseStockQuantity(Guid productId, float quantityToBeDecrease, CancellationToken cancellationToken = default);
 
-        Task<int> DecreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeDecrease, CancellationToken cancellationToken = default);
+        //Task<int> DecreaseStockQuantityWithInventoryAdjustment(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float quantityToBeDecrease, CancellationToken cancellationToken = default);
 
-        Task<int> AdjustInventoryByReference(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float adjustedQuantity, CancellationToken cancellationToken = default);
+        //Task<int> AdjustInventoryByReference(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float adjustedQuantity, CancellationToken cancellationToken = default);
 
         Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Product, TViewModel>> selector, CancellationToken cancellationToken = default);
 

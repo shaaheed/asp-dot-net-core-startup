@@ -167,7 +167,7 @@
   "account": "একাউন্ট",
   "not.found": "খুঁজে পাওয়া যায়নি",
   "x0.not.found": "{{x0}} খুঁজে পাওয়া যায়নি",
-  "this.field.is.required": "এই ঘরটি অবশ্যই পূরণ করতে হবে",
+  "this.field.is.required": "ঘরটি অবশ্যই পূরণীয়",
   "equal.or.less.x0.letters": "এই ঘরের বর্ণ সংখ্যা {{x0}} এর সমান বা কম হতে হবে",
   "equal.or.greater.x0.letters": "এই ঘরের বর্ণ সংখ্যা {{x0}} এর সমান বা বেশি হতে হবে",
   "symbol": "প্রতীক",
@@ -188,5 +188,12 @@
   "give.x0.as.discount": "{{x0}} ছাড় দিন",
   "total.due": "সর্বমোট বাকি",
   "filter.clear": "বাতিল",
-  "filter.apply": "ছাঁকুন "
+  "filter.apply": "ছাঁকুন ",
+  "product.code": "কোড/SKU",
+  "barcode": "বারকোড",
+  "stock.on.hand": "স্টক হাতে আছে",
+  "search.x0.by.x1.or.x2": "{{x1}} অথবা {{x2}} দিয়ে {{x0}} খুঁজুন",
+  "press.x0.to.add.x1": "{{x1}} যুক্ত করতে {{x0}} চাপুন",
+  "enter.key": "এন্টার কী",
+  "balance": "ব্যালেন্স"
 }

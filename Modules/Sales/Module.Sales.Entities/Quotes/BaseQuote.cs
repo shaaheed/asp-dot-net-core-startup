@@ -5,13 +5,13 @@ using System;
 namespace Module.Sales.Entities
 {
     [IgnoredEntity]
-    public class BaseQuote : OrganizationBaseEntity
+    public class BaseQuote : OrganizationEntity
     {
         public string Number { get; set; }
         public string Reference { get; set; }
 
         public Guid? AccountId { get; set; }
-        public ChartOfAccount Account { get; set; }
+        public Account Account { get; set; }
 
         /// <summary>
         /// Sum of all line items Subtotal

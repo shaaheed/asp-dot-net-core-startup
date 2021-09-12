@@ -190,5 +190,12 @@
   "give.x0.as.discount": "Pay {{x0}} as discount",
   "total.due": "Total due",
   "filter.clear": "Clear",
-  "filter.apply": "Apply"
+  "filter.apply": "Apply",
+  "product.code": "Code/SKU",
+  "barcode": "Barcode",
+  "stock.on.hand": "Stock on hand",
+  "search.x0.by.x1.or.x2": "Search {{x0}} by {{x1}} or {{x2}}",
+  "press.x0.to.add.x1": "Press {{x0}} to add {{x1}}",
+  "enter.key": "Enter key",
+  "balance": "Balance"
 }

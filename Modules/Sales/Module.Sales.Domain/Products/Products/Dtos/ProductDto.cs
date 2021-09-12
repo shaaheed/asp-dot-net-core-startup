@@ -8,12 +8,14 @@ namespace Module.Sales.Domain.Products
 {
     public class ProductDto : GuidCodeNameDto
     {
+        public string Barcode { get; set; }
         public string Description { get; set; }
         public IEnumerable<GuidIdNameDto> Categories { get; set; }
 
         // Sales Properties
         public bool IsSale { get; set; }
         public decimal? SalesPrice { get; set; }
+        public decimal? MRP { get; set; }
         public string SalesDescription { get; set; }
         public GuidIdNameDto SalesUnit { get; set; }
         public GuidCodeNameDto SalesAccount { get; set; }
@@ -43,6 +45,9 @@ namespace Module.Sales.Domain.Products
 
         public DateTimeOffset? CreatedAt { get; set; }
 
+        public float? MinOrderQty;
+        public float? MaxOrderQty;
+
         public static Expression<Func<Product, ProductDto>> Selector()
         {
             return x => new ProductDto
@@ -50,10 +55,12 @@ namespace Module.Sales.Domain.Products
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
+                Barcode = x.Barcode,
                 Description = x.Description,
 
                 IsSale = x.IsSale,
                 SalesPrice = x.SalesPrice,
+                MRP = x.MRP,
                 SalesDescription = x.SalesDescription,
                 SalesUnit = x.SalesUnit != null ? new GuidIdNameDto
                 {
@@ -102,6 +109,8 @@ namespace Module.Sales.Domain.Products
                 EndDate = x.EndDate,
                 SupportStartDate = x.SupportStartDate,
                 SupportEndDate = x.SupportEndDate,
+                MinOrderQty = x.MinOrderQty,
+                MaxOrderQty = x.MaxOrderQty,
 
                 CreatedAt = x.CreatedAt
             };

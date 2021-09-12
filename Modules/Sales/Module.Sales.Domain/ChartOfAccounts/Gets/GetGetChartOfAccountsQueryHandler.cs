@@ -21,7 +21,7 @@ namespace Module.Sales.Domain.ChartOfAccounts
 
         public async Task<IEnumerable<ChartOfAccountDto>> Handle(GetChartOfAccountsQuery request, CancellationToken cancellationToken)
         {
-            var results = _unitOfWork.GetRepository<ChartOfAccount>()
+            var results = _unitOfWork.GetRepository<Account>()
                 .AsQueryable()
                 .Select(x => new ChartOfAccountDto
                 {

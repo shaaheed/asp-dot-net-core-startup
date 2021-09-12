@@ -116,13 +116,13 @@ namespace Msi.Data.EntityFrameworkCore
                         entity.UpdatedAt = DateTimeOffset.UtcNow;
                     }
                 }
-                if (entry.Entity is IHaveOrganizationEntity)
+                if (entry.Entity is IOrganizationEntity)
                 {
                     var organizationId = _appService.GetOrganizationId();
                     if (!string.IsNullOrEmpty(organizationId))
                     {
                         var organizationGuid = new Guid(organizationId);
-                        var entity = (IHaveOrganizationEntity)entry.Entity;
+                        var entity = (IOrganizationEntity)entry.Entity;
                         if (entry.State == EntityState.Added)
                         {
                             entity.OrganizationId = organizationGuid;

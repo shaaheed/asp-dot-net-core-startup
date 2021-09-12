@@ -3,7 +3,7 @@
 namespace Msi.Data.Entity
 {
     [IgnoredEntity]
-    public class OrganizationBaseEntity : BaseEntity, IHaveOrganizationEntity
+    public class OrganizationEntity : BaseEntity, IOrganizationEntity
     {
         public Guid? OrganizationId { get; set; }
     }

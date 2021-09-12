@@ -1,5 +1,5 @@
-<button #popover class="btn-custom" nz-button nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
-    [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight">
+<button class="btn-custom" nz-button nz-popover [(nzPopoverVisible)]="visible" nzPopoverTrigger="click"
+    [nzPopoverContent]="contentTemplate" nzPopoverPlacement="bottomRight" (nzPopoverVisibleChange)="popoverVisibleChange($event)">
     <i nz-icon nzType="filter"></i>
     <span>{{'filter'|translate}}</span>
     <span *ngIf="filterCount">
@@ -17,7 +17,7 @@
         <ng-container *ngIf="config && config.filters">
             <div class="filter" *ngFor="let f of config?.filters">
                 <label class="label pad8" nz-checkbox [(ngModel)]="f.active"
-                    (ngModelChange)="activeChanged($event)">{{f.label|translate}}</label>
+                    (ngModelChange)="activeChanged($event, f)">{{f.label|translate}}</label>
 
                 <!-- [@animation] -->
                 <div class="pad8 bg value-container" *ngIf="f.active">

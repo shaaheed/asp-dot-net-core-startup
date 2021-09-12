@@ -31,7 +31,7 @@ namespace Module.Sales.Domain.Contacts
                 Type = x.Type.ToString(),
                 Address = x.BillingAddressId != null ? x.BillingAddress.AddressLine1 : null,
                 CreatedAt = x.CreatedAt,
-                TotalDueAmount = x.TotalDueAmount
+                TotalDueAmount = x.Balance
             };
         }
     }

@@ -1,10 +1,7 @@
 ﻿using Module.Sales.Entities;
-using Msi.Core;
 using Msi.Data.Abstractions;
 using System;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
@@ -12,13 +9,13 @@ namespace Module.Sales.Domain
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Bill> _billRepo;
-        private readonly IRepository<BillLineItem> _billLineItemRepo;
+        private readonly IRepository<LineItem> _lineItemRepo;
 
         public BillService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _billRepo = _unitOfWork.GetRepository<Bill>();
-            _billLineItemRepo = _unitOfWork.GetRepository<BillLineItem>();
+            _lineItemRepo = _unitOfWork.GetRepository<LineItem>();
         }
 
         public void AddPayment(Guid billId)
@@ -35,12 +32,12 @@ namespace Module.Sales.Domain
             {
                 decimal grandTotal = 0;
                 decimal subtotal = 0;
-                var lineItems = _billLineItemRepo
-                    .WhereAsReadOnly(x => x.BillId == bill.Id)
+                var lineItems = _lineItemRepo
+                    .WhereAsReadOnly(x => x.ReferenceId == bill.Id && x.Type == LineItemType.Purchase)
                     .Select(x => new
                     {
-                        Total = x.LineItem.Total,
-                        Subtotal = x.LineItem.Subtotal
+                        Total = x.Total,
+                        Subtotal = x.Subtotal
                     });
                 foreach (var item in lineItems)
                 {
@@ -93,50 +90,6 @@ namespace Module.Sales.Domain
                 .LongCount();
 
             return $"BILL-{count + 1}";
-        }
-
-        public async Task<int> CreateOrUpdateBillLineItem(
-            BillLineItemRequestDto request,
-            Guid billId,
-            Guid? lineItemId,
-            CancellationToken cancellationToken = default)
-        {
-            var lineItem = request.Map();
-            var billLineItem = new BillLineItem();
-            if (request.Id.HasValue)
-            {
-                var savedInvoiceLineItem = await _billLineItemRepo
-                    .FirstOrDefaultAsyncAsReadOnly(x => x.Id == request.Id.Value, x => new
-                    {
-                        Id = x.Id,
-                        LineItemId = x.LineItemId
-                    });
-
-                if (savedInvoiceLineItem == null)
-                    throw new ValidationException("Line item not found");
-
-                billLineItem.Id = request.Id.Value;
-                _billLineItemRepo.Attach(billLineItem);
-                if (lineItemId.HasValue)
-                {
-                    var savedLineItem = await _unitOfWork.GetRepository<LineItem>()
-                        .FirstOrDefaultAsyncAsReadOnly(x => x.Id == lineItemId.Value && !x.IsDeleted, x => new { Id = x.Id }, cancellationToken);
-                    if (savedLineItem == null)
-                        throw new ValidationException("Line item not found.");
-
-                    lineItem.Id = lineItemId.Value;
-                    billLineItem.LineItemId = lineItemId.Value;
-                    billLineItem.LineItem = lineItem;
-                }
-            }
-            else
-            {
-                billLineItem.LineItem = lineItem;
-                billLineItem.BillId = billId;
-                await _billLineItemRepo.AddAsync(billLineItem, cancellationToken);
-            }
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result;
         }
 
         public decimal GetPayablesAmount(Guid? supplierId)

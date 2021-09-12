@@ -16,7 +16,7 @@
         </ng-container>
 
         <ng-template #inputTemplate>
-            <input [formControl]="ngControl.control"
+            <input [ngStyle]="inputStyle" [formControl]="ngControl.control"
                 (ngModelChange)="onValueChange($event)" [type]="type" nz-input
                 placeholder="{{placeholder|translate}}" />
         </ng-template>

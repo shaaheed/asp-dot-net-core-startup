@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { NzAutocompleteComponent } from 'ng-zorro-antd/auto-complete';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { NzAutocompleteComponent, NzAutocompleteOptionComponent } from 'ng-zorro-antd/auto-complete';
 import { AntControlComponent } from '../ant-control.component';
 import { InputConfig } from '../form-page/control.config';
 
@@ -15,8 +15,13 @@ export class AutocompleteComponent extends AntControlComponent {
   @Input() idKey: string = 'id';
   @Input() labelKey: string = 'name';
   @Input() options: any[] = [];
+  @Output() selectionChange: EventEmitter<any> = new EventEmitter(true);
+  @Output() searchTermChange: EventEmitter<string> = new EventEmitter(true);
+  @Input() overlayClassName: string = 'autocompleteOverlay';
+  @Input() optionTemplate: TemplateRef<any> = null;
 
   @ViewChild('autocomplete', { static: true }) autocomplete: NzAutocompleteComponent;
+  overlayStyle = {minWidth: '500px'}
 
   ngOnInit() {
     if (this.config) {
@@ -28,9 +33,20 @@ export class AutocompleteComponent extends AntControlComponent {
     super.ngOnInit();
   }
 
-  onValueChange(e) {
-    this.setControlValue(e);
-    super.onValueChange(e);
+  onChangeSearchTerm(searchTerm) {
+    if (this.searchTermChange) {
+      this.searchTermChange.emit(searchTerm);
+    }
+  }
+
+  onSelectionChanged(option: NzAutocompleteOptionComponent) {
+    const value = option.nzValue
+    const item = this.options.filter(x => x.id == value)[0];
+    if (item && this.selectionChange) {
+      this.selectionChange.emit(item);
+    }
+    this.setControlValue(value);
+    super.onValueChange(value);
   }
 
   private setControlValue(value) {

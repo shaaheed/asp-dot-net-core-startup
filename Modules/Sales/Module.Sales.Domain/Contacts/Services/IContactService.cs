@@ -7,6 +7,6 @@ namespace Module.Sales.Domain
 {
     public interface IContactService : IScopedService
     {
-        Task UpdateDueAmount(Guid? contactId, decimal amount, CancellationToken cancellationToken = default);
+        Task UpdateBalance(Guid? contactId, decimal amount, CancellationToken cancellationToken = default);
     }
 }

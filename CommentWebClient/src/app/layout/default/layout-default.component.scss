@@ -106,25 +106,6 @@
       >*:not(:first-child) {
         margin-left: 10px;
       }
-      &.search {
-       margin-left: 23px;
-       .ant-input-affix-wrapper {
-        border: unset;
-        background: #f0f2f5;
-        border-radius: 50px;
-        font-size: 16px;
-        line-height: 30px;
-        &>input.ant-input {
-          background: none;
-        }
-       }
-       input:focus, input:hover {
-         border: none !important;
-       }
-       .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused {
-         box-shadow: none !important;
-       }
-      }
     }
     .ant-avatar {
       color: rgba(0, 0, 0, 0.65);

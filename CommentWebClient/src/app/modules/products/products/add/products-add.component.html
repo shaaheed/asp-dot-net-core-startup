@@ -5,6 +5,10 @@
                 <div nz-col nzSpan="12">
                     <app-input label="name" formControlName="name" placeholder="name"></app-input>
 
+                    <app-input label="product.code" formControlName="code" placeholder="product.code"></app-input>
+
+                    <app-input label="barcode" formControlName="barcode" placeholder="barcode"></app-input>
+
                     <app-select-control tooltip="category.tooltip" label="product.category" #categoriesSelect [formControl]="form.controls.categories" mode="multiple">
                     </app-select-control>
 

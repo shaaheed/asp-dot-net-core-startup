@@ -1,14 +1,15 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { forEachObj } from 'src/services/utilities.service';
+import { beep, forEachObj } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ButtonSelectComponent } from 'src/app/shared/button-select/button-select.component';
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
 import { ValidatorService } from 'src/services/validator.service';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { CURRENCY } from '../../organizations/organization.service';
+import { NzAutocompleteOptionComponent } from 'ng-zorro-antd/auto-complete';
 
 @Component({
   selector: 'app-invoices-add',
@@ -26,21 +27,24 @@ export class InvoicesAddComponent extends FormComponent {
   dateLabel = 'invoice.date';
 
   subtotal: number = 0;
+  grandtotal: number = 0;
   products: any[] = [];
+  globalSearchedProducts: any[] = [];
+  searchedContacts: any[] = [];
   units: any[] = [];
 
   @ViewChild('contactSelect') contactSelect: ButtonSelectComponent;
-  @ViewChildren('autocomplete') autocomplete: QueryList<AutocompleteComponent>;
+  @ViewChild('globalInput') globalInput: ElementRef;
   @ViewChildren('unitSelects') unitSelects: QueryList<NzSelectComponent>;
 
-  form: FormGroup;
-  invoiceItemsFormArray: FormArray
-
+  textAlignRightStyle = { textAlign: 'right', paddingRight: '5px' };
   formItemStyle = { padding: 0 };
   adjustFormItemStyle = { padding: 0, display: 'flex', justifyContent: 'flex-end' };
   adjustFormControlStyle = { maxWidth: '170px' };
   currency;
   unitSuffix;
+
+  private lastGlobalProductSearchSelection: any = null
 
   onSetFormValues = data => {
     this.prepareForm(data);
@@ -99,7 +103,7 @@ export class InvoicesAddComponent extends FormComponent {
           }
           if (res[1].data?.items) {
             this.units = res[1].data.items;
-            this.setItemUnitIdDefaultValue(this.unitSelects.toArray());
+            this.setLineItemUnitIdDefaultValue(this.unitSelects.toArray());
           }
           if (this.isAddMode()) {
             let nextNumber = null;
@@ -119,83 +123,126 @@ export class InvoicesAddComponent extends FormComponent {
     );
 
     if (this.isAddMode()) {
-      setTimeout(() => this.addAnItem(), 0);
+      setTimeout(() => this.addLineItem(), 0);
     }
   }
 
   ngAfterViewInit() {
-    this.subscribe(this.autocomplete.changes, (autocompleteList: QueryList<AutocompleteComponent>) => {
-      autocompleteList.forEach(autocomplete => {
-        const index = autocomplete.name;
-        this.subscribe(autocomplete.autocomplete.selectionChange, value => {
-          const id = value.nzValue || "";
-          const groups = this.form.get('items').get(index.toString()) as FormGroup;
-          const item = autocomplete.options.filter(x => x.id == id)[0];
-          if (item && groups) {
-            groups.controls.unitId.setValue(item.salesUnit?.id);
-            groups.controls.quantity.setValue(1);
-            groups.controls.productId.setValue(id);
-            groups.controls.unitPrice.setValue(item.salesPrice);
-          }
-        });
-      });
-    });
+    const globalProductSearchINput = this.globalInput.nativeElement as HTMLInputElement;
+    globalProductSearchINput.focus();
 
     this.subscribe(this.unitSelects.changes, (selects: QueryList<NzSelectComponent>) => {
-      this.setItemUnitIdDefaultValue(selects.toArray());
+      this.setLineItemUnitIdDefaultValue(selects.toArray());
     });
+  }
 
-    if (this.contactSelect?.select) {
-      this.contactSelect.select.register((pagination, search) => {
-        return this._httpService.get(this.contactApiUrl);
-      });
+  onContactSearchTermChanged(searchTerm: string) {
+    this.searchContacts(searchTerm, items => this.searchedContacts = items);
+  }
+
+  onContactSelectionChanged(option: NzAutocompleteOptionComponent) {
+    const contactId = option.nzValue || "";
+    const contact = this.searchedContacts.filter(x => x.id == contactId)[0];
+  }
+
+  addLineItem(item = {}) {
+    this.createLineItemFormGroup(item);
+    this.calculateInvoiceTotal();
+  }
+
+  deleteLineItem(index) {
+    const lineItems = this.getLineItemsFormArray();
+    if (lineItems.length) {
+      lineItems.removeAt(index);
+      if (!lineItems.length) {
+        this.addLineItem();
+      }
+      this.calculateInvoiceTotal();
     }
   }
 
-  searchProduct(autocomplete: AutocompleteComponent) {
-    this.subscribe(this._httpService.get('products'),
-      (success: any) => {
-        if (success?.data?.items) {
-          autocomplete.options = success.data.items.filter(x => x.name.includes(autocomplete.value));
+  lineItemQuantityChanged(data) {
+    this.calculateLineItemAmount(data);
+  }
+
+  lineItemPriceChanged(data) {
+    this.calculateLineItemAmount(data);
+  }
+
+  onLineItemSearchTermChanged(searchTerm: string, autocomplete: AutocompleteComponent) {
+    this.searchProducts(searchTerm, items => autocomplete.options = items);
+  }
+
+  onLineItemSelectionChanged(item: any, formGroup: FormGroup) {
+    if (item) {
+      // find product to invoice line items
+      const newProductId = item.id;
+      const lineItem = this.findLineItemByProductId(newProductId);
+      if (lineItem) {
+        this.addLineItemQuantity(lineItem);
+      }
+      else {
+        const oldProductId = formGroup.controls.productId.value;
+        formGroup.controls.productId.setValue(newProductId);
+        let quantity = (formGroup.controls.quantity.value || 0) * 1;
+        if (oldProductId == newProductId) {
+          quantity += 1;
+        }
+        else {
+          quantity = 1;
+        }
+        formGroup.controls.quantity.setValue(quantity);
+        formGroup.controls.unitId.setValue(item.salesUnit?.id);
+        formGroup.controls.unitPrice.setValue(item.salesPrice);
+      }
+    }
+  }
+
+  onGlobalProductSearchTermChanged(searchTerm: string) {
+    this.lastGlobalProductSearchSelection = null;
+    this.searchProducts(searchTerm, items => this.globalSearchedProducts = items);
+  }
+
+  onGlobalProductSelectionChanged(option: NzAutocompleteOptionComponent, input: HTMLInputElement) {
+    this.focusAndSelectInput(input);
+    const productId = option.nzValue || "";
+    this.lastGlobalProductSearchSelection = this.globalSearchedProducts.filter(x => x.id == productId)[0];
+  }
+
+  onGlobalSearchEnterKeyup(input: HTMLInputElement) {
+    this.focusAndSelectInput(input);
+    if (this.lastGlobalProductSearchSelection) {
+      this.addGlobalSearchProductInInvoice(this.lastGlobalProductSearchSelection.id);
+      beep();
+    }
+  }
+
+  onFormKeyup(event: KeyboardEvent) {
+    this.log('onFormKeyup', event);
+  }
+
+  private addGlobalSearchProductInInvoice(productId: string) {
+    const item = this.globalSearchedProducts.filter(x => x.id == productId)[0];
+    if (item) {
+      this.lastGlobalProductSearchSelection = item;
+      const lineItems = this.getLineItemsFormArray();
+      if (lineItems) {
+        if (lineItems.length == 1 && this.isEmptyLineItem(lineItems.controls[0] as FormGroup)) {
+          lineItems.removeAt(0);
+        }
+        const lineItem = this.findLineItemByProductId(productId);
+        if (lineItem) {
+          this.addLineItemQuantity(lineItem);
+        }
+        else {
+          const _item = this.cloneProduct(item);
+          this.addLineItem(_item);
         }
       }
-    );
-  }
-
-  addAnItem() {
-    this.createInvoiceItemFormGroup({});
-    this.calculateInvoiceSubtotal();
-  }
-
-  productSelectOnChange(e) {
-    const p = this.products.filter(x => x.id == e)[0];
-    if (p) {
-      p.quantity = p.quantity || 1;
-      p.amount = p.quantity * p.price;
-      this.createInvoiceItemFormGroup(p);
-      this.calculateInvoiceSubtotal();
     }
   }
 
-  deleteItemFromInvoice(index) {
-    if ((this.form.get('items') as FormArray)?.length > 1) {
-      const invoiceItemsFormArray = this.getInvoiceItemFormArray();
-      if (invoiceItemsFormArray.controls && invoiceItemsFormArray.controls.length) {
-        invoiceItemsFormArray.removeAt(index);
-        this.calculateInvoiceSubtotal();
-      }
-    }
-  }
-
-  invoiceItemQuantityChanged(data) {
-    this.calculateInvoiceItemAmount(data);
-  }
-
-  invoiceItemPriceChanged(data) {
-    this.calculateInvoiceItemAmount(data);
-  }
-
-  private setItemUnitIdDefaultValue(selects: NzSelectComponent[]) {
+  private setLineItemUnitIdDefaultValue(selects: NzSelectComponent[]) {
     if (this.units.length && selects) {
       selects.forEach(select => {
         const index = (<any>select).elementRef.nativeElement.getAttribute('name');
@@ -223,35 +270,40 @@ export class InvoicesAddComponent extends FormComponent {
           productId: x.productId,
           unitId: x.unit?.id
         }
-        this.createInvoiceItemFormGroup(o);
+        this.createLineItemFormGroup(o);
       });
     }
-    this.calculateInvoiceSubtotal();
+    this.calculateInvoiceTotal();
   }
 
-  private calculateInvoiceItemAmount(data) {
+  private calculateLineItemAmount(data) {
     const quantity = Number(data.controls.quantity.value);
     const price = Number(data.controls.unitPrice.value);
     if (!isNaN(quantity) && !isNaN(price)) {
       const amount = quantity * price;
       data.controls.amount.setValue(amount);
     }
-    this.calculateInvoiceSubtotal();
+    this.calculateInvoiceTotal();
   }
 
-  private calculateInvoiceSubtotal() {
-    const invoiceItemsFormArray = this.getInvoiceItemFormArray();
+  private calculateInvoiceTotal() {
+    const lineItems = this.getLineItemsFormArray();
     let subtotal = 0;
-    forEachObj(invoiceItemsFormArray.controls, (k, v) => {
+    forEachObj(lineItems.controls, (k, v) => {
       const amount = Number(v.controls.amount.value);
       if (!isNaN(amount)) {
         subtotal += amount;
       }
     });
     this.subtotal = subtotal;
+    this.grandtotal = this.subtotal;
+    const adjustmentAmount = this.form.controls.adjustmentAmount.value;
+    if (!isNaN(adjustmentAmount)) {
+      this.grandtotal = this.grandtotal + adjustmentAmount;
+    }
   }
 
-  private createInvoiceItemFormGroup(data: any) {
+  private createLineItemFormGroup(data: any) {
     const formGroup = this.fb.group({
       id: [],
       name: [null, [], this.validator.required()],
@@ -269,12 +321,53 @@ export class InvoicesAddComponent extends FormComponent {
         (v as AbstractControl).setValue(dataValue);
       }
     });
-    const invoiceItemsFormArray = this.getInvoiceItemFormArray();
-    invoiceItemsFormArray.push(formGroup);
+    const lineItems = this.getLineItemsFormArray();
+    lineItems.push(formGroup);
   }
 
-  private getInvoiceItemFormArray(): FormArray {
+  private getLineItemsFormArray(): FormArray {
     return this.form.get("items") as FormArray;
+  }
+
+  private isEmptyLineItem(lineItem: FormGroup): boolean {
+    let isEmpty = true;
+    ['name', 'quantity', 'unitPrice'].forEach(key => {
+      isEmpty &&= !lineItem.controls[key].value;
+    });
+    return isEmpty;
+  }
+
+  private findLineItemByProductId(productId: string): FormGroup {
+    const lineItems = this.getLineItemsFormArray();
+    return lineItems.controls.filter((formGroup: FormGroup) => formGroup.controls.productId.value == productId)[0] as FormGroup;
+  }
+
+  private addLineItemQuantity(lineItem: FormGroup, quantity: number = 1) {
+    if (lineItem) {
+      const oldQuantity = (lineItem.controls.quantity.value || 0) * 1;
+      lineItem.controls.quantity.setValue(oldQuantity + quantity);
+    }
+  }
+
+  private searchProducts(searchTerm: string, onComplete: (products: any[]) => void): void {
+    if (onComplete) {
+      const url = `products?filter=Name like ${searchTerm} or Barcode like ${searchTerm}`;
+      this.callApi(url, onComplete);
+    }
+  }
+
+  private searchContacts(searchTerm: string, onComplete: (contacts: any[]) => void): void {
+    if (onComplete) {
+      let url = 'contacts?filter=';
+      if (this.contactTitle == 'customer') {
+        url += 'Type eq 2';
+      }
+      else {
+        url += 'Type eq 1';
+      }
+      url += `and (Name like ${searchTerm} or Mobile like ${searchTerm} or Email like ${searchTerm})`;
+      this.callApi(url, onComplete);
+    }
   }
 
   private priceValidator(control: FormControl) {
@@ -285,6 +378,40 @@ export class InvoicesAddComponent extends FormComponent {
       return this.error('price.must.be.numeric');
     }
     return of(true);
+  }
+
+  private cloneProduct(product: any, quantity = null): any {
+    let qty = 1;
+    if (quantity !== null && quantity !== undefined) {
+      qty = quantity * 1;
+    }
+    const price = (product.salesPrice || 0) * 1;
+    return {
+      name: product.name,
+      quantity: 1,
+      productId: product.id,
+      unitPrice: price,
+      unitId: product.salesUnit?.id,
+      amount: qty * price
+    }
+  }
+
+  private focusAndSelectInput(input: HTMLInputElement) {
+    input.select();
+    input.setSelectionRange(0, input.value.length);
+    input.focus();
+  }
+
+  private callApi(url: string, onComplete: (items: any[]) => void): void {
+    if (onComplete) {
+      this.subscribe(this._httpService.get(url),
+        (success: any) => {
+          if (success?.data?.items) {
+            onComplete(success.data.items);
+          }
+        }
+      );
+    }
   }
 
 }

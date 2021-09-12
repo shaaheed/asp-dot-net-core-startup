@@ -1140,6 +1140,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("ReturnAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<Guid?>("SalesPersonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1422,6 +1425,9 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -1456,6 +1462,15 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("bit");
 
                     b.Property<float>("LowStockQuantity")
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("MRP")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<float?>("MaxOrderQty")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("MinOrderQty")
                         .HasColumnType("real");
 
                     b.Property<string>("Name")

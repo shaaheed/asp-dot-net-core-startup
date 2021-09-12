@@ -45,7 +45,7 @@ namespace Module.Sales.Domain.Contacts
                 Mobile = x.Mobile,
                 Phone = x.Phone,
                 Website = x.Website,
-                TotalDueAmount = x.TotalDueAmount,
+                TotalDueAmount = x.Balance,
                 Currency = x.CurrencyId != null ? new GuidCodeNameDto
                 {
                     Id = x.Currency.Id,

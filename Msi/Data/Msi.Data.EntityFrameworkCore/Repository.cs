@@ -108,9 +108,9 @@ namespace Msi.Data.EntityFrameworkCore
 
         public void Attach(TEntity entity)
         {
-            if (entity is IHaveOrganizationEntity)
+            if (entity is IOrganizationEntity)
             {
-                var _entity = entity as IHaveOrganizationEntity;
+                var _entity = entity as IOrganizationEntity;
                 _entity.OrganizationId = new Guid(_appService.GetOrganizationId());
             }
             _dataContext.Set<TEntity>().Attach(entity);

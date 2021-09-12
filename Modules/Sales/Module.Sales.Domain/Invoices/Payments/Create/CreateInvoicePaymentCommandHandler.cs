@@ -46,7 +46,7 @@ namespace Module.Sales.Domain
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             decimal receivablesAmount = _invoiceService.GetReceivablesAmount(invoice.CustomerId);
-            await _contactService.UpdateDueAmount(invoice.CustomerId, receivablesAmount, cancellationToken);
+            await _contactService.UpdateBalance(invoice.CustomerId, receivablesAmount, cancellationToken);
 
             return result;
         }

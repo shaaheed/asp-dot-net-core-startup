@@ -9,6 +9,7 @@ namespace Module.Sales.Domain.Products
     {
         public Guid Id { get; set; }
         public string Code { get; set; }
+        public string Barcode { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -17,6 +18,7 @@ namespace Module.Sales.Domain.Products
         #region Sales Properties
         public bool IsSale { get; set; }
         public decimal? SalesPrice { get; set; }
+        public decimal? MRP { get; set; }
         public string SalesDescription { get; set; }
         public Guid? SalesUnitId { get; set; }
         public Guid? SalesAccountId { get; set; }
@@ -45,15 +47,20 @@ namespace Module.Sales.Domain.Products
         public DateTimeOffset? SupportStartDate { get; set; }
         public DateTimeOffset? SupportEndDate { get; set; }
 
+        public float? MinOrderQty { get; set; }
+        public float? MaxOrderQty { get; set; }
+
         public virtual Product Map(Product entity = null)
         {
             entity = entity ?? new Product();
+            entity.Barcode = Barcode;
             entity.Name = Name;
             entity.Code = Code;
             entity.Description = Description;
 
             entity.IsSale = IsSale;
             entity.SalesPrice = SalesPrice;
+            entity.MRP = MRP;
             entity.SalesDescription = SalesDescription;
             entity.SalesUnitId = SalesUnitId;
             entity.SalesAccountId = SalesAccountId;
@@ -75,6 +82,9 @@ namespace Module.Sales.Domain.Products
             entity.EndDate = EndDate;
             entity.SupportStartDate = SupportStartDate;
             entity.SupportEndDate = SupportEndDate;
+
+            entity.MaxOrderQty = MaxOrderQty;
+            entity.MinOrderQty = MinOrderQty;
             return entity;
         }
     }

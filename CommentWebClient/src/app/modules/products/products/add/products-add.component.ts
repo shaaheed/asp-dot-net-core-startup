@@ -45,6 +45,8 @@ export class ProductsAddComponent extends FormComponent {
         this.validator.required().bind(this),
         this.validator.min(2).bind(this)
       ]],
+      code: [],
+      barcode: [],
       categories: [],
       description: [],
 

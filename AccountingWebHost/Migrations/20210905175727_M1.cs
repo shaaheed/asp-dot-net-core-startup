@@ -1215,10 +1215,12 @@ namespace AccountingWebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsSale = table.Column<bool>(type: "bit", nullable: false),
                     SalesPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SalesDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MRP = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SalesUnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SalesAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsPurchase = table.Column<bool>(type: "bit", nullable: false),
@@ -1236,6 +1238,8 @@ namespace AccountingWebHost.Migrations
                     EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     SupportStartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     SupportEndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    MinOrderQty = table.Column<float>(type: "real", nullable: true),
+                    MaxOrderQty = table.Column<float>(type: "real", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -1569,6 +1573,7 @@ namespace AccountingWebHost.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReturnAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SalesPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AdjustmentText = table.Column<string>(type: "nvarchar(max)", nullable: true),

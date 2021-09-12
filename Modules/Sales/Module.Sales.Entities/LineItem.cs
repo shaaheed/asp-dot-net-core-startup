@@ -7,6 +7,11 @@ namespace Module.Sales.Entities
     public class LineItem : BaseEntity
     {
 
+        public LineItem(LineItemType type)
+        {
+            Type = type;
+        }
+
         public LineItem()
         {
             LineItemTaxes = new HashSet<LineItemTax>();
@@ -16,6 +21,11 @@ namespace Module.Sales.Entities
         public string Description { get; set; }
 
         public string Note { get; set; }
+
+
+        // could be InvoiceId, BillId, AdjustmentId etc.
+        public Guid? ReferenceId { get; set; }
+        public LineItemType Type { get; set; }
 
         public Guid? ProductId { get; set; }
         public virtual Product Product { get; set; }

@@ -39,7 +39,7 @@
 .app-layout.bn {
     font-family: SolaimanLipi !important;
 }
-  
+
 body {
     color: #3c4257;
     background-color: #f0f2f5;
@@ -49,59 +49,59 @@ body {
 .loader,
 .loader:before,
 .loader:after {
-  border-radius: 50%;
-  width: 2.5em;
-  height: 2.5em;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation: load7 1.8s infinite ease-in-out;
-  animation: load7 1.8s infinite ease-in-out;
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
 }
 .loader {
-  @include edit-color;
-  font-size: 10px;
-  margin: 80px auto;
-  position: relative;
-  text-indent: -9999em;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
+    @include edit-color;
+    font-size: 10px;
+    margin: 80px auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
 }
 .loader:before,
 .loader:after {
-  content: '';
-  position: absolute;
-  top: 0;
+    content: "";
+    position: absolute;
+    top: 0;
 }
 .loader:before {
-  left: -3.5em;
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
 }
 .loader:after {
-  left: 3.5em;
+    left: 3.5em;
 }
 @-webkit-keyframes load7 {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 2.5em 0 -1.3em;
-  }
-  40% {
-    box-shadow: 0 2.5em 0 0;
-  }
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
 }
 @keyframes load7 {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 2.5em 0 -1.3em;
-  }
-  40% {
-    box-shadow: 0 2.5em 0 0;
-  }
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
 }
 
 span.ant-table-column-title {
@@ -113,7 +113,7 @@ span.ant-table-column-title {
     font-size: 15px;
     .action-column {
         text-align: right;
-        >span {
+        > span {
             cursor: pointer;
             margin-left: 10px;
             font-size: 16px;
@@ -177,13 +177,15 @@ app-layout-default .menu-sidebar {
         border-radius: 5px;
         padding: 5px 10px;
         width: 100%;
+        display: flex;
+        align-items: center;
         &:active {
-            background-color: #D8D9DC;
+            background-color: #d8d9dc;
         }
         &:hover {
-          background-color: #E4E6E9;
+            background-color: #e4e6e9;
         }
-      }
+    }
 }
 
 nz-sider {
@@ -212,55 +214,39 @@ nz-sider {
 }
 
 @mixin btn-shadow {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 @mixin btn-shadow-hover {
-    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.12) 0px 3px 9px 0px,
+        rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 @mixin btn-shadow-primary {
-    box-shadow: 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
-    rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 @mixin btn-shadow-primary-hover {
-    box-shadow: 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
-    rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, 
-    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgb(84, 105, 202, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 @mixin btn-shadow-danger {
-    box-shadow:
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
-    rgb(205, 61, 100, 0.16) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgb(205, 61, 100, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 @mixin btn-shadow-danger-hover {
-    box-shadow: 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
-    rgb(205, 61, 100, 0.16) 0px 0px 0px 1px, 
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-    rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, 
-    rgba(60, 66, 87, 0.12) 0px 2px 5px 0px
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgb(205, 61, 100, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.12) 0px 3px 9px 0px, rgba(60, 66, 87, 0.12) 0px 2px 5px 0px;
 }
 
 // Custom stripe button style
@@ -303,10 +289,12 @@ nz-sider {
     border: none;
     padding: 0 8px;
     font-size: 16px;
-    &.ant-btn-default, &.ant-btn {
-        @include btn-shadow
+    &.ant-btn-default,
+    &.ant-btn {
+        @include btn-shadow;
     }
-    &.ant-btn-default:hover, &.ant-btn:hover {
+    &.ant-btn-default:hover,
+    &.ant-btn:hover {
         @include btn-shadow-hover;
     }
     &.ant-btn-default {
@@ -332,7 +320,7 @@ nz-sider {
 
 .header-actions-btn {
     width: 45px;
-    >i {
+    > i {
         padding-right: 5px;
     }
 }
@@ -398,13 +386,6 @@ nz-table tr:hover {
     margin-top: 5px;
 }
 
-.no-border {
-    td {
-        border: none !important;
-    }
-    border: none;
-}
-
 .box-divider:not(:last-child) {
     box-shadow: inset 0 -1px #e3e8ee;
 }
@@ -423,7 +404,7 @@ nz-table tr:hover {
 
 .box {
     border-radius: 5px;
-    padding-bottom: .1px;
+    padding-bottom: 0.1px;
     @include box-shadow-m;
     .block {
         background-color: #fff;
@@ -431,7 +412,7 @@ nz-table tr:hover {
             border-radius: 5px 5px 0 0;
         }
         &:last-child {
-            border-radius:  0 0 5px 5px;
+            border-radius: 0 0 5px 5px;
         }
         .content {
             .header-container {
@@ -472,7 +453,7 @@ nz-table tr:hover {
                 font-weight: 500;
                 color: #1a1f36;
                 min-width: 170px;
-                display: inline-block;
+                display: flex;
                 font-size: 15px;
             }
             nz-select-placeholder {
@@ -503,7 +484,6 @@ nz-table tr:hover {
                     margin-left: 8px;
                 }
             }
-
         }
     }
 }
@@ -557,7 +537,8 @@ textarea:focus {
 
 .no-bg {
     background-color: unset;
-    td, th {
+    td,
+    th {
         background-color: unset !important;
     }
 }
@@ -653,13 +634,13 @@ nz-header .ant-badge-count {
 
 .delete {
     :hover {
-        @include error-color
+        @include error-color;
     }
 }
 
 .edit {
     :hover {
-        @include edit-color
+        @include edit-color;
     }
 }
 
@@ -709,7 +690,7 @@ nz-header .ant-badge-count {
             display: flex;
             justify-content: center;
             font-weight: 600;
-            &:not(:last-child){
+            &:not(:last-child) {
                 box-shadow: inset -1px 0 #e3e8ee;
             }
             background-color: #f7fafc;
@@ -737,7 +718,7 @@ nz-header .ant-badge-count {
 }
 
 .ribbon {
-    position: absolute!important;
+    position: absolute !important;
     top: -5px;
     left: -5px;
     overflow: hidden;
@@ -752,7 +733,8 @@ nz-header .ant-badge-count {
         padding: 3px;
         position: relative;
         transform: rotate(-45deg);
-        &:after, &:before {
+        &:after,
+        &:before {
             content: "";
             border-top: 5px solid transparent;
             border-left: 5px solid;
@@ -814,15 +796,18 @@ nz-header .ant-badge-count {
         padding-right: 8px;
         border-radius: 10px;
         border: none;
-        font-weight: 500;     
+        font-weight: 500;
     }
-    &.paid, &.succeed {
+    &.paid,
+    &.succeed {
         .ant-tag {
             background-color: #d6ecff;
             color: #3d4eac;
         }
     }
-    &.failed, &.due, &.unpaid {
+    &.failed,
+    &.due,
+    &.unpaid {
         .ant-tag {
             background-color: #f8e5b9;
             color: #983705;
@@ -900,4 +885,74 @@ app-table-actions {
 
 .ant-popover-inner-content {
     padding: 0;
+}
+
+div.ant-menu-submenu {
+    background-color: #fff;
+}
+
+.search-global {
+    margin-left: 23px;
+    .ant-input-affix-wrapper {
+        border: unset;
+        background: #f0f2f5;
+        border-radius: 50px;
+        font-size: 16px;
+        line-height: 30px;
+        & > input.ant-input {
+            background: none;
+        }
+    }
+    input:focus,
+    input:hover {
+        border: none !important;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+        box-shadow: none !important;
+    }
+}
+
+.no-border {
+    td {
+        border: none !important;
+    }
+    border: none;
+}
+
+.line-item {
+    input:focus,
+    input:hover,
+    input,
+    .ant-input-group-addon,
+    .ant-input-affix-wrapper,
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused,
+    .ant-input-affix-wrapper:active,
+    .ant-input-affix-wrapper-activated,
+    nz-select,
+    .ant-select,
+    .ant-select-selector {
+        border: none !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+    input,
+    .ant-input-group-addon {
+        padding-left: 0 !important;
+    }
+}
+
+.hide-number-input-arrow {
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
 }

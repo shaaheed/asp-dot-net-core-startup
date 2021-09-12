@@ -17,14 +17,14 @@ namespace Module.Sales.Domain
             _contactRepo = _unitOfWork.GetRepository<Contact>();
         }
 
-        public async Task UpdateDueAmount(Guid? contactId, decimal amount, CancellationToken cancellationToken = default)
+        public async Task UpdateBalance(Guid? contactId, decimal amount, CancellationToken cancellationToken = default)
         {
             if (contactId != null)
             {
                 var contact = await _contactRepo.FirstOrDefaultAsync(x => x.Id == contactId.Value && !x.IsDeleted);
                 if (contact != null)
                 {
-                    contact.TotalDueAmount = amount;
+                    contact.Balance = amount;
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
                 }
             }

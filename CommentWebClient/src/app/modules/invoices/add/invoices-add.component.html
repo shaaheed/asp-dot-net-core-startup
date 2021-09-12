@@ -1,23 +1,17 @@
-<app-form [content]="content" [component]="self">
+<app-form (keyup)="onFormKeyup($event)" [content]="content" [component]="self">
     <ng-template #content>
         <form nz-form [formGroup]="form">
             <div class="block pad-t-20 pad-b-10 box-divider" style="padding-left: 16px;">
                 <div class="content">
                     <div class="invoice-head">
                         <div class="left">
-                            <app-button-select labelKey="displayName" #contactSelect [label]="contactTitle"
-                                formControlName="contactId" [content]="contactTemplate"
-                                [chooseAnotherTitle]="chooseAnotherTitle">
-                                <ng-template #contactTemplate let-contact>
-                                    <div class="mb-14">
-                                        <div class="fs-i">{{contactTitle|translate}}</div>
-                                        <div class="fw-600">{{contact.displayName}}</div>
-                                        <div>{{contact.contact}}</div>
-                                        <div>{{contact.mobile}}</div>
-                                        <div>{{contact.email}}</div>
-                                    </div>
-                                </ng-template>
-                            </app-button-select>
+
+                            <app-autocomplete #contactAutocomplete [options]="searchedContacts" [optionTemplate]="contactAutocompleteOptionTemplate"
+                                (searchTermChange)="onContactSearchTermChanged($event)"
+                                (selectionChange)="onContactSelectionChanged($event)"
+                                [formItemStyle]="formItemStyle" [placeholder]="contactTitle" labelKey="displayName"
+                                formControlName="contactId">
+                            </app-autocomplete>
                         </div>
                         <div class="right">
                             <app-input label="number" placeholder="number" formControlName="number"></app-input>
@@ -29,6 +23,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="product-global">
+                    <nz-input-group [nzPrefix]="prefixIconSearch">
+                        <input
+                            title="{{'press.x0.to.add.x1'|translate:{x0: 'enter.key'|translate, x1: 'product'|translate} }}"
+                            #globalInput (keyup.enter)="onGlobalSearchEnterKeyup(globalInput)"
+                            (input)="onGlobalProductSearchTermChanged($event.target.value)"
+                            [nzAutocomplete]="productAutocomplete" type="text" nz-input
+                            placeholder="{{'search.x0.by.x1.or.x2'|translate:{x0: 'product'|translate, x1: 'name'|translate, x2: 'barcode'|translate} }}" />
+                    </nz-input-group>
+                    <ng-template #prefixIconSearch>
+                        <i nz-icon nzType="search"></i>
+                    </ng-template>
+                    <nz-autocomplete (selectionChange)="onGlobalProductSelectionChanged($event, globalInput)"
+                        #productAutocomplete>
+                        <nz-auto-option *ngFor="let p of globalSearchedProducts" [nzValue]="p.id" [nzLabel]="p.name">
+                            <ng-container *ngTemplateOutlet="productAutocompleteOptionTemplate; context: {data: p}">
+                            </ng-container>
+                        </nz-auto-option>
+                    </nz-autocomplete>
+                </div>
+
             </div>
             <div class="block pad-b-10 box-divider">
                 <div class="content invoice-items">
@@ -36,6 +52,7 @@
                         class="hide-table-placeholder no-hover">
                         <thead>
                             <tr>
+                                <!-- <th>s</th> -->
                                 <th>{{'name'|translate}}</th>
                                 <th>{{'quantity'|translate}}</th>
                                 <th>{{'price'|translate}}</th>
@@ -47,17 +64,23 @@
                         <tbody>
                             <ng-container formArrayName="items">
                                 <ng-container *ngFor="let data of form.get('items')?.controls; let i = index">
-                                    <tr class="bg-white" [formGroupName]="i">
+                                    <tr class="bg-white line-item" [formGroupName]="i">
+                                        <!-- <td>
+                                            <i nz-icon nzType="bars"></i>
+                                        </td> -->
                                         <td>
-                                            <app-autocomplete [name]="i" [options]="products" #autocomplete
-                                                (onChange)="searchProduct(autocomplete)" [formItemStyle]="formItemStyle"
-                                                placeholder="name" formControlName="name"></app-autocomplete>
+                                            <app-autocomplete [optionTemplate]="productAutocompleteOptionTemplate"
+                                                [name]="i" [options]="products" #autocomplete
+                                                (searchTermChange)="onLineItemSearchTermChanged($event, autocomplete)"
+                                                (selectionChange)="onLineItemSelectionChanged($event, data)"
+                                                [formItemStyle]="formItemStyle" placeholder="name"
+                                                formControlName="name"></app-autocomplete>
                                         </td>
                                         <td>
                                             <app-input [canSuffixShow]="units?.length > 0" [suffix]="unitSuffix"
                                                 type="number" [formItemStyle]="formItemStyle" placeholder="quantity"
-                                                formControlName="quantity"
-                                                (onChange)="invoiceItemQuantityChanged(data)"></app-input>
+                                                formControlName="quantity" (onChange)="lineItemQuantityChanged(data)">
+                                            </app-input>
                                             <ng-template #unitSuffix>
                                                 <nz-select [attr.name]="i" #unitSelects formControlName="unitId"
                                                     style="min-width: 70px;">
@@ -69,7 +92,7 @@
                                         <td>
                                             <app-input [prefix]="currency" type="number" [formItemStyle]="formItemStyle"
                                                 placeholder="price" formControlName="unitPrice"
-                                                (onChange)="invoiceItemPriceChanged(data)"></app-input>
+                                                (onChange)="lineItemPriceChanged(data)"></app-input>
                                         </td>
                                         <td style="max-width: 150px;">
                                             <app-select-control [formItemStyle]="formItemStyle" placeholder="tax"
@@ -80,7 +103,7 @@
                                         </td>
                                         <td>
                                             <span class="actions">
-                                                <span class="delete cursor-pointer" (click)="deleteItemFromInvoice(i)"
+                                                <span class="delete cursor-pointer" (click)="deleteLineItem(i)"
                                                     title="{{'delete'|translate}}">
                                                     <i nz-icon nzType="delete"></i>
                                                 </span>
@@ -92,31 +115,36 @@
                             <tr class="bg-white no-border">
                                 <td style="text-align: left;" colspan="5" class="center bg-white">
                                     <div>
-                                        <a (click)="addAnItem();">
+                                        <a (click)="addLineItem();">
                                             <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
                                             {{'add.new.x0'|translate:{x0: 'product'|translate } }}
                                         </a>
                                     </div>
                                 </td>
                             </tr>
+
                             <tr class="bg-white no-border">
-                                <td colspan="4" class="ta-right">
+                                <td colspan="3" class="ta-right">
                                     <strong>{{'subtotal'|translate}}</strong>
                                 </td>
+                                <td></td>
                                 <td class="ta-right">
                                     <strong>{{currency}} {{subtotal}}</strong>
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>
                             <tr class="bg-white no-border">
-                                <td colspan="4" class="ta-right">
+                                <td colspan="3">
                                     <app-input [formItemStyle]="adjustFormItemStyle"
                                         [formControlStyle]="adjustFormControlStyle" value="Adjustment"
                                         placeholder="adjustment" formControlName="adjustmentText"></app-input>
                                 </td>
-                                <td style="width: 150px;" class="ta-right">
-                                    <app-input type="number" [formItemStyle]="formItemStyle" [prefix]="currency"
+                                <td style="width: 150px;">
+                                    <app-input #adjustmentAmount type="number" [formItemStyle]="formItemStyle" [prefix]="currency"
                                         placeholder="amount" formControlName="adjustmentAmount"></app-input>
+                                </td>
+                                <td class="ta-right">
+                                    <strong>{{currency}} {{adjustmentAmount.value || 0}}</strong>
                                 </td>
                                 <td style="width: 25px">
                                     <!-- <button nz-button class="btn-custom">
@@ -125,14 +153,16 @@
                                 </td>
                             </tr>
                             <tr class="bg-white no-border">
-                                <td colspan="4" class="ta-right">
+                                <td colspan="3" class="ta-right">
                                     <strong>{{'total'|translate}}</strong>
                                 </td>
+                                <td></td>
                                 <td style="width: 150px;" class="ta-right">
-                                    <strong>{{currency}} 0</strong>
+                                    <strong>{{currency}} {{grandtotal}}</strong>
                                 </td>
                                 <td style="width: 25px"></td>
                             </tr>
+
                         </tbody>
                     </nz-table>
                 </div>
@@ -143,4 +173,39 @@
 
 <ng-template #errorTemplate let-control>
     {{control?.errors?.message}}
+</ng-template>
+
+<ng-template #productAutocompleteOptionTemplate let-data="data">
+    <div class="option-container">
+        <div class="left">
+            <div>
+                <strong>{{data.name}}</strong>
+            </div>
+            <div>{{'price'|translate}}: {{currency}}{{data.salesPrice}}</div>
+        </div>
+        <div class="right">
+            <div>{{'stock.on.hand'|translate}}</div>
+            <div>{{data.stockQuantity}} {{data.salesUnit?.code}}</div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #contactAutocompleteOptionTemplate let-data="data">
+    <div class="option-container">
+        <div class="left">
+            <div>
+                <strong>{{data.displayName}}</strong>
+            </div>
+            <div>
+                <span>{{data.mobile}}</span>
+                <span *ngIf="data.mobile && data.email">&nbsp;&middot;&nbsp;</span>
+                <span>{{data.email}}</span>
+            </div>
+            <div>{{data.address}}</div>
+        </div>
+        <div class="right">
+            <div>{{'balance'|translate}}</div>
+            <div class="font-18">{{currency}} {{data.totalDueAmount}}</div>
+        </div>
+    </div>
 </ng-template>
