@@ -1,6 +1,6 @@
 ﻿namespace Module.Sales.Entities
 {
-    public enum LineItemType : byte
+    public enum ItemTransactionType : byte
     {
         Initial = 1,
         Adjustment,

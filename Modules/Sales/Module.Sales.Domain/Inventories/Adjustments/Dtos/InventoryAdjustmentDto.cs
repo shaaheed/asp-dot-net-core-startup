@@ -25,8 +25,7 @@ namespace Module.Sales.Domain
                 Account = x.AccountId != null ? new GuidCodeNameDto { } : null,
                 AdjustmentDate = x.AdjustmentDate,
                 Description = x.Description,
-                Reason = x.Reason,
-                Reference = x.Reference
+                Reason = x.Reason
             };
         }
     }

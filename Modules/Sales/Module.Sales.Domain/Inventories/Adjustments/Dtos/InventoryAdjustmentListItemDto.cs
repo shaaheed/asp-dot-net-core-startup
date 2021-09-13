@@ -20,8 +20,7 @@ namespace Module.Sales.Domain
                 Id = x.Id,
                 AdjustmentDate = x.AdjustmentDate,
                 Reason = x.Reason,
-                Reference = x.Reference,
-                Status = x.Type.ToString(),
+                //Status = x.Type.ToString(),
                 CreatedAt = x.CreatedAt
             };
         }

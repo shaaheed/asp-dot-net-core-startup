@@ -13,18 +13,15 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
         private readonly IContactService _contactService;
-        private readonly ILineItemService _lineItemService;
 
         public DeleteBillCommandHandler(
             IUnitOfWork unitOfWork,
             IBillService billService,
-            IContactService contactService,
-            ILineItemService lineItemService)
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = billService;
             _contactService = contactService;
-            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(DeleteBillCommand request, CancellationToken cancellationToken)
@@ -40,7 +37,7 @@ namespace Module.Sales.Domain
             if (bill == null)
                 throw new ValidationException("Bill not found.");
 
-            var result = await _lineItemService.DeleteAsync(LineItemType.Purchase, bill.Id, cancellationToken);
+            var result = await _billService.DeleteLineItemAsync(ItemTransactionType.Purchase, bill.Id, cancellationToken);
 
             billRepo.Remove(bill);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);

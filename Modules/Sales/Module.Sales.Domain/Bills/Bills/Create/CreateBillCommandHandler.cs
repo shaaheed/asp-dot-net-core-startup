@@ -12,18 +12,15 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
         private readonly IContactService _contactService;
-        private readonly ILineItemService _lineItemService;
 
         public CreateBillCommandHandler(
             IUnitOfWork unitOfWork,
             IBillService billService,
-            IContactService contactService,
-            ILineItemService lineItemService)
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = billService;
             _contactService = contactService;
-            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
@@ -34,7 +31,7 @@ namespace Module.Sales.Domain
             await billRepo.AddAsync(newBill, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            result += await _lineItemService.CreateAsync(LineItemType.Purchase, newBill.Id, request.Items, cancellationToken);
+            result += await _billService.CreateLineItemAsync(ItemTransactionType.Purchase, newBill.Id, request.Items, cancellationToken);
 
             _billService.Calculate(newBill);
             _billService.AddPayment(newBill);

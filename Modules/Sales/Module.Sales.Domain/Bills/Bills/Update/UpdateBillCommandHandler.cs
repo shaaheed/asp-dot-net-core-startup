@@ -14,18 +14,15 @@ namespace Module.Sales.Domain.Bills
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBillService _billService;
         private readonly IContactService _contactService;
-        private readonly ILineItemService _lineItemService;
 
         public UpdateBillCommandHandler(
             IUnitOfWork unitOfWork,
             IBillService billService,
-            IContactService contactService,
-            ILineItemService lineItemService)
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _billService = billService;
             _contactService = contactService;
-            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(UpdateBillCommand request, CancellationToken cancellationToken)
@@ -41,7 +38,7 @@ namespace Module.Sales.Domain.Bills
             Guid? requestSupplierId = request.ContactId;
             request.Map(bill);
 
-            var result = await _lineItemService.UpdateAsync(LineItemType.Purchase, bill.Id, request.Items, cancellationToken);
+            var result = await _billService.UpdateLineItemAsync(ItemTransactionType.Purchase, bill.Id, request.Items, cancellationToken);
 
             _billService.Calculate(bill);
             _billService.AddPayment(bill);

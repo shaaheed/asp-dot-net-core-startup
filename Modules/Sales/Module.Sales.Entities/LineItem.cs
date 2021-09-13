@@ -7,7 +7,7 @@ namespace Module.Sales.Entities
     public class LineItem : BaseEntity
     {
 
-        public LineItem(LineItemType type)
+        public LineItem(ItemTransactionType type)
         {
             Type = type;
         }
@@ -25,7 +25,7 @@ namespace Module.Sales.Entities
 
         // could be InvoiceId, BillId, AdjustmentId etc.
         public Guid? ReferenceId { get; set; }
-        public LineItemType Type { get; set; }
+        public ItemTransactionType Type { get; set; }
 
         public Guid? ProductId { get; set; }
         public virtual Product Product { get; set; }

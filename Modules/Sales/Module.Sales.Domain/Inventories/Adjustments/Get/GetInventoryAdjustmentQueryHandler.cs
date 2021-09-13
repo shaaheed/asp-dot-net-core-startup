@@ -20,11 +20,11 @@ namespace Module.Sales.Domain
 
         public async Task<InventoryAdjustmentDto> Handle(GetInventoryAdjustmentQuery request, CancellationToken cancellationToken)
         {
-            var adjustment = await _unitOfWork.GetAsync(x => x.Id == request.Id, InventoryAdjustmentDto.Selector(), cancellationToken);
+            var adjustment = await _unitOfWork.GetAsync(x => x.Id == request.Id && !x.IsDeleted, InventoryAdjustmentDto.Selector(), cancellationToken);
             if (adjustment != null)
             {
-                adjustment.LineItems = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>()
-                    .Where(x => x.InventoryAdjustmentId == request.Id)
+                adjustment.LineItems = _unitOfWork.GetRepository<LineItem>()
+                    .Where(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted)
                     .Select(InventoryAdjustmentLineItemDto.Selector())
                     .ToList();
             }

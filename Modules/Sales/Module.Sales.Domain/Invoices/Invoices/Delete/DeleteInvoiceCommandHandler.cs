@@ -13,18 +13,15 @@ namespace Module.Sales.Domain
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
         private readonly IContactService _contactService;
-        private readonly ILineItemService _lineItemService;
 
         public DeleteInvoiceCommandHandler(
             IUnitOfWork unitOfWork,
             IInvoiceService invoiceService,
-            IContactService contactService,
-            ILineItemService lineItemService)
+            IContactService contactService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
             _contactService = contactService;
-            _lineItemService = lineItemService;
         }
 
         public async Task<long> Handle(DeleteInvoiceCommand request, CancellationToken cancellationToken)
@@ -40,7 +37,7 @@ namespace Module.Sales.Domain
             if (invoice == null)
                 throw new ValidationException("Invoice not found.");
 
-            var result = await _lineItemService.DeleteAsync(LineItemType.Sale, invoice.Id, cancellationToken);
+            var result = await _invoiceService.DeleteLineItemAsync(ItemTransactionType.Sale, invoice.Id, cancellationToken);
 
             invoiceRepo.Remove(invoice);
             result += await _unitOfWork.SaveChangesAsync(cancellationToken);

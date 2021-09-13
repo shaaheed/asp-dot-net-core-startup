@@ -4,7 +4,7 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public interface IBillService : IScopedService
+    public interface IBillService : ISalesService, IScopedService
     {
         decimal GetBillPaymentsAmount(Guid billId);
 

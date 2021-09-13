@@ -8,17 +8,33 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public class InvoiceService : IInvoiceService
+    public class InvoiceService : SalesService, IInvoiceService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductService _productService;
         private readonly IRepository<Invoice> _invoiceRepo;
-        private readonly IRepository<InvoiceLineItem> _invoiceLineItemRepo;
+        private readonly IRepository<LineItem> _lineItemRepo;
 
-        public InvoiceService(IUnitOfWork unitOfWork)
+        public InvoiceService(
+            IUnitOfWork unitOfWork,
+            IProductService productService) : base(unitOfWork, productService)
         {
             _unitOfWork = unitOfWork;
+            _productService = productService;
             _invoiceRepo = _unitOfWork.GetRepository<Invoice>();
-            _invoiceLineItemRepo = _unitOfWork.GetRepository<InvoiceLineItem>();
+            _lineItemRepo = _unitOfWork.GetRepository<LineItem>();
+        }
+
+        public override Task<int> OnLineItemQuantityIncreased(Guid productId, float quantity, CancellationToken cancellationToken = default)
+        {
+            // stock will be decrease as product has gone from system
+            return _productService.DecreaseStockQuantity(productId, quantity, cancellationToken);
+        }
+
+        public override Task<int> OnLineItemQuantityDecreased(Guid productId, float quantity, CancellationToken cancellationToken = default)
+        {
+            // stock will be increase as product has come into system
+            return _productService.IncreaseStockQuantity(productId, quantity, cancellationToken);
         }
 
         public void AddPayment(Guid invoiceId)
@@ -35,12 +51,12 @@ namespace Module.Sales.Domain
             {
                 decimal grandTotal = 0;
                 decimal subtotal = 0;
-                var lineItems = _invoiceLineItemRepo
-                    .WhereAsReadOnly(x => x.InvoiceId == invoice.Id)
+                var lineItems = _lineItemRepo
+                    .WhereAsReadOnly(x => x.ReferenceId == invoice.Id && !x.IsDeleted)
                     .Select(x => new
                     {
-                        Total = x.LineItem.Total,
-                        Subtotal = x.LineItem.Subtotal
+                        Total = x.Total,
+                        Subtotal = x.Subtotal
                     });
                 foreach (var item in lineItems)
                 {
@@ -93,50 +109,6 @@ namespace Module.Sales.Domain
                 .LongCount();
 
             return $"INV-{count + 1}";
-        }
-
-        public async Task<int> CreateOrUpdateInvoiceLineItem(
-            InvoiceLineItemRequestDto request,
-            Guid invoiceId,
-            Guid? lineItemId,
-            CancellationToken cancellationToken = default)
-        {
-            var lineItem = request.Map();
-            var invoiceLineItem = new InvoiceLineItem();
-            if (request.Id.HasValue)
-            {
-                var savedInvoiceLineItem = await _invoiceLineItemRepo
-                    .FirstOrDefaultAsyncAsReadOnly(x => x.Id == request.Id.Value, x => new
-                    {
-                        Id = x.Id,
-                        LineItemId = x.LineItemId
-                    });
-
-                if (savedInvoiceLineItem == null)
-                    throw new ValidationException("Line item not found");
-
-                invoiceLineItem.Id = request.Id.Value;
-                _invoiceLineItemRepo.Attach(invoiceLineItem);
-                if (lineItemId.HasValue)
-                {
-                    var savedLineItem = await _unitOfWork.GetRepository<LineItem>()
-                        .FirstOrDefaultAsyncAsReadOnly(x => x.Id == lineItemId.Value && !x.IsDeleted, x => new { Id = x.Id }, cancellationToken);
-                    if (savedLineItem == null)
-                        throw new ValidationException("Line item not found.");
-
-                    lineItem.Id = lineItemId.Value;
-                    invoiceLineItem.LineItemId = lineItemId.Value;
-                    invoiceLineItem.LineItem = lineItem;
-                }
-            }
-            else
-            {
-                invoiceLineItem.LineItem = lineItem;
-                invoiceLineItem.InvoiceId = invoiceId;
-                await _invoiceLineItemRepo.AddAsync(invoiceLineItem, cancellationToken);
-            }
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result;
         }
 
         public decimal GetReceivablesAmount(Guid? customerId)

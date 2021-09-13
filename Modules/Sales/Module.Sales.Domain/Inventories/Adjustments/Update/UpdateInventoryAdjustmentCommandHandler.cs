@@ -34,14 +34,14 @@ namespace Module.Sales.Domain
 
             request.Map(adjustment);
 
-            var lineItemRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
+            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             var savedItems = await lineItemRepo
-                .ListAsyncAsReadOnly(x => x.InventoryAdjustmentId == request.Id, x => new
+                .ListAsyncAsReadOnly(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted, x => new
                 {
                     Id = x.Id,
                     ProductId = x.ProductId,
                     ProductName = x.Product.Name,
-                    QuantityAdjusted = x.QuantityAdjusted
+                    QuantityAdjusted = x.Quantity
                 }, cancellationToken);
 
             var productRepo = _unitOfWork.GetRepository<Product>();
@@ -71,8 +71,6 @@ namespace Module.Sales.Domain
                         throw new ValidationException("Negative quantity is allowed.");
 
                     var newAdjustmentLine = requestLineItem.Map(request.Id);
-                    newAdjustmentLine.NewQuantityOnHand = newStock;
-                    newAdjustmentLine.QuantityAvailable = newStock;
                     await lineItemRepo.AddAsync(newAdjustmentLine);
 
                     // adjust product stock

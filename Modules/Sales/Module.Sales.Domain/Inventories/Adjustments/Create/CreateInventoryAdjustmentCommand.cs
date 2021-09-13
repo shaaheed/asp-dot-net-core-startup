@@ -7,9 +7,8 @@ namespace Module.Sales.Domain
 {
     public class CreateInventoryAdjustmentCommand : ICommand<long>
     {
-        public string Reference { get; set; }
         public string Reason { get; set; }
-        public DateTimeOffset? AdjustmentDate { get; set; }
+        public DateTimeOffset AdjustmentDate { get; set; }
 
         public Guid? AccountId { get; set; }
         public string Description { get; set; }
@@ -18,7 +17,6 @@ namespace Module.Sales.Domain
         public virtual InventoryAdjustment Map(InventoryAdjustment entity = null)
         {
             entity = entity ?? new InventoryAdjustment();
-            entity.Reference = Reference;
             entity.Reason = Reason;
             entity.AdjustmentDate = AdjustmentDate;
             entity.AccountId = AccountId;

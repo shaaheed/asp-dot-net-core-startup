@@ -27,11 +27,10 @@ namespace Module.Sales.Domain
             if (adjustment == null)
                 throw new ValidationException("Adjustment not found");
 
-            var lineItemRepo = _unitOfWork.GetRepository<InventoryAdjustmentLineItem>();
-
+            var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             var lineItems = lineItemRepo
-                .Where(x => x.InventoryAdjustmentId == request.Id)
-                .Select(x => new InventoryAdjustmentLineItem { Id = x.Id })
+                .Where(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted)
+                .Select(x => new LineItem { Id = x.Id })
                 .ToList();
             lineItemRepo.RemoveRange(lineItems);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);

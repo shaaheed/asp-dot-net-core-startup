@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
-using System;
 using Msi.Core;
 using System.Collections.Generic;
 
@@ -26,6 +25,9 @@ namespace Module.Sales.Domain
 
         public async Task<long> Handle(CreateInventoryAdjustmentCommand request, CancellationToken cancellationToken)
         {
+            var newAdjustment = request.Map();
+            await _unitOfWork.GetRepository<InventoryAdjustment>().AddAsync(newAdjustment);
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var productRepo = _unitOfWork.GetRepository<Product>();
             var requestProductIds = request.LineItems
@@ -52,7 +54,7 @@ namespace Module.Sales.Domain
             if (notFoundProducts.Count() > 0)
                 throw new ValidationException($"{notFoundProducts[0].Name} not found.");
 
-            var inventoryAdjustments = new List<InventoryAdjustmentLineItem>();
+            var adjustmentLines = new List<LineItem>();
 
             foreach (var product in savedProducts)
             {
@@ -60,43 +62,33 @@ namespace Module.Sales.Domain
 
                 if (product.IsInventory)
                 {
-                    var quantityToBuy = request.LineItems
+                    var quantity = request.LineItems
                         .Where(x => x.ProductId == product.Id)
                         .Select(x => x.Quantity)
                         .Sum();
 
-                    if (product.Quantity < quantityToBuy)
+                    if (product.Quantity < quantity)
                     {
                         throw new ValidationException($"{product.Name} out of stock.");
                     }
-                    if (quantityToBuy > 0)
+                    if (quantity > 0)
                     {
-                        inventoryAdjustments.Add(new InventoryAdjustmentLineItem
+                        adjustmentLines.Add(new LineItem
                         {
-                            InventoryAdjustment = new InventoryAdjustment
-                            {
-                                Reference = request.Reference,
-                                AdjustmentDate = DateTimeOffset.UtcNow,
-                                Type = InventoryAdjustmentType.Invoiced
-                            },
                             ProductId = product.Id,
-                            QuantityAdjusted = quantityToBuy,
-                            NewQuantityOnHand = product.Quantity - quantityToBuy,
-                            QuantityAvailable = product.Quantity - quantityToBuy
+                            Quantity = quantity,
+                            ReferenceId = newAdjustment.Id,
+                            Type = ItemTransactionType.Adjustment
                         });
                         var _product = new Product { Id = product.Id };
                         productRepo.Attach(_product);
-                        _product.StockQuantity = product.Quantity - quantityToBuy;
+                        _product.StockQuantity = product.Quantity + quantity;
                     }
                 }
             }
 
-            if (inventoryAdjustments.Count() > 0)
-            {
-                await _unitOfWork.GetRepository<InventoryAdjustmentLineItem>().AddRangeAsync(inventoryAdjustments, cancellationToken);
-            }
-
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.GetRepository<LineItem>().AddRangeAsync(adjustmentLines, cancellationToken);
+            result += await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return result;
         }

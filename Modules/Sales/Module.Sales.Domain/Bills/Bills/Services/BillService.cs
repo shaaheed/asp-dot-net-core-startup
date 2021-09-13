@@ -2,20 +2,38 @@
 using Msi.Data.Abstractions;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public class BillService : IBillService
+    public class BillService : SalesService, IBillService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductService _productService;
         private readonly IRepository<Bill> _billRepo;
         private readonly IRepository<LineItem> _lineItemRepo;
 
-        public BillService(IUnitOfWork unitOfWork)
+        public BillService(
+            IUnitOfWork unitOfWork,
+            IProductService productService) : base(unitOfWork, productService)
         {
             _unitOfWork = unitOfWork;
+            _productService = productService;
             _billRepo = _unitOfWork.GetRepository<Bill>();
             _lineItemRepo = _unitOfWork.GetRepository<LineItem>();
+        }
+
+        public override Task<int> OnLineItemQuantityIncreased(Guid productId, float quantity, CancellationToken cancellationToken = default)
+        {
+            // stock will be increase as product has come into system
+            return _productService.IncreaseStockQuantity(productId, quantity, cancellationToken);
+        }
+
+        public override Task<int> OnLineItemQuantityDecreased(Guid productId, float quantity, CancellationToken cancellationToken = default)
+        {
+            // stock will be decrease as product has gone from system
+            return _productService.DecreaseStockQuantity(productId, quantity, cancellationToken);
         }
 
         public void AddPayment(Guid billId)
@@ -33,7 +51,7 @@ namespace Module.Sales.Domain
                 decimal grandTotal = 0;
                 decimal subtotal = 0;
                 var lineItems = _lineItemRepo
-                    .WhereAsReadOnly(x => x.ReferenceId == bill.Id && x.Type == LineItemType.Purchase)
+                    .WhereAsReadOnly(x => x.ReferenceId == bill.Id && x.Type == ItemTransactionType.Purchase)
                     .Select(x => new
                     {
                         Total = x.Total,

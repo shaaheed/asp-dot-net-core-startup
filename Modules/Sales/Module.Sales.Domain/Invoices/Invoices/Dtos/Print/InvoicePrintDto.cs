@@ -44,15 +44,15 @@ namespace Module.Sales.Domain
                     Address = x.Customer.BillingAddressId != null ? x.Customer.BillingAddress.AddressLine1 : null
                 } : null,
                 IssueDate = x.IssueDate.ToLocalTime().ToString("dddd, MMMM dd, yyyy, hh:mm:ss tt"),
-                Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto
-                {
-                    Name = y.LineItem.Name,
-                    Quantity = y.LineItem.Quantity,
-                    Subtotal = y.LineItem.Subtotal,
-                    Total = y.LineItem.Total,
-                    UnitPrice = y.LineItem.UnitPrice,
-                    Unit = y.LineItem.UnitId != null ? y.LineItem.Unit.Name : null
-                }),
+                //Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto
+                //{
+                //    Name = y.LineItem.Name,
+                //    Quantity = y.LineItem.Quantity,
+                //    Subtotal = y.LineItem.Subtotal,
+                //    Total = y.LineItem.Total,
+                //    UnitPrice = y.LineItem.UnitPrice,
+                //    Unit = y.LineItem.UnitId != null ? y.LineItem.Unit.Name : null
+                //}),
                 PaymentAmount = paymentAmount,
                 Total = x.GrandTotal,
                 Organization = x.OrganizationId != null ? new InvoiceOrganizationPrintDto { Id = x.OrganizationId } : null,

@@ -9,12 +9,13 @@ namespace Module.Sales.Domain
         public Guid ProductId { get; set; }
         public float Quantity { get; set; }
 
-        public virtual InventoryAdjustmentLineItem Map(Guid adjustmentId, InventoryAdjustmentLineItem entity = null)
+        public virtual LineItem Map(Guid adjustmentId, LineItem entity = null)
         {
-            entity = entity ?? new InventoryAdjustmentLineItem();
+            entity = entity ?? new LineItem();
             entity.ProductId = ProductId;
-            entity.InventoryAdjustmentId = adjustmentId;
-            entity.QuantityAdjusted = Quantity;
+            entity.ReferenceId = adjustmentId;
+            entity.Quantity = Quantity;
+            entity.Type = ItemTransactionType.Adjustment;
             return entity;
         }
     }

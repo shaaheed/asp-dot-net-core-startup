@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public class LineItemService : ILineItemService
+    public abstract class SalesService : ISalesService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
         private readonly IRepository<LineItem> _lineItemRepo;
 
-        public LineItemService(
+        public SalesService(
             IUnitOfWork unitOfWork,
             IProductService productService)
         {
@@ -24,7 +24,11 @@ namespace Module.Sales.Domain
             _lineItemRepo = _unitOfWork.GetRepository<LineItem>();
         }
 
-        public async Task<int> CreateAsync(LineItemType lineItemType, Guid referenceId, List<LineItemRequestDto> requestLineItems, CancellationToken cancellationToken)
+        public abstract Task<int> OnLineItemQuantityIncreased(Guid productId, float quantity, CancellationToken cancellationToken = default);
+
+        public abstract Task<int> OnLineItemQuantityDecreased(Guid productId, float quantity, CancellationToken cancellationToken = default);
+
+        public async Task<int> CreateLineItemAsync(ItemTransactionType lineItemType, Guid referenceId, List<LineItemRequestDto> requestLineItems, CancellationToken cancellationToken)
         {
             int result = 0;
             var requestProductIds = requestLineItems
@@ -48,25 +52,14 @@ namespace Module.Sales.Domain
             foreach (var savedProduct in savedProducts)
             {
                 // if (!savedProduct.IsSale || savedProduct.IsDeleted) throw new ValidationException($"{savedProduct.Name} is not salable.");
-
                 if (savedProduct.IsInventory)
                 {
-                    var quantityToBuy = requestLineItems
+                    var quantity = requestLineItems
                         .Where(x => x.ProductId == savedProduct.Id)
                         .Select(x => x.Quantity)
                         .Sum();
 
-                    if (lineItemType == LineItemType.Purchase)
-                    {
-                        // purchase will increase the product stock count
-                        result += await _productService.IncreaseStockQuantity(savedProduct.Id, quantityToBuy, cancellationToken);
-                    }
-                    else if (lineItemType == LineItemType.Sale)
-                    {
-                        // sale will decrease the product stock count
-                        result += await _productService.DecreaseStockQuantity(savedProduct.Id, quantityToBuy, cancellationToken);
-                    }
-
+                    result += await OnLineItemQuantityIncreased(savedProduct.Id, quantity, cancellationToken);
                 }
             }
 
@@ -74,7 +67,7 @@ namespace Module.Sales.Domain
             return result;
         }
 
-        public async Task<int> UpdateAsync(LineItemType lineItemType, Guid referenceId, List<LineItemRequestDto> requestLineItems, CancellationToken cancellationToken)
+        public async Task<int> UpdateLineItemAsync(ItemTransactionType lineItemType, Guid referenceId, List<LineItemRequestDto> requestLineItems, CancellationToken cancellationToken)
         {
             var requestProductIds = requestLineItems
                 .Where(x => x.ProductId != null)
@@ -92,7 +85,6 @@ namespace Module.Sales.Domain
                 {
                     Id = x.Id,
                     ProductId = x.ProductId,
-                    ProductName = x.Product.Name,
                     LineItemQuantity = x.Quantity
                 }, cancellationToken);
 
@@ -107,28 +99,16 @@ namespace Module.Sales.Domain
                     if (savedLineItem == null)
                         throw new ValidationException("Line item not found");
 
-                    result += await CreateOrUpdate(requestLineItem, lineItemType, referenceId, cancellationToken);
+                    result += await CreateOrUpdateLineItem(requestLineItem, lineItemType, referenceId, cancellationToken);
 
                     // line item product changed
                     if (requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue && requestLineItem.ProductId.Value != savedLineItem.ProductId.Value)
                     {
-                        if (lineItemType == LineItemType.Purchase)
-                        {
-                            // increasing product stock as new product is added to bill line item
-                            result += await _productService.IncreaseStockQuantity(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        // new product added to line item
+                        result += await OnLineItemQuantityIncreased(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
 
-                            // decreasing product stock as product is removed from bill line item
-                            result += await _productService.DecreaseStockQuantity(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
-                        }
-                        else if (lineItemType == LineItemType.Sale)
-                        {
-                            // reducing product stock as new product is added to invoice line item
-                            result += await _productService.DecreaseStockQuantity(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
-
-                            // increasing product stock as product is removed from invoice line item
-                            result += await _productService.IncreaseStockQuantity(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
-                        }
-
+                        // old prodcut removed from line item
+                        result += await OnLineItemQuantityDecreased(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
 
                     // line item product not changed but quantiy may changed
@@ -137,14 +117,15 @@ namespace Module.Sales.Domain
                         if (requestLineItem.Quantity > savedLineItem.LineItemQuantity)
                         {
                             // product stock quantity will be increase
-                            var quantityToBeIncrease = requestLineItem.Quantity - savedLineItem.LineItemQuantity;
-                            result += await _productService.IncreaseStockQuantity(requestLineItem.ProductId.Value, quantityToBeIncrease, cancellationToken);
+                            var quantity = requestLineItem.Quantity - savedLineItem.LineItemQuantity;
+
+                            result += await OnLineItemQuantityIncreased(requestLineItem.ProductId.Value, quantity, cancellationToken);
                         }
                         else if (requestLineItem.Quantity < savedLineItem.LineItemQuantity)
                         {
-                            // product stock quantity will be increase
-                            var quantityToBeDecrease = savedLineItem.LineItemQuantity - requestLineItem.Quantity;
-                            result += await _productService.DecreaseStockQuantity(requestLineItem.ProductId.Value, quantityToBeDecrease, cancellationToken);
+                            // product stock quantity will be decrease
+                            var quantity = savedLineItem.LineItemQuantity - requestLineItem.Quantity;
+                            result += await OnLineItemQuantityDecreased(requestLineItem.ProductId.Value, quantity, cancellationToken);
                         }
                     }
 
@@ -152,14 +133,14 @@ namespace Module.Sales.Domain
                     {
                         // new product added to line item
                         // product stock quantity will be increase
-                        result += await _productService.IncreaseStockQuantity(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        result += await OnLineItemQuantityIncreased(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
 
                     else if (!requestLineItem.ProductId.HasValue && savedLineItem.ProductId.HasValue)
                     {
                         // product removed from line item
                         // product stock quantity will be decrease
-                        result += await _productService.DecreaseStockQuantity(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                        result += await OnLineItemQuantityDecreased(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
                 }
                 else
@@ -168,10 +149,10 @@ namespace Module.Sales.Domain
                     {
                         await _productService.CheckProductSelable(requestLineItem.ProductId, requestLineItem.Name, cancellationToken);
 
-                        result += await _productService.IncreaseStockQuantity(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
+                        result += await OnLineItemQuantityIncreased(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }
 
-                    result += await CreateOrUpdate(requestLineItem, lineItemType, referenceId, cancellationToken);
+                    result += await CreateOrUpdateLineItem(requestLineItem, lineItemType, referenceId, cancellationToken);
                 }
             }
 
@@ -187,7 +168,7 @@ namespace Module.Sales.Domain
                     // decrease product stock as product line item is deleted
                     if (savedLineItem.ProductId.HasValue)
                     {
-                        await _productService.DecreaseStockQuantity(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
+                        result += await OnLineItemQuantityDecreased(savedLineItem.ProductId.Value, savedLineItem.LineItemQuantity, cancellationToken);
                     }
                 }
             }
@@ -196,7 +177,7 @@ namespace Module.Sales.Domain
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> DeleteAsync(LineItemType lineItemType, Guid referenceId, CancellationToken cancellationToken)
+        public async Task<int> DeleteLineItemAsync(ItemTransactionType lineItemType, Guid referenceId, CancellationToken cancellationToken)
         {
             var savedLineItems = await _lineItemRepo.ListAsyncAsReadOnly(x => x.Type == lineItemType && x.ReferenceId == referenceId, x => new LineItem
             { Id = x.Id }, cancellationToken);
@@ -205,9 +186,9 @@ namespace Module.Sales.Domain
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<int> CreateOrUpdate(
+        public async Task<int> CreateOrUpdateLineItem(
             LineItemRequestDto request,
-            LineItemType type,
+            ItemTransactionType type,
             Guid referenceId,
             CancellationToken cancellationToken = default)
         {
