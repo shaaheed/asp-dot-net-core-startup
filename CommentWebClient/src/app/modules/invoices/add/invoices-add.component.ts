@@ -4,7 +4,6 @@ import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { beep, forEachObj } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
-import { ButtonSelectComponent } from 'src/app/shared/button-select/button-select.component';
 import { AutocompleteComponent } from 'src/app/shared/autocomplete/autocomplete.component';
 import { ValidatorService } from 'src/services/validator.service';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
@@ -33,7 +32,7 @@ export class InvoicesAddComponent extends FormComponent {
   searchedContacts: any[] = [];
   units: any[] = [];
 
-  @ViewChild('contactSelect') contactSelect: ButtonSelectComponent;
+  @ViewChild('contactAutocomplete') contactAutocomplete: AutocompleteComponent;
   @ViewChild('globalInput') globalInput: ElementRef;
   @ViewChildren('unitSelects') unitSelects: QueryList<NzSelectComponent>;
 
@@ -53,9 +52,12 @@ export class InvoicesAddComponent extends FormComponent {
   getNextNumber: (data: any) => string;
 
   onGetData = (data: any) => {
-    if (this.isEditMode() && this.contactSelect && data) {
-      this.contactSelect.item = data.customer;
-      this.contactSelect.select.value = data.customer.id;
+    if (this.isEditMode() && this.contactAutocomplete && data) {
+      this.searchedContacts = [data.contact];
+      this.contactAutocomplete.inputValue = data.contact.displayName;
+      // this.contactAutocomplete.autocomplete.setActiveItem(0);
+      // this.contactSelect.select.value = data.customer.id;
+      // this.contactSelect.select.items = [data.customer];
     }
   }
 
@@ -128,8 +130,8 @@ export class InvoicesAddComponent extends FormComponent {
   }
 
   ngAfterViewInit() {
-    const globalProductSearchINput = this.globalInput.nativeElement as HTMLInputElement;
-    globalProductSearchINput.focus();
+    // const globalProductSearchINput = this.globalInput.nativeElement as HTMLInputElement;
+    // globalProductSearchINput.focus();
 
     this.subscribe(this.unitSelects.changes, (selects: QueryList<NzSelectComponent>) => {
       this.setLineItemUnitIdDefaultValue(selects.toArray());
@@ -258,6 +260,9 @@ export class InvoicesAddComponent extends FormComponent {
 
   private prepareForm(data) {
     this.form.controls.items = this.fb.array([]);
+    if (data?.contact) {
+      this.form.controls.contactId.setValue(data.contact.id);
+    }
     if (data.items && data.items.length) {
       data.items.forEach(x => {
         const o = {
@@ -351,7 +356,10 @@ export class InvoicesAddComponent extends FormComponent {
 
   private searchProducts(searchTerm: string, onComplete: (products: any[]) => void): void {
     if (onComplete) {
-      const url = `products?filter=Name like ${searchTerm} or Barcode like ${searchTerm}`;
+      let url = `products`;
+      if (searchTerm) {
+        url += `?filter=Name like "${searchTerm}" or Barcode like "${searchTerm}"`
+      }
       this.callApi(url, onComplete);
     }
   }
@@ -360,12 +368,14 @@ export class InvoicesAddComponent extends FormComponent {
     if (onComplete) {
       let url = 'contacts?filter=';
       if (this.contactTitle == 'customer') {
-        url += 'Type eq 2';
-      }
-      else {
         url += 'Type eq 1';
       }
-      url += `and (Name like ${searchTerm} or Mobile like ${searchTerm} or Email like ${searchTerm})`;
+      else {
+        url += 'Type eq 2';
+      }
+      if (searchTerm) {
+        url += ` and (DisplayName like "${searchTerm}" or Mobile like "${searchTerm}" or Email like "${searchTerm}")`;
+      }
       this.callApi(url, onComplete);
     }
   }

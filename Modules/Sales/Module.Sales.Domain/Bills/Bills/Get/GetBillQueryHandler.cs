@@ -1,6 +1,4 @@
 ﻿using Msi.Mediator.Abstractions;
-using Module.Sales.Entities;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
@@ -21,10 +19,16 @@ namespace Module.Sales.Domain
             _billService = billService;
         }
 
-        public Task<BillDto> Handle(GetBillQuery request, CancellationToken cancellationToken)
+        public async Task<BillDto> Handle(GetBillQuery request, CancellationToken cancellationToken)
         {
             var paymentAmount = _billService.GetBillPaymentsAmount(request.Id);
-            return _unitOfWork.GetAsync(x => x.Id == request.Id, BillDto.Selector(paymentAmount), cancellationToken);
+            var bill = await _unitOfWork.GetAsync(x => x.Id == request.Id, BillDto.Selector(paymentAmount), cancellationToken);
+            if (bill != null)
+            {
+                var collection = await _unitOfWork.ListAsync(x => x.ReferenceId == bill.Id && x.Type == Entities.ItemTransactionType.Purchase && !x.IsDeleted, LineItemDto.Selector(), null, cancellationToken);
+                bill.Items = collection.Items;
+            }
+            return bill;
         }
     }
 }

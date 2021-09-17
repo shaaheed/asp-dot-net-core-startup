@@ -307,7 +307,6 @@ nz-sider {
     &.ant-btn-primary:hover {
         @include btn-shadow-primary-hover;
     }
-
     &.ant-btn-danger {
         background: #e24520;
         color: #fff;
@@ -316,6 +315,7 @@ nz-sider {
     &.ant-btn-danger:hover {
         @include btn-shadow-danger-hover;
     }
+    z-index: auto !important;
 }
 
 .header-actions-btn {
@@ -500,6 +500,10 @@ nz-table tr:hover {
     background: #fff;
 }
 
+nz-date-picker:hover,
+nz-date-picker:focus,
+// nz-input-group:hover,
+// nz-input-group:focus,
 input[nz-input]:hover,
 input[nz-input]:focus,
 nz-picker input:hover,

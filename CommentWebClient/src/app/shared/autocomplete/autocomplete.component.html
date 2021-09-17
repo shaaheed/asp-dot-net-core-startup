@@ -16,7 +16,7 @@
         </ng-container>
 
         <ng-template #inputTemplate>
-            <input [nzAutocomplete]="autocomplete" [formControl]="ngControl.control"
+            <input [value]="inputValue" [nzAutocomplete]="autocomplete" [formControl]="ngControl.control"
                 (input)="onChangeSearchTerm($event.target.value)" [type]="type" nz-input
                 placeholder="{{placeholder|translate}}" />
         </ng-template>

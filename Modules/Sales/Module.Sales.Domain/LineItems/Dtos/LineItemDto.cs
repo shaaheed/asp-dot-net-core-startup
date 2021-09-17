@@ -1,5 +1,7 @@
-﻿using Module.Systems.Domain;
+﻿using Module.Sales.Entities;
+using Module.Systems.Domain;
 using System;
+using System.Linq.Expressions;
 
 namespace Module.Sales.Domain
 {
@@ -16,5 +18,28 @@ namespace Module.Sales.Domain
         public float Quantity { get; set; }
         public string Note { get; set; }
         public GuidCodeNameDto Unit { get; set; }
+
+        public static Expression<Func<LineItem, LineItemDto>> Selector()
+        {
+            return x => new LineItemDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ProductId = x.ProductId,
+                UnitPrice = x.UnitPrice,
+                Subtotal = x.Subtotal,
+                Total = x.Total,
+                TotalTaxAmount = x.TotalTaxAmount,
+                Quantity = x.Quantity,
+                Note = x.Note,
+                Unit = x.UnitId != null ? new GuidCodeNameDto
+                {
+                    Id = x.UnitId.Value,
+                    Code = x.Unit.Symbol,
+                    Name = x.Unit.Name
+                } : null
+            };
+        }
     }
 }

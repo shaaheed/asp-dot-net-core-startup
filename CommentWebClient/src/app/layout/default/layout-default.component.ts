@@ -67,6 +67,7 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             level: 2,
             title: 'product.categories',
             route: '/products/categories',
+            createRoute: '/products/categories/create',
             fn: () => true,
           },
           {
@@ -87,12 +88,14 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             level: 2,
             title: 'invoices',
             route: '/invoices',
+            createRoute: '/invoices/create',
             fn: () => true,
           },
           {
             level: 2,
             title: 'customers',
             route: '/customers',
+            createRoute: '/customers/create',
             fn: () => true,
           }
         ]
@@ -107,12 +110,14 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             level: 2,
             title: 'bills',
             route: '/bills',
+            createRoute: '/bills/create',
             fn: () => true,
           },
           {
             level: 2,
             title: 'suppliers',
             route: '/suppliers',
+            createRoute: '/suppliers/create',
             fn: () => true,
           }
         ]
@@ -127,18 +132,21 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
             level: 2,
             title: 'units',
             route: '/units',
+            createRoute: '/units/create',
             fn: () => true,
           },
           {
             level: 2,
             title: 'unit.types',
             route: '/units/types',
+            createRoute: '/units/types/create',
             fn: () => true,
           },
           {
             level: 2,
             title: 'taxes',
             route: '/taxes',
+            createRoute: '/taxes/create',
             fn: () => true,
           }
         ]

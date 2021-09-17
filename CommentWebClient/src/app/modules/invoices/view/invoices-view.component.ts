@@ -110,7 +110,7 @@ export class InvoicesViewComponent extends BaseComponent {
           }
           if (res) {
             this.model = res.data;
-            this.contact = res.data?.customer;
+            this.contact = res.data?.contact;
 
             if (this.model?.items) {
               this.subtotal = this.model.items.reduce((a, c) => a + c.subtotal, 0);

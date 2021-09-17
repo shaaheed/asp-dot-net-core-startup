@@ -12,15 +12,16 @@ const addEditData = {
         c.apiUrl = prefix;
         c.objectName = objectName;
         c.contactTitle = contactTitle;
-        c.contactApiUrl = 'contacts?Search=Type eq 2';
+        c.contactApiUrl = 'contacts';
         c.chooseAnotherTitle = 'choose.a.different.supplier';
         c.createInfoUrl = `${prefix}/create-info`;
         c.getNextNumber = x => x.nextBillNumber;
         c.dateLabel = 'bill.date';
         c.onGetData = (data: any) => {
-            if (c.isEditMode() && c.contactSelect && data) {
-                c.contactSelect.item = data.supplier;
-                c.contactSelect.select.value = data.supplier?.id;
+            if (c.isEditMode() && c.contactAutocomplete && data) {
+                // c.contactAutocomplete.value = data.supplier.displayName;
+                // c.contactSelect.item = data.supplier;
+                // c.contactSelect.select.value = data.supplier?.id;
             }
         }
     }
@@ -32,7 +33,7 @@ const viewData = {
         c.contactTitle = contactTitle;
         c.objectName = objectName;
         c.onGetData = data => {
-            c.contact = data?.supplier;
+            c.contact = data?.contact;
         }
     }
 }

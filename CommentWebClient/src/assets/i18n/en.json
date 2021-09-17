@@ -197,5 +197,7 @@
   "search.x0.by.x1.or.x2": "Search {{x0}} by {{x1}} or {{x2}}",
   "press.x0.to.add.x1": "Press {{x0}} to add {{x1}}",
   "enter.key": "Enter key",
-  "balance": "Balance"
+  "balance": "Balance",
+  "add.bulk.x0": "Add Bulk {{x0}}",
+  "add.x0.header": "Add {{x0}} Header"
 }

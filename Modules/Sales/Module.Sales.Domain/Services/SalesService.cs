@@ -49,6 +49,7 @@ namespace Module.Sales.Domain
                 return newLineItem;
             });
 
+            await _lineItemRepo.AddRangeAsync(newLineItems);
             foreach (var savedProduct in savedProducts)
             {
                 // if (!savedProduct.IsSale || savedProduct.IsDeleted) throw new ValidationException($"{savedProduct.Name} is not salable.");

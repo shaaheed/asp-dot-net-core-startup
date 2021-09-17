@@ -37,7 +37,7 @@ export function clean(o) {
 
 export function getLang() {
     const lang = localStorage.getItem('app_lang');
-    return lang || 'bn';
+    return lang || 'en';
 }
 
 export function createAnchorAndFireForDownload(blob: Blob, fileName?: string) {

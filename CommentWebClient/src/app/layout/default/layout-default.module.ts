@@ -20,6 +20,7 @@ import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLL
 import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { QuickCreateModule } from 'src/app/shared/quick-create/quick-create.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -47,7 +48,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     NzBreadCrumbModule,
     SettingsModule,
-    NzSpaceModule
+    NzSpaceModule,
+    QuickCreateModule
   ],
   declarations: [
     LayoutDefaultComponent

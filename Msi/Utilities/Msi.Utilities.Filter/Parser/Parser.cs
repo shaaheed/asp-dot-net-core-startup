@@ -220,9 +220,11 @@ namespace Msi.Utilities.Filter
                 Token propertyToken = stack.Pop() as Token;
 
                 string[] propertyNames = propertyToken.Value.Split('.');
-                var propertyInfo = properties.FirstOrDefault(x => x.Name == propertyNames[0]);
+                string propertyName = propertyNames[0];
+                var propertyInfo = properties.FirstOrDefault(x => x.Name == propertyName);
 
-                if (propertyInfo == null) return null;
+                if (propertyInfo == null)
+                    throw new Exception($"Can not find the property '{propertyName}'.");
 
                 //bool isFilterable = propertyInfo.GetCustomAttributes<SearchableAttribute>().FirstOrDefault() != null;
 

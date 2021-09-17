@@ -8,10 +8,38 @@ namespace AccountingWebHost.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AccountType",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UseOf = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentAccountTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountType", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountType_AccountType_ParentAccountTypeId",
+                        column: x => x.ParentAccountTypeId,
+                        principalTable: "AccountType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParentCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -25,25 +53,12 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChartOfAccountCategory",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChartOfAccountCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_Category_ParentCategoryId",
+                        column: x => x.ParentCategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -387,27 +402,41 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChartOfAccountType",
+                name: "Account",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UseOf = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsSystemAccount = table.Column<bool>(type: "bit", nullable: false),
+                    IsArchive = table.Column<bool>(type: "bit", nullable: false),
+                    ParentAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OpeningBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    CurrentBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    LastReconciledDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastTransactionDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChartOfAccountType", x => x.Id);
+                    table.PrimaryKey("PK_Account", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChartOfAccountType_ChartOfAccountCategory_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "ChartOfAccountCategory",
+                        name: "FK_Account_Account_ParentAccountId",
+                        column: x => x.ParentAccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Account_AccountType_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "AccountType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -696,32 +725,30 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChartOfAccount",
+                name: "InventoryAdjustment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdjustmentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsEditable = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeletable = table.Column<bool>(type: "bit", nullable: false),
-                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChartOfAccount", x => x.Id);
+                    table.PrimaryKey("PK_InventoryAdjustment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChartOfAccount_ChartOfAccountType_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "ChartOfAccountType",
+                        name: "FK_InventoryAdjustment_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -808,35 +835,6 @@ namespace AccountingWebHost.Migrations
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InventoryAdjustment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Reference = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdjustmentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InventoryAdjustment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InventoryAdjustment_ChartOfAccount_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "ChartOfAccount",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -942,9 +940,8 @@ namespace AccountingWebHost.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    TotalBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalDueAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalCredit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreditLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     LanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BillingAddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ShippingAddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -1159,9 +1156,9 @@ namespace AccountingWebHost.Migrations
                 {
                     table.PrimaryKey("PK_Bill", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bill_ChartOfAccount_AccountId",
+                        name: "FK_Bill_Account_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1211,6 +1208,39 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Credit",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ReferenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credit", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Credit_Contact_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contact",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Credit_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Product",
                 columns: table => new
                 {
@@ -1253,21 +1283,21 @@ namespace AccountingWebHost.Migrations
                 {
                     table.PrimaryKey("PK_Product", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_ChartOfAccount_InventoryAccountId",
+                        name: "FK_Product_Account_InventoryAccountId",
                         column: x => x.InventoryAccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_ChartOfAccount_PurchaseAccountId",
+                        name: "FK_Product_Account_PurchaseAccountId",
                         column: x => x.PurchaseAccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_ChartOfAccount_SalesAccountId",
+                        name: "FK_Product_Account_SalesAccountId",
                         column: x => x.SalesAccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1317,9 +1347,9 @@ namespace AccountingWebHost.Migrations
                 {
                     table.PrimaryKey("PK_Quote", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Quote_ChartOfAccount_AccountId",
+                        name: "FK_Quote_Account_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1417,34 +1447,6 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InventoryAdjustmentLineItem",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InventoryAdjustmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    QuantityAvailable = table.Column<float>(type: "real", nullable: false),
-                    NewQuantityOnHand = table.Column<float>(type: "real", nullable: false),
-                    QuantityAdjusted = table.Column<float>(type: "real", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InventoryAdjustmentLineItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InventoryAdjustmentLineItem_InventoryAdjustment_InventoryAdjustmentId",
-                        column: x => x.InventoryAdjustmentId,
-                        principalTable: "InventoryAdjustment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InventoryAdjustmentLineItem_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LineItem",
                 columns: table => new
                 {
@@ -1452,10 +1454,12 @@ namespace AccountingWebHost.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiscountType = table.Column<int>(type: "int", nullable: true),
+                    DiscountType = table.Column<byte>(type: "tinyint", nullable: true),
                     UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -1604,9 +1608,9 @@ namespace AccountingWebHost.Migrations
                 {
                     table.PrimaryKey("PK_Invoice", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoice_ChartOfAccount_AccountId",
+                        name: "FK_Invoice_Account_AccountId",
                         column: x => x.AccountId,
-                        principalTable: "ChartOfAccount",
+                        principalTable: "Account",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -1633,31 +1637,6 @@ namespace AccountingWebHost.Migrations
                         principalTable: "Quote",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BillLineItem",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BillId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LineItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BillLineItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BillLineItem_Bill_BillId",
-                        column: x => x.BillId,
-                        principalTable: "Bill",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BillLineItem_LineItem_LineItemId",
-                        column: x => x.LineItemId,
-                        principalTable: "LineItem",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1736,31 +1715,6 @@ namespace AccountingWebHost.Migrations
                         name: "FK_QuoteLineItem_Quote_QuoteId",
                         column: x => x.QuoteId,
                         principalTable: "Quote",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InvoiceLineItem",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LineItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoiceLineItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InvoiceLineItem_Invoice_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoice",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InvoiceLineItem_LineItem_LineItemId",
-                        column: x => x.LineItemId,
-                        principalTable: "LineItem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -2017,6 +1971,21 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Account_ParentAccountId",
+                table: "Account",
+                column: "ParentAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Account_TypeId",
+                table: "Account",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountType_ParentAccountTypeId",
+                table: "AccountType",
+                column: "ParentAccountTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Address_CountryId",
                 table: "Address",
                 column: "CountryId");
@@ -2047,16 +2016,6 @@ namespace AccountingWebHost.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BillLineItem_BillId",
-                table: "BillLineItem",
-                column: "BillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BillLineItem_LineItemId",
-                table: "BillLineItem",
-                column: "LineItemId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BillPayment_BillId",
                 table: "BillPayment",
                 column: "BillId");
@@ -2082,14 +2041,9 @@ namespace AccountingWebHost.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChartOfAccount_TypeId",
-                table: "ChartOfAccount",
-                column: "TypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChartOfAccountType_CategoryId",
-                table: "ChartOfAccountType",
-                column: "CategoryId");
+                name: "IX_Category_ParentCategoryId",
+                table: "Category",
+                column: "ParentCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contact_BillingAddressId",
@@ -2147,6 +2101,16 @@ namespace AccountingWebHost.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Credit_ContactId",
+                table: "Credit",
+                column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Credit_PaymentId",
+                table: "Credit",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_District_StateOrProvinceId",
                 table: "District",
                 column: "StateOrProvinceId");
@@ -2165,16 +2129,6 @@ namespace AccountingWebHost.Migrations
                 name: "IX_InventoryAdjustment_AccountId",
                 table: "InventoryAdjustment",
                 column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InventoryAdjustmentLineItem_InventoryAdjustmentId",
-                table: "InventoryAdjustmentLineItem",
-                column: "InventoryAdjustmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InventoryAdjustmentLineItem_ProductId",
-                table: "InventoryAdjustmentLineItem",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoice_AccountId",
@@ -2200,16 +2154,6 @@ namespace AccountingWebHost.Migrations
                 name: "IX_Invoice_SalesPersonId",
                 table: "Invoice",
                 column: "SalesPersonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceLineItem_InvoiceId",
-                table: "InvoiceLineItem",
-                column: "InvoiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InvoiceLineItem_LineItemId",
-                table: "InvoiceLineItem",
-                column: "LineItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoicePayment_InvoiceId",
@@ -2455,9 +2399,6 @@ namespace AccountingWebHost.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BillLineItem");
-
-            migrationBuilder.DropTable(
                 name: "BillPayment");
 
             migrationBuilder.DropTable(
@@ -2473,13 +2414,13 @@ namespace AccountingWebHost.Migrations
                 name: "CountryLanguage");
 
             migrationBuilder.DropTable(
+                name: "Credit");
+
+            migrationBuilder.DropTable(
                 name: "GroupTax");
 
             migrationBuilder.DropTable(
-                name: "InventoryAdjustmentLineItem");
-
-            migrationBuilder.DropTable(
-                name: "InvoiceLineItem");
+                name: "InventoryAdjustment");
 
             migrationBuilder.DropTable(
                 name: "InvoicePayment");
@@ -2539,9 +2480,6 @@ namespace AccountingWebHost.Migrations
                 name: "TaxGroup");
 
             migrationBuilder.DropTable(
-                name: "InventoryAdjustment");
-
-            migrationBuilder.DropTable(
                 name: "Invoice");
 
             migrationBuilder.DropTable(
@@ -2596,7 +2534,7 @@ namespace AccountingWebHost.Migrations
                 name: "PaymentProvider");
 
             migrationBuilder.DropTable(
-                name: "ChartOfAccount");
+                name: "Account");
 
             migrationBuilder.DropTable(
                 name: "Contact");
@@ -2605,7 +2543,7 @@ namespace AccountingWebHost.Migrations
                 name: "Unit");
 
             migrationBuilder.DropTable(
-                name: "ChartOfAccountType");
+                name: "AccountType");
 
             migrationBuilder.DropTable(
                 name: "Address");
@@ -2621,9 +2559,6 @@ namespace AccountingWebHost.Migrations
 
             migrationBuilder.DropTable(
                 name: "UnitType");
-
-            migrationBuilder.DropTable(
-                name: "ChartOfAccountCategory");
 
             migrationBuilder.DropTable(
                 name: "District");

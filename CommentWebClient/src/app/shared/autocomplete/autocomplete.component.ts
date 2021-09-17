@@ -5,7 +5,7 @@ import { InputConfig } from '../form-page/control.config';
 
 @Component({
   selector: 'app-autocomplete',
-  templateUrl: './autocomplete.component.html'
+  templateUrl: './autocomplete.component.html',
 })
 export class AutocompleteComponent extends AntControlComponent {
 
@@ -19,9 +19,10 @@ export class AutocompleteComponent extends AntControlComponent {
   @Output() searchTermChange: EventEmitter<string> = new EventEmitter(true);
   @Input() overlayClassName: string = 'autocompleteOverlay';
   @Input() optionTemplate: TemplateRef<any> = null;
+  @Input() inputValue: string = null;
 
   @ViewChild('autocomplete', { static: true }) autocomplete: NzAutocompleteComponent;
-  overlayStyle = {minWidth: '500px'}
+  overlayStyle = { minWidth: '500px' }
 
   ngOnInit() {
     if (this.config) {

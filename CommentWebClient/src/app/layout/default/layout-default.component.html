@@ -41,17 +41,25 @@
         </ng-template>
       </div>
       <div class="column">
+
         <div>
           <nz-select (ngModelChange)="languageChanged($event)" [(ngModel)]="selectedLanguage">
             <nz-option nzLabel="English" nzValue="en"></nz-option>
             <nz-option nzLabel="বাংলা" nzValue="bn"></nz-option>
           </nz-select>
         </div>
-        <div class="icon-btn" nz-tooltip nzTooltipTitle="{{'quick.create'|translate}}" nzTooltipPlacement="bottom">
+
+        <div class="icon-btn" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="quickCreateTemplate"
+          nzPopoverPlacement="bottomRight" nz-tooltip nzTooltipTitle="{{'quick.create'|translate}}"
+          nzTooltipPlacement="bottom">
           <div>
             <i nz-icon nzType="plus"></i>
           </div>
+          <ng-template #quickCreateTemplate>
+            <app-quick-create></app-quick-create>
+          </ng-template>
         </div>
+
         <nz-badge [nzCount]="count">
           <div class="icon-btn" nz-dropdown nz-tooltip nzTooltipTitle="{{'notifications'|translate}}"
             nzTooltipPlacement="bottom">
@@ -60,12 +68,14 @@
             </div>
           </div>
         </nz-badge>
+
         <div class="icon-btn" (click)="openSettingsDrawer()" nz-tooltip nzTooltipTitle="{{'settings'|translate}}"
           nzTooltipPlacement="bottom">
           <div>
             <i nz-icon nzType="setting"></i>
           </div>
         </div>
+
         <div class="icon-btn" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"
           nzPopoverPlacement="bottomRight">
           <div>
@@ -100,6 +110,7 @@
             </ng-template>
           </div>
         </div>
+
       </div>
     </nz-header>
     <nz-layout>
@@ -111,14 +122,15 @@
             <ng-template #menuTemplate let-nav>
               <ng-container *ngFor="let n of nav">
                 <ng-container *ngIf="n.granted">
-                  <li (click)="navClicked(n)" *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10" style="height: auto;">
+                  <li *ngIf="!n.nav" nz-menu-item [nzPaddingLeft]="10" style="height: auto;">
                     <div class="li-inner-div" [ngStyle]="{'paddingLeft': n.level * 10+'px'}">
-                      <div style="flex: 1">
+                      <div (click)="navClicked(n)" style="flex: 1">
                         <i *ngIf="n.icon" nz-icon nzType="{{n.icon}}"></i>
                         <span>{{n.title|translate}}</span>
                       </div>
-                      <div *ngIf="n.createRoute">
-                        <span (click)="navCreateRouteClicked(n)" class="create-button">
+                      <div nz-tooltip nzTooltipTitle="{{'create.a.x0'|translate:{x0: n.title|translate} }}"
+                        nzTooltipPlacement="bottom" (click)="navCreateRouteClicked(n)" *ngIf="n.createRoute">
+                        <span class="create-button">
                           <i nz-icon nzType="plus"></i>
                         </span>
                       </div>

@@ -47,7 +47,7 @@
   "choose.a.different.customer": "ক্রেতা পরিবর্তন করুন",
   "choose.a.different.supplier": "সরবরাহকারী পরিবর্তন করুন",
   "bill.to": "Bill to",
-  "add.an.item": "একটি আইটেম যুক্ত করুন",
+  "add.an.item": "একটি আইটেম যোগ করুন",
   "quantity": "পরিমাণ",
   "items": "আইটেম",
   "amount": "মোট",
@@ -94,7 +94,7 @@
   "compound.tax.tooltip": "আপনি যদি প্রাথমিক ট্যাক্স এর পাশাপাশি দ্বিতীয় ট্যাক্স আরোপ করেন তবে এটি নির্বাচন করুন",
   "chart.of.account": "চার্ট অব অ্যাকাউন্ট",
   "transaction": "লেনদেন",
-  "add": "Add",
+  "add": "যোগ",
   "amount.must.be.numeric": "পরিমাণ অবশ্যই সংখ্যাসূচক হতে হবে",
   "amount.is.required": "পরিমাণ প্রয়োজন",
   "amount.exceeds": "পরিমাণ ছাড়িয়ে গেছে",
@@ -193,7 +193,9 @@
   "barcode": "বারকোড",
   "stock.on.hand": "স্টক হাতে আছে",
   "search.x0.by.x1.or.x2": "{{x1}} অথবা {{x2}} দিয়ে {{x0}} খুঁজুন",
-  "press.x0.to.add.x1": "{{x1}} যুক্ত করতে {{x0}} চাপুন",
+  "press.x0.to.add.x1": "{{x1}} যোগ করতে {{x0}} চাপুন",
   "enter.key": "এন্টার কী",
-  "balance": "ব্যালেন্স"
+  "balance": "ব্যালেন্স",
+  "add.bulk.x0": "বাল্ক {{x0}} যোগ করুন",
+  "add.x0.header": "{{x0}} হেডার যোগ করুন"
 }

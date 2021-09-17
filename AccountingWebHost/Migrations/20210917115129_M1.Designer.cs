@@ -10,7 +10,7 @@ using Msi.Data.EntityFrameworkCore.SqlServer;
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210905175727_M1")]
+    [Migration("20210917115129_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -551,6 +551,115 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("PermissionGroup");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("CurrentBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsArchive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSystemAccount")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LastReconciledDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("LastTransactionDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("OpeningBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ParentAccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentAccountId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.AccountType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentAccountTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UseOf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentAccountTypeId");
+
+                    b.ToTable("AccountType");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
                 {
                     b.Property<Guid>("Id")
@@ -640,27 +749,6 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("Bill");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.BillLineItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BillId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LineItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BillId");
-
-                    b.HasIndex("LineItemId");
-
-                    b.ToTable("BillLineItem");
-                });
-
             modelBuilder.Entity("Module.Sales.Entities.BillPayment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -709,6 +797,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -716,132 +807,10 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ChartOfAccount", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeletable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEditable")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("OrganizationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("ChartOfAccount");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ChartOfAccountCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChartOfAccountCategory");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ChartOfAccountType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UseOf")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ChartOfAccountType");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Contact", b =>
@@ -849,6 +818,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("BillingAddressId")
                         .HasColumnType("uniqueidentifier");
@@ -861,6 +833,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("CreditLimit")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
@@ -897,15 +872,6 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<Guid?>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("TotalBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalCredit")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalDueAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -976,6 +942,51 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("ContactPerson");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Credit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Credit");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.GroupTax", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1006,7 +1017,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("AdjustmentDate")
+                    b.Property<DateTimeOffset>("AdjustmentDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
@@ -1027,12 +1038,6 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Reference")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1044,36 +1049,6 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("InventoryAdjustment");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentLineItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InventoryAdjustmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("NewQuantityOnHand")
-                        .HasColumnType("real");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("QuantityAdjusted")
-                        .HasColumnType("real");
-
-                    b.Property<float>("QuantityAvailable")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryAdjustmentId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("InventoryAdjustmentLineItem");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -1178,27 +1153,6 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("Invoice");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.InvoiceLineItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LineItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("LineItemId");
-
-                    b.ToTable("InvoiceLineItem");
-                });
-
             modelBuilder.Entity("Module.Sales.Entities.InvoicePayment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1238,8 +1192,8 @@ namespace AccountingWebHost.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("DiscountType")
-                        .HasColumnType("int");
+                    b.Property<byte?>("DiscountType")
+                        .HasColumnType("tinyint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1256,6 +1210,9 @@ namespace AccountingWebHost.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("decimal(18,2)");
 
@@ -1264,6 +1221,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<decimal>("TotalTaxAmount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
 
                     b.Property<Guid?>("UnitId")
                         .HasColumnType("uniqueidentifier");
@@ -4712,9 +4672,35 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Group");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Account", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Account", "ParentAccount")
+                        .WithMany()
+                        .HasForeignKey("ParentAccountId");
+
+                    b.HasOne("Module.Sales.Entities.AccountType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParentAccount");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.AccountType", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.AccountType", "ParentAccountType")
+                        .WithMany()
+                        .HasForeignKey("ParentAccountTypeId");
+
+                    b.Navigation("ParentAccountType");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
 
@@ -4731,25 +4717,6 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Currency");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.BillLineItem", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.Bill", "Bill")
-                        .WithMany("BillLineItems")
-                        .HasForeignKey("BillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.LineItem", "LineItem")
-                        .WithMany()
-                        .HasForeignKey("LineItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bill");
-
-                    b.Navigation("LineItem");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.BillPayment", b =>
@@ -4771,26 +4738,13 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Payment");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.ChartOfAccount", b =>
+            modelBuilder.Entity("Module.Sales.Entities.Category", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccountType", "Type")
+                    b.HasOne("Module.Sales.Entities.Category", "ParentCategory")
                         .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParentCategoryId");
 
-                    b.Navigation("Type");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ChartOfAccountType", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccountCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Contact", b =>
@@ -4845,6 +4799,23 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Credit", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Payments.Entities.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId");
+
+                    b.Navigation("Contact");
+
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.GroupTax", b =>
                 {
                     b.HasOne("Module.Sales.Entities.TaxGroup", "Group")
@@ -4866,35 +4837,16 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustment", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentLineItem", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.InventoryAdjustment", "InventoryAdjustment")
-                        .WithMany()
-                        .HasForeignKey("InventoryAdjustmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InventoryAdjustment");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
 
@@ -4923,25 +4875,6 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("FromQuote");
 
                     b.Navigation("SalesPerson");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.InvoiceLineItem", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.Invoice", "Invoice")
-                        .WithMany("InvoiceLineItems")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.LineItem", "LineItem")
-                        .WithMany()
-                        .HasForeignKey("LineItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
-
-                    b.Navigation("LineItem");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.InvoicePayment", b =>
@@ -5027,11 +4960,11 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.Product", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "InventoryAccount")
+                    b.HasOne("Module.Sales.Entities.Account", "InventoryAccount")
                         .WithMany()
                         .HasForeignKey("InventoryAccountId");
 
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "PurchaseAccount")
+                    b.HasOne("Module.Sales.Entities.Account", "PurchaseAccount")
                         .WithMany()
                         .HasForeignKey("PurchaseAccountId");
 
@@ -5039,7 +4972,7 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("PurchaseUnitId");
 
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "SalesAccount")
+                    b.HasOne("Module.Sales.Entities.Account", "SalesAccount")
                         .WithMany()
                         .HasForeignKey("SalesAccountId");
 
@@ -5104,7 +5037,7 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.ChartOfAccount", "Account")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId");
 
@@ -5370,15 +5303,11 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
                 {
-                    b.Navigation("BillLineItems");
-
                     b.Navigation("BillPayments");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
                 {
-                    b.Navigation("InvoiceLineItems");
-
                     b.Navigation("InvoicePayments");
                 });
 

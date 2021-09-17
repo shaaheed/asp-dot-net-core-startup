@@ -5,13 +5,22 @@
                 <div class="content">
                     <div class="invoice-head">
                         <div class="left">
-
-                            <app-autocomplete #contactAutocomplete [options]="searchedContacts" [optionTemplate]="contactAutocompleteOptionTemplate"
+                            <app-autocomplete #contactAutocomplete [options]="searchedContacts"
+                                [optionTemplate]="contactAutocompleteOptionTemplate"
                                 (searchTermChange)="onContactSearchTermChanged($event)"
-                                (selectionChange)="onContactSelectionChanged($event)"
-                                [formItemStyle]="formItemStyle" [placeholder]="contactTitle" labelKey="displayName"
-                                formControlName="contactId">
+                                (selectionChange)="onContactSelectionChanged($event)" [formItemStyle]="formItemStyle"
+                                [placeholder]="contactTitle" labelKey="displayName" formControlName="contactId">
                             </app-autocomplete>
+
+                            <div class="addresses">
+                                <div class="left">
+                                    <h3>Billing Address</h3>
+                                </div>
+                                <div class="left">
+                                    <h3>Shipping Address</h3>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="right">
                             <app-input label="number" placeholder="number" formControlName="number"></app-input>
@@ -113,14 +122,37 @@
                                 </ng-container>
                             </ng-container>
                             <tr class="bg-white no-border">
-                                <td style="text-align: left;" colspan="5" class="center bg-white">
-                                    <div>
+                                <td style="text-align: left;" class="center bg-white">
+                                    <nz-button-group>
+                                        <button nz-button class="btn-custom" type="button" (click)="addLineItem();">
+                                            <i nz-icon nzType="plus-circle"></i>
+                                            {{'add.new.x0'|translate:{x0: 'product'|translate } }}
+                                        </button>
+                                        <button nz-button class="btn-custom" type="button" nz-dropdown
+                                            [nzDropdownMenu]="addItemMenu" nzTrigger="click">
+                                            <i nz-icon nzType="arrow-down"></i>
+                                            <nz-dropdown-menu #addItemMenu="nzDropdownMenu">
+                                                <ul nz-menu class="item-dropdown">
+                                                    <li nz-menu-item>
+                                                        {{'add.bulk.x0'|translate:{x0: 'product'|translate} }}
+                                                    </li>
+                                                    <li nz-menu-item>
+                                                        {{'add.x0.header'|translate:{x0: 'product'|translate} }}
+                                                    </li>
+                                                </ul>
+                                            </nz-dropdown-menu>
+                                        </button>
+                                    </nz-button-group>
+
+
+                                    <!-- <div>
                                         <a (click)="addLineItem();">
                                             <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
                                             {{'add.new.x0'|translate:{x0: 'product'|translate } }}
                                         </a>
-                                    </div>
+                                    </div> -->
                                 </td>
+                                <td colspan="5"></td>
                             </tr>
 
                             <tr class="bg-white no-border">
@@ -140,8 +172,9 @@
                                         placeholder="adjustment" formControlName="adjustmentText"></app-input>
                                 </td>
                                 <td style="width: 150px;">
-                                    <app-input #adjustmentAmount type="number" [formItemStyle]="formItemStyle" [prefix]="currency"
-                                        placeholder="amount" formControlName="adjustmentAmount"></app-input>
+                                    <app-input #adjustmentAmount type="number" [formItemStyle]="formItemStyle"
+                                        [prefix]="currency" placeholder="amount" formControlName="adjustmentAmount">
+                                    </app-input>
                                 </td>
                                 <td class="ta-right">
                                     <strong>{{currency}} {{adjustmentAmount.value || 0}}</strong>
@@ -196,12 +229,8 @@
             <div>
                 <strong>{{data.displayName}}</strong>
             </div>
-            <div>
-                <span>{{data.mobile}}</span>
-                <span *ngIf="data.mobile && data.email">&nbsp;&middot;&nbsp;</span>
-                <span>{{data.email}}</span>
-            </div>
-            <div>{{data.address}}</div>
+            <div *ngIf="data.mobile">{{data.mobile}}</div>
+            <div *ngIf="data.email">{{data.email}}</div>
         </div>
         <div class="right">
             <div>{{'balance'|translate}}</div>
