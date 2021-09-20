@@ -1,0 +1,16 @@
+<div class="drawer-header">
+    <div class="title">
+        <span class="title-text">{{title|translate}}</span>
+        <span (click)="close()" class="cursor-pointer">
+            <i nz-icon nzType="close"></i>
+        </span>
+    </div>
+    <ng-container *ngIf="header">
+        <ng-container *ngTemplateOutlet="header"></ng-container>
+    </ng-container>
+</div>
+<perfect-scrollbar style="height: calc(100% - 163px)" class="drawer-body" [config]="config">
+    <ng-container *ngIf="body">
+        <ng-container *ngTemplateOutlet="body"></ng-container>
+    </ng-container>
+</perfect-scrollbar>

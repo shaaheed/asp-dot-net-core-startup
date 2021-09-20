@@ -7,6 +7,7 @@ import { TableConfig } from 'src/app/shared/table2/table.config';
 import { Column } from 'src/app/shared/table2/column.service';
 import { CURRENCY } from '../../organizations/organization.service';
 import { PaymentsAddModalComponent } from '../payments-add-modal/payments-add-modal.component';
+import { DrawerService } from 'src/services/drawer.service';
 
 @Component({
   selector: 'app-invoices-view',
@@ -23,7 +24,6 @@ export class InvoicesViewComponent extends BaseComponent {
   subtotal: any = "-";
   total: any = "-";
   visible: boolean = true;
-  showCustomer: boolean = false;
   showPaymentModal: boolean = false;
   paymentModalData: any = {}
   objectId;
@@ -66,7 +66,8 @@ export class InvoicesViewComponent extends BaseComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private drawerService: DrawerService
   ) {
     super();
   }
@@ -183,11 +184,9 @@ export class InvoicesViewComponent extends BaseComponent {
   }
 
   showCustomerDrawer(customer: any) {
-    this.showCustomer = !this.showCustomer
-  }
-
-  closeCustomerDrawer() {
-    this.showCustomer = false;
+    const module = import('../../contacts/drawer/contact-drawer.module');
+    const component = import('../../contacts/drawer/contact-drawer.component');
+    this.drawerService.open(module, component, {id: customer.id});
   }
 
   payment() {

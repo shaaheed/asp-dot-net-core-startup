@@ -12,12 +12,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+// import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
+// import { SettingsModule } from 'src/app/modules/settings/settings/settings.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { QuickCreateModule } from 'src/app/shared/quick-create/quick-create.module';
@@ -44,10 +44,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NzBadgeModule,
     NzIconModule,
     NzToolTipModule,
-    NzDrawerModule,
+    // NzDrawerModule,
     PerfectScrollbarModule,
     NzBreadCrumbModule,
-    SettingsModule,
+    // SettingsModule,
     NzSpaceModule,
     QuickCreateModule
   ],

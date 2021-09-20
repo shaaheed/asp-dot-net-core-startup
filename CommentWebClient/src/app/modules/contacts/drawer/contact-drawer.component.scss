@@ -1,0 +1,15 @@
+.contact-head {
+    display: flex;
+    align-items: center;
+    .avatar {
+        padding-right: 10px;
+    }
+    .summary {
+        h2 {
+            margin: 0;
+        }
+        i {
+            padding-right: 10px;
+        }
+    }
+}

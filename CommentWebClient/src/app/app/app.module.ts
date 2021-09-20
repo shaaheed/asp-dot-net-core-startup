@@ -33,6 +33,9 @@ import { OrganizationsResolver } from '../modules/organizations/organizations.re
 import { OrganizationService } from '../modules/organizations/organization.service';
 import { IconModule } from './icon.module';
 import { getLang } from 'src/services/utilities.service';
+import { DrawerService } from 'src/services/drawer.service';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { SettingsService } from '../modules/settings/settings/settings.service';
 
 registerLocaleData(en);
 
@@ -61,7 +64,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     TimeAgoPipeModule,
     MomentPipeModule,
-    IconModule
+    IconModule,
+    NzDrawerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
@@ -79,6 +83,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CacheService,
     ValidatorService,
     NumberService,
+    DrawerService,
+    SettingsService,
     { provide: ErrorHandler, useClass: ErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

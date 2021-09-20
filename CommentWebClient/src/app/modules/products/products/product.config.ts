@@ -11,7 +11,7 @@ export const PRODUCT_MODULE_CONFIG = {
         Route.list(prefix, {
             tableColumns: [
                 Column.namex(),
-                Column.column('price', x => x.salesPrice ? `${CURRENCY} ${x.salesPrice} ${x.salesUnit ? `/ ${x.salesUnit.code}` : ''}` : '—'),
+                Column.column('price', x => x.salesPrice ? `${CURRENCY} ${x.salesPrice} ${x.salesUnit ? `/${x.salesUnit.code}` : ''}` : '—'),
                 Column.column('quantity', x => `${x.stockQuantity} ${x.salesUnit ? x.salesUnit.code : ''}` ?? '—'),
                 Column.created()
             ],

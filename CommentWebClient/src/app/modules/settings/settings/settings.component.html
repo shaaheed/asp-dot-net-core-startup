@@ -1,24 +1,21 @@
-<div class="drawer-header">
-    <div class="title">
-        <span class="title-text">{{'settings'|translate}}</span>
-        <span (click)="close()" class="cursor-pointer">
-            <i nz-icon nzType="close"></i>
-        </span>
-    </div>
-    <div class="search">
-        <nz-input-group [nzPrefix]="prefixIconSearch">
-            <input type="text" nz-input placeholder="{{'search'|translate}}" />
-        </nz-input-group>
-        <ng-template #prefixIconSearch>
-            <i nz-icon nzType="search"></i>
-        </ng-template>
-    </div>
-</div>
-<perfect-scrollbar style="height: calc(100% - 163px)" class="drawer-body" [config]="config">
-    <ul nz-menu>
-        <li (click)="goTo(item)" nz-menu-item *ngFor="let item of items">
-            <i *ngIf="item.icon" nz-icon [nzType]="item.icon"></i>
-            {{item.title|translate|titlecase}}
-        </li>
-    </ul>
-</perfect-scrollbar>
+<app-drawer title="settings" [header]="headerTemplate" [body]="bodyTemplate">
+    <ng-template #headerTemplate>
+        <div class="search">
+            <nz-input-group [nzPrefix]="prefixIconSearch">
+                <input type="text" nz-input placeholder="{{'search'|translate}}" />
+            </nz-input-group>
+            <ng-template #prefixIconSearch>
+                <i nz-icon nzType="search"></i>
+            </ng-template>
+        </div>
+    </ng-template>
+
+    <ng-template #bodyTemplate>
+        <ul nz-menu>
+            <li (click)="goTo(item)" nz-menu-item *ngFor="let item of items">
+                <i *ngIf="item.icon" nz-icon [nzType]="item.icon"></i>
+                {{item.title|translate|titlecase}}
+            </li>
+        </ul>
+    </ng-template>
+</app-drawer>

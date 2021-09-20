@@ -1,0 +1,28 @@
+<app-drawer title="customer" [header]="headerTemplate" [body]="bodyTemplate">
+    <ng-template #headerTemplate>
+        <div class="contact-head">
+            <div class="avatar">
+                <!-- [nzGap]="0" [nzText]="contact?.displayName?.substr(0, 2)?.toUpperCase()" -->
+                <nz-avatar [nzSize]="64" nzIcon="user"></nz-avatar>
+            </div>
+            <div class="summary">
+                <div>
+                    <h2>{{contact?.displayName}}</h2>
+                </div>
+                <div>
+                    <i nz-icon nzType="mail"></i>
+                    <span>{{contact?.email}}</span>
+                </div>
+                <div>
+                    <i nz-icon nzType="phone"></i>
+                    <span>{{contact?.mobile}}</span>
+                </div>
+            </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template #bodyTemplate>
+        body
+    </ng-template>
+</app-drawer>

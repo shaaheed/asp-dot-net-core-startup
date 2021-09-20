@@ -115,7 +115,18 @@
     </nz-header>
     <nz-layout>
       <nz-sider class="menu-sidebar" nzCollapsible nzWidth="220px" nzBreakpoint="md">
-        <perfect-scrollbar [config]="config" style="height: calc(100vh - 100px);">
+        <div *ngIf="settingsSelected" class="settings-menu-header">
+          <div class="back">
+            <a (click)="closeSettingsMenu()">
+              <i nz-icon nzType="arrow-left"></i>
+              {{ 'back'|translate }}
+            </a>
+          </div>
+          <div class="title">
+            {{'settings'|translate}}
+          </div>
+        </div>
+        <perfect-scrollbar [config]="config" [style.height]="sideMenuPerfectScrollbarHeight">
           <nz-space></nz-space>
           <ul nz-menu nzMode="inline" *ngIf="permissionLoaded">
             <ng-container *ngTemplateOutlet="menuTemplate; context: { $implicit: nav }"></ng-container>

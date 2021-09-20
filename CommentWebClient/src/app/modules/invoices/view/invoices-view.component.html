@@ -105,12 +105,12 @@
                                         {{item.name}}
                                     </td>
                                     <td>
-                                        {{item.quantity}} {{item.unit ? item.unit.name : ''}}
+                                        {{item.quantity}} {{item.unit ? item.unit.code : ''}}
                                     </td>
                                     <td>
                                         {{currency}} {{item.unitPrice}}
                                         <ng-container *ngIf="item.unit">
-                                            / {{item.unit.name}}
+                                            /{{item.unit.code}}
                                         </ng-container>
                                     </td>
                                     <td style="max-width: 150px;">—</td>
@@ -183,7 +183,7 @@
     <app-payments-add-modal #paymentModal [(show)]="showPaymentModal" [data]="paymentModalData">
     </app-payments-add-modal>
 
-    <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
+    <!-- <nz-drawer [nzMask]="false" [nzClosable]="false" [nzWidth]="320" [nzVisible]="showCustomer" nzTitle="Cookbook">
         <div nz-row>
             <div nz-col nzSpan="24">
                 <nz-form-item>
@@ -212,5 +212,5 @@
             <button type="button" (click)="closeCustomerDrawer()"
                 class="ant-btn ant-btn-primary"><span>Submit</span></button>
         </div>
-    </nz-drawer>
+    </nz-drawer> -->
 </div>
