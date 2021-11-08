@@ -24,7 +24,7 @@ namespace Module.Payments.Entities
         public string Name { get; set; }
         public string Code { get; set; }
         public bool IsEnable { get; set; }
-        public Guid? PaymentProviderId { get; set; }
-        public PaymentProvider PaymentProvider { get; set; }
+        public Guid? ProviderId { get; set; }
+        public PaymentProvider Provider { get; set; }
     }
 }

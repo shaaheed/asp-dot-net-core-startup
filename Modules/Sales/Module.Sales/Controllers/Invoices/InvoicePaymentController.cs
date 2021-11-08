@@ -7,7 +7,7 @@ using Module.Sales.Domain;
 
 namespace Module.Sales.Controllers
 {
-    [Route("api/invoices/{invoiceId}/payments")]
+    [Route("api/invoices/{documentId}/payments")]
     [ApiController]
     [ETag]
     public class InvoicePaymentController : BaseController
@@ -15,18 +15,17 @@ namespace Module.Sales.Controllers
 
         [HttpPost]
         //[RequirePermission(InvoicePaymentCreate, InvoicePaymentManage)]
-        public async Task<IActionResult> Post(Guid invoiceId, [FromBody] CreateInvoicePaymentCommand command)
+        public Task<IActionResult> Post(Guid documentId, [FromBody] CreateInvoicePaymentCommand command)
         {
-            command.InvoiceId = invoiceId;
-            var result = await OkAsync(command);
-            return result.ToCreatedResult();
+            command.DocumentId = documentId;
+            return OkAsync(command);
         }
 
         [HttpPut("{id}")]
         //[RequirePermission(InvoicePaymentUpdate, InvoicePaymentManage)]
-        public Task<IActionResult> Put(Guid invoiceId, Guid id, [FromBody] UpdateInvoicePaymentCommand command)
+        public Task<IActionResult> Put(Guid documentId, Guid id, [FromBody] UpdateInvoicePaymentCommand command)
         {
-            command.InvoiceId = invoiceId;
+            command.DocumentId = documentId;
             command.Id = id;
             return OkAsync(command);
         }

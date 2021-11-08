@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
+using Module.Sales.Entities;
 
 namespace Module.Sales.Domain
 {
@@ -9,23 +10,23 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IBillService _billService;
+        private readonly IDocumentService _documentService;
 
         public GetBillQueryHandler(
             IUnitOfWork unitOfWork,
-            IBillService billService)
+            IDocumentService documentService)
         {
             _unitOfWork = unitOfWork;
-            _billService = billService;
+            _documentService = documentService;
         }
 
         public async Task<BillDto> Handle(GetBillQuery request, CancellationToken cancellationToken)
         {
-            var paymentAmount = _billService.GetBillPaymentsAmount(request.Id);
+            var paymentAmount = _documentService.GetPaymentsAmount(request.Id, cancellationToken);
             var bill = await _unitOfWork.GetAsync(x => x.Id == request.Id, BillDto.Selector(paymentAmount), cancellationToken);
             if (bill != null)
             {
-                var collection = await _unitOfWork.ListAsync(x => x.ReferenceId == bill.Id && x.Type == Entities.ItemTransactionType.Purchase && !x.IsDeleted, LineItemDto.Selector(), null, cancellationToken);
+                var collection = await _unitOfWork.ListAsync(x => x.DocumentId == bill.Id && x.TransactionType == LineTransactionType.Purchase && !x.IsDeleted, LineItemDto.Selector(), null, cancellationToken);
                 bill.Items = collection.Items;
             }
             return bill;

@@ -9,13 +9,17 @@ namespace Module.Sales.Domain
         public Guid? Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Note { get; set; }
+
         public Guid? ProductId { get; set; }
+        public LineType LineType { get; set; } = LineType.Transaction;
+
         public decimal UnitPrice { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
         public decimal TotalTaxAmount { get; set; }
         public float Quantity { get; set; }
-        public string Note { get; set; }
+
         public Guid? UnitId { get; set; }
         public List<Guid> Taxes { get; set; }
 
@@ -26,11 +30,12 @@ namespace Module.Sales.Domain
             entity.Description = Description;
             entity.ProductId = ProductId;
             entity.Quantity = Quantity;
-            entity.Subtotal = Subtotal;
-            entity.Total = (decimal)Quantity * UnitPrice;
+            entity.Subtotal = (decimal)Quantity * UnitPrice;
+            entity.Total = Subtotal + TotalTaxAmount;
             entity.UnitPrice = UnitPrice;
             entity.UnitId = UnitId;
             entity.Note = Note;
+            entity.LineType = LineType;
             return entity;
         }
     }

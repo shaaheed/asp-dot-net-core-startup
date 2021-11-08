@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Msi.Core;
+using Msi.Service.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

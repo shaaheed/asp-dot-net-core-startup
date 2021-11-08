@@ -13,9 +13,9 @@ namespace Module.Sales.Domain
         {
             entity = entity ?? new LineItem();
             entity.ProductId = ProductId;
-            entity.ReferenceId = adjustmentId;
+            entity.DocumentId = adjustmentId;
             entity.Quantity = Quantity;
-            entity.Type = ItemTransactionType.Adjustment;
+            entity.TransactionType = LineTransactionType.Adjustment;
             return entity;
         }
     }

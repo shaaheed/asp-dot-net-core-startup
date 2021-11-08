@@ -23,6 +23,27 @@ export const PRODUCT_MODULE_CONFIG = {
                 ]
             }
         }),
+        Route.list(`${prefix}/transactions`, {
+            fetchApiUrl: `${prefix}/transactions`,
+            pageTitle: 'product.transactions',
+            tableColumns: [
+                Column.column('type', x => x.type),
+                Column.column('name', x => x.product?.name),
+                Column.column('reference', x => x.reference?.name),
+                Column.column('quantity', x => `${x.quantity} ${x.unit ? x.unit.name : ''}` ?? '—'),
+                Column.column('price', x => x.unitPrice),
+                Column.column('total', x => (x.unitPrice * x.quantity).toString()),
+                Column.created()
+            ],
+            filterConfig: {
+                filters: [
+                    Filter.text('name', 'Name'),
+                    Filter.text('reference', 'Reference'),
+                    Filter.number('quantity', 'Quantity'),
+                    Filter.number('price', 'UnitPrice')
+                ]
+            }
+        }),
         {
             path: `${prefix}/create`,
             loadChildren: () => import('./add/products-add.module').then(x => x.ProductsAddModule)

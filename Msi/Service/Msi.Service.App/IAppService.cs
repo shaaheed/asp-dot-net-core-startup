@@ -1,4 +1,6 @@
-﻿namespace Msi.Service.App
+﻿using Msi.Service.Abstractions;
+
+namespace Msi.Service.App
 {
     public interface IAppService : IScopedService
     {

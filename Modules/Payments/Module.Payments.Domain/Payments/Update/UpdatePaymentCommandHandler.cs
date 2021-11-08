@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Payments.Entities;
 using Msi.Core;
+using System;
 
 namespace Module.Payments.Domain
 {
-    public class UpdatePaymentCommandHandler : ICommandHandler<UpdatePaymentCommand, long>
+    public class UpdatePaymentCommandHandler : ICommandHandler<UpdatePaymentCommand, Guid>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +19,7 @@ namespace Module.Payments.Domain
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
         {
 
             var paymentRepo = _unitOfWork.GetRepository<Payment>();
@@ -28,11 +29,9 @@ namespace Module.Payments.Domain
                 throw new NotFoundException("Payment not found");
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            //await invoiceRepo.AddAsync(newInvoice, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return result;
+            return request.Id;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Module.Payments.Domain;
 
 namespace Module.Sales.Domain
 {
-    public class CreateInvoicePaymentCommand : BaseCreateInvoicePaymentCommand
+    public class CreateInvoicePaymentCommand : CreatePaymentCommand
     {
-        public Guid InvoiceId { get; set; }
+        //
     }
 }

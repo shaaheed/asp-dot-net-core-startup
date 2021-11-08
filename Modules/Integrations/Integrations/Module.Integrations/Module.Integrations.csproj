@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp5</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
+    <ProjectReference Include="..\Module.Integrations.Domain\Module.Integrations.Domain.csproj" />
+    <ProjectReference Include="..\Module.Integrations.Entities\Module.Integrations.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

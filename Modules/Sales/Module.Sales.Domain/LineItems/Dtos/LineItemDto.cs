@@ -11,6 +11,9 @@ namespace Module.Sales.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid? ProductId { get; set; }
+        public Guid? AccountId { get; set; }
+        public Guid? ContactId { get; set; }
+        public LineType LineType { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
@@ -38,7 +41,10 @@ namespace Module.Sales.Domain
                     Id = x.UnitId.Value,
                     Code = x.Unit.Symbol,
                     Name = x.Unit.Name
-                } : null
+                } : null,
+                AccountId = x.AccountId,
+                ContactId = x.ContactId,
+                LineType = x.LineType
             };
         }
     }

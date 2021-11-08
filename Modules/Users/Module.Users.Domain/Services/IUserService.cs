@@ -1,4 +1,4 @@
-﻿using Msi.Service;
+﻿using Msi.Service.Abstractions;
 
 namespace Module.Users.Domain.Services
 {

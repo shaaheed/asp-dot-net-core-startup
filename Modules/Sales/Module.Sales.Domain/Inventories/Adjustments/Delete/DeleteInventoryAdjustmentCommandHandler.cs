@@ -29,7 +29,7 @@ namespace Module.Sales.Domain
 
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             var lineItems = lineItemRepo
-                .Where(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted)
+                .Where(x => x.DocumentId == request.Id && x.TransactionType == LineTransactionType.Adjustment && !x.IsDeleted)
                 .Select(x => new LineItem { Id = x.Id })
                 .ToList();
             lineItemRepo.RemoveRange(lineItems);

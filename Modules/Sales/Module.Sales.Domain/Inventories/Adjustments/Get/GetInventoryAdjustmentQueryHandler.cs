@@ -24,7 +24,7 @@ namespace Module.Sales.Domain
             if (adjustment != null)
             {
                 adjustment.LineItems = _unitOfWork.GetRepository<LineItem>()
-                    .Where(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted)
+                    .Where(x => x.DocumentId == request.Id && x.TransactionType == LineTransactionType.Adjustment && !x.IsDeleted)
                     .Select(InventoryAdjustmentLineItemDto.Selector())
                     .ToList();
             }

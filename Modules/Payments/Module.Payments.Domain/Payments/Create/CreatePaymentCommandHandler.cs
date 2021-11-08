@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Payments.Entities;
+using System;
 
 namespace Module.Payments.Domain
 {
-    public class CreatePaymentCommandHandler : ICommandHandler<CreatePaymentCommand, long>
+    public class CreatePaymentCommandHandler : ICommandHandler<CreatePaymentCommand, Guid>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -17,18 +18,13 @@ namespace Module.Payments.Domain
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
-
+            var payment = request.Map();
             var paymentRepo = _unitOfWork.GetRepository<Payment>();
-            var newPayment = new Payment
-            {
-                
-            };
-            //await paymentRepo.AddAsync(newInvoice, cancellationToken);
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return result;
+            await paymentRepo.AddAsync(payment, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return payment.Id;
         }
     }
 }

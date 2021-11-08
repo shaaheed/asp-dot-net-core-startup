@@ -1,25 +1,25 @@
 ﻿using Msi.Mediator.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
-using Msi.Data.Abstractions;
 using Msi.Utilities.Filter;
+using Module.Payments.Domain;
 
 namespace Module.Sales.Domain
 {
-    public class GetInvoicePaymentsQueryHandler : IQueryHandler<GetInvoicePaymentsQuery, PagedCollection<InvoicePaymentDto>>
+    public class GetInvoicePaymentsQueryHandler : IQueryHandler<GetInvoicePaymentsQuery, PagedCollection<PaymentDetailsDto>>
     {
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IDocumentService _documentService;
 
         public GetInvoicePaymentsQueryHandler(
-            IUnitOfWork unitOfWork)
+            IDocumentService documentService)
         {
-            _unitOfWork = unitOfWork;
+            _documentService = documentService;
         }
 
-        public Task<PagedCollection<InvoicePaymentDto>> Handle(GetInvoicePaymentsQuery request, CancellationToken cancellationToken)
+        public Task<PagedCollection<PaymentDetailsDto>> Handle(GetInvoicePaymentsQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.ListAsync(x => x.InvoiceId == request.InvoiceId, InvoicePaymentDto.Selector(), request.FilterOptions, cancellationToken);
+            return _documentService.GetPayments(request, cancellationToken);
         }
     }
 }

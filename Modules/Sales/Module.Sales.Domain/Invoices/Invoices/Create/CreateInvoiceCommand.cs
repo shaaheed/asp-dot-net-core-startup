@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Module.Sales.Domain
 {
-    public class CreateInvoiceCommand : BaseInvoiceRequestDto<Invoice>, ICommand<long>
+    public class CreateInvoiceCommand : InvoiceDocumentRequestDto<Invoice>, ICommand<Guid?>
     {
         public Guid? SalesPersonId { get; set; }
         public List<LineItemRequestDto> Items { get; set; }
@@ -14,10 +14,6 @@ namespace Module.Sales.Domain
         {
             entity = base.Map(entity);
             entity.SalesPersonId = SalesPersonId;
-            entity.OrderNumber = OrderNumber;
-            entity.CustomerId = ContactId;
-            entity.AdjustmentText = AdjustmentText;
-            entity.AdjustmentAmount = AdjustmentAmount;
             return entity;
         }
     }

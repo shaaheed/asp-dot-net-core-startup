@@ -1,7 +1,6 @@
 ﻿using Module.Sales.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Module.Sales.Domain
@@ -36,12 +35,12 @@ namespace Module.Sales.Domain
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,
-                Customer = x.CustomerId != null ? new InvoiceCustomerPrintDto
+                Customer = x.ContactId != null ? new InvoiceCustomerPrintDto
                 {
-                    Email = x.Customer.Email,
-                    Name = x.Customer.DisplayName,
-                    Mobile = x.Customer.Mobile,
-                    Address = x.Customer.BillingAddressId != null ? x.Customer.BillingAddress.AddressLine1 : null
+                    Email = x.Contact.Email,
+                    Name = x.Contact.DisplayName,
+                    Mobile = x.Contact.Mobile,
+                    Address = x.Contact.BillingAddressId != null ? x.Contact.BillingAddress.AddressLine1 : null
                 } : null,
                 IssueDate = x.IssueDate.ToLocalTime().ToString("dddd, MMMM dd, yyyy, hh:mm:ss tt"),
                 //Items = x.InvoiceLineItems.Select(y => new InvoicePrintLineItemDto

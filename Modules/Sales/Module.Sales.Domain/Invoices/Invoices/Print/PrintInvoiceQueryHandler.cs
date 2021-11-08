@@ -13,21 +13,21 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IViewRenderer _viewRenderer;
-        private readonly IInvoiceService _invoiceService;
+        private readonly IDocumentService _documentService;
 
         public PrintInvoiceQueryHandler(
             IUnitOfWork unitOfWork,
             IViewRenderer viewRenderer,
-            IInvoiceService invoiceService)
+            IDocumentService documentService)
         {
             _unitOfWork = unitOfWork;
             _viewRenderer = viewRenderer;
-            _invoiceService = invoiceService;
+            _documentService = documentService;
         }
 
         public async Task<string> Handle(PrintInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var paymentAmount = _invoiceService.GetInvoicePaymentsAmount(request.Id);
+            var paymentAmount = _documentService.GetPaymentsAmount(request.Id, cancellationToken);
             var invoice = await _unitOfWork.GetAsync(x => x.Id == request.Id, InvoicePrintDto.Selector(paymentAmount), cancellationToken);
 
             var organization = new InvoiceOrganizationPrintDto

@@ -1,9 +1,10 @@
-﻿using Msi.Mediator.Abstractions;
+﻿using Module.Sales.Entities;
+using Msi.Mediator.Abstractions;
 using System;
 
 namespace Module.Sales.Domain.Products
 {
-    public class DeleteCategoryCommand : CommandBase<long>
+    public class DeleteCategoryCommand : IDeleteCommand<Category, bool>
     {
         public Guid Id { get; set; }
     }

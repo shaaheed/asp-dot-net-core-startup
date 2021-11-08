@@ -43,6 +43,13 @@ namespace Module.Sales.Controllers
             return OkAsync(new GetProductsQuery().AddFilterOptions(filterOptions));
         }
 
+        [HttpGet("transactions")]
+        //[RequirePermission(ProductList, ProductManage)]
+        public Task<IActionResult> GetTransactions([FromQuery] FilterOptions filterOptions)
+        {
+            return OkAsync(new GetProductTransactionsQuery().AddFilterOptions(filterOptions));
+        }
+
         [HttpGet("{id}")]
         //[RequirePermission(ProductView, ProductManage)]
         public Task<IActionResult> Get([FromRoute] GetProductQuery query)

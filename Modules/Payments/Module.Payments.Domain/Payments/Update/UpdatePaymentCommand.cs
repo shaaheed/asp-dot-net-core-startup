@@ -1,13 +1,11 @@
-﻿using Msi.Mediator.Abstractions;
+﻿using Module.Payments.Entities;
+using Msi.Mediator.Abstractions;
 using System;
 
 namespace Module.Payments.Domain
 {
-    public class UpdatePaymentCommand : ICommand<long>
+    public class UpdatePaymentCommand : CreatePaymentCommand, IUpdateCommand<Payment, Guid>
     {
         public Guid Id { get; set; }
-        public Guid? CustomerId { get; set; }
-        public DateTime? IssueDate { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Module.Sales.Domain
         public string OrderNumber { get; set; }
         public string Reference { get; set; }
         public string Status { get; set; }
-        public ContactDto Supplier { get; set; }
+        public ContactDto Contact { get; set; }
         public decimal AmountDue { get; set; }
         public decimal Total { get; set; }
         public DateTimeOffset IssueDate { get; set; }
@@ -37,15 +37,15 @@ namespace Module.Sales.Domain
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,
-                Supplier = x.SupplierId != null ? new ContactDto
+                Contact = x.ContactId != null ? new ContactDto
                 {
-                    Id = (Guid)x.SupplierId,
-                    CompanyName = x.Supplier.CompanyName,
-                    Email = x.Supplier.Email,
-                    DisplayName = x.Supplier.DisplayName,
-                    Mobile = x.Supplier.Mobile,
-                    Phone = x.Supplier.Phone,
-                    Website = x.Supplier.Website
+                    Id = (Guid)x.ContactId,
+                    CompanyName = x.Contact.CompanyName,
+                    Email = x.Contact.Email,
+                    DisplayName = x.Contact.DisplayName,
+                    Mobile = x.Contact.Mobile,
+                    Phone = x.Contact.Phone,
+                    Website = x.Contact.Website
                 } : null,
                 IssueDate = x.IssueDate,
                 Memo = x.Memo,

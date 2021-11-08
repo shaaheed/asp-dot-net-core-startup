@@ -10,22 +10,25 @@ namespace Module.Sales.Domain
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInvoiceService _invoiceService;
+        private readonly IDocumentService _documentService;
 
         public GetInvoiceQueryHandler(
             IUnitOfWork unitOfWork,
-            IInvoiceService invoiceService)
+            IInvoiceService invoiceService,
+            IDocumentService documentService)
         {
             _unitOfWork = unitOfWork;
             _invoiceService = invoiceService;
+            _documentService = documentService;
         }
 
         public async Task<InvoiceDto> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var paymentAmount = _invoiceService.GetInvoicePaymentsAmount(request.Id);
+            var paymentAmount = _documentService.GetPaymentsAmount(request.Id);
             var invoice = await _unitOfWork.GetAsync(x => x.Id == request.Id, InvoiceDto.Selector(paymentAmount), cancellationToken);
             if (invoice != null)
             {
-                var collection = await _unitOfWork.ListAsync(x => x.ReferenceId == invoice.Id && x.Type == Entities.ItemTransactionType.Sale && !x.IsDeleted, LineItemDto.Selector(), null, cancellationToken);
+                var collection = await _unitOfWork.ListAsync(x => x.DocumentId == invoice.Id && x.TransactionType == Entities.LineTransactionType.Sale && !x.IsDeleted, LineItemDto.Selector(), null, cancellationToken);
                 invoice.Items = collection.Items;
             }
             return invoice;

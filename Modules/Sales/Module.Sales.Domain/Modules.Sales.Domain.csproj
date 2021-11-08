@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\..\Msi\Service\Msi.Service.App\Msi.Service.App.csproj" />
     <ProjectReference Include="..\..\..\Msi\View\Msi.View.Abstraction\Msi.View.Abstraction.csproj" />
     <ProjectReference Include="..\..\Organizations\Module.Organizations.Entities\Module.Organizations.Entities.csproj" />
+    <ProjectReference Include="..\..\Payments\Module.Payments.Domain\Module.Payments.Domain.csproj" />
     <ProjectReference Include="..\..\Systems\Module.Systems.Domain\Module.Systems.Domain.csproj" />
     <ProjectReference Include="..\Module.Sales.Entities\Module.Sales.Entities.csproj" />
   </ItemGroup>

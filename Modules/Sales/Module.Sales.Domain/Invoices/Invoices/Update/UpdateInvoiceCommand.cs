@@ -1,9 +1,8 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
+﻿using System;
 
 namespace Module.Sales.Domain
 {
-    public class UpdateInvoiceCommand : CreateInvoiceCommand, ICommand<long>
+    public class UpdateInvoiceCommand : CreateInvoiceCommand
     {
         public Guid Id { get; set; }
     }

@@ -1,11 +1,10 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
+﻿using Module.Payments.Domain;
+using Msi.Mediator.Abstractions;
 
 namespace Module.Sales.Domain
 {
-    public class GetInvoicePaymentQuery : IQuery<InvoicePaymentDto>
+    public class GetInvoicePaymentQuery : GetPaymentQuery, IQuery<PaymentDetailsDto>
     {
-        public Guid InvoiceId { get; set; }
-        public Guid Id { get; set; }
+        //
     }
 }

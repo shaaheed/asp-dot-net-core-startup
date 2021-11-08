@@ -3,7 +3,7 @@ using Module.Tokens.Domain;
 using Module.Users.Entities;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
-using Msi.Service;
+using Msi.Service.Abstractions;
 using System;
 using System.Threading.Tasks;
 

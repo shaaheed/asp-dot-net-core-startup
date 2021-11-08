@@ -37,15 +37,15 @@ namespace Module.Sales.Domain
                 AdjustmentAmount = x.AdjustmentAmount,
                 AdjustmentText = x.AdjustmentText,
                 AmountDue = x.AmountDue,
-                Contact = x.CustomerId != null ? new ContactDto
+                Contact = x.ContactId != null ? new ContactDto
                 {
-                    Id = (Guid)x.CustomerId,
-                    CompanyName = x.Customer.CompanyName,
-                    Email = x.Customer.Email,
-                    DisplayName = x.Customer.DisplayName,
-                    Mobile = x.Customer.Mobile,
-                    Phone = x.Customer.Phone,
-                    Website = x.Customer.Website
+                    Id = (Guid)x.ContactId,
+                    CompanyName = x.Contact.CompanyName,
+                    Email = x.Contact.Email,
+                    DisplayName = x.Contact.DisplayName,
+                    Mobile = x.Contact.Mobile,
+                    Phone = x.Contact.Phone,
+                    Website = x.Contact.Website
                 } : null,
                 IssueDate = x.IssueDate,
                 Memo = x.Memo,

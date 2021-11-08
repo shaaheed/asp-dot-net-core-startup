@@ -1,23 +1,9 @@
-﻿using Module.Sales.Entities;
-using Msi.Service;
-using System;
+﻿using Msi.Service.Abstractions;
 
 namespace Module.Sales.Domain
 {
-    public interface IInvoiceService : ISalesService, IScopedService
+    public interface IInvoiceService : IScopedService
     {
-        decimal GetInvoicePaymentsAmount(Guid invoiceId);
-
-        void Calculate(Invoice invoice);
-
-        void AddPayment(Guid invoiceId);
-
-        void AddPayment(Invoice invoice);
-
         string GetNextInvoiceNumber();
-
-        decimal GetReceivablesAmount(Guid? customerId);
-
-        Guid? GetCustomerId(Guid invoiceId);
     }
 }

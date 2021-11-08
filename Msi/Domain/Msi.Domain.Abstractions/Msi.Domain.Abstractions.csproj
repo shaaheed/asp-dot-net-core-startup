@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Service\Msi.Service.Abstractions\Msi.Service.Abstractions.csproj" />
     <ProjectReference Include="..\..\Utilities\Msi.Utilities.Filter\Msi.Utilities.Filter.csproj" />
   </ItemGroup>
 

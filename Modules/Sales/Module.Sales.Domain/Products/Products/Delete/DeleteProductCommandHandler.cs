@@ -7,7 +7,7 @@ using Msi.Core;
 
 namespace Module.Sales.Domain.Products
 {
-    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, long>
+    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace Module.Sales.Domain.Products
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             var repo = _unitOfWork.GetRepository<Product>();
             var productToBeDeleted = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.Products
                 throw new NotFoundException("Product not found");
 
             repo.Remove(productToBeDeleted);
-            return await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

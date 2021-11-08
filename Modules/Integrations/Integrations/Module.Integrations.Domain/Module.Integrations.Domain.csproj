@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\Msi\Domain\Msi.Domain.Abstractions\Msi.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\Msi\Msi.Core\Msi.Core.csproj" />
+    <ProjectReference Include="..\Module.Integrations.Entities\Module.Integrations.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

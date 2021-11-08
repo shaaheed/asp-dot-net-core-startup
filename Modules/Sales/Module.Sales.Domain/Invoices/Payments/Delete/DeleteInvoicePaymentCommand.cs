@@ -1,11 +1,9 @@
-﻿using Msi.Mediator.Abstractions;
-using System;
+﻿using Module.Payments.Domain;
 
 namespace Module.Sales.Domain
 {
-    public class DeleteInvoicePaymentCommand : ICommand<long>
+    public class DeleteInvoicePaymentCommand : DeletePaymentCommand
     {
-        public Guid Id { get; set; }
-        public Guid InvoiceId { get; set; }
+        //
     }
 }

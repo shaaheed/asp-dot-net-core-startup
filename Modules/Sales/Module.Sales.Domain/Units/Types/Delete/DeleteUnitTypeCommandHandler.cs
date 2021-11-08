@@ -7,7 +7,7 @@ using Msi.Core;
 
 namespace Module.Sales.Domain.Units
 {
-    public class DeleteUnitTypeCommandHandler : ICommandHandler<DeleteUnitTypeCommand, long>
+    public class DeleteUnitTypeCommandHandler : ICommandHandler<DeleteUnitTypeCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace Module.Sales.Domain.Units
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeleteUnitTypeCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteUnitTypeCommand request, CancellationToken cancellationToken)
         {
             var repo = _unitOfWork.GetRepository<UnitType>();
             var entity = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.Units
                 throw new NotFoundException("Unit type not found");
 
             repo.Remove(entity);
-            return await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

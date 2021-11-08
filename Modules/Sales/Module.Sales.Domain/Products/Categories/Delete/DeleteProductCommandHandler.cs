@@ -7,7 +7,7 @@ using Msi.Core;
 
 namespace Module.Sales.Domain.Products
 {
-    public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryCommand, long>
+    public class DeleteCategoryCommandHandler : ICommandHandler<DeleteCategoryCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace Module.Sales.Domain.Products
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var repo = _unitOfWork.GetRepository<Category>();
             var entity = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.Products
                 throw new NotFoundException("Product category not found");
 
             repo.Remove(entity);
-            return await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

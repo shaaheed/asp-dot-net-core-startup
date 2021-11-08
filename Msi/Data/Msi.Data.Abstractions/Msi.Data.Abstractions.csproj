@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.90" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Utilities\Msi.Utilities.Filter\Msi.Utilities.Filter.csproj" />
     <ProjectReference Include="..\Msi.Data.Entity\Msi.Data.Entity.csproj" />
   </ItemGroup>

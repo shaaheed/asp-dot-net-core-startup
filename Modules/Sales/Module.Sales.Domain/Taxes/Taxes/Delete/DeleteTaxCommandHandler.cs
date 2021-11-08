@@ -7,7 +7,7 @@ using Msi.Core;
 
 namespace Module.Sales.Domain.Taxes
 {
-    public class DeleteTaxCommandHandler : ICommandHandler<DeleteTaxCommand, long>
+    public class DeleteTaxCommandHandler : ICommandHandler<DeleteTaxCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace Module.Sales.Domain.Taxes
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeleteTaxCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteTaxCommand request, CancellationToken cancellationToken)
         {
             var repo = _unitOfWork.GetRepository<Tax>();
             var entity = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -26,7 +26,7 @@ namespace Module.Sales.Domain.Taxes
                 throw new NotFoundException("Tax not found");
 
             repo.Remove(entity);
-            return await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

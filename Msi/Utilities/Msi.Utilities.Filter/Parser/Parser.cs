@@ -22,7 +22,7 @@ namespace Msi.Utilities.Filter
         };
 
         private static Tokenizer _tokenizer;
-        private static IComparisonExpressionProviderFactory _factory;
+        private static IExpressionProviderFactory _factory;
 
         public IEnumerable<Token> Tokenize(string text)
         {
@@ -277,7 +277,7 @@ namespace Msi.Utilities.Filter
                 var opt = operatorToken.Value.ToLower();
                 if (_factory == null)
                 {
-                    _factory = new ComparisonExpressionProviderFactory();
+                    _factory = new ExpressionProviderFactory();
                 }
 
                 var provider = _factory.CreateProvider(opt);

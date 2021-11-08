@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -127,6 +127,11 @@ export class InvoicesAddComponent extends FormComponent {
     if (this.isAddMode()) {
       setTimeout(() => this.addLineItem(), 0);
     }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyup(event: any) {
+    console.log('keyup..', event);
   }
 
   ngAfterViewInit() {

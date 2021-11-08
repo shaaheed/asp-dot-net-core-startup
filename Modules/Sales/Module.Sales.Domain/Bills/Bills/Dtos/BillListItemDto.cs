@@ -23,10 +23,10 @@ namespace Module.Sales.Domain
                 Id = x.Id,
                 Number = x.Number,
                 AmountDue = x.AmountDue,
-                Supplier = x.SupplierId != null ? new GuidIdNameDto
+                Supplier = x.ContactId != null ? new GuidIdNameDto
                 {
-                    Id = (Guid)x.SupplierId,
-                    Name = x.Supplier.DisplayName
+                    Id = (Guid)x.ContactId,
+                    Name = x.Contact.DisplayName
                 } : null,
                 IssueDate = x.IssueDate,
                 Status = x.Status.ToString(),

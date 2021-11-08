@@ -6,7 +6,7 @@ using Module.Payments.Entities;
 
 namespace Module.Payments.Domain
 {
-    public class DeletePaymentCommandHandler : ICommandHandler<DeletePaymentCommand, long>
+    public class DeletePaymentCommandHandler : ICommandHandler<DeletePaymentCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -17,14 +17,13 @@ namespace Module.Payments.Domain
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeletePaymentCommand request, CancellationToken cancellationToken)
         {
             var paymentRepo = _unitOfWork.GetRepository<Payment>();
-            var payment = await paymentRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var payment = await paymentRepo.FirstOrDefaultAsync(x => x.Id == request.Id && x.DocumentId == request.DocumentId && !x.IsDeleted);
             paymentRepo.Remove(payment);
 
-            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result;
+            return await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

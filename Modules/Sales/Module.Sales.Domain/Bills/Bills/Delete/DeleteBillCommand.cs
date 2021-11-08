@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Sales.Domain
 {
-    public class DeleteBillCommand : ICommand<long>
+    public class DeleteBillCommand : ICommand<Guid>
     {
         public Guid Id { get; set; }
     }

@@ -1,11 +1,9 @@
-﻿using Msi.Domain.Abstractions;
-using Msi.Utilities.Filter;
-using System;
+﻿using Module.Payments.Domain;
 
 namespace Module.Sales.Domain
 {
-    public class GetInvoicePaymentsQuery : Query<PagedCollection<InvoicePaymentDto>>
+    public class GetInvoicePaymentsQuery : GetPaymentsQuery
     {
-        public Guid InvoiceId { get; set; }
+        //
     }
 }

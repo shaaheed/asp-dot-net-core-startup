@@ -77,8 +77,8 @@ namespace Module.Sales.Domain
                         {
                             ProductId = product.Id,
                             Quantity = quantity,
-                            ReferenceId = newAdjustment.Id,
-                            Type = ItemTransactionType.Adjustment
+                            DocumentId = newAdjustment.Id,
+                            TransactionType = LineTransactionType.Adjustment
                         });
                         var _product = new Product { Id = product.Id };
                         productRepo.Attach(_product);

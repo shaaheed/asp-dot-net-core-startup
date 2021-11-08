@@ -36,7 +36,7 @@ namespace Module.Sales.Domain
 
             var lineItemRepo = _unitOfWork.GetRepository<LineItem>();
             var savedItems = await lineItemRepo
-                .ListAsyncAsReadOnly(x => x.ReferenceId == request.Id && x.Type == ItemTransactionType.Adjustment && !x.IsDeleted, x => new
+                .ListAsyncAsReadOnly(x => x.DocumentId == request.Id && x.TransactionType == LineTransactionType.Adjustment && !x.IsDeleted, x => new
                 {
                     Id = x.Id,
                     ProductId = x.ProductId,
