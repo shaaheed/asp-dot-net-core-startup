@@ -1,11 +1,11 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Data.Abstractions;
 using Msi.Mediator.Abstractions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UserCreatedEvent : EventBase
     {

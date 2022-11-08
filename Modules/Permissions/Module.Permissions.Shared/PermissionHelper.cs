@@ -1,5 +1,4 @@
 ﻿using Module.Permissions.Entities;
-using System.Collections.Generic;
 
 namespace Module.Permissions.Shared
 {

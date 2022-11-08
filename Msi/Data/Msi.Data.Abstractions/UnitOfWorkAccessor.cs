@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Msi.Data.Abstractions
+﻿namespace Msi.Data.Abstractions
 {
 
     public sealed class UnitOfWorkAccessor
@@ -9,13 +7,13 @@ namespace Msi.Data.Abstractions
         /// <summary>
         /// Returns current scoped instance of IUnitOfWork
         /// </summary>
-        public static IUnitOfWork Instance => (IUnitOfWork)_serviceFactoryAccessor()(typeof(IUnitOfWork));
+        public static IUnitOfWork Instance => (IUnitOfWork)_serviceProviderFactory().GetService(typeof(IUnitOfWork));
 
-        private static Func<Func<Type, object>> _serviceFactoryAccessor;
+        private static Func<IServiceProvider> _serviceProviderFactory;
 
-        public static void Initialize(Func<Func<Type, object>> serviceFactoryAccessor)
+        public static void AddServiceProvider(Func<IServiceProvider> serviceProviderFactory)
         {
-            _serviceFactoryAccessor = serviceFactoryAccessor;
+            _serviceProviderFactory = serviceProviderFactory;
         }
 
     }

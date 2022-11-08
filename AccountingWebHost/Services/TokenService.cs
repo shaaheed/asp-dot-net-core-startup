@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Module.Tokens.Domain;
-using Module.Users.Entities;
+using Module.Accounts.Entities;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
 using Msi.Service.Abstractions;

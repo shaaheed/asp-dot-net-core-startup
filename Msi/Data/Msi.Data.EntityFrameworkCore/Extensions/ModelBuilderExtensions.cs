@@ -126,7 +126,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Msi.Data.Entity;
-using System.Linq;
 
 public static class ModelBuilderExtensions
 {
@@ -140,6 +139,9 @@ public static class ModelBuilderExtensions
             if (args.Count() > 0)
             {
                 var type = args[0];
+                Console.Write("****** ");
+                Console.Write(type.ToString());
+                Console.Write(" ****** \n");
                 modelBuilder.Entity(type).HasData(seed.GetSeeds());
             }
         }

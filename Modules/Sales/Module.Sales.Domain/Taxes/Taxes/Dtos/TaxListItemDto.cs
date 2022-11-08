@@ -11,7 +11,7 @@ namespace Module.Sales.Domain.Taxes
         public bool IsCompoundTax { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
 
-        public static Expression<Func<Tax, TaxListItemDto>> Selector()
+        public static Expression<Func<TaxCode, TaxListItemDto>> Selector()
         {
             return x => new TaxListItemDto
             {

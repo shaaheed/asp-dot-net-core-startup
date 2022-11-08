@@ -20,7 +20,7 @@ namespace Module.Sales.Domain.Taxes
         public async Task<long> Handle(CreateTaxCommand request, CancellationToken cancellationToken)
         {
             var entity = request.Map();
-            var repo = _unitOfWork.GetRepository<Tax>();
+            var repo = _unitOfWork.GetRepository<TaxCode>();
             await repo.AddAsync(entity, cancellationToken);
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }

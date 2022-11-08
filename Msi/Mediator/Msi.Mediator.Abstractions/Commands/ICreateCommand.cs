@@ -1,7 +1,7 @@
 ﻿namespace Msi.Mediator.Abstractions
 {
-    public interface ICreateCommand<TEntity, TResponse> : ICommand<TResponse>
+    public interface ICreateCommand<TResponse> : ICommand<TResponse>
     {
-        TEntity Map(TEntity entity = default);
+        //TEntity Map(TEntity entity = default);
     }
 }

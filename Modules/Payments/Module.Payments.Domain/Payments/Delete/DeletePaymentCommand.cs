@@ -1,10 +1,8 @@
-﻿using Module.Payments.Entities;
-using Msi.Mediator.Abstractions;
-using System;
+﻿using Msi.Mediator.Abstractions;
 
 namespace Module.Payments.Domain
 {
-    public class DeletePaymentCommand : IDeleteCommand<Payment, bool>
+    public class DeletePaymentCommand : IDeleteCommand<bool>
     {
         public Guid Id { get; set; }
         public Guid DocumentId { get; set; }

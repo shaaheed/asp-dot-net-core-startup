@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
     public class Invoice : InvoiceDocument
     {
         // If invoice amount is $110 and customer pays $120 as Cash then $10 must be return amount.
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? ReturnAmount { get; set; }
 
         public Guid? SalesPersonId { get; set; }

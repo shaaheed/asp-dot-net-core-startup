@@ -20,7 +20,7 @@ namespace Module.Sales.Domain.Taxes
 
         public async Task<bool> Handle(DeleteTaxCommand request, CancellationToken cancellationToken)
         {
-            var repo = _unitOfWork.GetRepository<Tax>();
+            var repo = _unitOfWork.GetRepository<TaxCode>();
             var entity = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (entity == null)
                 throw new NotFoundException("Tax not found");

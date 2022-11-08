@@ -1,6 +1,4 @@
 ﻿using Msi.Mediator.Abstractions;
-using System.Threading;
-using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 
 namespace Module.Payments.Domain

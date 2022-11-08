@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Copyright (c) Sahidul Islam. All Rights Reserved.
+// Author: https://github.com/shaaheed
 
 namespace Msi.Data.Entity
 {

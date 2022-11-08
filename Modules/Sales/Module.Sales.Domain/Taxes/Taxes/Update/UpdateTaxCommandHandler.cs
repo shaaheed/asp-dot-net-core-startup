@@ -19,7 +19,7 @@ namespace Module.Sales.Domain.Taxes
 
         public async Task<long> Handle(UpdateTaxCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.GetRepository<Tax>()
+            var entity = await _unitOfWork.GetRepository<TaxCode>()
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
             if(entity != null)
             {

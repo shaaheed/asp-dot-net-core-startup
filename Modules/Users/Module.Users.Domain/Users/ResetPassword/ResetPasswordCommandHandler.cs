@@ -1,4 +1,4 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Core;
 using Msi.Data.Abstractions;
 using Msi.Mediator.Abstractions;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class ResetPasswordCommandHandler : ICommandHandler<ResetPasswordCommand, bool>
     {

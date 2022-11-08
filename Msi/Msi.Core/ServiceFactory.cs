@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Msi.Core
+﻿namespace Msi.Core
 {
     public delegate object ServiceFactory(Type serviceType);
 

@@ -1,7 +1,7 @@
 ﻿using Module.Systems.Entities;
 using Msi.Data.Entity;
 using Msi.Utilities.Filter;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -26,7 +26,10 @@ namespace Module.Sales.Entities
         public Guid? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Balance { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? CreditLimit { get; set; }
 
         // Portal language

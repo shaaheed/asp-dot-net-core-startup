@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Module.Systems.Attributes;
-using Module.Users.Domain;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Module.Accounts.Domain;
 using Msi.Data.Abstractions;
-using static Module.Users.Domain.PermissionIds;
-using System;
+using static Module.Accounts.Domain.PermissionIds;
 using Msi.Web;
 using Msi.Utilities.Filter;
 
-namespace Modules.User.Controllers
+namespace Modules.Accounts.Controllers
 {
     //[ApiVersion("v1")]
     [Route("api/users")]
@@ -19,7 +16,7 @@ namespace Modules.User.Controllers
 
         public UserController(
             IUnitOfWork unitOfWork,
-            IEnumerable<IUnitOfWorkPipeline<Module.Users.Entities.User>> unitOfWorkPipeline)
+            IEnumerable<IUnitOfWorkPipeline<Module.Accounts.Entities.User>> unitOfWorkPipeline)
         {
             var xx = unitOfWorkPipeline;
             var x = UnitOfWorkAccessor.Instance;

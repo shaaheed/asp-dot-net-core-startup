@@ -17,7 +17,7 @@ namespace Module.Sales.Domain.Products
 
         public DateTimeOffset? CreatedAt { get; set; }
 
-        public static Expression<Func<Product, ProductListItemDto>> Selector()
+        public static Expression<Func<Item, ProductListItemDto>> Selector()
         {
             return x => new ProductListItemDto
             {

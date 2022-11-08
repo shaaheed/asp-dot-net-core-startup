@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Msi.Data.EntityFrameworkCore.SqlServer;
 using Msi.Data.Extensions.Microsoft.DependencyInjection;
 using Msi.Data.EntityFrameworkCore;
@@ -13,10 +8,10 @@ using Msi.Mediator.Extensions.Microsoft.DependencyInjection;
 using Module.Systems.Exceptions;
 using Module.Systems.Filters;
 using Msi.Mediator.Abstractions;
-using System.Linq;
 using Module.Tokens.Domain;
 using Services;
 using Microsoft.OpenApi.Models;
+using Msi.Data.Abstractions;
 
 namespace AccountingWebHost
 {
@@ -78,7 +73,7 @@ namespace AccountingWebHost
             services.AddUnitOfWork(options =>
             {
                 options.MigrationAssembly = GetType().Assembly.FullName;
-                options.UseEntityFrameworkCore()/*.UseSqlServer()*/;
+                options.UseEntityFrameworkCore()/*.UseSqlServer(services)*/;
             });
             services.Migrate();
 

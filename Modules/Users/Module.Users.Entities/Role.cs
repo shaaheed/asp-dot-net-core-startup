@@ -1,6 +1,6 @@
 ﻿using Msi.Data.Entity;
 
-namespace Module.Users.Entities
+namespace Module.Accounts.Entities
 {
 	public class Role : NameEntity
 	{

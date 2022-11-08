@@ -1,4 +1,4 @@
-﻿namespace Module.Users.Domain
+﻿namespace Module.Accounts.Domain
 {
     class CreateUserCommandValidator
     {

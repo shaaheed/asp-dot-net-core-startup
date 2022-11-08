@@ -1,10 +1,10 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Msi.Mediator.Abstractions;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, long>
     {

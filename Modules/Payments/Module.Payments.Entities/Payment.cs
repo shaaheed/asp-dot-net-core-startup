@@ -1,12 +1,15 @@
 ﻿using Msi.Data.Entity;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Payments.Entities
 {
     public class Payment : BaseEntity
     {
         public string Number { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
+
         public string Reference { get; set; }
 
         public Guid? PaymentMethodId { get; set; }

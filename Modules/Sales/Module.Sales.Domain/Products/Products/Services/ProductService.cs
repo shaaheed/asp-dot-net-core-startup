@@ -13,12 +13,12 @@ namespace Module.Sales.Domain
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<Product> _repository;
+        private readonly IRepository<Item> _repository;
 
         public ProductService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _repository = _unitOfWork.GetRepository<Product>();
+            _repository = _unitOfWork.GetRepository<Item>();
         }
 
         public async Task CheckDuplicate(IEnumerable<Guid> ids, CancellationToken cancellationToken)
@@ -43,7 +43,7 @@ namespace Module.Sales.Domain
             if (quantityToBeDecrease <= 0)
                 throw new ValidationException($"{savedProduct.Name} quantity can not be zero or negative.");
 
-            var product = new Product { Id = productId };
+            var product = new Item { Id = productId };
             _repository.Attach(product);
 
             var _newQuantity = savedProduct.StockQuantity - quantityToBeDecrease;
@@ -79,7 +79,7 @@ namespace Module.Sales.Domain
                 StockQuantity = x.StockQuantity
             }, cancellationToken);
 
-            var product = new Product { Id = productId };
+            var product = new Item { Id = productId };
             _repository.Attach(product);
 
             var _newQuantity = savedProduct.StockQuantity + quantityToBeIncrease;
@@ -221,7 +221,7 @@ namespace Module.Sales.Domain
         //    return result;
         //}
 
-        public async Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Product, TViewModel>> selector, CancellationToken cancellationToken = default)
+        public async Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Item, TViewModel>> selector, CancellationToken cancellationToken = default)
         {
             var product = await _repository.FirstOrDefaultAsyncAsReadOnly(x => x.Id == productId && !x.IsDeleted, selector, cancellationToken);
 

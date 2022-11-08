@@ -141,9 +141,9 @@ namespace Msi.Data.EntityFrameworkCore
             {
                 result = await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
 
             //foreach (var entry in entries)

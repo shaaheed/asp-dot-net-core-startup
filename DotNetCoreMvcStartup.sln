@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29025.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Komment", "Komment", "{7979CEB4-7B10-4611-A663-44842F17AC0B}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Comment", "Modules\M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{F08DF705-12E9-4E0F-84CE-CFE3A12AFEE7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{E08CE9AD-5355-45C4-95F2-11346FBA7809}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{E08CE9AD-5355-45C4-95F2-11346FBA7809}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Systems", "Systems", "{5B453AC2-C5A1-4BD8-8BBA-D60E10C80D26}"
 EndProject
@@ -109,11 +109,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Email.Abstractions", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Email.Smtp", "Msi\Email\Msi.Email.Smtp\Msi.Email.Smtp\Msi.Email.Smtp.csproj", "{FC00A57A-73BB-4EE4-8ADE-29E73754EFFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users", "Modules\Users\Module.Users\Module.Users.csproj", "{01D90B28-037A-49AD-808F-94AAE9512571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Accounts", "Modules\Users\Module.Users\Module.Accounts.csproj", "{01D90B28-037A-49AD-808F-94AAE9512571}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users.Domain", "Modules\Users\Module.Users.Domain\Module.Users.Domain.csproj", "{BE0EE42D-1E99-458F-87E2-AFCBF041A30E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Accounts.Domain", "Modules\Users\Module.Users.Domain\Module.Accounts.Domain.csproj", "{BE0EE42D-1E99-458F-87E2-AFCBF041A30E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Users.Entities", "Modules\Users\Module.Users.Entities\Module.Users.Entities.csproj", "{DB3AF8F3-5B0C-4E9C-B0C2-20CA74019204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Accounts.Entities", "Modules\Users\Module.Users.Entities\Module.Accounts.Entities.csproj", "{DB3AF8F3-5B0C-4E9C-B0C2-20CA74019204}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Permissions", "Modules\Permissions\Module.Permissions\Module.Permissions.csproj", "{B953A3D1-D3D1-4BC1-B782-D0586DE41A95}"
 EndProject
@@ -175,17 +175,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Service.App", "Msi\Serv
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{22D1DFBD-13FA-4FF3-8DF2-10C1862F38F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msi.Integration.Abstractions", "Msi.Integration.Abstractions\Msi.Integration.Abstractions.csproj", "{0598A32A-086D-4362-B738-517927F379D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Msi.Integration.Abstractions", "Msi.Integration.Abstractions\Msi.Integration.Abstractions.csproj", "{0598A32A-086D-4362-B738-517927F379D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{6619D141-D34A-4103-BA62-0F6AA7C617BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{845C6C12-7F99-4BB8-AE6B-08DEAC8DD084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Integrations", "Modules\Integrations\Integrations\Module.Integrations\Module.Integrations.csproj", "{7A43D5E5-F07F-4DAF-9F7B-952FE57BE146}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Integrations", "Modules\Integrations\Integrations\Module.Integrations\Module.Integrations.csproj", "{7A43D5E5-F07F-4DAF-9F7B-952FE57BE146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Integrations.Entities", "Modules\Integrations\Integrations\Module.Integrations.Entities\Module.Integrations.Entities.csproj", "{4CB5D80F-69FF-42E2-AD71-226D77CC64D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Integrations.Entities", "Modules\Integrations\Integrations\Module.Integrations.Entities\Module.Integrations.Entities.csproj", "{4CB5D80F-69FF-42E2-AD71-226D77CC64D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Integrations.Domain", "Modules\Integrations\Integrations\Module.Integrations.Domain\Module.Integrations.Domain.csproj", "{20F06265-6E26-4DD7-A599-F47EDC18AA3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Integrations.Domain", "Modules\Integrations\Integrations\Module.Integrations.Domain\Module.Integrations.Domain.csproj", "{20F06265-6E26-4DD7-A599-F47EDC18AA3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

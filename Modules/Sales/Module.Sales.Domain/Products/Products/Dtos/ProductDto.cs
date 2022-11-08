@@ -48,7 +48,7 @@ namespace Module.Sales.Domain.Products
         public float? MinOrderQty;
         public float? MaxOrderQty;
 
-        public static Expression<Func<Product, ProductDto>> Selector()
+        public static Expression<Func<Item, ProductDto>> Selector()
         {
             return x => new ProductDto
             {

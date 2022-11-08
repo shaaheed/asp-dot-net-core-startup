@@ -29,7 +29,7 @@ namespace Module.Sales.Domain
             await _unitOfWork.GetRepository<InventoryAdjustment>().AddAsync(newAdjustment);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var productRepo = _unitOfWork.GetRepository<Product>();
+            var productRepo = _unitOfWork.GetRepository<Item>();
             var requestProductIds = request.LineItems
                 .Select(x => x.ProductId)
                 .ToList();
@@ -80,7 +80,7 @@ namespace Module.Sales.Domain
                             DocumentId = newAdjustment.Id,
                             TransactionType = LineTransactionType.Adjustment
                         });
-                        var _product = new Product { Id = product.Id };
+                        var _product = new Item { Id = product.Id };
                         productRepo.Attach(_product);
                         _product.StockQuantity = product.Quantity + quantity;
                     }

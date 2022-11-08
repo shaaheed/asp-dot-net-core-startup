@@ -1,11 +1,11 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Mediator.Abstractions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class GetUserQueryHandler : IQueryHandler<GetUserQuery, UserDto>
     {

@@ -1,5 +1,6 @@
 ﻿using Module.Payments.Domain;
 using Module.Sales.Entities;
+using Msi.Service.Abstractions;
 using Msi.Utilities.Filter;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public interface IDocumentService
+    public interface IDocumentService : IScopedService
     {
         abstract Task<int> OnLineItemQuantityIncreased(Guid productId, float quantity, CancellationToken cancellationToken = default);
 

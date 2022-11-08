@@ -1,5 +1,4 @@
 ﻿using Msi.Data.Entity;
-using System;
 
 namespace Module.Systems.Entities
 {
@@ -23,6 +22,11 @@ namespace Module.Systems.Entities
         public string City { get; set; }
         public string ZipCode { get; set; }
 
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+
+        public string WebLink { get; set; }
+
         public Guid? DistrictId { get; set; }
         public virtual District District { get; set; }
         
@@ -31,6 +35,8 @@ namespace Module.Systems.Entities
 
         public Guid? CountryId { get; set; }
         public virtual Country Country { get; set; }
+
+        // public TimeZone TimeZone { get; set; }
 
     }
 }

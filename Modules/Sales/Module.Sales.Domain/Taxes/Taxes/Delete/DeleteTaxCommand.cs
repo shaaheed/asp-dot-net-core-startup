@@ -1,10 +1,8 @@
-﻿using Module.Sales.Entities;
-using Msi.Mediator.Abstractions;
-using System;
+﻿using Msi.Mediator.Abstractions;
 
 namespace Module.Sales.Domain.Taxes
 {
-    public class DeleteTaxCommand : IDeleteCommand<Tax, bool>
+    public class DeleteTaxCommand : IDeleteCommand<bool>
     {
         public Guid Id { get; set; }
     }

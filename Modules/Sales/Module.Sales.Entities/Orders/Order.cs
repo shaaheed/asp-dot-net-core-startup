@@ -1,6 +1,5 @@
 ﻿using Msi.Data.Entity;
 using Module.Systems.Entities;
-using System;
 
 namespace Module.Sales.Entities
 {
@@ -12,5 +11,9 @@ namespace Module.Sales.Entities
 
         public Guid? CurrencyId { get; set; }
         public virtual Currency Currency { get; set; }
+
+        public Guid? ApprovalId { get; set; }
+        public virtual Approval Approval { get; set; }
+
     }
 }

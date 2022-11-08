@@ -1,6 +1,7 @@
 ﻿using Msi.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -31,10 +32,12 @@ namespace Module.Sales.Entities
         public virtual Account Account { get; set; }
 
         public Guid? ProductId { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual Item Product { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal UnitPrice { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Discount { get; set; }
         public DiscountType? DiscountType { get; set; }
 
@@ -44,16 +47,19 @@ namespace Module.Sales.Entities
         /// <summary>
         /// Subtotal = UnitPrice * Quantity
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Subtotal { get; set; }
 
         /// <summary>
         /// Total = (UnitPrice * Quantity) + TotalTaxAmount
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Total { get; set; }
 
         /// <summary>
         /// TotalTaxAmount = Sum(EveryQauntity * AllTaxRate)
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal TotalTaxAmount { get; set; }
 
         public float Quantity { get; set; }

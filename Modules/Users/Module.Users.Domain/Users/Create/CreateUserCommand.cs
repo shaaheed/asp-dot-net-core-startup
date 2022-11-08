@@ -1,6 +1,6 @@
 ﻿using Msi.Mediator.Abstractions;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class CreateUserCommand : ICommand<long>
     {

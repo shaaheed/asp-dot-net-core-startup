@@ -1,7 +1,7 @@
 ﻿using Msi.Mediator.Abstractions;
 using System;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UpdateUserCommand : ICommand<long>
     {

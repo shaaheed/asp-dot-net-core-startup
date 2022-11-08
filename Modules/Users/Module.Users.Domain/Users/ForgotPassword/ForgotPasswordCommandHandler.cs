@@ -1,4 +1,4 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Core;
 using Msi.Data.Abstractions;
 using Msi.Mediator.Abstractions;
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class ForgotPasswordCommandHandler : ICommandHandler<ForgotPasswordCommand, bool>
     {

@@ -15,9 +15,9 @@ namespace Module.Sales.Domain.Taxes
         public bool ShowTaxNumberOnInvoice { get; set; }
         public bool IsCompoundTax { get; set; }
 
-        public virtual Tax Map(Tax entity = null)
+        public virtual TaxCode Map(TaxCode entity = null)
         {
-            entity = entity ?? new Tax();
+            entity = entity ?? new TaxCode();
             entity.Name = Name;
             entity.Code = Code;
             entity.Description = Description;

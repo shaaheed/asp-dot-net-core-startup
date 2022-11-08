@@ -1,6 +1,6 @@
 ﻿using Msi.Data.Entity;
 using Module.Systems.Entities;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -22,16 +22,19 @@ namespace Module.Sales.Entities
         /// <summary>
         /// Sum of all line items Subtotal
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Subtotal { get; set; }
 
         /// <summary>
         /// Sum of all line items Total
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal GrandTotal { get; set; }
 
         /// <summary>
         /// Sum of all line item TotalTaxAmount
         /// </summary>
+        [Column(TypeName = "decimal(18,4)")]
         public decimal TotalTaxAmount { get; set; }
 
         public DateTimeOffset IssueDate { get; set; }

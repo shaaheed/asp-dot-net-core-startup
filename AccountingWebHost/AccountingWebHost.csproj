@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	
+	<ImplicitUsings>enable</ImplicitUsings>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
@@ -12,15 +14,15 @@
     <ProjectReference Include="..\Modules\Sales\Module.Sales\Module.Sales.csproj" />
     <ProjectReference Include="..\Modules\Systems\Module.Systems\Module.Systems.csproj" />
     <ProjectReference Include="..\Modules\Tokens\Module.Tokens\Module.Tokens.csproj" />
-    <ProjectReference Include="..\Modules\Users\Module.Users\Module.Users.csproj" />
+    <ProjectReference Include="..\Modules\Users\Module.Users\Module.Accounts.csproj" />
     <ProjectReference Include="..\Msi\Data\Msi.Data.EntityFrameworkCore.SqlServer\Msi.Data.EntityFrameworkCore.SqlServer.csproj" />
     <ProjectReference Include="..\Msi\Data\Msi.Data.Extensions.Microsoft.DependencyInjection\Msi.Data.Extensions.Microsoft.DependencyInjection.csproj" />
     <ProjectReference Include="..\Msi\Service\Msi.Service.Extensions.Microsoft.DependencyInjection\Msi.Service.Extensions.Microsoft.DependencyInjection.csproj" />
     <ProjectReference Include="..\Msi\View\Msi.View.Razor\Msi.View.Razor.csproj" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

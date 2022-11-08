@@ -7,19 +7,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Msi.Data.EntityFrameworkCore.SqlServer;
 
+#nullable disable
+
 namespace AccountingWebHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210917115129_M1")]
+    [Migration("20211120070719_M1")]
     partial class M1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
                 {
@@ -127,17 +130,6 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Organization");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("23ad3a5c-3a9e-4837-8501-908dd9017b73"),
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDefault = false,
-                            IsDeleted = false,
-                            Name = "Default",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        });
                 });
 
             modelBuilder.Entity("Module.Organizations.Entities.OrganizationType", b =>
@@ -175,8 +167,11 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -184,8 +179,23 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("CurrencyExchangeRate")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DocumentName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -195,9 +205,6 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("PaymentAccountId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("PaymentDate")
                         .HasColumnType("datetimeoffset");
@@ -219,6 +226,35 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("PaymentMethodId");
 
                     b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("Module.Payments.Entities.PaymentDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentDocument");
                 });
 
             modelBuilder.Entity("Module.Payments.Entities.PaymentMethod", b =>
@@ -245,7 +281,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("PaymentProviderId")
+                    b.Property<Guid?>("ProviderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -256,7 +292,7 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentProviderId");
+                    b.HasIndex("ProviderId");
 
                     b.ToTable("PaymentMethod");
                 });
@@ -297,8 +333,9 @@ namespace AccountingWebHost.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -335,188 +372,6 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("GroupId1");
 
                     b.ToTable("Permission");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 300L,
-                            Code = "organizations.create",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "Create",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 301L,
-                            Code = "organizations.update",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "Update",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 304L,
-                            Code = "organizations.list",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "List",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 303L,
-                            Code = "organizations.delete",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "Delete",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 302L,
-                            Code = "organizations.view",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "View",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 305L,
-                            Code = "organizations.full.access",
-                            CreatedBy = 0L,
-                            GroupId = 300L,
-                            IsDeleted = false,
-                            Name = "Full Access",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 100L,
-                            Code = "permissions.create",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "Create",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 101L,
-                            Code = "permissions.update",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "Update",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 102L,
-                            Code = "permissions.view",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "View",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 103L,
-                            Code = "permissions.delete",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "Delete",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 104L,
-                            Code = "permissions.list",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "List",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 105L,
-                            Code = "permissions.full.access",
-                            CreatedBy = 0L,
-                            GroupId = 100L,
-                            IsDeleted = false,
-                            Name = "Full Access",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 200L,
-                            Code = "users.create",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "Create",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 201L,
-                            Code = "users.update",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "Update",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 204L,
-                            Code = "users.list",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "List",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 202L,
-                            Code = "users.view",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "View",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 203L,
-                            Code = "users.delete",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "Delete",
-                            UpdatedBy = 0L
-                        },
-                        new
-                        {
-                            Id = 205L,
-                            Code = "users.full.access",
-                            CreatedBy = 0L,
-                            GroupId = 200L,
-                            IsDeleted = false,
-                            Name = "Full Access",
-                            UpdatedBy = 0L
-                        });
                 });
 
             modelBuilder.Entity("Module.Permissions.Entities.PermissionGroup", b =>
@@ -567,7 +422,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("CurrentBalance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -591,7 +446,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("OpeningBalance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
@@ -670,13 +525,16 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("AdjustmentAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("AdjustmentText")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("AmountDue")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -684,11 +542,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("CurrencyExchangeRate")
+                        .HasColumnType("real");
+
                     b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("GrandTotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -724,13 +585,10 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalTaxAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -742,9 +600,9 @@ namespace AccountingWebHost.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("CurrencyId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("CurrencyId");
 
                     b.ToTable("Bill");
                 });
@@ -820,7 +678,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("BillingAddressId")
                         .HasColumnType("uniqueidentifier");
@@ -835,7 +693,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("CreditLimit")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
@@ -949,7 +807,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
@@ -1061,13 +919,16 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("AdjustmentAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("AdjustmentText")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("AmountDue")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1075,17 +936,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<float>("CurrencyExchangeRate")
+                        .HasColumnType("real");
+
                     b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("FromQuoteId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("GrandTotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1114,11 +972,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<bool>("Pinned")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("QuoteId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("ReturnAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("SalesPersonId")
                         .HasColumnType("uniqueidentifier");
@@ -1127,10 +988,10 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalTaxAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1142,11 +1003,11 @@ namespace AccountingWebHost.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("ContactId");
+
                     b.HasIndex("CurrencyId");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("FromQuoteId");
+                    b.HasIndex("QuoteId");
 
                     b.HasIndex("SalesPersonId");
 
@@ -1180,6 +1041,12 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1190,13 +1057,22 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<byte?>("DiscountType")
                         .HasColumnType("tinyint");
 
+                    b.Property<Guid?>("DocumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DocumentName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<byte>("LineType")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -1210,26 +1086,23 @@ namespace AccountingWebHost.Migrations
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
 
-                    b.Property<Guid?>("ReferenceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalTaxAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
-                    b.Property<byte>("Type")
+                    b.Property<byte>("TransactionType")
                         .HasColumnType("tinyint");
 
                     b.Property<Guid?>("UnitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1238,6 +1111,10 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ContactId");
 
                     b.HasIndex("ProductId");
 
@@ -1427,7 +1304,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("real");
 
                     b.Property<decimal?>("MRP")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<float?>("MaxOrderQty")
                         .HasColumnType("real");
@@ -1448,7 +1325,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("PurchaseUnitId")
                         .HasColumnType("uniqueidentifier");
@@ -1460,7 +1337,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("SalesPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("SalesUnitId")
                         .HasColumnType("uniqueidentifier");
@@ -1524,15 +1401,11 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("ProductCategory");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.ProductTax", b =>
+            modelBuilder.Entity("Module.Sales.Entities.ProductPurchaseTax", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -1546,9 +1419,28 @@ namespace AccountingWebHost.Migrations
 
                     b.HasIndex("TaxId");
 
-                    b.ToTable("ProductTax");
+                    b.ToTable("ProductPurchaseTax");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ProductTax");
+            modelBuilder.Entity("Module.Sales.Entities.ProductSalesTax", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TaxId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("TaxId");
+
+                    b.ToTable("ProductSalesTax");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
@@ -1560,11 +1452,17 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("CurrencyExchangeRate")
+                        .HasColumnType("real");
 
                     b.Property<Guid?>("CurrencyId")
                         .HasColumnType("uniqueidentifier");
@@ -1576,7 +1474,7 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("GrandTotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1597,10 +1495,10 @@ namespace AccountingWebHost.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TotalTaxAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1611,6 +1509,8 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("ContactId");
 
                     b.HasIndex("CurrencyId");
 
@@ -2211,1779 +2111,6 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currency");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("63f4c8dc-6863-4971-8066-3aca28af142e"),
-                            Code3 = "AED",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "UAE dirham",
-                            Plural = "UAE dirhams",
-                            Symbol = "AED",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ec56bd2a-a134-495c-9708-bace3aa8e710"),
-                            Code3 = "AFN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Afghani",
-                            Plural = "Afganis",
-                            Symbol = "؋",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("840cc1e2-269b-482a-becb-a120586b8a33"),
-                            Code3 = "ALL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lek",
-                            Plural = "Lekë",
-                            Symbol = "Lek",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c5ec4b94-6226-4d48-9ec8-3f87ce3e0d66"),
-                            Code3 = "AMD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Armenian dram",
-                            Plural = "Armenian drams",
-                            Symbol = "֏",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("20804d96-c11f-4623-9961-6c57cd60597c"),
-                            Code3 = "ANG",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Netherlands Antillean guilder",
-                            Plural = "Netherlands Antillean guilders",
-                            Symbol = "ƒ",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c0687019-d389-4dd3-84d4-404d305deb10"),
-                            Code3 = "AOA",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kwanza",
-                            Plural = "Kwanzas",
-                            Symbol = "Kz",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cd9eb67d-7254-47f7-8e1d-168653d04998"),
-                            Code3 = "ARS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Argentinian peso",
-                            Plural = "Argentinian pesos",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("18e92f5d-82d6-4e41-a413-c113a8a5df2c"),
-                            Code3 = "AUD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Australian dollar",
-                            Plural = "Australian dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c583ebda-3db2-46ce-8790-be51280f977c"),
-                            Code3 = "AWG",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Aruban florin",
-                            Plural = "Aruban florin",
-                            Symbol = "ƒ",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cd8b67ab-06e2-4145-adb5-b18f3755cf30"),
-                            Code3 = "AZN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "New Manat",
-                            Plural = "New Manat",
-                            Symbol = "ман",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("40dd02af-9799-48a0-a87b-09d6ce16d7cf"),
-                            Code3 = "BAM",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Convertible Marks",
-                            Plural = "Convertible Marks",
-                            Symbol = "KM",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b6e458a1-b515-435b-8408-125b05ea4e48"),
-                            Code3 = "BBD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Barbados dollar",
-                            Plural = "Barbados dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("6f902863-ba4f-44a5-8b94-c9d7080b8b7c"),
-                            Code3 = "BDT",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Taka",
-                            Plural = "Takas",
-                            Symbol = "৳",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("4b546137-30d9-481f-8290-d933bbcae452"),
-                            Code3 = "BGN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lev",
-                            Plural = "Leva",
-                            Symbol = "лв",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("eb4931ce-00f1-4cf8-b4b6-971591253a9f"),
-                            Code3 = "BHD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Bahraini dinar",
-                            Plural = "Bahraini dinars",
-                            Symbol = "BD",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("55033a9e-671c-473d-96b6-67b8ad86f056"),
-                            Code3 = "BIF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Burundi franc",
-                            Plural = "Burundi francs",
-                            Symbol = "FBu",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5e47fcca-58e1-447e-9896-88c8920e9438"),
-                            Code3 = "BMD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Bermuda dollar",
-                            Plural = "Bermuda dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("2fb32292-c3d6-409e-a9d7-76fdd1d04093"),
-                            Code3 = "BND",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Brunei dollar",
-                            Plural = "Brunei dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("852810b4-6794-4948-90e0-069f057eca21"),
-                            Code3 = "BOB",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Boliviano",
-                            Plural = "Bolivianos",
-                            Symbol = "$b",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("be88fc3b-4665-4ce6-b0b8-4f76071106d0"),
-                            Code3 = "BRL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Real",
-                            Plural = "Reales",
-                            Symbol = "R$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("aaac99d7-c2d2-418e-95db-53694bcf40c0"),
-                            Code3 = "BSD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Bahamian dollar",
-                            Plural = "Bahamian dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("8ccdf5ed-8166-4a3c-8a9b-69401127f735"),
-                            Code3 = "BTN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ngultrum",
-                            Plural = "Ngultrums",
-                            Symbol = "Nu.",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("1fcb8567-24de-466c-9bdd-c01b46a2caeb"),
-                            Code3 = "BWP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Pula",
-                            Plural = "Pula",
-                            Symbol = "P",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("9e82904e-840a-42e0-b1f2-b2adb1851c4d"),
-                            Code3 = "BYR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Belarussian rouble",
-                            Plural = "Belarussian roubles",
-                            Symbol = "p.",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("51089759-519b-474f-9e65-dac86c204769"),
-                            Code3 = "BZD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Belize dollar",
-                            Plural = "Belize dollars",
-                            Symbol = "BZ$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("1af1b8d6-be5d-437d-8bd4-08055203993b"),
-                            Code3 = "CAD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Canadian dollar",
-                            Plural = "Canadian dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d5af2acd-dc1a-45bd-9517-98e82607e2ff"),
-                            Code3 = "CDF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Franc congolais",
-                            Plural = "Francs congolais",
-                            Symbol = "₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("8712b274-59d3-4e70-bd63-70c95c50b7fc"),
-                            Code3 = "CHF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Swiss franc",
-                            Plural = "Swiss francs",
-                            Symbol = "CHF",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("73b40d5e-5e36-439f-a6bd-9d09f2852ac3"),
-                            Code3 = "CLP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Chilean peso",
-                            Plural = "Chilean pesos",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d89f497d-e6c8-43ce-868a-9806af78d207"),
-                            Code3 = "CNY",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ren-Min-Bi yuan",
-                            Plural = "Ren-Min-Bi yuan",
-                            Symbol = "¥",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ffc33209-5e2e-4d4a-aeff-46af3944f563"),
-                            Code3 = "COP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Colombian peso",
-                            Plural = "Colombian pesos",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("64e55e0e-618f-4ab8-b394-00eac916b6ec"),
-                            Code3 = "CRC",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Costa Rican colon",
-                            Plural = "Costa Rican colones",
-                            Symbol = "₡",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("624366be-fc32-4393-b7f5-e16ddd4fbbcb"),
-                            Code3 = "CUP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Cuban peso",
-                            Plural = "Cuban pesos",
-                            Symbol = "₱",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0268c118-585a-4df6-974a-1ba9db038130"),
-                            Code3 = "CVE",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Cape Verde escudo",
-                            Plural = "Cape Verde escudos",
-                            Symbol = "Esc",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("8f4e3de1-300d-4170-af62-b03ff8028d56"),
-                            Code3 = "CZK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Czech koruna",
-                            Plural = "Czech korun",
-                            Symbol = "Kč",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("86ba8684-3ed5-4afb-b8c3-e069d1def19f"),
-                            Code3 = "DJF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Djibouti franc",
-                            Plural = "Djibouti francs",
-                            Symbol = "₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("3755dd5e-e409-4e2d-a989-16c42cb1c593"),
-                            Code3 = "DKK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Danish krone",
-                            Plural = "Danish kroner",
-                            Symbol = "kr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("e7e33739-6ae0-43ba-9b80-56f6f0eee721"),
-                            Code3 = "DOP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Dominican peso",
-                            Plural = "Dominican pesos",
-                            Symbol = "RD$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cfaac572-0d03-45f9-8d00-bdb7ea4605dd"),
-                            Code3 = "DZD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Algerian dinar",
-                            Plural = "Algerian dinars",
-                            Symbol = "د.ج",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("a3cd1e66-fe13-4a79-b269-f8a9391bc595"),
-                            Code3 = "EEK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Estonian kroon",
-                            Plural = "Estonian krooni",
-                            Symbol = "kr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("202bf744-2038-4658-bab4-794962bf7b2e"),
-                            Code3 = "EGP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Egyptian pound",
-                            Plural = "Egyptian pounds",
-                            Symbol = "E £",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5d88271e-05bb-46fa-b02a-d129d195e86a"),
-                            Code3 = "ERN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Nakfa",
-                            Plural = "Nakfas",
-                            Symbol = "Nfk",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("502e3289-427f-4681-a52d-75e6020288ff"),
-                            Code3 = "ETB",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ethiopian birr",
-                            Plural = "Ethiopian birrs",
-                            Symbol = "Br",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("81a1b960-d26a-4e45-9473-edf0bc2e0f96"),
-                            Code3 = "EUR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Euro",
-                            Plural = "Euros",
-                            Symbol = "€",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("fc01207f-0299-4191-a21f-3d851d335ad4"),
-                            Code3 = "FJD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Fiji dollar",
-                            Plural = "Fiji dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("562a2ae9-fd93-4da8-9ef9-726ea8a992c9"),
-                            Code3 = "FKP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Falkland Islands (Malvinas) pound",
-                            Plural = "Falkland Islands (Malvinas) pounds",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("00f96cc1-93db-4361-b53a-07e93f34c514"),
-                            Code3 = "GBP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Pound sterling",
-                            Plural = "Pounds sterling",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("a28e6f8d-d6c3-4b59-94d5-f7073fb41ef9"),
-                            Code3 = "GEL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lari",
-                            Plural = "Lari",
-                            Symbol = "ლ",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("eee5778e-a203-4f0c-a0d8-85854b4e1aab"),
-                            Code3 = "GHS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ghana cedi",
-                            Plural = "Ghana cedis",
-                            Symbol = "GH¢",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("526cc251-7274-47b8-9918-50cf6cd93837"),
-                            Code3 = "GIP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Gibraltar pound",
-                            Plural = "Gibraltar pounds",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("2ad7ceac-fb94-4e69-83f6-546ff53f6dbe"),
-                            Code3 = "GMD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Dalasi",
-                            Plural = "Dalasi",
-                            Symbol = "D",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("577173ba-078b-4869-97cc-5290334b51f0"),
-                            Code3 = "GNF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Guinean franc",
-                            Plural = "Guinean francs",
-                            Symbol = "₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("32c947ce-1fe7-4525-9f36-41ca33fcf19e"),
-                            Code3 = "GTQ",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Quetzal",
-                            Plural = "Quetzales",
-                            Symbol = "Q",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ff8b54b4-4767-40ca-9bd9-385a5f42929e"),
-                            Code3 = "GWP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Guinea-Bissau peso",
-                            Plural = "Guinea-Bissau pesos",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c8667ec8-9671-4800-85b7-b16fd7917156"),
-                            Code3 = "GYD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Guyana dollar",
-                            Plural = "Guyana dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5fbe7960-72b9-4afa-84db-f8cc1473bc9a"),
-                            Code3 = "HKD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Hong Kong dollar",
-                            Plural = "Hong Kong dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ce40007a-fe85-4035-8e36-a867e104920e"),
-                            Code3 = "HNL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lempira",
-                            Plural = "Lempiras",
-                            Symbol = "L",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("bd295809-8418-4342-aa53-8b45a1bec5bb"),
-                            Code3 = "HRK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kuna",
-                            Plural = "Kunas",
-                            Symbol = "kn",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b04aff33-cf3b-45de-8b59-f5cea73caa0a"),
-                            Code3 = "HTG",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Haitian gourde",
-                            Plural = "Haitian gourdes",
-                            Symbol = "G",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("63346b08-8e7d-4a39-b1e1-9d85e5121631"),
-                            Code3 = "HUF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Forint",
-                            Plural = "Forints",
-                            Symbol = "Ft",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("8fd3f2af-3ed8-4b17-abbc-fc9d8aadea4e"),
-                            Code3 = "IDR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Rupiah",
-                            Plural = "Rupiahs",
-                            Symbol = "Rp",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("1d98496b-3583-46f0-b42c-73726bc92360"),
-                            Code3 = "ILS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "New Israeli sheqel",
-                            Plural = "New Israeli sheqels",
-                            Symbol = "₪",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("fa568b86-8e82-456c-bd08-5bdcf9ae595b"),
-                            Code3 = "INR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Indian rupee",
-                            Plural = "Indian rupees",
-                            Symbol = "₹",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("443d3178-c48b-48cc-9693-f02e31996b69"),
-                            Code3 = "IQD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Iraqi dinar",
-                            Plural = "Iraqi dinars",
-                            Symbol = "د.ع",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d849f6e4-05f2-466b-835f-a20d372f9568"),
-                            Code3 = "IRR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Iranian rial",
-                            Plural = "Iranian rials",
-                            Symbol = "﷼",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("63f1636d-c5a8-43c3-bae9-1e0892a16d6d"),
-                            Code3 = "ISK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Icelandic króna",
-                            Plural = "Icelandic krónur",
-                            Symbol = "kr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c080a6ef-a13f-4761-a0ec-2af59e6ca3f8"),
-                            Code3 = "JMD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Jamaican dollar",
-                            Plural = "Jamaican dollars",
-                            Symbol = "J$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("13719ead-c45e-468c-ad53-2a90de678029"),
-                            Code3 = "JOD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Jordanian dinar",
-                            Plural = "Jordanian dinars",
-                            Symbol = "د.ا",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("84c642db-8857-49b5-bdfc-a2d655f96428"),
-                            Code3 = "JPY",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Yen",
-                            Plural = "Yen",
-                            Symbol = "¥",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("630a79bf-7cd4-4f3a-af10-ad182b5bf205"),
-                            Code3 = "KES",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kenyan shilling",
-                            Plural = "Kenyan shillings",
-                            Symbol = "SH",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("000db371-07c3-4f01-92cd-de94ed140e7d"),
-                            Code3 = "KGS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kyrgyz Som",
-                            Plural = "Kyrgyz Soms",
-                            Symbol = "лв",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("181209f3-34bb-4fc6-82df-710c6ae5625b"),
-                            Code3 = "KHR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Riel",
-                            Plural = "Riels",
-                            Symbol = "៛",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("07c95d0c-98d0-4be7-808c-b3b529730028"),
-                            Code3 = "KMF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Comoro franc",
-                            Plural = "Comoro francs",
-                            Symbol = "₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("531a6f53-43f4-4576-9c52-97f6ac74b0e6"),
-                            Code3 = "KRW",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Won",
-                            Plural = "Won",
-                            Symbol = "₩",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d501ca46-aba2-49ed-9af8-d96fe594456a"),
-                            Code3 = "KWD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kuwaiti dinar",
-                            Plural = "Kuwaiti dinars",
-                            Symbol = "د.ك",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("08b339d4-b5d4-4b80-964b-d63dc61e81b1"),
-                            Code3 = "KYD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Cayman Islands dollar",
-                            Plural = "Cayman Islands dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("22e51645-f524-4164-a7bb-2ca25e3f7b66"),
-                            Code3 = "KZT",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Tenge",
-                            Plural = "Tenge",
-                            Symbol = "лв",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5cf6a865-98dc-4f95-9b1f-e6c4f78f62ee"),
-                            Code3 = "LAK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kip",
-                            Plural = "Kips",
-                            Symbol = "₭",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0aa7a62a-11b8-47fe-8f02-e90443f5f8ad"),
-                            Code3 = "LBP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lebanese pound",
-                            Plural = "Lebanese pounds",
-                            Symbol = "LBP",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("1b93cb56-9061-4a56-b016-af14ac6ee0fd"),
-                            Code3 = "LKR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Sri Lankan rupee",
-                            Plural = "Sri Lankan rupees",
-                            Symbol = "₨",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("7943d411-fb9b-4268-aef6-e36d598b14bf"),
-                            Code3 = "LRD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Liberian dollar",
-                            Plural = "Liberian dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0aa7adc6-0016-44ab-9ceb-a3df9d94c6bc"),
-                            Code3 = "LSL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Loti",
-                            Plural = "Maloti",
-                            Symbol = "M",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0e4fd2a1-fca2-40c9-bd73-6479a13fb512"),
-                            Code3 = "LTL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lithuanian litus",
-                            Plural = "Lithuanian litai",
-                            Symbol = "Lt",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("9b34e0e1-757c-4e69-b1a2-1f93e25ebe88"),
-                            Code3 = "LVL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Latvian lats",
-                            Plural = "Latvian lats",
-                            Symbol = "Ls",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("056da660-c2cb-4ac7-9da6-995810ff8e09"),
-                            Code3 = "LYD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Libyan dinar",
-                            Plural = "Libyan dinar",
-                            Symbol = "ل.د",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("f8be9a73-bee0-47e8-952b-d264a8b720b0"),
-                            Code3 = "MAD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Moroccan dirham",
-                            Plural = "Moroccan dirhams",
-                            Symbol = "د.م",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5fa0d5cc-983c-436d-aada-f3848c7bad5a"),
-                            Code3 = "MDL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Moldovan leu",
-                            Plural = "Moldovan lei",
-                            Symbol = "L",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("9c0e7483-a8d6-4ced-837c-bd2f4bc68b4b"),
-                            Code3 = "MGA",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Malagasy Ariary",
-                            Plural = "Malagasy Ariaries",
-                            Symbol = "Ar",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d1f581fc-99b1-4564-87b7-2ece82d8570d"),
-                            Code3 = "MKD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Denar",
-                            Plural = "Denari",
-                            Symbol = "ден",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("10abba60-de27-4d91-b6b8-9e872485e00d"),
-                            Code3 = "MMK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kyat",
-                            Plural = "Kyats",
-                            Symbol = "K",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("81be630a-d757-4da5-b4df-81dcc66fa055"),
-                            Code3 = "MNT",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Tugrik",
-                            Plural = "Tugriks",
-                            Symbol = "₮",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("09347574-cf53-4142-8a3c-4b747d2df1ba"),
-                            Code3 = "MOP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Pataca",
-                            Plural = "Patacas",
-                            Symbol = "MOP$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cf0418a0-9e22-44e2-85c5-bc0622c762c2"),
-                            Code3 = "MRO",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ouguiya",
-                            Plural = "Ouguiyas",
-                            Symbol = "UM",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("500c2fc9-93ff-4971-a920-8ef6eb1e07d1"),
-                            Code3 = "MRU",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ouguiya",
-                            Plural = "Ouguiyas",
-                            Symbol = "UM",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("398e5f1d-6b48-4779-9905-74eaaae15a76"),
-                            Code3 = "MUR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Mauritian rupee",
-                            Plural = "Mauritian rupees",
-                            Symbol = "₨",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("66837a54-2802-4d0a-b290-e56e23d312de"),
-                            Code3 = "MVR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Rufiyaa",
-                            Plural = "Rufiyaas",
-                            Symbol = "Rf",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b0566eeb-067f-47a3-8a73-02f3153635ee"),
-                            Code3 = "MWK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kwacha",
-                            Plural = "Kwacha",
-                            Symbol = "MK",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("89141a33-a8ad-437d-a877-9944568b8172"),
-                            Code3 = "MXN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Mexican peso",
-                            Plural = "Mexican pesos",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ee7550f7-965f-4635-b51c-0f2ca03c0169"),
-                            Code3 = "MYR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Malaysian ringgit",
-                            Plural = "Malaysian ringgit",
-                            Symbol = "RM",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("2720c97a-f434-4f6a-966c-379f24c85d79"),
-                            Code3 = "MZN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Metical",
-                            Plural = "Meticais",
-                            Symbol = "MT",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c3950228-3a3d-4edc-9cef-aff52440d2c0"),
-                            Code3 = "NAD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Namibian dollar",
-                            Plural = "Namibian dollar",
-                            Symbol = "N$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0f393913-8795-4ded-be14-b76a721787f5"),
-                            Code3 = "NGN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Naira",
-                            Plural = "Naira",
-                            Symbol = "₦",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("dede3fec-dfa0-4e23-aa01-3790ad5bdef7"),
-                            Code3 = "NIO",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Cordoba Oro",
-                            Plural = "Cordobas Oro",
-                            Symbol = "C$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("e061cb16-3146-4a3a-948e-92973065ec63"),
-                            Code3 = "NOK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Norwegian krone",
-                            Plural = "Norwegian kroner",
-                            Symbol = "kr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("238ea326-d416-459d-aced-895503f3e3c8"),
-                            Code3 = "NPR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Nepalese rupee",
-                            Plural = "Nepalese rupees",
-                            Symbol = "₨",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("6f450580-4010-43fb-b6f9-067c37db0252"),
-                            Code3 = "NZD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "New Zealand dollar",
-                            Plural = "New Zealand dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b5ee806c-c823-43c3-8c2e-0854637937b9"),
-                            Code3 = "OMR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Omani rial",
-                            Plural = "Omani rials",
-                            Symbol = "﷼",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("9a3f388e-37d4-4627-8a30-3b181173c589"),
-                            Code3 = "PAB",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Balboa",
-                            Plural = "Balboas",
-                            Symbol = "B/.",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ad804988-fcf6-4ba0-8419-e982f77d6b7e"),
-                            Code3 = "PEN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Nuevo Sol",
-                            Plural = "Nuevo Soles",
-                            Symbol = "S/.",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("355f755c-c472-40c4-8d0b-8628dde6414a"),
-                            Code3 = "PGK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kina",
-                            Plural = "Kinas",
-                            Symbol = "K",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("023197f3-b75d-4028-b65f-d5ce4666ef88"),
-                            Code3 = "PHP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Philippine peso",
-                            Plural = "Philippine pesos",
-                            Symbol = "Php",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("fd642a42-76bd-4566-bd44-ee1c4bfeaee1"),
-                            Code3 = "PKR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Pakistani rupee",
-                            Plural = "Pakistani rupees",
-                            Symbol = "₨",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b8108219-6534-43c2-9afa-868b77ee6b9d"),
-                            Code3 = "PLN",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Zloty",
-                            Plural = "Zloty",
-                            Symbol = "zł",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("dc23fbf1-28cc-40d8-8dfc-f0c3e6049201"),
-                            Code3 = "PYG",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Guarani",
-                            Plural = "Guaranis",
-                            Symbol = "Gs",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("fe96676a-58bd-4309-8f45-94a4f5362380"),
-                            Code3 = "QAR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Qatari riyal",
-                            Plural = "Qatari riyals",
-                            Symbol = "﷼",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("bb6f58af-6871-4f3b-8e68-16c615b9a7ae"),
-                            Code3 = "RON",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "New Leu",
-                            Plural = "New Lei",
-                            Symbol = "lei",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("06d20c1b-0cd6-4426-b7a4-a76a27010ef5"),
-                            Code3 = "RSD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Serbian dinar",
-                            Plural = "Serbian dinars",
-                            Symbol = "Дин.",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("611ffb55-aae8-4cca-923a-7a3c246c14fc"),
-                            Code3 = "RUB",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Russian rouble",
-                            Plural = "Russian roubles",
-                            Symbol = "руб",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d4487ded-0120-4f47-a4eb-c522b2c1c45b"),
-                            Code3 = "RWF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Rwanda franc",
-                            Plural = "Rwanda francs",
-                            Symbol = "R₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("afe4045d-3d67-4365-94f3-f61e792b25e3"),
-                            Code3 = "SAR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Saudi riyal",
-                            Plural = "Saudi riyals",
-                            Symbol = "﷼",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("2f4dd201-09c7-493d-a188-82c98bde65a7"),
-                            Code3 = "SBD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Solomon Islands dollar",
-                            Plural = "Solomon Islands dollars",
-                            Symbol = "SI$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("0def5ec1-7183-46ec-939a-99ca805013f0"),
-                            Code3 = "SCR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Seychelles rupee",
-                            Plural = "Seychelles rupees",
-                            Symbol = "₨",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("25c1177b-9e97-45bc-b492-d3e6c764128f"),
-                            Code3 = "SDG",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Sudanese pound",
-                            Plural = "Sudanese pounds",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("a9edd292-de95-4e75-85f8-62556105dc21"),
-                            Code3 = "SEK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Swedish krona",
-                            Plural = "Swedish kronur",
-                            Symbol = "kr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c3522cff-7479-4cd1-b8da-1e5021589838"),
-                            Code3 = "SGD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Singapore dollar",
-                            Plural = "Singapore dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c56f4eb5-daaa-4f4d-a3c1-96199a174048"),
-                            Code3 = "SHP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Saint Helena pound",
-                            Plural = "Saint Helena pounds",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("41f3e2d8-b465-40ab-8e04-4c3f7a1f4de7"),
-                            Code3 = "SLL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Leone",
-                            Plural = "Leones",
-                            Symbol = "Le",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c4348c2a-36ba-4dc2-b45d-5085209caf6d"),
-                            Code3 = "SOS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Somali shilling",
-                            Plural = "Somali shillings",
-                            Symbol = "S",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("aa76b5ba-49f5-4ad5-b9b1-c2fb2adff912"),
-                            Code3 = "SRD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Surinam dollar",
-                            Plural = "Surinam dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cc8d3722-3e99-4a0f-a2b4-d0c44485f992"),
-                            Code3 = "SSP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "South Sudanese pound",
-                            Plural = "South Sudanese pounds",
-                            Symbol = "£",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5b80c226-19bd-4054-ab71-a3abe666189b"),
-                            Code3 = "STD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Dobra",
-                            Plural = "Dobras",
-                            Symbol = "Db",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("14a73aeb-c52b-4e65-98d2-e1fdb3f156a2"),
-                            Code3 = "SVC",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "El Salvador colon",
-                            Plural = "El Salvador colones",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("1eb7326d-d93c-4d6d-933e-829616e6ffda"),
-                            Code3 = "SYP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Syrian pound",
-                            Plural = "Syrian pounds",
-                            Symbol = "£S",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("b94c744c-6939-4fae-bfbc-73be73a0f7a1"),
-                            Code3 = "SZL",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Lilangeni",
-                            Plural = "Emalangeni",
-                            Symbol = "E",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d0dd9e8b-1447-4e96-8650-480952ca088d"),
-                            Code3 = "THB",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Baht",
-                            Plural = "Baht",
-                            Symbol = "฿",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("2f5ece9d-c2c1-426a-aa85-6b9c9bc7c6e9"),
-                            Code3 = "TJS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Somoni",
-                            Plural = "Somonis",
-                            Symbol = "SM",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("00cd2a2b-0056-4a0f-a67e-d8253d3f6059"),
-                            Code3 = "TMM",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Manat",
-                            Plural = "Manat",
-                            Symbol = "m",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ea52cdc6-bee4-4d80-85a3-cd5e9fb068d5"),
-                            Code3 = "TND",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Tunisian dinar",
-                            Plural = "Tunisian dinars",
-                            Symbol = "TND",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("d8b1453b-9112-4b2a-a2bc-254cfca7864e"),
-                            Code3 = "TOP",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Pa'anga",
-                            Plural = "Pa'anga",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("34a05fff-fb2c-4f05-9c5d-66858efece57"),
-                            Code3 = "TRY",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Turkish lira",
-                            Plural = "Turkish liras",
-                            Symbol = "TL",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("6cca2984-1bda-4810-a81e-4f9e5e8885fc"),
-                            Code3 = "TTD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Trinidad and Tobago dollar",
-                            Plural = "Trinidad and Tobago dollars",
-                            Symbol = "TT$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("bd587ae1-5ad5-4b23-9dc4-fa73f2d3723f"),
-                            Code3 = "TWD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "New Taiwan dollar",
-                            Plural = "New Taiwan dollars",
-                            Symbol = "NT$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("cebad91b-0bdf-415c-b7a1-ad38b44915fd"),
-                            Code3 = "TZS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Tanzanian shilling",
-                            Plural = "Tanzanian shillings",
-                            Symbol = "Sh",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5b543466-6028-4afb-a103-47888f1e6264"),
-                            Code3 = "UAH",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Hryvnia",
-                            Plural = "Hryvni",
-                            Symbol = "₴",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("5d67e99e-4885-4c18-bd5a-407bf84cfa75"),
-                            Code3 = "UGX",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Ugandan shilling",
-                            Plural = "Ugandan shillings",
-                            Symbol = "UGX",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("7ce57a4f-bf49-4c07-8b5a-801f1431fa22"),
-                            Code3 = "USD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "U.S. dollar",
-                            Plural = "U.S. dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("e32a2be7-aa9c-44c0-8155-6d138ad4a950"),
-                            Code3 = "UYU",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Uruguayo peso",
-                            Plural = "Uruguayo pesos",
-                            Symbol = "$U",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ccc3cfd3-507b-43de-a4cc-9a18e490a9de"),
-                            Code3 = "UZS",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Uzbekistan sum",
-                            Plural = "Uzbekistan sum",
-                            Symbol = "лв",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("7f223126-caf8-4bde-9e0d-6e688529e0c3"),
-                            Code3 = "VEF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Bolivar Fuerte",
-                            Plural = "Bolivares Fuerte",
-                            Symbol = "Bs",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("8a959aec-852d-4f6e-863b-ad5db323e78c"),
-                            Code3 = "VND",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Dong",
-                            Plural = "Dongs",
-                            Symbol = "₫",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("4af1de3a-433a-43b0-a762-37172347207e"),
-                            Code3 = "VUV",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Vatu",
-                            Plural = "Vatu",
-                            Symbol = "VT",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("9a53163d-85e9-4f99-9ce3-01ecd20ee949"),
-                            Code3 = "WST",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Samoan Tala",
-                            Plural = "Samoan Talas",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("369a8041-6d84-4167-97cf-603aa3cf0aef"),
-                            Code3 = "XAF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "CFA Franc - BEAC",
-                            Plural = "CFA Francs - BEAC",
-                            Symbol = "Fr",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("87887e89-ec57-4448-bd5c-17c38f938bb8"),
-                            Code3 = "XCD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Eastern Caribbean dollar",
-                            Plural = "Eastern Caribbean dollars",
-                            Symbol = "$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("a933ef62-ee56-43af-ac6f-2b280e28c74a"),
-                            Code3 = "XOF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "CFA franc - BCEAO",
-                            Plural = "CFA francs - BCEAO",
-                            Symbol = "CFA",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("68584ee5-4962-426b-a3c0-6ec714989089"),
-                            Code3 = "XPF",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Comptoirs Francais du Pacifique Francs",
-                            Plural = "Comptoirs Francais du Pacifique Francs",
-                            Symbol = "₣",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("ac045fb8-e07a-4fcb-9283-cb2bdf00bb5e"),
-                            Code3 = "YER",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Yemeni rial",
-                            Plural = "Yemeni rials",
-                            Symbol = "﷼",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("97a5a296-96d0-469b-93a0-c9eb89a7bfe7"),
-                            Code3 = "ZAR",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Rand",
-                            Plural = "Rand",
-                            Symbol = "R",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("c964646b-e097-47ac-a637-26395905e79b"),
-                            Code3 = "ZMK",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kwacha",
-                            Plural = "Kwachas",
-                            Symbol = "ZK",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("4e78ce83-dfdc-4b5d-b5c2-0307036508e8"),
-                            Code3 = "ZMW",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Kwacha",
-                            Plural = "Kwachas",
-                            Symbol = "ZK",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("40bae6d1-3f25-4056-97a8-793a32c51efa"),
-                            Code3 = "ZWD",
-                            CreatedBy = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "Zimbabwean dollar",
-                            Plural = "Zimbabwean dollars",
-                            Symbol = "Z$",
-                            UpdatedBy = new Guid("00000000-0000-0000-0000-000000000000")
-                        });
                 });
 
             modelBuilder.Entity("Module.Systems.Entities.District", b =>
@@ -4550,8 +2677,9 @@ namespace AccountingWebHost.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -4581,20 +2709,6 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductPurchaseTax", b =>
-                {
-                    b.HasBaseType("Module.Sales.Entities.ProductTax");
-
-                    b.HasDiscriminator().HasValue("ProductPurchaseTax");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductSalesTax", b =>
-                {
-                    b.HasBaseType("Module.Sales.Entities.ProductTax");
-
-                    b.HasDiscriminator().HasValue("ProductSalesTax");
                 });
 
             modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
@@ -4656,11 +2770,11 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Payments.Entities.PaymentMethod", b =>
                 {
-                    b.HasOne("Module.Payments.Entities.PaymentProvider", "PaymentProvider")
+                    b.HasOne("Module.Payments.Entities.PaymentProvider", "Provider")
                         .WithMany()
-                        .HasForeignKey("PaymentProviderId");
+                        .HasForeignKey("ProviderId");
 
-                    b.Navigation("PaymentProvider");
+                    b.Navigation("Provider");
                 });
 
             modelBuilder.Entity("Module.Permissions.Entities.Permission", b =>
@@ -4704,19 +2818,19 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("AccountId");
 
+                    b.HasOne("Module.Sales.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Module.Systems.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
 
-                    b.HasOne("Module.Sales.Entities.Contact", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId");
-
                     b.Navigation("Account");
 
-                    b.Navigation("Currency");
+                    b.Navigation("Contact");
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.BillPayment", b =>
@@ -4850,17 +2964,17 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("AccountId");
 
+                    b.HasOne("Module.Sales.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Module.Systems.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
 
-                    b.HasOne("Module.Sales.Entities.Contact", "Customer")
+                    b.HasOne("Module.Sales.Entities.Quote", "Quote")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("Module.Sales.Entities.Quote", "FromQuote")
-                        .WithMany()
-                        .HasForeignKey("FromQuoteId");
+                        .HasForeignKey("QuoteId");
 
                     b.HasOne("Module.Sales.Entities.Contact", "SalesPerson")
                         .WithMany()
@@ -4868,11 +2982,11 @@ namespace AccountingWebHost.Migrations
 
                     b.Navigation("Account");
 
+                    b.Navigation("Contact");
+
                     b.Navigation("Currency");
 
-                    b.Navigation("Customer");
-
-                    b.Navigation("FromQuote");
+                    b.Navigation("Quote");
 
                     b.Navigation("SalesPerson");
                 });
@@ -4898,6 +3012,14 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.LineItem", b =>
                 {
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Sales.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Module.Sales.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
@@ -4905,6 +3027,10 @@ namespace AccountingWebHost.Migrations
                     b.HasOne("Module.Sales.Entities.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Contact");
 
                     b.Navigation("Product");
 
@@ -5016,10 +3142,29 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.ProductTax", b =>
+            modelBuilder.Entity("Module.Sales.Entities.ProductPurchaseTax", b =>
                 {
                     b.HasOne("Module.Sales.Entities.Product", "Product")
-                        .WithMany("Taxes")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Tax", "Tax")
+                        .WithMany()
+                        .HasForeignKey("TaxId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tax");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ProductSalesTax", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -5041,6 +3186,10 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("AccountId");
 
+                    b.HasOne("Module.Sales.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("Module.Systems.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
@@ -5050,6 +3199,8 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.Navigation("Account");
+
+                    b.Navigation("Contact");
 
                     b.Navigation("Currency");
 
@@ -5314,11 +3465,6 @@ namespace AccountingWebHost.Migrations
             modelBuilder.Entity("Module.Sales.Entities.LineItem", b =>
                 {
                     b.Navigation("LineItemTaxes");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.Product", b =>
-                {
-                    b.Navigation("Taxes");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>

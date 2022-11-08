@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+	<TargetFramework>net6.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,11 +13,11 @@
     <ProjectReference Include="..\..\..\Msi\Service\Msi.Service.Abstractions\Msi.Service.Abstractions.csproj" />
     <ProjectReference Include="..\..\Permissions\Module.Permissions.Shared\Module.Permissions.Shared.csproj" />
     <ProjectReference Include="..\..\Tokens\Module.Tokens.Domain\Module.Tokens.Domain.csproj" />
-    <ProjectReference Include="..\Module.Users.Entities\Module.Users.Entities.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Accounts.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
   </ItemGroup>
 
 </Project>

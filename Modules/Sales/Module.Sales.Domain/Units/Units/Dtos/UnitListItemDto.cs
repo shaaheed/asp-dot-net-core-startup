@@ -20,15 +20,15 @@ namespace Module.Sales.Domain.Units
                 Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
-                Symbol = x.Symbol,
+                Symbol = x.Name,
                 Type = new GuidIdNameDto { Id = x.TypeId, Name = x.Type.Name },
                 BaseUnit = x.BaseUnitId != null ? new GuidCodeNameDto
                 {
                     Id = (Guid)x.BaseUnitId,
-                    Code = x.BaseUnit.Symbol,
+                    Code = x.BaseUnit.Name,
                     Name = x.BaseUnit.Name
                 } : null,
-                Factor = x.Factor,
+                Factor = x.ConvertionRate,
                 CreatedAt = x.CreatedAt
             };
         }

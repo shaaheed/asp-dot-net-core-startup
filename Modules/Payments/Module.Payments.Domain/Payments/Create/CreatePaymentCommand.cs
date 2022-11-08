@@ -1,10 +1,9 @@
 ﻿using Module.Payments.Entities;
 using Msi.Mediator.Abstractions;
-using System;
 
 namespace Module.Payments.Domain
 {
-    public class CreatePaymentCommand : ICreateCommand<Payment, Guid>
+    public class CreatePaymentCommand : ICreateCommand<Guid>
     {
         public string Number { get; set; }
 

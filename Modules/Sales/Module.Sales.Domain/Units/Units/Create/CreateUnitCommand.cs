@@ -20,10 +20,10 @@ namespace Module.Sales.Domain.Units
             entity.Name = Name;
             entity.Code = Code;
             entity.Description = Description;
-            entity.Symbol = Symbol;
+            entity.Name = Symbol;
             entity.TypeId = TypeId;
             entity.BaseUnitId = BaseUnitId;
-            entity.Factor = Factor;
+            entity.ConvertionRate = Factor;
             return entity;
         }
     }

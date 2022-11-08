@@ -1,6 +1,6 @@
 ﻿namespace Msi.Mediator.Abstractions
 {
-    public interface ISingleQuery<TEntity, TResponse> : IQuery<TResponse>
+    public interface ISingleQuery<TResponse> : IQuery<TResponse>
     {
     }
 }

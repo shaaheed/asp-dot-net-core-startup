@@ -1,7 +1,7 @@
 ﻿using Msi.Data.Entity;
 using System;
 
-namespace Module.Users.Entities
+namespace Module.Accounts.Entities
 {
     public class UserForgotPasswordToken : BaseEntity
     {

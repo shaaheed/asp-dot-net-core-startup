@@ -20,7 +20,7 @@ namespace Module.Sales.Domain.Products
 
         public async Task<bool> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var repo = _unitOfWork.GetRepository<Product>();
+            var repo = _unitOfWork.GetRepository<Item>();
             var productToBeDeleted = await repo.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (productToBeDeleted == null)
                 throw new NotFoundException("Product not found");

@@ -24,7 +24,7 @@ namespace Module.Sales.Domain.Products
             {
                 Id = x.Id,
                 Product = new IdNameDto<Guid?> { Id = x.ProductId, Name = x.Name },
-                Unit = x.UnitId != null ? new GuidIdNameDto { Id = x.UnitId.Value, Name = x.Unit.Symbol } : null,
+                Unit = x.UnitId != null ? new GuidIdNameDto { Id = x.UnitId.Value, Name = x.Unit.Name } : null,
                 UnitPrice = x.UnitPrice,
                 Quantity = x.Quantity,
                 Document = new IdNameDto<Guid?> { Id = x.DocumentId, Name = x.DocumentName },

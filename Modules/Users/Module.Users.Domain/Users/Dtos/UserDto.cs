@@ -1,8 +1,8 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using System;
 using System.Linq.Expressions;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UserDto
     {

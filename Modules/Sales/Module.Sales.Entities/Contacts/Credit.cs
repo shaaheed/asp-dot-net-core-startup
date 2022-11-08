@@ -1,6 +1,6 @@
 ﻿using Module.Payments.Entities;
 using Msi.Data.Entity;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -14,6 +14,7 @@ namespace Module.Sales.Entities
 
         public Guid? ReferenceId { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
 
     }

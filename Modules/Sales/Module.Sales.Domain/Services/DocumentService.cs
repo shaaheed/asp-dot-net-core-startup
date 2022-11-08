@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Module.Sales.Domain
 {
-    public abstract class DocumentService : IDocumentService
+    public class DocumentService : IDocumentService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;

@@ -1,5 +1,5 @@
 ﻿using Module.Systems.Entities;
-using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -16,7 +16,10 @@ namespace Module.Sales.Entities
         public Guid TypeId { get; set; }
         public virtual AccountType Type { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? OpeningBalance { get; set; }
+
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? CurrentBalance { get; set; }
 
         public DateTimeOffset? LastReconciledDate { get; set; }

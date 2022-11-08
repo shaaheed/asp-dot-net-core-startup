@@ -1,10 +1,10 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Mediator.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UpdateRoleCommandHandler : ICommandHandler<UpdateRoleCommand, long>
     {

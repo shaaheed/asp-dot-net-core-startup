@@ -9,6 +9,6 @@ namespace Module.Sales.Entities
         public virtual LineItem LineItem { get; set; }
 
         public Guid TaxId { get; set; }
-        public virtual Tax Tax { get; set; }
+        public virtual TaxCode Tax { get; set; }
     }
 }

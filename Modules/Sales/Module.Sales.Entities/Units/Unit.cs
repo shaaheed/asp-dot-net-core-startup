@@ -1,21 +1,26 @@
-﻿using Module.Systems.Entities;
-using System;
+﻿using Msi.Data.Entity;
 
 namespace Module.Sales.Entities
 {
     // Unit of Measurement
-    public class Unit : OrganizationCodeNameEntity
+    public class Unit : BaseEntity, IOrganizationEntity
     {
-        public string Symbol { get; set; }
+        public string Name { get; set; }
+        public string PluralName { get; set; }
+
+        public string Abbreviation { get; set; }
+        public string PluralAbbreviation { get; set; }
+
         public string Description { get; set; }
 
         public Guid TypeId { get; set; }
         public UnitType Type { get; set; }
 
-        public Guid? BaseUnitId { get; set; }
-        public Unit BaseUnit { get; set; }
+        public bool IsBaseUnit { get; set; }
 
-        // Convertion Factor
-        public float Factor { get; set; }
+        // Convertion Rate (Base)
+        public float ConvertionRate { get; set; }
+
+        public Guid? OrganizationId { get; set; }
     }
 }

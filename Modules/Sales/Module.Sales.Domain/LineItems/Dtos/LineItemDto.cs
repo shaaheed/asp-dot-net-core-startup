@@ -39,7 +39,7 @@ namespace Module.Sales.Domain
                 Unit = x.UnitId != null ? new GuidCodeNameDto
                 {
                     Id = x.UnitId.Value,
-                    Code = x.Unit.Symbol,
+                    Code = x.Unit.Name,
                     Name = x.Unit.Name
                 } : null,
                 AccountId = x.AccountId,

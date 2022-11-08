@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Systems\Module.Systems\Module.Systems.csproj" />
+    <ProjectReference Include="..\Module.Users.Domain\Module.Accounts.Domain.csproj" />
+    <ProjectReference Include="..\Module.Users.Entities\Module.Accounts.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

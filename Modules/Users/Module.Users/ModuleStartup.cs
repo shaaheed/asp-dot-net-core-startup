@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Msi.Web;
-using Msi.Mediator.Extensions.Microsoft.DependencyInjection;
-using Module.Users.Domain;
 
-namespace Module.User
+namespace Module.Accounts
 {
     public class ModuleStartup : IModuleStartup
     {

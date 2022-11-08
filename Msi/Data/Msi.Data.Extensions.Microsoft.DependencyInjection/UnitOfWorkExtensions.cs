@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Msi.Core;
 using Msi.Data.Abstractions;
-using System;
 
 namespace Msi.Data.Extensions.Microsoft.DependencyInjection
 {
@@ -18,7 +17,7 @@ namespace Msi.Data.Extensions.Microsoft.DependencyInjection
             var logger = provider.GetService<ILoggerFactory>().CreateLogger(typeof(UnitOfWorkExtensions));
 
             var accessor = provider.GetService<IHttpContextAccessor>();
-            UnitOfWorkAccessor.Initialize(() => accessor.HttpContext.RequestServices.GetService);
+            UnitOfWorkAccessor.AddServiceProvider(() => accessor.HttpContext.RequestServices);
 
             services.AddScoped<ServiceFactory>(x => x.GetService);
 
@@ -42,6 +41,7 @@ namespace Msi.Data.Extensions.Microsoft.DependencyInjection
                 var serviceType = typeof(IUnitOfWorkPipeline<>).MakeGenericType(arg);
                 services.Add(new ServiceDescriptor(serviceType, item, ServiceLifetime.Scoped));
             }
+
             return services;
         }
 

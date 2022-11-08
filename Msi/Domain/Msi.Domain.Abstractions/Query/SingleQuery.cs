@@ -1,6 +1,8 @@
-﻿namespace Msi.Domain.Abstractions
+﻿using Msi.Mediator.Abstractions;
+
+namespace Msi.Domain.Abstractions
 {
-    public abstract class SingleQuery<TEntity, TResponse> : Query<TResponse>
+    public abstract class SingleQuery<TEntity, TResponse> : ISingleQuery<TResponse>
     {
     }
 }

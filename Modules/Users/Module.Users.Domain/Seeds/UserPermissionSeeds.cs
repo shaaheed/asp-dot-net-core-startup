@@ -1,11 +1,10 @@
 ﻿using Module.Permissions.Entities;
-using System.Collections.Generic;
-using static Module.Users.Domain.PermissionIds;
-using static Module.Users.Domain.PermissionGroupIds;
+using static Module.Accounts.Domain.PermissionIds;
+using static Module.Accounts.Domain.PermissionGroupIds;
 using Module.Permissions.Shared;
 using Msi.Data.Entity;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UserPermissionSeeds : ISeed<Permission>
     {

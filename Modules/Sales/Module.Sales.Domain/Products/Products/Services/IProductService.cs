@@ -28,7 +28,7 @@ namespace Module.Sales.Domain
 
         //Task<int> AdjustInventoryByReference(string reference, InventoryAdjustmentType adjustmentType, Guid productId, float adjustedQuantity, CancellationToken cancellationToken = default);
 
-        Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Product, TViewModel>> selector, CancellationToken cancellationToken = default);
+        Task<TViewModel> GetProductAsReadOnly<TViewModel>(Guid productId, Expression<Func<Item, TViewModel>> selector, CancellationToken cancellationToken = default);
 
         Task<bool> IsProductExists(Guid? productId, CancellationToken cancellationToken = default);
 

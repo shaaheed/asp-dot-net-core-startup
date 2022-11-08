@@ -22,22 +22,22 @@ namespace Module.Sales.Domain.Products
 
         public async Task<long> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.GetRepository<Product>()
+            var entity = await _unitOfWork.GetRepository<Item>()
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
             if (entity != null)
             {
                 request.Map(entity);
-                await _unitOfWork.GetRepository<ProductCategory>()
+                await _unitOfWork.GetRepository<ItemCategory>()
                     .UpdateAsync(
                     request.Categories,
-                    x => x.ProductId == entity.Id,
+                    x => x.ItemId == entity.Id,
                     x => x.CategoryId,
-                    x => new ProductCategory
+                    x => new ItemCategory
                     {
-                        ProductId = entity.Id,
+                        ItemId = entity.Id,
                         CategoryId = x,
                     },
-                    ids => x => ids.Contains(x.CategoryId) && x.ProductId == entity.Id);
+                    ids => x => ids.Contains(x.CategoryId) && x.ItemId == entity.Id);
             }
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }

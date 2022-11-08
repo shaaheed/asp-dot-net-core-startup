@@ -2,18 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Msi.Data.Abstractions;
-using System;
 
 namespace Msi.Data.EntityFrameworkCore.SqlServer
 {
     public static class Extensions
     {
-
-        public static UnitOfWorkOptions UseSqlServer(this UnitOfWorkOptions options)
-        {
-            options.DataContextType = typeof(DataContext);
-            return options;
-        }
 
         public static IServiceCollection UseSqlServer(this IServiceCollection services)
         {

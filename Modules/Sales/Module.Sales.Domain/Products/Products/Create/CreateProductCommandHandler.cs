@@ -21,17 +21,17 @@ namespace Module.Sales.Domain.Products
         public async Task<long> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var entity = request.Map();
-            var repo = _unitOfWork.GetRepository<Product>();
+            var repo = _unitOfWork.GetRepository<Item>();
             await repo.AddAsync(entity, cancellationToken);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             if (request.Categories?.Count > 0 && result > 0)
             {
-                var categories = request.Categories.Select(x => new ProductCategory
+                var categories = request.Categories.Select(x => new ItemCategory
                 {
                     CategoryId = x,
-                    ProductId = entity.Id
+                    ItemId = entity.Id
                 });
-                await _unitOfWork.GetRepository<ProductCategory>().AddRangeAsync(categories, cancellationToken);
+                await _unitOfWork.GetRepository<ItemCategory>().AddRangeAsync(categories, cancellationToken);
                 result += await _unitOfWork.SaveChangesAsync(cancellationToken);
             }
             return result;

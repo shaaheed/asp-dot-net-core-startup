@@ -1,4 +1,4 @@
-﻿using Module.Users.Entities;
+﻿using Module.Accounts.Entities;
 using Msi.Mediator.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using Msi.Data.Abstractions;
 using System.Collections.Generic;
 using Msi.Utilities.Filter;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, PagedCollection<UserDto>>
     {

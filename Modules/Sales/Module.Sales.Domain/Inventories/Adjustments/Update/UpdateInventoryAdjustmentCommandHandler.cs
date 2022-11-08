@@ -44,7 +44,7 @@ namespace Module.Sales.Domain
                     QuantityAdjusted = x.Quantity
                 }, cancellationToken);
 
-            var productRepo = _unitOfWork.GetRepository<Product>();
+            var productRepo = _unitOfWork.GetRepository<Item>();
             foreach (var requestLineItem in request.LineItems)
             {
                 var requestProduct = await productRepo

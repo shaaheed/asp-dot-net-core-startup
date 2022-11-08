@@ -3,14 +3,11 @@ using Microsoft.Extensions.Options;
 using Msi.Core;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Msi.Data.EntityFrameworkCore
 {
     public abstract class DataContextBase : DbContext, IDataContext
     {
-
         public string ConnectionString { get; private set; }
         public string MigrationsAssembly { get; private set; }
 
@@ -33,13 +30,11 @@ namespace Msi.Data.EntityFrameworkCore
                 var ignored = item.CustomAttributes.Any(x => x.AttributeType == typeof(IgnoredEntityAttribute));
                 if(!ignored)
                 {
-                    //System.Console.WriteLine(item.ToString());
                     modelBuilder.Entity(item);
                 }
             }
 
             var seeds = Global.GetInstances<ISeed<IEntity>>().OrderBy(x => x.Order);
-
             foreach (var item in seeds)
             {
                 modelBuilder.AddSeeds(item);

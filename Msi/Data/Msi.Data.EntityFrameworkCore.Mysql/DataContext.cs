@@ -19,11 +19,11 @@ namespace Msi.Data.EntityFrameworkCore.MySql
 
             if (string.IsNullOrEmpty(MigrationsAssembly))
             {
-                optionsBuilder.UseMySql(ConnectionString);
+                optionsBuilder.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString));
             }
             else
             {
-                optionsBuilder.UseMySql(ConnectionString, options =>
+                optionsBuilder.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString),  options =>
                 {
                     options.MigrationsAssembly(MigrationsAssembly);
                 });

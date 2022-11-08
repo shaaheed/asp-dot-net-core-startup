@@ -50,9 +50,9 @@ namespace Module.Sales.Domain.Products
         public float? MinOrderQty { get; set; }
         public float? MaxOrderQty { get; set; }
 
-        public virtual Product Map(Product entity = null)
+        public virtual Item Map(Item entity = null)
         {
-            entity = entity ?? new Product();
+            entity = entity ?? new Item();
             entity.Barcode = Barcode;
             entity.Name = Name;
             entity.Code = Code;

@@ -22,8 +22,8 @@ namespace Module.Sales.Domain.Products
         public async Task<ProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
             var product = await _unitOfWork.GetAsync(x => x.Id == request.Id, ProductDto.Selector(), cancellationToken);
-            var categories = _unitOfWork.GetRepository<ProductCategory>()
-                .Where(x => x.ProductId == request.Id)
+            var categories = _unitOfWork.GetRepository<ItemCategory>()
+                .Where(x => x.ItemId == request.Id)
                 .Select(x => new GuidIdNameDto
                 {
                     Id = x.CategoryId,

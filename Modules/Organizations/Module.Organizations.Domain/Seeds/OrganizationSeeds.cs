@@ -1,7 +1,5 @@
 ﻿using Module.Organizations.Entities;
 using Msi.Data.Entity;
-using System;
-using System.Collections.Generic;
 
 namespace Module.Organizations.Domain
 {

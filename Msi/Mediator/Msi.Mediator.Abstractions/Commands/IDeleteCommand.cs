@@ -1,6 +1,6 @@
 ﻿namespace Msi.Mediator.Abstractions
 {
-    public interface IDeleteCommand<TEntity, TResponse> : ICommand<TResponse>
+    public interface IDeleteCommand<TResponse> : ICommand<TResponse>
     {
 
     }

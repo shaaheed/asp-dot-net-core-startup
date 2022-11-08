@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Module.Users.Domain
+namespace Module.Accounts.Domain
 {
     public class UpdateRoleCommand : CreateRoleCommand
     {

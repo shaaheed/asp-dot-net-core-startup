@@ -1,10 +1,8 @@
-﻿using Module.Sales.Entities;
-using Msi.Mediator.Abstractions;
-using System;
+﻿using Msi.Mediator.Abstractions;
 
 namespace Module.Sales.Domain.Units
 {
-    public class DeleteUnitTypeCommand : IDeleteCommand<UnitType, bool>
+    public class DeleteUnitTypeCommand : IDeleteCommand<bool>
     {
         public Guid Id { get; set; }
     }
