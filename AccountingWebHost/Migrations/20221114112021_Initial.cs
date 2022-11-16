@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AccountingWebHost.Migrations
 {
-    public partial class M1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,12 +36,13 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Approval",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ParentCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NextApproverId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -53,10 +54,30 @@ namespace AccountingWebHost.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Approval", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Category", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Category_Category_ParentCategoryId",
-                        column: x => x.ParentCategoryId,
+                        name: "FK_Category_Category_ParentId",
+                        column: x => x.ParentId,
                         principalTable: "Category",
                         principalColumn: "Id");
                 });
@@ -246,14 +267,14 @@ namespace AccountingWebHost.Migrations
                 name: "PermissionGroup",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -279,6 +300,25 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Person", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PriceLevel",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PriceLevel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -319,6 +359,45 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SalesOrder",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesOrder", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShippingDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    Unit = table.Column<byte>(type: "tinyint", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShippingDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SocialLinkType",
                 columns: table => new
                 {
@@ -334,30 +413,6 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SocialLinkType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tax",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rate = table.Column<float>(type: "real", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShowTaxNumberOnInvoice = table.Column<bool>(type: "bit", nullable: false),
-                    IsCompoundTax = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tax", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -377,6 +432,30 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaxGroup", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Term",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Option = table.Column<int>(type: "int", nullable: false),
+                    Days = table.Column<float>(type: "real", nullable: false),
+                    Discount = table.Column<float>(type: "real", nullable: true),
+                    DiscountExpires = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsPreferred = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Term", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -410,12 +489,29 @@ namespace AccountingWebHost.Migrations
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UnitType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Variant",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Variant", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -524,6 +620,7 @@ namespace AccountingWebHost.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ApprovalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -534,6 +631,11 @@ namespace AccountingWebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_Approval_ApprovalId",
+                        column: x => x.ApprovalId,
+                        principalTable: "Approval",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Order_Currency_CurrencyId",
                         column: x => x.CurrencyId,
@@ -609,7 +711,6 @@ namespace AccountingWebHost.Migrations
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GroupId = table.Column<long>(type: "bigint", nullable: false),
-                    GroupId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<long>(type: "bigint", nullable: false),
                     UpdatedBy = table.Column<long>(type: "bigint", nullable: false),
@@ -620,10 +721,11 @@ namespace AccountingWebHost.Migrations
                 {
                     table.PrimaryKey("PK_Permission", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Permission_PermissionGroup_GroupId1",
-                        column: x => x.GroupId1,
+                        name: "FK_Permission_PermissionGroup_GroupId",
+                        column: x => x.GroupId,
                         principalTable: "PermissionGroup",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -677,57 +779,26 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GroupTax",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GroupTax", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GroupTax_Tax_TaxId",
-                        column: x => x.TaxId,
-                        principalTable: "Tax",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GroupTax_TaxGroup_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "TaxGroup",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Unit",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PluralName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BaseUnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Factor = table.Column<float>(type: "real", nullable: false),
+                    IsBaseUnit = table.Column<bool>(type: "bit", nullable: false),
+                    ConvertionRate = table.Column<float>(type: "real", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Unit", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Unit_Unit_BaseUnitId",
-                        column: x => x.BaseUnitId,
-                        principalTable: "Unit",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Unit_UnitType_TypeId",
                         column: x => x.TypeId,
@@ -737,14 +808,41 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VariantOption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VariantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariantOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VariantOption_Variant_VariantId",
+                        column: x => x.VariantId,
+                        principalTable: "Variant",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InventoryAdjustment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AdjustmentDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Memo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -758,6 +856,45 @@ namespace AccountingWebHost.Migrations
                     table.ForeignKey(
                         name: "FK_InventoryAdjustment_Account_AccountId",
                         column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaxCode",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Rate = table.Column<float>(type: "real", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EffectiveFrom = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ValidUntil = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    PurchaseTaxAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SalesTaxAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AvailableOn = table.Column<int>(type: "int", nullable: false),
+                    ShowTaxNumberOnInvoice = table.Column<bool>(type: "bit", nullable: false),
+                    IsCompoundTax = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxCode", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TaxCode_Account_PurchaseTaxAccountId",
+                        column: x => x.PurchaseTaxAccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TaxCode_Account_SalesTaxAccountId",
+                        column: x => x.SalesTaxAccountId,
                         principalTable: "Account",
                         principalColumn: "Id");
                 });
@@ -853,6 +990,31 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GroupTax",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupTax", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GroupTax_TaxCode_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "TaxCode",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupTax_TaxGroup_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "TaxGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
                 {
@@ -867,6 +1029,9 @@ namespace AccountingWebHost.Migrations
                     AddressLine5 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Latitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WebLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DistrictId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StateOrProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CountryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -992,6 +1157,39 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Location",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DocumentNumberPrefix = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransactionNumberPrefix = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Location_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Location_Location_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Organization",
                 columns: table => new
                 {
@@ -1091,31 +1289,6 @@ namespace AccountingWebHost.Migrations
                         column: x => x.LanguageId,
                         principalTable: "Language",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Warehouse",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VendorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AddressId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Warehouse", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Warehouse_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1234,80 +1407,6 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsSale = table.Column<bool>(type: "bit", nullable: false),
-                    SalesPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
-                    SalesDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MRP = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
-                    SalesUnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SalesAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsPurchase = table.Column<bool>(type: "bit", nullable: false),
-                    PurchasePrice = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
-                    PurchaseDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PurchaseUnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PurchaseAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsInventory = table.Column<bool>(type: "bit", nullable: false),
-                    InitialStockQuantity = table.Column<float>(type: "real", nullable: false),
-                    StockQuantity = table.Column<float>(type: "real", nullable: false),
-                    LowStockQuantity = table.Column<float>(type: "real", nullable: false),
-                    InventoryAccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    SupportStartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    SupportEndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    MinOrderQty = table.Column<float>(type: "real", nullable: true),
-                    MaxOrderQty = table.Column<float>(type: "real", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Product_Account_InventoryAccountId",
-                        column: x => x.InventoryAccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_Account_PurchaseAccountId",
-                        column: x => x.PurchaseAccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_Account_SalesAccountId",
-                        column: x => x.SalesAccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_Contact_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "Contact",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_Unit_PurchaseUnitId",
-                        column: x => x.PurchaseUnitId,
-                        principalTable: "Unit",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Product_Unit_SalesUnitId",
-                        column: x => x.SalesUnitId,
-                        principalTable: "Unit",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Quote",
                 columns: table => new
                 {
@@ -1354,6 +1453,147 @@ namespace AccountingWebHost.Migrations
                         name: "FK_Quote_Currency_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currency",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StockQuantity = table.Column<float>(type: "real", nullable: false),
+                    LowStockQuantity = table.Column<float>(type: "real", nullable: false),
+                    ReorderPoint = table.Column<float>(type: "real", nullable: true),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsSellOutOfStock = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InventoryDetails_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryDetails_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryDetails_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaseDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AverageCost = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    Cost = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    LastPurchasePrice = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    TotalValue = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPriceTaxInclusive = table.Column<bool>(type: "bit", nullable: false),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_Contact_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Contact",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_TaxCode_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "TaxCode",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PurchaseDetails_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaleDetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AveragePrice = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    MRP = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsPriceTaxInclusive = table.Column<bool>(type: "bit", nullable: false),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_TaxCode_TaxId",
+                        column: x => x.TaxId,
+                        principalTable: "TaxCode",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SaleDetails_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
                         principalColumn: "Id");
                 });
 
@@ -1438,167 +1678,6 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LineItem",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LineType = table.Column<byte>(type: "tinyint", nullable: false),
-                    TransactionType = table.Column<byte>(type: "tinyint", nullable: false),
-                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    DiscountType = table.Column<byte>(type: "tinyint", nullable: true),
-                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Subtotal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    TotalTaxAmount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    Quantity = table.Column<float>(type: "real", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LineItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LineItem_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_LineItem_Contact_ContactId",
-                        column: x => x.ContactId,
-                        principalTable: "Contact",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_LineItem_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_LineItem_Unit_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Unit",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductCategory",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCategory", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductCategory_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductCategory_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductPurchaseTax",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductPurchaseTax", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductPurchaseTax_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductPurchaseTax_Tax_TaxId",
-                        column: x => x.TaxId,
-                        principalTable: "Tax",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductSalesTax",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaxId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductSalesTax", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductSalesTax_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductSalesTax_Tax_TaxId",
-                        column: x => x.TaxId,
-                        principalTable: "Tax",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stock",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WarehouseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ReservedQuantity = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stock", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stock_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Stock_Warehouse_WarehouseId",
-                        column: x => x.WarehouseId,
-                        principalTable: "Warehouse",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Invoice",
                 columns: table => new
                 {
@@ -1663,6 +1742,372 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Item",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Barcode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
+                    SubType = table.Column<byte>(type: "tinyint", nullable: true),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UnitTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsSale = table.Column<bool>(type: "bit", nullable: false),
+                    IsReturnable = table.Column<bool>(type: "bit", nullable: false),
+                    SaleDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsPurchase = table.Column<bool>(type: "bit", nullable: false),
+                    PurchaseDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsInventory = table.Column<bool>(type: "bit", nullable: false),
+                    InventoryDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsShip = table.Column<bool>(type: "bit", nullable: false),
+                    ShippingDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationCount = table.Column<int>(type: "int", nullable: true),
+                    VariationCount = table.Column<int>(type: "int", nullable: true),
+                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    SupportStartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    SupportEndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    MinOrderQty = table.Column<float>(type: "real", nullable: true),
+                    MaxOrderQty = table.Column<float>(type: "real", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Item", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Item_InventoryDetails_InventoryDetailsId",
+                        column: x => x.InventoryDetailsId,
+                        principalTable: "InventoryDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_Item_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Item",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_PurchaseDetails_PurchaseDetailsId",
+                        column: x => x.PurchaseDetailsId,
+                        principalTable: "PurchaseDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_SaleDetails_SaleDetailsId",
+                        column: x => x.SaleDetailsId,
+                        principalTable: "SaleDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_ShippingDetails_ShippingDetailsId",
+                        column: x => x.ShippingDetailsId,
+                        principalTable: "ShippingDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Item_UnitType_UnitTypeId",
+                        column: x => x.UnitTypeId,
+                        principalTable: "UnitType",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InvoicePayment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoicePayment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InvoicePayment_Invoice_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoice",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InvoicePayment_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemCategory",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemCategory_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemCategory_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemPrice",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PricingLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemPrice", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemPrice_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemPrice_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemPrice_PriceLevel_PricingLevelId",
+                        column: x => x.PricingLevelId,
+                        principalTable: "PriceLevel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemSupplier",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Memo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Preferred = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemSupplier", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemSupplier_Contact_SupplierId",
+                        column: x => x.SupplierId,
+                        principalTable: "Contact",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemSupplier_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemVariant",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VariantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemVariant", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemVariant_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemVariant_Variant_VariantId",
+                        column: x => x.VariantId,
+                        principalTable: "Variant",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LineItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DocumentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DocumentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LineType = table.Column<byte>(type: "tinyint", nullable: false),
+                    TransactionType = table.Column<byte>(type: "tinyint", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    DiscountType = table.Column<byte>(type: "tinyint", nullable: true),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Subtotal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TotalTaxAmount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Quantity = table.Column<float>(type: "real", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LineItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LineItem_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LineItem_Contact_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contact",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LineItem_Item_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Item",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LineItem_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemSupplierPrice",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Memo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemSupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemSupplierPrice", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemSupplierPrice_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ItemSupplierPrice_ItemSupplier_ItemSupplierId",
+                        column: x => x.ItemSupplierId,
+                        principalTable: "ItemSupplier",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemVariantOption",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemVariantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    VariantOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SaleDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PurchaseDetailsId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemVariantOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ItemVariantOption_ItemVariant_ItemVariantId",
+                        column: x => x.ItemVariantId,
+                        principalTable: "ItemVariant",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ItemVariantOption_PurchaseDetails_PurchaseDetailsId",
+                        column: x => x.PurchaseDetailsId,
+                        principalTable: "PurchaseDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ItemVariantOption_SaleDetails_SaleDetailsId",
+                        column: x => x.SaleDetailsId,
+                        principalTable: "SaleDetails",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ItemVariantOption_VariantOption_VariantOptionId",
+                        column: x => x.VariantOptionId,
+                        principalTable: "VariantOption",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LineItemTax",
                 columns: table => new
                 {
@@ -1685,9 +2130,9 @@ namespace AccountingWebHost.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LineItemTax_Tax_TaxId",
+                        name: "FK_LineItemTax_TaxCode_TaxId",
                         column: x => x.TaxId,
-                        principalTable: "Tax",
+                        principalTable: "TaxCode",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1743,28 +2188,153 @@ namespace AccountingWebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoicePayment",
+                name: "Inventory",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Memo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DefaultReturnCost = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    Value = table.Column<float>(type: "real", nullable: true),
+                    QuantityOnHand = table.Column<float>(type: "real", nullable: true),
+                    QuantityCommitted = table.Column<float>(type: "real", nullable: true),
+                    QuantityAvailable = table.Column<float>(type: "real", nullable: true),
+                    QuantityOnOrder = table.Column<float>(type: "real", nullable: true),
+                    QuantityInTransit = table.Column<float>(type: "real", nullable: true),
+                    QuantityBackOrdered = table.Column<float>(type: "real", nullable: true),
+                    QuantityCommittedToOrderReservation = table.Column<float>(type: "real", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StockNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemVariantOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ExpirationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ManufacturingDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoicePayment", x => x.Id);
+                    table.PrimaryKey("PK_Inventory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InvoicePayment_Invoice_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoice",
+                        name: "FK_Inventory_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Inventory_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InvoicePayment_Payment_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payment",
+                        name: "FK_Inventory_ItemVariantOption_ItemVariantOptionId",
+                        column: x => x.ItemVariantOptionId,
+                        principalTable: "ItemVariantOption",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Inventory_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Inventory_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryEntry",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Quantity = table.Column<float>(type: "real", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StockNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ItemVariantOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ExpirationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ManufacturingDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryEntry", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_Account_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_Inventory_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventory",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_Item_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Item",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_ItemVariantOption_ItemVariantOptionId",
+                        column: x => x.ItemVariantOptionId,
+                        principalTable: "ItemVariantOption",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_Location_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Location",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryEntry_Unit_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Unit",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryAdjustmentEntry",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InventoryAdjustmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    InventoryEntryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    OrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryAdjustmentEntry", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InventoryAdjustmentEntry_InventoryAdjustment_InventoryAdjustmentId",
+                        column: x => x.InventoryAdjustmentId,
+                        principalTable: "InventoryAdjustment",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_InventoryAdjustmentEntry_InventoryEntry_InventoryEntryId",
+                        column: x => x.InventoryEntryId,
+                        principalTable: "InventoryEntry",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -1838,9 +2408,9 @@ namespace AccountingWebHost.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Category_ParentCategoryId",
+                name: "IX_Category_ParentId",
                 table: "Category",
-                column: "ParentCategoryId");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contact_BillingAddressId",
@@ -1923,9 +2493,89 @@ namespace AccountingWebHost.Migrations
                 column: "TaxId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Inventory_AccountId",
+                table: "Inventory",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventory_ItemId",
+                table: "Inventory",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventory_ItemVariantOptionId",
+                table: "Inventory",
+                column: "ItemVariantOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventory_LocationId",
+                table: "Inventory",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inventory_UnitId",
+                table: "Inventory",
+                column: "UnitId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InventoryAdjustment_AccountId",
                 table: "InventoryAdjustment",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryAdjustmentEntry_InventoryAdjustmentId",
+                table: "InventoryAdjustmentEntry",
+                column: "InventoryAdjustmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryAdjustmentEntry_InventoryEntryId",
+                table: "InventoryAdjustmentEntry",
+                column: "InventoryEntryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryDetails_AccountId",
+                table: "InventoryDetails",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryDetails_LocationId",
+                table: "InventoryDetails",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryDetails_UnitId",
+                table: "InventoryDetails",
+                column: "UnitId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_AccountId",
+                table: "InventoryEntry",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_InventoryId",
+                table: "InventoryEntry",
+                column: "InventoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_ItemId",
+                table: "InventoryEntry",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_ItemVariantOptionId",
+                table: "InventoryEntry",
+                column: "ItemVariantOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_LocationId",
+                table: "InventoryEntry",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InventoryEntry_UnitId",
+                table: "InventoryEntry",
+                column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoice_AccountId",
@@ -1963,6 +2613,122 @@ namespace AccountingWebHost.Migrations
                 column: "PaymentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Item_InventoryDetailsId",
+                table: "Item",
+                column: "InventoryDetailsId",
+                unique: true,
+                filter: "[InventoryDetailsId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_LocationId",
+                table: "Item",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_ParentId",
+                table: "Item",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_PurchaseDetailsId",
+                table: "Item",
+                column: "PurchaseDetailsId",
+                unique: true,
+                filter: "[PurchaseDetailsId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_SaleDetailsId",
+                table: "Item",
+                column: "SaleDetailsId",
+                unique: true,
+                filter: "[SaleDetailsId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_ShippingDetailsId",
+                table: "Item",
+                column: "ShippingDetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Item_UnitTypeId",
+                table: "Item",
+                column: "UnitTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemCategory_CategoryId",
+                table: "ItemCategory",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemCategory_ItemId",
+                table: "ItemCategory",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemPrice_CurrencyId",
+                table: "ItemPrice",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemPrice_ItemId",
+                table: "ItemPrice",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemPrice_PricingLevelId",
+                table: "ItemPrice",
+                column: "PricingLevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemSupplier_ItemId",
+                table: "ItemSupplier",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemSupplier_SupplierId",
+                table: "ItemSupplier",
+                column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemSupplierPrice_CurrencyId",
+                table: "ItemSupplierPrice",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemSupplierPrice_ItemSupplierId",
+                table: "ItemSupplierPrice",
+                column: "ItemSupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariant_ItemId",
+                table: "ItemVariant",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariant_VariantId",
+                table: "ItemVariant",
+                column: "VariantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariantOption_ItemVariantId",
+                table: "ItemVariantOption",
+                column: "ItemVariantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariantOption_PurchaseDetailsId",
+                table: "ItemVariantOption",
+                column: "PurchaseDetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariantOption_SaleDetailsId",
+                table: "ItemVariantOption",
+                column: "SaleDetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemVariantOption_VariantOptionId",
+                table: "ItemVariantOption",
+                column: "VariantOptionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LineItem_AccountId",
                 table: "LineItem",
                 column: "AccountId");
@@ -1991,6 +2757,21 @@ namespace AccountingWebHost.Migrations
                 name: "IX_LineItemTax_TaxId",
                 table: "LineItemTax",
                 column: "TaxId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_AddressId",
+                table: "Location",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Location_ParentId",
+                table: "Location",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_ApprovalId",
+                table: "Order",
+                column: "ApprovalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_CurrencyId",
@@ -2038,69 +2819,34 @@ namespace AccountingWebHost.Migrations
                 column: "ProviderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permission_GroupId1",
+                name: "IX_Permission_GroupId",
                 table: "Permission",
-                column: "GroupId1");
+                column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_InventoryAccountId",
-                table: "Product",
-                column: "InventoryAccountId");
+                name: "IX_PurchaseDetails_AccountId",
+                table: "PurchaseDetails",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_PurchaseAccountId",
-                table: "Product",
-                column: "PurchaseAccountId");
+                name: "IX_PurchaseDetails_LocationId",
+                table: "PurchaseDetails",
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_PurchaseUnitId",
-                table: "Product",
-                column: "PurchaseUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_SalesAccountId",
-                table: "Product",
-                column: "SalesAccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_SalesUnitId",
-                table: "Product",
-                column: "SalesUnitId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_SupplierId",
-                table: "Product",
+                name: "IX_PurchaseDetails_SupplierId",
+                table: "PurchaseDetails",
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_CategoryId",
-                table: "ProductCategory",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_ProductId",
-                table: "ProductCategory",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPurchaseTax_ProductId",
-                table: "ProductPurchaseTax",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPurchaseTax_TaxId",
-                table: "ProductPurchaseTax",
+                name: "IX_PurchaseDetails_TaxId",
+                table: "PurchaseDetails",
                 column: "TaxId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSalesTax_ProductId",
-                table: "ProductSalesTax",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductSalesTax_TaxId",
-                table: "ProductSalesTax",
-                column: "TaxId");
+                name: "IX_PurchaseDetails_UnitId",
+                table: "PurchaseDetails",
+                column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quote_AccountId",
@@ -2143,6 +2889,26 @@ namespace AccountingWebHost.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SaleDetails_AccountId",
+                table: "SaleDetails",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleDetails_LocationId",
+                table: "SaleDetails",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleDetails_TaxId",
+                table: "SaleDetails",
+                column: "TaxId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleDetails_UnitId",
+                table: "SaleDetails",
+                column: "UnitId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SocialLink_LinkTypeId",
                 table: "SocialLink",
                 column: "LinkTypeId");
@@ -2153,24 +2919,19 @@ namespace AccountingWebHost.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stock_ProductId",
-                table: "Stock",
-                column: "ProductId");
+                name: "IX_TaxCode_PurchaseTaxAccountId",
+                table: "TaxCode",
+                column: "PurchaseTaxAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stock_WarehouseId",
-                table: "Stock",
-                column: "WarehouseId");
+                name: "IX_TaxCode_SalesTaxAccountId",
+                table: "TaxCode",
+                column: "SalesTaxAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Token_RefreshTokenId",
                 table: "Token",
                 column: "RefreshTokenId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Unit_BaseUnitId",
-                table: "Unit",
-                column: "BaseUnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Unit_TypeId",
@@ -2213,9 +2974,9 @@ namespace AccountingWebHost.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Warehouse_AddressId",
-                table: "Warehouse",
-                column: "AddressId");
+                name: "IX_VariantOption_VariantId",
+                table: "VariantOption",
+                column: "VariantId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -2242,10 +3003,19 @@ namespace AccountingWebHost.Migrations
                 name: "GroupTax");
 
             migrationBuilder.DropTable(
-                name: "InventoryAdjustment");
+                name: "InventoryAdjustmentEntry");
 
             migrationBuilder.DropTable(
                 name: "InvoicePayment");
+
+            migrationBuilder.DropTable(
+                name: "ItemCategory");
+
+            migrationBuilder.DropTable(
+                name: "ItemPrice");
+
+            migrationBuilder.DropTable(
+                name: "ItemSupplierPrice");
 
             migrationBuilder.DropTable(
                 name: "KeyValue");
@@ -2269,25 +3039,19 @@ namespace AccountingWebHost.Migrations
                 name: "PaymentDocument");
 
             migrationBuilder.DropTable(
-                name: "ProductCategory");
-
-            migrationBuilder.DropTable(
-                name: "ProductPurchaseTax");
-
-            migrationBuilder.DropTable(
-                name: "ProductSalesTax");
-
-            migrationBuilder.DropTable(
                 name: "QuoteLineItem");
 
             migrationBuilder.DropTable(
                 name: "RolePermission");
 
             migrationBuilder.DropTable(
+                name: "SalesOrder");
+
+            migrationBuilder.DropTable(
                 name: "SocialLink");
 
             migrationBuilder.DropTable(
-                name: "Stock");
+                name: "Term");
 
             migrationBuilder.DropTable(
                 name: "Token");
@@ -2308,22 +3072,31 @@ namespace AccountingWebHost.Migrations
                 name: "TaxGroup");
 
             migrationBuilder.DropTable(
+                name: "InventoryAdjustment");
+
+            migrationBuilder.DropTable(
+                name: "InventoryEntry");
+
+            migrationBuilder.DropTable(
                 name: "Invoice");
 
             migrationBuilder.DropTable(
                 name: "Payment");
 
             migrationBuilder.DropTable(
+                name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "PriceLevel");
+
+            migrationBuilder.DropTable(
+                name: "ItemSupplier");
+
+            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
                 name: "OrganizationType");
-
-            migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
-                name: "Tax");
 
             migrationBuilder.DropTable(
                 name: "LineItem");
@@ -2335,9 +3108,6 @@ namespace AccountingWebHost.Migrations
                 name: "SocialLinkType");
 
             migrationBuilder.DropTable(
-                name: "Warehouse");
-
-            migrationBuilder.DropTable(
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
@@ -2347,34 +3117,61 @@ namespace AccountingWebHost.Migrations
                 name: "User");
 
             migrationBuilder.DropTable(
+                name: "Inventory");
+
+            migrationBuilder.DropTable(
                 name: "Quote");
 
             migrationBuilder.DropTable(
                 name: "PaymentMethod");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Approval");
 
             migrationBuilder.DropTable(
                 name: "PermissionGroup");
 
             migrationBuilder.DropTable(
+                name: "ItemVariantOption");
+
+            migrationBuilder.DropTable(
                 name: "PaymentProvider");
 
             migrationBuilder.DropTable(
-                name: "Account");
+                name: "ItemVariant");
+
+            migrationBuilder.DropTable(
+                name: "VariantOption");
+
+            migrationBuilder.DropTable(
+                name: "Item");
+
+            migrationBuilder.DropTable(
+                name: "Variant");
+
+            migrationBuilder.DropTable(
+                name: "InventoryDetails");
+
+            migrationBuilder.DropTable(
+                name: "PurchaseDetails");
+
+            migrationBuilder.DropTable(
+                name: "SaleDetails");
+
+            migrationBuilder.DropTable(
+                name: "ShippingDetails");
 
             migrationBuilder.DropTable(
                 name: "Contact");
 
             migrationBuilder.DropTable(
+                name: "Location");
+
+            migrationBuilder.DropTable(
+                name: "TaxCode");
+
+            migrationBuilder.DropTable(
                 name: "Unit");
-
-            migrationBuilder.DropTable(
-                name: "AccountType");
-
-            migrationBuilder.DropTable(
-                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Currency");
@@ -2386,10 +3183,19 @@ namespace AccountingWebHost.Migrations
                 name: "Person");
 
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
+                name: "Account");
+
+            migrationBuilder.DropTable(
                 name: "UnitType");
 
             migrationBuilder.DropTable(
                 name: "District");
+
+            migrationBuilder.DropTable(
+                name: "AccountType");
 
             migrationBuilder.DropTable(
                 name: "StateOrProvince");

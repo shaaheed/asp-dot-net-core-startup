@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Routes } from '@angular/router';
 import { Filter } from 'src/app/shared/filter/filter';
 import { Column } from 'src/app/shared/table2/column.service';
@@ -40,7 +40,7 @@ export const CONTACT_CONFIG = {
                         }
                     }
                 },
-                onSetFormValues: (data: any, form: FormGroup) => {
+                onSetFormValues: (data: any, form: UntypedFormGroup) => {
                     if (data?.billingAddress) {
                         form.controls.address.setValue(data.billingAddress.addressLine1);
                     }

@@ -1,5 +1,6 @@
 ﻿using Module.Sales.Entities;
 using Msi.Mediator.Abstractions;
+using System;
 
 namespace Module.Sales.Domain.Products
 {
@@ -14,7 +15,7 @@ namespace Module.Sales.Domain.Products
         {
             entity = entity ?? new Category();
             entity.Name = Name;
-            entity.Code = Code;
+            // TODO entity.Code = Code;
             entity.Description = Description;
             return entity;
         }

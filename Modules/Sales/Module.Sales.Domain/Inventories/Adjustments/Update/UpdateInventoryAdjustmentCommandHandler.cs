@@ -51,7 +51,7 @@ namespace Module.Sales.Domain
                     .FirstOrDefaultAsyncAsReadOnly(x => x.Id == requestLineItem.ProductId && !x.IsDeleted, x => new
                     {
                         Id = x.Id,
-                        StockQuantity = x.StockQuantity
+                        // TODO StockQuantity = x.StockQuantity
                     }, cancellationToken);
 
                 if (requestProduct == null)
@@ -65,16 +65,16 @@ namespace Module.Sales.Domain
                     if (_item != null)
                         throw new ValidationException($"{_item.ProductName} is already added.");
 
-                    float newStock = requestProduct.StockQuantity + requestLineItem.Quantity;
+                    /*float newStock = requestProduct.StockQuantity + requestLineItem.Quantity;
 
                     if (newStock < 0)
-                        throw new ValidationException("Negative quantity is allowed.");
+                        throw new ValidationException("Negative quantity is allowed.");*/
 
                     var newAdjustmentLine = requestLineItem.Map(request.Id);
                     await lineItemRepo.AddAsync(newAdjustmentLine);
 
                     // adjust product stock
-                    await _productService.UpdateStockQuantity(requestLineItem.ProductId, newStock);
+                    // TODO await _productService.UpdateStockQuantity(requestLineItem.ProductId, newStock);
                 }
                 else
                 {

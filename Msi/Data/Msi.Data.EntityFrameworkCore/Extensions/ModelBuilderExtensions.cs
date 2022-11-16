@@ -130,19 +130,27 @@ using Msi.Data.Entity;
 public static class ModelBuilderExtensions
 {
 
+    public static List<string> seedTracking = new List<string>();
+
     public static void AddSeeds(this ModelBuilder modelBuilder, ISeed<IEntity> seed)
     {
-        var interfaces = seed.GetType().GetInterfaces();
-        if (interfaces.Count() > 0)
+        var seedType = seed.GetType();
+        var typeStr = seedType.ToString();
+        if (!seedTracking.Contains(typeStr))
         {
-            var args = interfaces[0].GetGenericArguments();
-            if (args.Count() > 0)
+            seedTracking.Add(typeStr);
+            var interfaces = seed.GetType().GetInterfaces();
+            if (interfaces.Count() > 0)
             {
-                var type = args[0];
-                Console.Write("****** ");
-                Console.Write(type.ToString());
-                Console.Write(" ****** \n");
-                modelBuilder.Entity(type).HasData(seed.GetSeeds());
+                var args = interfaces[0].GetGenericArguments();
+                if (args.Count() > 0)
+                {
+                    var type = args[0];
+                    Console.Write("****** ");
+                    Console.Write(type.ToString());
+                    Console.Write(" ****** \n");
+                    modelBuilder.Entity(type).HasData(seed.GetSeeds().ToArray());
+                }
             }
         }
     }

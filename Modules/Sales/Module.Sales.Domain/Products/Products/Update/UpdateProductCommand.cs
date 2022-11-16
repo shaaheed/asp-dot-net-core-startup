@@ -59,24 +59,24 @@ namespace Module.Sales.Domain.Products
             entity.Description = Description;
 
             entity.IsSale = IsSale;
-            entity.SalesPrice = SalesPrice;
+            /*entity.SalesPrice = SalesPrice;
             entity.MRP = MRP;
             entity.SalesDescription = SalesDescription;
             entity.SalesUnitId = SalesUnitId;
-            entity.SalesAccountId = SalesAccountId;
+            entity.SalesAccountId = SalesAccountId;*/
 
             entity.IsPurchase = IsPurchase;
-            entity.PurchasePrice = PurchasePrice;
+            /*entity.PurchasePrice = PurchasePrice;
             entity.PurchaseDescription = PurchaseDescription;
             entity.PurchaseUnitId = PurchaseUnitId;
-            entity.PurchaseAccountId = PurchaseAccountId;
+            entity.PurchaseAccountId = PurchaseAccountId;*/
 
             entity.IsInventory = IsInventory;
-            entity.InitialStockQuantity = InitialStockQuantity;
+            /*entity.InitialStockQuantity = InitialStockQuantity;
             entity.StockQuantity = StockQuantity;
             entity.LowStockQuantity = LowStockQuantity;
             entity.InventoryAccountId = InventoryAccountId;
-            entity.SupplierId = SupplierId;
+            entity.SupplierId = SupplierId;*/
 
             entity.StartDate = StartDate;
             entity.EndDate = EndDate;

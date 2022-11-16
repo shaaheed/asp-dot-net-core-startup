@@ -4,15 +4,8 @@ using System;
 namespace Module.Permissions.Entities
 {
     // [Table(nameof(PermissionGroup), Schema = SchemaConstants.Core)]
-    public class PermissionGroup : NameEntity
+    public class PermissionGroup : BaseEntity<long>, INameEntity
     {
-        public PermissionGroup() : base()
-        {
-
-        }
-
-        public PermissionGroup(Guid id, string name) : base(id, name)
-        {
-        }
+        public string Name { get; set; }
     }
 }

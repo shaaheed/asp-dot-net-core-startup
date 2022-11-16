@@ -20,16 +20,16 @@ namespace Module.Sales.Domain.Units
             {
                 Id = x.Id,
                 Name = x.Name,
-                Code = x.Code,
+                // TODO Code = x.Code,
                 Description = x.Description,
                 Symbol = x.Name,
                 Type = new GuidIdNameDto { Id = x.TypeId, Name = x.Type.Name },
-                BaseUnit = x.BaseUnitId != null ? new GuidCodeNameDto
+                /*BaseUnit = x.BaseUnitId != null ? new GuidCodeNameDto
                 {
                     Id = (Guid)x.BaseUnitId,
                     Code = x.BaseUnit.Name,
                     Name = x.BaseUnit.Name
-                } : null,
+                } : null,*/
                 Factor = x.ConvertionRate,
                 CreatedAt = x.CreatedAt
             };

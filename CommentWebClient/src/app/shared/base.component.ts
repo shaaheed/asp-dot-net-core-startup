@@ -10,7 +10,7 @@ import { invoke, forEachObj } from 'src/services/utilities.service';
 import { environment } from 'src/environments/environment';
 import { PermissionService } from 'src/services/permission.service';
 import { Directive } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { AppInjector } from '../app/app.component';
 
 // TODO: Add Angular decorator.
@@ -159,7 +159,7 @@ export class BaseComponent {
     }
 
     setControlValue(control, value) {
-        if (control && control instanceof FormControl) {
+        if (control && control instanceof UntypedFormControl) {
             control.setValue(value);
         }
     }

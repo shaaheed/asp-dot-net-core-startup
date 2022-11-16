@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ControlConfig } from './control.config';
 
 export interface FormPageConfig {
@@ -8,7 +8,7 @@ export interface FormPageConfig {
     rows?: FormRowConfig[];
     controls?: ControlConfig[];
     onBeforeSubmit?: (data?: any) => void;
-    onSetFormValues?: (data?: any, form?: FormGroup, mode?: any) => void;
+    onSetFormValues?: (data?: any, form?: UntypedFormGroup, mode?: any) => void;
 }
 
 export interface FormColumnConfig {

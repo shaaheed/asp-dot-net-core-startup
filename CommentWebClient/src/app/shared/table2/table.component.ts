@@ -305,7 +305,7 @@ export class TableComponent extends BaseComponent {
         this.load(_fn);
       }
     });
-    this._subscriptions.push(...[s, s2]);
+    // TODO: this._subscriptions.push(...[s, s2]);
   }
 
   add() {

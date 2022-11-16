@@ -1,0 +1,89 @@
+.box .invoice-head .left .form-item {
+    padding: 0 !important;
+}
+
+.invoice-head {
+    .left {
+        width: 250px;
+        .add-customer {
+            .ant-select-dropdown-menu-item-selected {
+                font-weight: normal;
+            }
+            .select-customer-btn {
+                display: flex;
+                justify-content: center;
+            }
+            .select-customer-container {
+                width: 100%;
+            }
+        }
+    }
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    .field-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 0;
+        nz-form-item {
+            margin-bottom: 0;
+            width: 150px;
+        }
+        label {
+            font-weight: normal;
+            padding-right: 10px;
+        }
+    }
+}
+
+.invoice-items {
+    .ant-form-item {
+        margin-bottom: 0;
+    }
+}
+
+.add-customer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: inset 0 0 0 1px #e3e8ee;
+    border-radius: 5px;
+    height: 100%;
+    >i {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+}
+
+.invoice-customer-option {
+    font-weight: normal;
+}
+
+.option-container {
+    display: flex;
+    justify-content: space-between;
+    .right {
+        text-align: right;
+    }
+}
+
+.product-global {
+    max-width: 40%;
+    .ant-input-affix-wrapper {
+        & > input.ant-input {
+            background: none;
+            line-height: 25px;
+        }
+    }
+    input:focus,
+    input:hover {
+        border: none !important;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+        box-shadow: none !important;
+    }
+}

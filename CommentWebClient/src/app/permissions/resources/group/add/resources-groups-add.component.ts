@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormControl } from '@angular/forms';
 import { PermissionsHttpService } from 'src/services/http/permissions-http.service';
 
 @Component({
@@ -9,14 +9,14 @@ import { PermissionsHttpService } from 'src/services/http/permissions-http.servi
 })
 export class ResourcesGroupsAddComponent {
 
-  validateForm: FormGroup;
+  validateForm: UntypedFormGroup;
   name: string = "";
   resources: any[] = [];
   selectedResources: any[];
   loading = true;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private permissionService: PermissionsHttpService
   ) { }
 
@@ -86,7 +86,7 @@ export class ResourcesGroupsAddComponent {
   }
 
   private addControl(name) {
-    this.validateForm.addControl(name, new FormControl())
+    this.validateForm.addControl(name, new UntypedFormControl())
   }
 
   private getResourceControlName(resource) {

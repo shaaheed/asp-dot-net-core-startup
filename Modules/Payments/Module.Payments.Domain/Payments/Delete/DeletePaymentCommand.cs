@@ -1,4 +1,5 @@
 ﻿using Msi.Mediator.Abstractions;
+using System;
 
 namespace Module.Payments.Domain
 {

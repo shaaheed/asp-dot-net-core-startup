@@ -2,6 +2,6 @@
 {
     public interface IDeleteCommand<TResponse> : ICommand<TResponse>
     {
-
+        public Guid Id { get; set; }
     }
 }

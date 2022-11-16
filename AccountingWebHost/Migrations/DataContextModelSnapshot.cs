@@ -22,6 +22,249 @@ namespace AccountingWebHost.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Module.Accounts.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("Module.Accounts.Entities.RolePermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("PermissionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermission");
+                });
+
+            modelBuilder.Entity("Module.Accounts.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Contact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CountryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LanguageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Module.Accounts.Entities.UserForgotPasswordToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserForgotPasswordToken");
+                });
+
+            modelBuilder.Entity("Module.Accounts.Entities.UserRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
             modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
                 {
                     b.Property<Guid>("Id")
@@ -350,9 +593,6 @@ namespace AccountingWebHost.Migrations
                     b.Property<long>("GroupId")
                         .HasColumnType("bigint");
 
-                    b.Property<Guid?>("GroupId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -367,25 +607,24 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId1");
+                    b.HasIndex("GroupId");
 
                     b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Module.Permissions.Entities.PermissionGroup", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -396,8 +635,8 @@ namespace AccountingWebHost.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -511,6 +750,50 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("ParentAccountTypeId");
 
                     b.ToTable("AccountType");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.Approval", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("NextApproverId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Approval");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
@@ -632,9 +915,6 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -653,7 +933,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ParentCategoryId")
+                    b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -664,7 +944,7 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCategoryId");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Category");
                 });
@@ -864,6 +1144,99 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("GroupTax");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Inventory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("DefaultReturnCost")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTimeOffset?>("ExpirationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ItemVariantOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ManufacturingDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Memo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("QuantityAvailable")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityBackOrdered")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityCommitted")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityCommittedToOrderReservation")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityInTransit")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityOnHand")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("QuantityOnOrder")
+                        .HasColumnType("real");
+
+                    b.Property<string>("StockNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UnitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("Value")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemVariantOptionId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("Inventory");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -873,14 +1246,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("AdjustmentDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -888,11 +1261,17 @@ namespace AccountingWebHost.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Memo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Reason")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -905,6 +1284,181 @@ namespace AccountingWebHost.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("InventoryAdjustment");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InventoryAdjustmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("InventoryEntryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryAdjustmentId");
+
+                    b.HasIndex("InventoryEntryId");
+
+                    b.ToTable("InventoryAdjustmentEntry");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSellOutOfStock")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("LowStockQuantity")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("ReorderPoint")
+                        .HasColumnType("real");
+
+                    b.Property<float>("StockQuantity")
+                        .HasColumnType("real");
+
+                    b.Property<Guid?>("UnitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("InventoryDetails");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ExpirationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("InventoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ItemVariantOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("ManufacturingDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<string>("StockNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid?>("UnitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("InventoryId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ItemVariantOptionId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("InventoryEntry");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -1033,6 +1587,403 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("InvoicePayment");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Item", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("EndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("InventoryDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsInventory")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPurchase")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReturnable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSale")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsShip")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LocationCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float?>("MaxOrderQty")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("MinOrderQty")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PurchaseDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SaleDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ShippingDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte?>("SubType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTimeOffset?>("SupportEndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("SupportStartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid?>("UnitTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("VariationCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryDetailsId")
+                        .IsUnique()
+                        .HasFilter("[InventoryDetailsId] IS NOT NULL");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("PurchaseDetailsId")
+                        .IsUnique()
+                        .HasFilter("[PurchaseDetailsId] IS NOT NULL");
+
+                    b.HasIndex("SaleDetailsId")
+                        .IsUnique()
+                        .HasFilter("[SaleDetailsId] IS NOT NULL");
+
+                    b.HasIndex("ShippingDetailsId");
+
+                    b.HasIndex("UnitTypeId");
+
+                    b.ToTable("Item");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemCategory");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("PricingLevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PricingLevelId");
+
+                    b.ToTable("ItemPrice");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemSupplier", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Memo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Preferred")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("SupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("ItemSupplier");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemSupplierPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemSupplierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Memo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("ItemSupplierId");
+
+                    b.ToTable("ItemSupplierPrice");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemVariant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VariantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("VariantId");
+
+                    b.ToTable("ItemVariant");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemVariantOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ItemVariantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PurchaseDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SaleDetailsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VariantOptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemVariantId");
+
+                    b.HasIndex("PurchaseDetailsId");
+
+                    b.HasIndex("SaleDetailsId");
+
+                    b.HasIndex("VariantOptionId");
+
+                    b.ToTable("ItemVariantOption");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.LineItem", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1157,6 +2108,54 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("LineItemTax");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DocumentNumberPrefix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TransactionNumberPrefix")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Location");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Manufacturer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1198,6 +2197,9 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ApprovalId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1230,6 +2232,8 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApprovalId");
+
                     b.HasIndex("CurrencyId");
 
                     b.ToTable("Order");
@@ -1256,17 +2260,55 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("OrderLineItem");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Product", b =>
+            modelBuilder.Entity("Module.Sales.Entities.PriceLevel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Barcode")
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PriceLevel");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.PurchaseDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("AverageCost")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal?>("Cost")
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1277,83 +2319,35 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("EndDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<float>("InitialStockQuantity")
-                        .HasColumnType("real");
-
-                    b.Property<Guid?>("InventoryAccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsInventory")
+                    b.Property<bool>("IsPriceTaxInclusive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPurchase")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsSale")
-                        .HasColumnType("bit");
-
-                    b.Property<float>("LowStockQuantity")
-                        .HasColumnType("real");
-
-                    b.Property<decimal?>("MRP")
+                    b.Property<decimal?>("LastPurchasePrice")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<float?>("MaxOrderQty")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("MinOrderQty")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PurchaseAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PurchaseDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("PurchasePrice")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<Guid?>("PurchaseUnitId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SalesAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SalesDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("SalesPrice")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<Guid?>("SalesUnitId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("StartDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<float>("StockQuantity")
-                        .HasColumnType("real");
-
                     b.Property<Guid?>("SupplierId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("SupportEndDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<Guid?>("TaxId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("SupportStartDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<decimal?>("TotalValue")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid?>("UnitId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1363,82 +2357,17 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InventoryAccountId");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("PurchaseAccountId");
-
-                    b.HasIndex("PurchaseUnitId");
-
-                    b.HasIndex("SalesAccountId");
-
-                    b.HasIndex("SalesUnitId");
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductCategory");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductPurchaseTax", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TaxId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("TaxId");
 
-                    b.ToTable("ProductPurchaseTax");
-                });
+                    b.HasIndex("UnitId");
 
-            modelBuilder.Entity("Module.Sales.Entities.ProductSalesTax", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TaxId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("TaxId");
-
-                    b.ToTable("ProductSalesTax");
+                    b.ToTable("PurchaseDetails");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
@@ -1538,11 +2467,17 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("QuoteLineItem");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Stock", b =>
+            modelBuilder.Entity("Module.Sales.Entities.SaleDetails", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("AveragePrice")
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1550,17 +2485,35 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<bool>("IsPriceTaxInclusive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ReservedQuantity")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("MRP")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid?>("TaxId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UnitId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1568,19 +2521,20 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("WarehouseId");
+                    b.HasIndex("LocationId");
 
-                    b.ToTable("Stock");
+                    b.HasIndex("TaxId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("SaleDetails");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Tax", b =>
+            modelBuilder.Entity("Module.Sales.Entities.SalesOrder", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1595,8 +2549,87 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SalesOrder");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ShippingDetails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte?>("Unit")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingDetails");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.TaxCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AvailableOn")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("EffectiveFrom")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsCompoundTax")
                         .HasColumnType("bit");
@@ -1610,8 +2643,14 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PurchaseTaxAccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("Rate")
                         .HasColumnType("real");
+
+                    b.Property<Guid?>("SalesTaxAccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("ShowTaxNumberOnInvoice")
                         .HasColumnType("bit");
@@ -1625,9 +2664,16 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTimeOffset?>("ValidUntil")
+                        .HasColumnType("datetimeoffset");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Tax");
+                    b.HasIndex("PurchaseTaxAccountId");
+
+                    b.HasIndex("SalesTaxAccountId");
+
+                    b.ToTable("TaxCode");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.TaxGroup", b =>
@@ -1663,6 +2709,56 @@ namespace AccountingWebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaxGroup");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.Term", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Days")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("Discount")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("DiscountExpires")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPreferred")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Option")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Term");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Transaction", b =>
@@ -1709,11 +2805,8 @@ namespace AccountingWebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BaseUnitId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("ConvertionRate")
+                        .HasColumnType("real");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1724,8 +2817,8 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Factor")
-                        .HasColumnType("real");
+                    b.Property<bool>("IsBaseUnit")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1736,7 +2829,7 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid?>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Symbol")
+                    b.Property<string>("PluralName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TypeId")
@@ -1750,8 +2843,6 @@ namespace AccountingWebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BaseUnitId");
-
                     b.HasIndex("TypeId");
 
                     b.ToTable("Unit");
@@ -1762,9 +2853,6 @@ namespace AccountingWebHost.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1792,13 +2880,10 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("UnitType");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Warehouse", b =>
+            modelBuilder.Entity("Module.Sales.Entities.Variant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CreatedAt")
@@ -1813,20 +2898,55 @@ namespace AccountingWebHost.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("VendorId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Variant");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.VariantOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VariantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("VariantId");
 
-                    b.ToTable("Warehouse");
+                    b.ToTable("VariantOption");
                 });
 
             modelBuilder.Entity("Module.Systems.Entities.Address", b =>
@@ -1874,6 +2994,12 @@ namespace AccountingWebHost.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Latitude")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Longitude")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -1885,6 +3011,9 @@ namespace AccountingWebHost.Migrations
 
                     b.Property<Guid>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WebLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
@@ -2466,247 +3595,80 @@ namespace AccountingWebHost.Migrations
                     b.ToTable("Token");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.Role", b =>
+            modelBuilder.Entity("Module.Accounts.Entities.RolePermission", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Module.Permissions.Entities.Permission", "Permission")
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("Module.Accounts.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Navigation("Permission");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.RolePermission", b =>
+            modelBuilder.Entity("Module.Accounts.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Module.Systems.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.HasOne("Module.Systems.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.HasOne("Module.Systems.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId");
 
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint");
+                    b.Navigation("Address");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Navigation("Country");
 
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Navigation("Currency");
 
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PermissionId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RolePermission");
+                    b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.User", b =>
+            modelBuilder.Entity("Module.Accounts.Entities.UserForgotPasswordToken", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Module.Accounts.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Contact")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CountryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CurrencyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Fax")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("LanguageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Mobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("OrganizationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Website")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("User");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.UserForgotPasswordToken", b =>
+            modelBuilder.Entity("Module.Accounts.Entities.UserRole", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Module.Accounts.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.HasOne("Module.Accounts.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Navigation("Role");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserForgotPasswordToken");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserRole", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<long>("CreatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<long>("UpdatedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRole");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Module.Organizations.Entities.Branch", b =>
@@ -2779,7 +3741,9 @@ namespace AccountingWebHost.Migrations
                 {
                     b.HasOne("Module.Permissions.Entities.PermissionGroup", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupId1");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Group");
                 });
@@ -2852,11 +3816,11 @@ namespace AccountingWebHost.Migrations
 
             modelBuilder.Entity("Module.Sales.Entities.Category", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.Category", "ParentCategory")
+                    b.HasOne("Module.Sales.Entities.Category", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("ParentId");
 
-                    b.Navigation("ParentCategory");
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Contact", b =>
@@ -2936,7 +3900,7 @@ namespace AccountingWebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Module.Sales.Entities.Tax", "Tax")
+                    b.HasOne("Module.Sales.Entities.TaxCode", "Tax")
                         .WithMany()
                         .HasForeignKey("TaxId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2947,6 +3911,41 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Tax");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Inventory", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.ItemVariantOption", "ItemVariantOption")
+                        .WithMany()
+                        .HasForeignKey("ItemVariantOptionId");
+
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("Module.Sales.Entities.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("ItemVariantOption");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Unit");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustment", b =>
                 {
                     b.HasOne("Module.Sales.Entities.Account", "Account")
@@ -2954,6 +3953,83 @@ namespace AccountingWebHost.Migrations
                         .HasForeignKey("AccountId");
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryAdjustmentEntry", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.InventoryAdjustment", "InventoryAdjustment")
+                        .WithMany()
+                        .HasForeignKey("InventoryAdjustmentId");
+
+                    b.HasOne("Module.Sales.Entities.InventoryEntry", "InventoryEntry")
+                        .WithMany()
+                        .HasForeignKey("InventoryEntryId");
+
+                    b.Navigation("InventoryAdjustment");
+
+                    b.Navigation("InventoryEntry");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryDetails", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("Module.Sales.Entities.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryEntry", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Module.Sales.Entities.Inventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId");
+
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.ItemVariantOption", "ItemVariantOption")
+                        .WithMany()
+                        .HasForeignKey("ItemVariantOptionId");
+
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("Module.Sales.Entities.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Inventory");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("ItemVariantOption");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -3008,6 +4084,179 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Payment");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Item", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.InventoryDetails", "InventoryDetails")
+                        .WithOne("Item")
+                        .HasForeignKey("Module.Sales.Entities.Item", "InventoryDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("Module.Sales.Entities.Item", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("Module.Sales.Entities.PurchaseDetails", "PurchaseDetails")
+                        .WithOne("Item")
+                        .HasForeignKey("Module.Sales.Entities.Item", "PurchaseDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.SaleDetails", "SaleDetails")
+                        .WithOne("Item")
+                        .HasForeignKey("Module.Sales.Entities.Item", "SaleDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.ShippingDetails", "ShippingDetails")
+                        .WithMany()
+                        .HasForeignKey("ShippingDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.UnitType", "UnitType")
+                        .WithMany()
+                        .HasForeignKey("UnitTypeId");
+
+                    b.Navigation("InventoryDetails");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("PurchaseDetails");
+
+                    b.Navigation("SaleDetails");
+
+                    b.Navigation("ShippingDetails");
+
+                    b.Navigation("UnitType");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemCategory", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemPrice", b =>
+                {
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.PriceLevel", "PricingLevel")
+                        .WithMany()
+                        .HasForeignKey("PricingLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("PricingLevel");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemSupplier", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Contact", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemSupplierPrice", b =>
+                {
+                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.HasOne("Module.Sales.Entities.ItemSupplier", "ItemSupplier")
+                        .WithMany()
+                        .HasForeignKey("ItemSupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("ItemSupplier");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemVariant", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Variant", "Variant")
+                        .WithMany()
+                        .HasForeignKey("VariantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Variant");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.ItemVariantOption", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.ItemVariant", "ItemVariant")
+                        .WithMany()
+                        .HasForeignKey("ItemVariantId");
+
+                    b.HasOne("Module.Sales.Entities.PurchaseDetails", "PurchaseDetails")
+                        .WithMany()
+                        .HasForeignKey("PurchaseDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.SaleDetails", "SaleDetails")
+                        .WithMany()
+                        .HasForeignKey("SaleDetailsId");
+
+                    b.HasOne("Module.Sales.Entities.VariantOption", "VariantOption")
+                        .WithMany()
+                        .HasForeignKey("VariantOptionId");
+
+                    b.Navigation("ItemVariant");
+
+                    b.Navigation("PurchaseDetails");
+
+                    b.Navigation("SaleDetails");
+
+                    b.Navigation("VariantOption");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.LineItem", b =>
                 {
                     b.HasOne("Module.Sales.Entities.Account", "Account")
@@ -3018,7 +4267,7 @@ namespace AccountingWebHost.Migrations
                         .WithMany()
                         .HasForeignKey("ContactId");
 
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
+                    b.HasOne("Module.Sales.Entities.Item", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
 
@@ -3043,7 +4292,7 @@ namespace AccountingWebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Module.Sales.Entities.Tax", "Tax")
+                    b.HasOne("Module.Sales.Entities.TaxCode", "Tax")
                         .WithMany()
                         .HasForeignKey("TaxId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -3054,11 +4303,34 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Tax");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.Location", b =>
+                {
+                    b.HasOne("Module.Systems.Entities.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Module.Sales.Entities.Location", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Order", b =>
                 {
+                    b.HasOne("Module.Sales.Entities.Approval", "Approval")
+                        .WithMany()
+                        .HasForeignKey("ApprovalId");
+
                     b.HasOne("Module.Systems.Entities.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId");
+
+                    b.Navigation("Approval");
 
                     b.Navigation("Currency");
                 });
@@ -3082,100 +4354,37 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Product", b =>
+            modelBuilder.Entity("Module.Sales.Entities.PurchaseDetails", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.Account", "InventoryAccount")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("InventoryAccountId");
+                        .HasForeignKey("AccountId");
 
-                    b.HasOne("Module.Sales.Entities.Account", "PurchaseAccount")
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("PurchaseAccountId");
-
-                    b.HasOne("Module.Sales.Entities.Unit", "PurchaseUnit")
-                        .WithMany()
-                        .HasForeignKey("PurchaseUnitId");
-
-                    b.HasOne("Module.Sales.Entities.Account", "SalesAccount")
-                        .WithMany()
-                        .HasForeignKey("SalesAccountId");
-
-                    b.HasOne("Module.Sales.Entities.Unit", "SalesUnit")
-                        .WithMany()
-                        .HasForeignKey("SalesUnitId");
+                        .HasForeignKey("LocationId");
 
                     b.HasOne("Module.Sales.Entities.Contact", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId");
 
-                    b.Navigation("InventoryAccount");
+                    b.HasOne("Module.Sales.Entities.TaxCode", "Tax")
+                        .WithMany()
+                        .HasForeignKey("TaxId");
 
-                    b.Navigation("PurchaseAccount");
+                    b.HasOne("Module.Sales.Entities.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
 
-                    b.Navigation("PurchaseUnit");
+                    b.Navigation("Account");
 
-                    b.Navigation("SalesAccount");
-
-                    b.Navigation("SalesUnit");
+                    b.Navigation("Location");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductCategory", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Module.Sales.Entities.ProductPurchaseTax", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.Tax", "Tax")
-                        .WithMany()
-                        .HasForeignKey("TaxId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
 
                     b.Navigation("Tax");
-                });
 
-            modelBuilder.Entity("Module.Sales.Entities.ProductSalesTax", b =>
-                {
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Sales.Entities.Tax", "Tax")
-                        .WithMany()
-                        .HasForeignKey("TaxId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Tax");
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
@@ -3224,51 +4433,68 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("Quote");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Stock", b =>
+            modelBuilder.Entity("Module.Sales.Entities.SaleDetails", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.Product", "Product")
+                    b.HasOne("Module.Sales.Entities.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId");
 
-                    b.HasOne("Module.Sales.Entities.Warehouse", "Warehouse")
+                    b.HasOne("Module.Sales.Entities.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("Product");
+                    b.HasOne("Module.Sales.Entities.TaxCode", "Tax")
+                        .WithMany()
+                        .HasForeignKey("TaxId");
 
-                    b.Navigation("Warehouse");
+                    b.HasOne("Module.Sales.Entities.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId");
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Tax");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.TaxCode", b =>
+                {
+                    b.HasOne("Module.Sales.Entities.Account", "PurchaseTaxAccount")
+                        .WithMany()
+                        .HasForeignKey("PurchaseTaxAccountId");
+
+                    b.HasOne("Module.Sales.Entities.Account", "SalesTaxAccount")
+                        .WithMany()
+                        .HasForeignKey("SalesTaxAccountId");
+
+                    b.Navigation("PurchaseTaxAccount");
+
+                    b.Navigation("SalesTaxAccount");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Unit", b =>
                 {
-                    b.HasOne("Module.Sales.Entities.Unit", "BaseUnit")
-                        .WithMany()
-                        .HasForeignKey("BaseUnitId");
-
                     b.HasOne("Module.Sales.Entities.UnitType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("BaseUnit");
-
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Module.Sales.Entities.Warehouse", b =>
+            modelBuilder.Entity("Module.Sales.Entities.VariantOption", b =>
                 {
-                    b.HasOne("Module.Systems.Entities.Address", "Address")
+                    b.HasOne("Module.Sales.Entities.Variant", "Variant")
                         .WithMany()
-                        .HasForeignKey("AddressId")
+                        .HasForeignKey("VariantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.Navigation("Variant");
                 });
 
             modelBuilder.Entity("Module.Systems.Entities.Address", b =>
@@ -3374,85 +4600,14 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("RefreshToken");
                 });
 
-            modelBuilder.Entity("Module.Users.Entities.RolePermission", b =>
-                {
-                    b.HasOne("Module.Permissions.Entities.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.User", b =>
-                {
-                    b.HasOne("Module.Systems.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("Module.Systems.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId");
-
-                    b.HasOne("Module.Systems.Entities.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId");
-
-                    b.HasOne("Module.Systems.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId");
-
-                    b.Navigation("Address");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Currency");
-
-                    b.Navigation("Language");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserForgotPasswordToken", b =>
-                {
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Module.Users.Entities.UserRole", b =>
-                {
-                    b.HasOne("Module.Users.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Module.Users.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Module.Sales.Entities.Bill", b =>
                 {
                     b.Navigation("BillPayments");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.InventoryDetails", b =>
+                {
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Module.Sales.Entities.Invoice", b =>
@@ -3465,9 +4620,19 @@ namespace AccountingWebHost.Migrations
                     b.Navigation("LineItemTaxes");
                 });
 
+            modelBuilder.Entity("Module.Sales.Entities.PurchaseDetails", b =>
+                {
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("Module.Sales.Entities.Quote", b =>
                 {
                     b.Navigation("QuoteLineItems");
+                });
+
+            modelBuilder.Entity("Module.Sales.Entities.SaleDetails", b =>
+                {
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Module.Systems.Entities.Country", b =>

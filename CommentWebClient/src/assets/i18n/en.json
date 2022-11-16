@@ -178,7 +178,7 @@
   "number:": "Number :",
   "adjustment": "Adjustment",
   "add.payment.for.x0.x1": "Add payment for {{x0}} #{{x1}}",
-  "conversion.factor": "Conversion factor",
+  "conversion.rate": "Conversion rate",
   "back": "Back",
   "owner": "Owner",
   "currency": "Currency",
@@ -199,5 +199,9 @@
   "enter.key": "Enter key",
   "balance": "Balance",
   "add.bulk.x0": "Add Bulk {{x0}}",
-  "add.x0.header": "Add {{x0}} Header"
+  "add.x0.header": "Add {{x0}} Header",
+  "x0.name": "{{x0}} name",
+  "base.unit": "Base unit",
+  "price.levels": "Price levels",
+  "terms": "Terms"
 }

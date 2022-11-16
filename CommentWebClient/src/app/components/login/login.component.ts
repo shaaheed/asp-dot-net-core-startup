@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/services/auth.service';
 import { HttpService } from 'src/services/http/http.service';
 
@@ -19,10 +19,10 @@ export class LoginComponent {
   mode: string = 'add';
   tableHeader = {}
 
-  validateForm: FormGroup;
+  validateForm: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private authService: AuthService,
     private httpService: HttpService
   ) { }

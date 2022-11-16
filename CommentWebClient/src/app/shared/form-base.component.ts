@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, AbstractControlOptions } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, AbstractControlOptions } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BaseComponent } from './base.component';
 import { forEachObj } from 'src/services/utilities.service';
@@ -14,7 +14,7 @@ export class FormBaseComponent extends BaseComponent {
 
     mode: string = "none";
     submitButtonText: string = "";
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     id: number;
     submitting: boolean = false;
     loading: boolean = false;
@@ -31,11 +31,11 @@ export class FormBaseComponent extends BaseComponent {
     onCreate: () => Observable<Object>;
     onFail: (err: any) => void;
     onSuccess: (data: any) => void;
-    onSetFormValues: (data?: any, form?: FormGroup, mode?: any) => void;
+    onSetFormValues: (data?: any, form?: UntypedFormGroup, mode?: any) => void;
     onBeforeSubmit: (data?: any) => void;
     onGetData?: (data?: any) => void;
 
-    fb: FormBuilder;
+    fb: UntypedFormBuilder;
     location: Location;
     modalInstance: NzModalComponent;
     private static ADD = "add";
@@ -43,7 +43,7 @@ export class FormBaseComponent extends BaseComponent {
 
     constructor() {
         super();
-        this.fb = AppInjector.get(FormBuilder);
+        this.fb = AppInjector.get(UntypedFormBuilder);
         this.location = AppInjector.get(Location);
     }
 

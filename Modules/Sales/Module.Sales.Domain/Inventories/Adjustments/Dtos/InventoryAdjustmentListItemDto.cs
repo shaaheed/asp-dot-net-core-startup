@@ -18,7 +18,7 @@ namespace Module.Sales.Domain
             return x => new InventoryAdjustmentListItemDto
             {
                 Id = x.Id,
-                AdjustmentDate = x.AdjustmentDate,
+                AdjustmentDate = x.Date,
                 Reason = x.Reason,
                 //Status = x.Type.ToString(),
                 CreatedAt = x.CreatedAt

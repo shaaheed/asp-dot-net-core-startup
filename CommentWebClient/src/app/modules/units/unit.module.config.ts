@@ -1,12 +1,8 @@
 import { Routes } from '@angular/router';
-import { HttpService } from 'src/services/http/http.service';
-import { Control } from 'src/services/control.service';
 import { Column } from 'src/app/shared/table2/column.service';
 import { Route } from 'src/services/route.service';
-import { AppInjector } from 'src/app/app/app.component';
 
 const prefix = 'units';
-const symbol = 'symbol';
 
 export const UNIT_MODULE_CONFIG = {
     ROUTES: <Routes>[
@@ -19,16 +15,9 @@ export const UNIT_MODULE_CONFIG = {
                 Column.created()
             ]
         }),
-        ...Route.addEdit(prefix, {
-            objectName: 'unit',
-            controls: [
-                Control.namex(),
-                Control.input(symbol, symbol, true),
-                Control.select('typeId', 'type', true, accessor => accessor.register((pagination, search) => AppInjector.get(HttpService).get('units/types'))),
-                Control.select('baseUnitId', 'parent.unit', false, accessor => accessor.register((pagination, search) => AppInjector.get(HttpService).get('units'))),
-                Control.number('factor', 'conversion.factor'),
-                Control.description()
-            ]
-        })
+        ...[
+            { path: `${prefix}/create`, loadChildren: () => import('./add/units-add.module').then(x => x.UnitsAddModule) },
+            { path: `${prefix}/:id/edit`, loadChildren: () => import('./add/units-add.module').then(x => x.UnitsAddModule) }
+        ]
     ]
 }

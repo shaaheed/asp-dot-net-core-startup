@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Copyright (c) Sahidul Islam. All Rights Reserved.
+// Author: https://github.com/shaaheed
 
 namespace Msi.Data.Entity
 {
@@ -6,7 +7,6 @@ namespace Msi.Data.Entity
     public class NameEntity : BaseEntity, INameEntity
     {
         public string Name { get; set; }
-        public string Description { get; set; }
 
         public NameEntity()
         {

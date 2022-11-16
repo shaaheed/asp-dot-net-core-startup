@@ -2,6 +2,7 @@
 
 namespace Module.Sales.Entities
 {
+    // Item quantity is reduced when create an invoice
     public class Invoice : InvoiceDocument
     {
         // If invoice amount is $110 and customer pays $120 as Cash then $10 must be return amount.

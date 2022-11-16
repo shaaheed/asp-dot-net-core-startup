@@ -26,11 +26,11 @@ namespace Module.Sales.Domain.Products
                 Code = x.Code,
 
                 IsSale = x.IsSale,
-                SalesPrice = x.SalesPrice,
+                /*SalesPrice = x.SalesPrice,
 
                 SalesUnit = x.SalesUnitId != null ? new GuidCodeNameDto { Id = (Guid)x.SalesUnitId, Code = x.SalesUnit.Symbol, Name = x.SalesUnit.Name } : null,
 
-                StockQuantity = x.StockQuantity,
+                StockQuantity = x.StockQuantity,*/
                 CreatedAt = x.CreatedAt
             };
         }

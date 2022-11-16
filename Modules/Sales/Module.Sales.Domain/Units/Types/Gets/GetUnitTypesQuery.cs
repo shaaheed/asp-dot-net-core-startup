@@ -3,7 +3,7 @@ using Msi.Utilities.Filter;
 
 namespace Module.Sales.Domain.Units
 {
-    public class GetUnitTypesQuery : Query<PagedCollection<UnitTypeDto>>
+    public class GetUnitTypesQuery : Query<PagedCollection<UnitTypeListItemDto>>
     {
     }
 }

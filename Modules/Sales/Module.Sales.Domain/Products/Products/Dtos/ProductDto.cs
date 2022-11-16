@@ -59,7 +59,7 @@ namespace Module.Sales.Domain.Products
                 Description = x.Description,
 
                 IsSale = x.IsSale,
-                SalesPrice = x.SalesPrice,
+                /*SalesPrice = x.SalesPrice,
                 MRP = x.MRP,
                 SalesDescription = x.SalesDescription,
                 SalesUnit = x.SalesUnit != null ? new GuidIdNameDto
@@ -72,10 +72,10 @@ namespace Module.Sales.Domain.Products
                     Id = (Guid)x.SalesAccountId,
                     Name = x.SalesAccount.Name,
                     Code = x.SalesAccount.Code
-                } : null,
+                } : null,*/
 
                 IsPurchase = x.IsPurchase,
-                PurchasePrice = x.PurchasePrice,
+                /*PurchasePrice = x.PurchasePrice,
                 PurchaseDescription = x.PurchaseDescription,
                 PurchaseUnit = x.PurchaseUnit != null ? new GuidIdNameDto
                 {
@@ -92,10 +92,10 @@ namespace Module.Sales.Domain.Products
                 {
                     Id = (Guid)x.SupplierId,
                     Name = x.Supplier.DisplayName
-                } : null,
+                } : null,*/
 
                 IsInventory = x.IsInventory,
-                InitialStockQuantity = x.InitialStockQuantity,
+                /*InitialStockQuantity = x.InitialStockQuantity,
                 StockQuantity = x.StockQuantity,
                 LowStockQuantity = x.LowStockQuantity,
                 InventoryAccount = x.InventoryAccount != null ? new GuidCodeNameDto
@@ -103,7 +103,7 @@ namespace Module.Sales.Domain.Products
                     Id = (Guid)x.InventoryAccountId,
                     Name = x.InventoryAccount.Name,
                     Code = x.InventoryAccount.Code
-                } : null,
+                } : null,*/
 
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,

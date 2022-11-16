@@ -23,7 +23,7 @@ namespace Module.Sales.Domain
             {
                 Id = x.Id,
                 Account = x.AccountId != null ? new GuidCodeNameDto { } : null,
-                AdjustmentDate = x.AdjustmentDate,
+                AdjustmentDate = x.Date,
                 Description = x.Description,
                 Reason = x.Reason
             };

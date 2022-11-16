@@ -331,7 +331,7 @@ namespace Module.Sales.Domain
             command.CustomerId = document.ContactId;
             command.CustomerName = document.Contact.DisplayName;
 
-            if (command.CurrencyId == null)
+            if (!command.CurrencyId.HasValue)
             {
                 command.CurrencyId = document.CurrencyId;
                 command.CurrencyExchangeRate = document.CurrencyExchangeRate;
@@ -357,7 +357,7 @@ namespace Module.Sales.Domain
             command.CustomerId = document.ContactId;
             command.CustomerName = document.Contact.DisplayName;
 
-            if (command.CurrencyId == null)
+            if (!command.CurrencyId.HasValue)
             {
                 command.CurrencyId = document.CurrencyId;
                 command.CurrencyExchangeRate = document.CurrencyExchangeRate;

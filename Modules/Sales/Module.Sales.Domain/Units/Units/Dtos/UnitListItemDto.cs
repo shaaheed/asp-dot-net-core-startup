@@ -5,12 +5,11 @@ using System.Linq.Expressions;
 
 namespace Module.Sales.Domain.Units
 {
-    public class UnitListItemDto : GuidCodeNameDto
+    public class UnitListItemDto : GuidIdNameDto
     {
-        public string Symbol { get; set; }
         public GuidIdNameDto Type { get; set; }
-        public GuidCodeNameDto BaseUnit { get; set; }
-        public float Factor { get; set; }
+        public bool IsBaseUnit { get; set; }
+        public float ConversionRate { get; set; }
         public DateTimeOffset? CreatedAt { get; set; }
 
         public static Expression<Func<Unit, UnitListItemDto>> Selector()
@@ -19,16 +18,9 @@ namespace Module.Sales.Domain.Units
             {
                 Id = x.Id,
                 Name = x.Name,
-                Code = x.Code,
-                Symbol = x.Name,
                 Type = new GuidIdNameDto { Id = x.TypeId, Name = x.Type.Name },
-                BaseUnit = x.BaseUnitId != null ? new GuidCodeNameDto
-                {
-                    Id = (Guid)x.BaseUnitId,
-                    Code = x.BaseUnit.Name,
-                    Name = x.BaseUnit.Name
-                } : null,
-                Factor = x.ConvertionRate,
+                IsBaseUnit = x.IsBaseUnit,
+                ConversionRate = x.ConvertionRate,
                 CreatedAt = x.CreatedAt
             };
         }

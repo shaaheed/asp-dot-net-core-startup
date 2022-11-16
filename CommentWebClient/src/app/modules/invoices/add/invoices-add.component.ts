@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormArray, AbstractControl } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { beep, forEachObj } from 'src/services/utilities.service';
@@ -180,7 +180,7 @@ export class InvoicesAddComponent extends FormComponent {
     this.searchProducts(searchTerm, items => autocomplete.options = items);
   }
 
-  onLineItemSelectionChanged(item: any, formGroup: FormGroup) {
+  onLineItemSelectionChanged(item: any, formGroup: UntypedFormGroup) {
     if (item) {
       // find product to invoice line items
       const newProductId = item.id;
@@ -234,7 +234,7 @@ export class InvoicesAddComponent extends FormComponent {
       this.lastGlobalProductSearchSelection = item;
       const lineItems = this.getLineItemsFormArray();
       if (lineItems) {
-        if (lineItems.length == 1 && this.isEmptyLineItem(lineItems.controls[0] as FormGroup)) {
+        if (lineItems.length == 1 && this.isEmptyLineItem(lineItems.controls[0] as UntypedFormGroup)) {
           lineItems.removeAt(0);
         }
         const lineItem = this.findLineItemByProductId(productId);
@@ -254,7 +254,7 @@ export class InvoicesAddComponent extends FormComponent {
       selects.forEach(select => {
         const index = (<any>select).elementRef.nativeElement.getAttribute('name');
         if (index != null && index != undefined) {
-          const groups = this.form.get('items').get(index.toString()) as FormGroup;
+          const groups = this.form.get('items').get(index.toString()) as UntypedFormGroup;
           if (!groups.controls.unitId.value) {
             setTimeout(() => groups.controls.unitId.setValue(this.units[0].id), 0);
           }
@@ -335,11 +335,11 @@ export class InvoicesAddComponent extends FormComponent {
     lineItems.push(formGroup);
   }
 
-  private getLineItemsFormArray(): FormArray {
-    return this.form.get("items") as FormArray;
+  private getLineItemsFormArray(): UntypedFormArray {
+    return this.form.get("items") as UntypedFormArray;
   }
 
-  private isEmptyLineItem(lineItem: FormGroup): boolean {
+  private isEmptyLineItem(lineItem: UntypedFormGroup): boolean {
     let isEmpty = true;
     ['name', 'quantity', 'unitPrice'].forEach(key => {
       isEmpty &&= !lineItem.controls[key].value;
@@ -347,12 +347,12 @@ export class InvoicesAddComponent extends FormComponent {
     return isEmpty;
   }
 
-  private findLineItemByProductId(productId: string): FormGroup {
+  private findLineItemByProductId(productId: string): UntypedFormGroup {
     const lineItems = this.getLineItemsFormArray();
-    return lineItems.controls.filter((formGroup: FormGroup) => formGroup.controls.productId.value == productId)[0] as FormGroup;
+    return lineItems.controls.filter((formGroup: UntypedFormGroup) => formGroup.controls.productId.value == productId)[0] as UntypedFormGroup;
   }
 
-  private addLineItemQuantity(lineItem: FormGroup, quantity: number = 1) {
+  private addLineItemQuantity(lineItem: UntypedFormGroup, quantity: number = 1) {
     if (lineItem) {
       const oldQuantity = (lineItem.controls.quantity.value || 0) * 1;
       lineItem.controls.quantity.setValue(oldQuantity + quantity);
@@ -385,7 +385,7 @@ export class InvoicesAddComponent extends FormComponent {
     }
   }
 
-  private priceValidator(control: FormControl) {
+  private priceValidator(control: UntypedFormControl) {
     if (!control.value) {
       return this.error('please.give.a.price');
     }

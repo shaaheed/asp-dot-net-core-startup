@@ -1,4 +1,4 @@
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { ValidatorService } from "src/services/validator.service";
 import { ControlComponent } from "../control.component";
 
@@ -26,7 +26,7 @@ export interface ControlConfig {
     tooltip?: string;
     buildOptions?: (validationService: ValidatorService) => any;
     controlAccessor?: (control: ControlComponent) => void;
-    formAccessor?: (form: FormGroup) => void;
+    formAccessor?: (form: UntypedFormGroup) => void;
 }
 
 export enum ControlType {

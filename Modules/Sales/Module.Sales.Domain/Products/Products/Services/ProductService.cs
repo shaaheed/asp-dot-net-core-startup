@@ -36,7 +36,7 @@ namespace Module.Sales.Domain
         {
             var savedProduct = await GetProductAsReadOnly(productId, x => new
             {
-                StockQuantity = x.StockQuantity,
+                // TODO StockQuantity = x.StockQuantity,
                 Name = x.Name
             }, cancellationToken);
 
@@ -46,11 +46,11 @@ namespace Module.Sales.Domain
             var product = new Item { Id = productId };
             _repository.Attach(product);
 
-            var _newQuantity = savedProduct.StockQuantity - quantityToBeDecrease;
+            /*var _newQuantity = savedProduct.StockQuantity - quantityToBeDecrease;
             if (_newQuantity < 0)
                 throw new ValidationException($"{savedProduct.Name} stock quantity can not be negative.");
 
-            product.StockQuantity = _newQuantity;
+            product.StockQuantity = _newQuantity;*/
 
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
@@ -76,14 +76,14 @@ namespace Module.Sales.Domain
         {
             var savedProduct = await GetProductAsReadOnly(productId, x => new
             {
-                StockQuantity = x.StockQuantity
+                // TODO StockQuantity = x.StockQuantity
             }, cancellationToken);
 
             var product = new Item { Id = productId };
-            _repository.Attach(product);
+            //_repository.Attach(product);
 
-            var _newQuantity = savedProduct.StockQuantity + quantityToBeIncrease;
-            product.StockQuantity = _newQuantity;
+            /*var _newQuantity = savedProduct.StockQuantity + quantityToBeIncrease;
+            product.StockQuantity = _newQuantity;*/
 
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
@@ -100,12 +100,12 @@ namespace Module.Sales.Domain
             int result = 0;
             var savedProduct = await GetProductAsReadOnly(productId, x => new
             {
-                StockQuantity = x.StockQuantity,
+                // TODO StockQuantity = x.StockQuantity,
                 Name = x.Name
             }, cancellationToken);
 
             // 10 < 15 = 5
-            if (savedProduct.StockQuantity < newQuantity)
+            /*if (savedProduct.StockQuantity < newQuantity)
             {
                 // increase
                 float quantityToBeIncrease = newQuantity - savedProduct.StockQuantity;
@@ -117,7 +117,7 @@ namespace Module.Sales.Domain
                 // decrease
                 float quantityToBeDecrease = savedProduct.StockQuantity - newQuantity;
                 result += await DecreaseStockQuantity(productId, quantityToBeDecrease, cancellationToken);
-            }
+            }*/
             return result;
         }
 
@@ -250,7 +250,7 @@ namespace Module.Sales.Domain
                 .ListAsyncAsReadOnly(x => productIds.Contains(x.Id), x => new SavedProductDto
                 {
                     Id = x.Id,
-                    StockQuantity = x.StockQuantity,
+                    // TODO StockQuantity = x.StockQuantity,
                     Name = x.Name,
                     IsInventory = x.IsInventory,
                     IsSale = x.IsSale,

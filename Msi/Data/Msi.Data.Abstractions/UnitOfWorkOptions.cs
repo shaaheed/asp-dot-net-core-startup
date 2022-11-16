@@ -1,4 +1,6 @@
-﻿namespace Msi.Data.Abstractions
+﻿using System;
+
+namespace Msi.Data.Abstractions
 {
     public class UnitOfWorkOptions
     {

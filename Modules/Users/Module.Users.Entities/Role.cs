@@ -2,7 +2,7 @@
 
 namespace Module.Accounts.Entities
 {
-	public class Role : NameEntity
+	public class Role : NameDescriptionEntity
 	{
 		public string Code { get; set; }
 	}

@@ -1,7 +1,6 @@
 <ng-container *ngIf="component">
     <app-box-loader *ngIf="component.loading"></app-box-loader>
-    <div class="box" style="margin-top: 0;" [style.marginBottom]="showFooter ? '58px' : '0'"
-        [style.display]="component.loading ? 'none' : ''">
+    <div class="box" [style.display]="component.loading ? 'none' : ''">
         <div *ngIf="showTitleBar" [ngStyle]="headerStyle" class="block page-header">
             <div class="column" style="flex-direction: column; align-items: flex-start;">
                 <div>

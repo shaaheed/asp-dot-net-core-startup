@@ -18,7 +18,7 @@ namespace Module.Sales.Domain
         {
             entity = entity ?? new InventoryAdjustment();
             entity.Reason = Reason;
-            entity.AdjustmentDate = AdjustmentDate;
+            entity.Date = AdjustmentDate;
             entity.AccountId = AccountId;
             entity.Description = Description;
             return entity;

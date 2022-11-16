@@ -40,7 +40,7 @@ namespace Module.Sales.Domain
                 .ListAsyncAsReadOnly(x => requestProductIds.Contains(x.Id), x => new
                 {
                     Id = x.Id,
-                    Quantity = x.StockQuantity,
+                    // TODO Quantity = x.StockQuantity,
                     Name = x.Name,
                     IsInventory = x.IsInventory,
                     IsSale = x.IsSale,
@@ -67,10 +67,10 @@ namespace Module.Sales.Domain
                         .Select(x => x.Quantity)
                         .Sum();
 
-                    if (product.Quantity < quantity)
+                    /*if (product.Quantity < quantity)
                     {
                         throw new ValidationException($"{product.Name} out of stock.");
-                    }
+                    }*/
                     if (quantity > 0)
                     {
                         adjustmentLines.Add(new LineItem
@@ -82,7 +82,7 @@ namespace Module.Sales.Domain
                         });
                         var _product = new Item { Id = product.Id };
                         productRepo.Attach(_product);
-                        _product.StockQuantity = product.Quantity + quantity;
+                        // TODO _product.StockQuantity = product.Quantity + quantity;
                     }
                 }
             }

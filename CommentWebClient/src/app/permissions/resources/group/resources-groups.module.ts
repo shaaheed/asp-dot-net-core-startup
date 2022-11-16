@@ -15,25 +15,24 @@ import { ResourcesGroupsRoutingModule } from './resources-groups-routing.module'
 import { TableHeaderModule } from 'src/app/shared-components/table-header/table-header.module';
 
 @NgModule({
-  declarations: [
-    ResourcesGroupsComponent,
-    ResourcesGroupsAddComponent
-  ],
-  imports: [
-    CommonModule,
-    ResourcesGroupsRoutingModule,
-    NzTableModule,
-    NzSelectModule,
-    NzDropDownModule,
-    NzTagModule,
-    FormsModule,
-    NzFormModule,
-    ReactiveFormsModule,
-    TableHeaderModule,
-    NzPopoverModule
-  ],
-  exports: [ResourcesGroupsComponent],
-  entryComponents: [ResourcesGroupsAddComponent],
-  providers: [ PermissionsHttpService ]
+    declarations: [
+        ResourcesGroupsComponent,
+        ResourcesGroupsAddComponent
+    ],
+    imports: [
+        CommonModule,
+        ResourcesGroupsRoutingModule,
+        NzTableModule,
+        NzSelectModule,
+        NzDropDownModule,
+        NzTagModule,
+        FormsModule,
+        NzFormModule,
+        ReactiveFormsModule,
+        TableHeaderModule,
+        NzPopoverModule
+    ],
+    exports: [ResourcesGroupsComponent],
+    providers: [PermissionsHttpService]
 })
 export class ResourcesGroupsModule { }

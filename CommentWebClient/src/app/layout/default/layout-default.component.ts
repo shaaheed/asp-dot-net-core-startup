@@ -229,16 +229,16 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
         icon: 'setting',
         fn: () => true,
         nav: [
+          // {
+          //   level: 2,
+          //   title: 'units',
+          //   route: '/units',
+          //   createRoute: '/units/create',
+          //   fn: () => true,
+          // },
           {
             level: 2,
             title: 'units',
-            route: '/units',
-            createRoute: '/units/create',
-            fn: () => true,
-          },
-          {
-            level: 2,
-            title: 'unit.types',
             route: '/units/types',
             createRoute: '/units/types/create',
             fn: () => true,

@@ -1,0 +1,69 @@
+<app-form (keyup)="onFormKeyup($event)" [content]="content" [component]="self">
+    <ng-template #content>
+        <form nz-form [formGroup]="form">
+            <div class="block pad-t-16 pad-b-10 box-divider">
+                <div class="content">
+                    <app-input label="type" formControlName="name">
+                    </app-input>
+                </div>
+            </div>
+            <div class="block pad-b-10 box-divider">
+                <div class="content invoice-items">
+                    <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData"
+                        class="hide-table-placeholder no-hover">
+                        <thead>
+                            <tr>
+                                <th>{{ 'x0.name'|translate:{x0: 'unit'|translate } }}</th>
+                                <th>{{'conversion.rate'|translate}}</th>
+                                <th>{{'base.unit'|translate}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container formArrayName="units">
+                                <ng-container *ngFor="let data of form.get('units')?.controls; let i = index">
+                                    <tr class="bg-white line-item" [formGroupName]="i">
+                                        <td>
+                                            <app-input [formItemStyle]="formItemStyle" formControlName="name" placeholder="name"></app-input>
+                                        </td>
+                                        <td>
+                                            <app-input type="number" [formItemStyle]="formItemStyle"
+                                                placeholder="conversion.rate" formControlName="conversionRate">
+                                            </app-input>
+                                        </td>
+                                        <td>
+                                            <app-checkbox formControlName="isBaseUnit"></app-checkbox>
+                                        </td>
+                                        <td>
+                                            <span class="actions">
+                                                <span class="delete cursor-pointer" (click)="deleteLineItem(i)"
+                                                    title="{{'delete'|translate}}">
+                                                    <i nz-icon nzType="delete"></i>
+                                                </span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <tr class="bg-white no-border">
+                                <td style="text-align: left;" class="center bg-white">
+                                    <nz-button-group>
+                                        <button nz-button class="btn-custom" type="button" (click)="addLineItem();">
+                                            <i nz-icon nzType="plus-circle"></i>
+                                            {{'add.new.x0'|translate:{x0: 'unit'|translate } }}
+                                        </button>
+                                    </nz-button-group>
+                                </td>
+                                <td colspan="5"></td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</app-form>
+
+<ng-template #errorTemplate let-control>
+    {{control?.errors?.message}}
+</ng-template>

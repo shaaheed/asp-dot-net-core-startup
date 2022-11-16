@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { makeRoute } from 'src/constants/route';
 import { DrawerService } from 'src/services/drawer.service';
 import { ORGANIZATION_ROUTE } from '../../organizations/constants';
 import { ROLE_ROUTE } from '../../roles/constants';
@@ -35,7 +36,10 @@ export class SettingsService {
       ORGANIZATION_ROUTE.PROFILE,
       ORGANIZATION_ROUTE.LIST,
       USER_ROUTE.LIST,
-      ROLE_ROUTE.LIST
+      ROLE_ROUTE.LIST,
+      makeRoute('/priceLevels', 'price.levels', 'safety'),
+      makeRoute('/units/types', 'units', 'safety'),
+      makeRoute('/terms', 'terms', 'safety'),
     ].map(x => {
       return { title: x.TITLE, icon: x.ICON, route: x.URL }
     });

@@ -22,6 +22,6 @@ namespace Module.Permissions.Entities
         public string Description { get; set; }
 
         public long GroupId { get; set; }
-        public PermissionGroup Group { get; set; }
+        public virtual PermissionGroup Group { get; set; }
     }
 }

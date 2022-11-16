@@ -2,11 +2,11 @@
 
   <PropertyGroup>
 	<TargetFramework>net6.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
 	
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
     <ProjectReference Include="..\..\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
     <ProjectReference Include="..\..\Service\Msi.Service.Abstractions\Msi.Service.Abstractions.csproj" />
     <ProjectReference Include="..\..\Utilities\Msi.Utilities.Filter\Msi.Utilities.Filter.csproj" />

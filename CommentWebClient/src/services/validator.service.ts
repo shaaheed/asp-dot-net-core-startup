@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { message } from 'src/constants/message';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ export class ValidatorService {
   }
 
   required(error?: string) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       if (!control.value) {
         return this.error(error || message.this_field_is_required);
       }
@@ -29,7 +29,7 @@ export class ValidatorService {
   }
 
   amount(max?: number, mustBePositive: boolean = true) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       if (!control.value) {
         return this.error(message.amount_is_required);
       }
@@ -47,7 +47,7 @@ export class ValidatorService {
   }
 
   max(max: number) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       if (control.value && control.value.length > max) {
         return this.error(message.equal_or_less_x0_letters, { x0: max });
       }
@@ -56,7 +56,7 @@ export class ValidatorService {
   }
 
   min(min: number) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       if (control.value && control.value.length < min) {
         return this.error(message.equal_or_greater_x0_letters, { x0: min });
       }
@@ -65,7 +65,7 @@ export class ValidatorService {
   }
 
   mobile(error?: string) {
-    return (control: FormControl) => {
+    return (control: UntypedFormControl) => {
       if (!control.value) {
         return this.error(error || message.this_field_is_required);
       }

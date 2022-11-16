@@ -19,10 +19,10 @@ namespace Module.Sales.Domain
             return x => new InventoryAdjustmentLineItemDto
             {
                 Id = x.Id,
-                NewQuantityOnHand = x.Product.StockQuantity,
+                // TODO NewQuantityOnHand = x.Product.StockQuantity,
                 Product = new GuidIdNameDto { Id = x.Product.Id, Name = x.Product.Name },
                 QuantityAdjusted = x.Quantity,
-                QuantityAvailable = x.Product.StockQuantity
+                // TODO QuantityAvailable = x.Product.StockQuantity
             };
         }
     }

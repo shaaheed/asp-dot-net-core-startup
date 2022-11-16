@@ -15,7 +15,7 @@ namespace Module.Sales.Domain.Products
             {
                 Id = x.Id,
                 Name = x.Name,
-                Code = x.Code,
+                // TODO Code = x.Code,
                 CreatedAt = x.CreatedAt
             };
         }

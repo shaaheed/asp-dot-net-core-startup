@@ -24,6 +24,7 @@ namespace Msi.Data.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            Console.WriteLine("---- OnModelCreating ----");
             var entities = Global.GetImplementations<IEntity>();
             foreach (var item in entities)
             {
