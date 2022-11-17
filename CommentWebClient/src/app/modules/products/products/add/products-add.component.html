@@ -14,6 +14,9 @@
 
                     <app-text label="description" formControlName="description" placeholder="description">
                     </app-text>
+
+                    <app-select-control (onChange)="onUnitTypeChanged($event)" label="unit.type" #unitTypeSelect [formControl]="form.controls.unitTypeId">
+                    </app-select-control>
                 </div>
             </div>
             <nz-space></nz-space>
@@ -24,13 +27,13 @@
                     <app-input [disable]="!form.controls.isSale.value" [prefix]="currency" label="price" type="number" formControlName="salesPrice" placeholder="price">
                     </app-input>
 
-                    <app-select-control label="unit" #salesUnitSelect [formControl]="form.controls.salesUnitId">
+                    <app-select-control [disable]="!form.controls.unitTypeId.value" label="unit" #salesUnitSelect [formControl]="form.controls.salesUnitId">
                     </app-select-control>
 
                     <app-text label="description" formControlName="salesDescription" placeholder="description">
                     </app-text>
 
-                    <app-select-control label="tax" #salesTaxSelect [formControl]="form.controls.salesTaxes">
+                    <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #salesTaxSelect [formControl]="form.controls.salesTaxes">
                     </app-select-control>
 
                     <app-select-control label="account" #salesAccountSelect [formControl]="form.controls.salesAccountId">
@@ -43,13 +46,13 @@
                     <app-input [prefix]="currency" label="price" type="number" formControlName="purchasePrice" placeholder="price">
                     </app-input>
 
-                    <app-select-control label="unit" #purchaseUnitSelect [formControl]="form.controls.purchaseUnitId">
+                    <app-select-control [disable]="!form.controls.unitTypeId.value" label="unit" #purchaseUnitSelect [formControl]="form.controls.purchaseUnitId">
                     </app-select-control>
 
                     <app-text label="description" formControlName="purchaseDescription" placeholder="description">
                     </app-text>
 
-                    <app-select-control label="tax" #purchaseTaxSelect [formControl]="form.controls.purchaseTaxes">
+                    <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #purchaseTaxSelect [formControl]="form.controls.purchaseTaxes">
                     </app-select-control>
 
                     <app-select-control labelKey='displayName' label="supplier" #supplierSelect [formControl]="form.controls.supplierId">

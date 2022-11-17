@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ValidatorService } from 'src/services/validator.service';
 import { CURRENCY } from 'src/app/modules/organizations/organization.service';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { message } from 'src/constants/message';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-products-add',
@@ -29,7 +32,13 @@ export class ProductsAddComponent extends FormComponent {
 
   @ViewChild('categoriesSelect') categoriesSelect: SelectControlComponent;
 
+  @ViewChild('unitTypeSelect') unitTypeSelect: SelectControlComponent;
+
   currency;
+
+  onSetFormValues = data => {
+    console.log('on set form values', data);
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,20 +58,25 @@ export class ProductsAddComponent extends FormComponent {
       barcode: [],
       categories: [],
       description: [],
+      unitTypeId: [],
 
       isSale: [true],
       salesPrice: [],
       salesAccountId: [],
       salesDescription: [],
       salesTaxes: [],
-      salesUnitId: [],
+      salesUnitId: [null, [], [
+        this.unitValidator().bind(this)
+      ]],
 
       isPurchase: [true],
       purchasePrice: [],
       purchaseAccountId: [],
       purchaseDescription: [],
       purchaseTaxes: [],
-      purchaseUnitId: [],
+      purchaseUnitId: [null, [], [
+        this.unitValidator().bind(this)
+      ]],
       supplierId: [],
 
       isInventory: [true],
@@ -78,22 +92,61 @@ export class ProductsAddComponent extends FormComponent {
       return this._httpService.get('products/categories');
     });
 
-    this.salesUnitSelect.register((pagination, search) => {
-      return this._httpService.get('units');
+    this.unitTypeSelect.register((pagination, search) => {
+      return this._httpService.get('units/types');
     });
+
+    this.salesUnitSelect.register((pagination, search) => {
+      return this._httpService.get(this.getUnitUrl());
+    });
+
     this.salesTaxSelect.register((pagination, search) => {
       return this._httpService.get('taxes');
     });
 
     this.purchaseUnitSelect.register((pagination, search) => {
-      return this._httpService.get('units');
+      return this._httpService.get(this.getUnitUrl());
     });
+
     this.purchaseTaxSelect.register((pagination, search) => {
       return this._httpService.get('taxes');
     });
+
     this.supplierSelect.register((pagination, search) => {
       return this._httpService.get('contacts?Search=Type eq 2');
     });
+  }
+
+  onTaxesLoaded(items: any[]): void {
+    if (items?.length) {
+      items.forEach(x => {
+        x.name = `${x.name} (${x.rate}%)`
+      })
+    }
+  }
+
+  onUnitTypeChanged(e) {
+    this.salesUnitSelect?.reset();
+    this.purchaseUnitSelect?.reset();
+    console.log('onUnitTypeChanged', e);
+  }
+
+  unitValidator(error?: string) {
+    return (control: UntypedFormControl) => {
+      if (this.form?.controls?.unitTypeId?.value && !control.value) {
+        return this.error(error || message.this_field_is_required);
+      }
+      return of(true);
+    }
+  }
+
+  getUnitUrl() {
+    const unitTypeId = this.form.controls.unitTypeId.value;
+    let unitUrl = 'units';
+    if (unitTypeId) {
+      unitUrl += `?Filter=TypeId eq ${unitTypeId}`;
+    }
+    return unitUrl;
   }
 
 }

@@ -44,7 +44,7 @@ export class UnitsAddComponent extends FormComponent {
     if (this.isEditMode()) {
       this.loading = true;
       this.subscribe(
-        this._httpService.get(`units?Search=TypeId eq ${this.id}`),
+        this._httpService.get(`units?Filter=TypeId eq ${this.id}`),
         (res: any) => {
           this.loading = false;
           if (res?.data?.items) {

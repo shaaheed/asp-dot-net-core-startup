@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
 import { Observable } from 'rxjs';
+import { invoke } from 'src/services/utilities.service';
 import { AntControlComponent } from '../ant-control.component';
 import { SelectConfig } from '../form-page/control.config';
 
@@ -16,6 +17,7 @@ export class SelectControlComponent extends AntControlComponent {
   @Input() mode: string = 'default';
   @Input() noLabel: boolean = false;
   @Output() onOpen = new EventEmitter();
+  @Input() onItemsLoaded: (items: []) => void;
 
   @ViewChild('select', { static: true }) select: NzSelectComponent;
 
@@ -101,6 +103,7 @@ export class SelectControlComponent extends AntControlComponent {
           if (clearOnFetch) {
             this.items = [];
           }
+          invoke(this.onItemsLoaded, items);
           const filtered = items.filter(x => !this.items.find(y => y[this.idKey] == x[this.idKey]));
           const _items = [...this.items, ...filtered];
           setTimeout(() => {
@@ -189,6 +192,15 @@ export class SelectControlComponent extends AntControlComponent {
     }
     this.openCount++;
     console.log('openChange', this.openCount);
+  }
+
+  reset() {
+    this.fetchCalled = false;
+    this.openCount = 0;
+    this.loadingMoreCallCount = 0;
+    this.lastLoadingMoreFetchItems = [];
+    this.items = [];
+    this.ngControl.control.reset();
   }
 
   ngOnDestroy() {

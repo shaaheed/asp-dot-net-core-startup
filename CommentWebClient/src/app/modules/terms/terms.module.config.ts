@@ -9,13 +9,16 @@ export const TERM_MODULE_CONFIG = {
     ROUTES: <Routes>[
         Route.list(prefix, {
             tableColumns: [
-                ...Column.nameCreated(),
+                Column.namex(),
+                Column.column('days', x => x.days),
+                Column.created(),
             ]
         }),
         ...Route.addEdit(prefix, {
             objectName: 'terms',
             controls: [
                 Control.namex(),
+                Control.number('days', 'days', true)
             ]
         }),
     ]

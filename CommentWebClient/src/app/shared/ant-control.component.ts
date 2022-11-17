@@ -13,7 +13,7 @@ export class AntControlComponent extends ControlComponent {
       || this.ngControl.asyncValidator
       || this.ngControl.validator
       || this.ngControl.errors) {
-      this.antFormControl.nzHasFeedback = true;
+      // this.antFormControl.nzHasFeedback = true;
     }
   }
 
