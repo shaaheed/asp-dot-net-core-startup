@@ -2,7 +2,7 @@
 using Msi.Mediator.Abstractions;
 using System.Collections.Generic;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class CreateUnitTypeCommand : ICommand<long>
     {

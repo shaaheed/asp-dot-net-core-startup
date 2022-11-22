@@ -126,6 +126,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Msi.Data.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class ModelBuilderExtensions
 {
@@ -136,7 +139,7 @@ public static class ModelBuilderExtensions
     {
         var seedType = seed.GetType();
         var typeStr = seedType.ToString();
-        if (!seedTracking.Contains(typeStr))
+        if (true || !seedTracking.Contains(typeStr))
         {
             seedTracking.Add(typeStr);
             var interfaces = seed.GetType().GetInterfaces();

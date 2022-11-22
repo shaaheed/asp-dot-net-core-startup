@@ -6,7 +6,7 @@ using Module.Sales.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class UpdateUnitTypeCommandHandler : ICommandHandler<UpdateUnitTypeCommand, long>
     {

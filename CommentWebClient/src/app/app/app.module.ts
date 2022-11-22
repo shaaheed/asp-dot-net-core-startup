@@ -93,7 +93,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       deps: [AuthService, SecurityService, PermissionService],
       multi: true
     },
-    OrganizationsResolver
+    OrganizationsResolver,
   ],
   bootstrap: [AppComponent, []]
 })

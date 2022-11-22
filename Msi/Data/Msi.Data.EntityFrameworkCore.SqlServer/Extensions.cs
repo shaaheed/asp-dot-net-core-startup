@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Msi.Data.Abstractions;
+using System;
 
 namespace Msi.Data.EntityFrameworkCore.SqlServer
 {

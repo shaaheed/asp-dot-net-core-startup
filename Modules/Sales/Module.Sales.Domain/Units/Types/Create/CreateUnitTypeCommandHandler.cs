@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using System.Linq;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class CreateUnitTypeCommandHandler : ICommandHandler<CreateUnitTypeCommand, long>
     {

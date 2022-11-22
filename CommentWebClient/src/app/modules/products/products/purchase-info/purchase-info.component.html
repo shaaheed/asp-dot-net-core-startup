@@ -1,0 +1,64 @@
+<div class="product-purchase-information">
+    <form nz-form [formGroup]="form">
+        <label class="info-section-title">{{ 'purchase'|translate }}</label>
+
+        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currency">
+        </app-select-control>
+
+        <app-input [prefix]="currency" label="base.price" type="number" formControlName="price" placeholder="price">
+        </app-input>
+
+        <app-select-control (onSelected)="onUnitSelected($event)" [disable]="!unitTypeId" label="unit" #unitSelect
+            [formControl]="form.controls.unitId">
+        </app-select-control>
+
+        <app-text label="description" formControlName="description" placeholder="description">
+        </app-text>
+
+        <app-select-control label="account" #accountSelect [formControl]="form.controls.accountId">
+        </app-select-control>
+
+        <label class="info-section-title">{{'suppliers'|translate }}</label>
+
+        <div class="block pad-b-10 box-divider purchase-suppliers">
+            <div class="content">
+                <nz-table nzHideOnSinglePage="true" [nzNoResult]="noData" class="hide-table-placeholder no-hover">
+                    <thead>
+                        <tr>
+                            <th>{{ 'supplier'|translate }}</th>
+                            <th>{{ 'preferred'|translate }}</th>
+                            <th>{{ 'prices'|translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container formArrayName="suppliers">
+                            <ng-container *ngFor="let data of form.get('suppliers')?.controls; let i = index">
+                                <tr class="bg-white" [formGroupName]="i">
+                                    <td>
+                                        {{ data.controls.supplierName.value }}
+                                    </td>
+                                    <td>
+                                        <app-checkbox formControlName="isPreferred"></app-checkbox>
+                                    </td>
+                                    <td>
+                                        Prices
+                                        <!-- <app-input [prefix]="priceInputPrefix" [suffix]="priceInputSuffix" [formControlStyle]="formItemStyle" type="number"
+                                            formControlName="price" placeholder="price"></app-input> -->
+                                    </td>
+                                    <td>
+                                        <span class="actions">
+                                            <span class="delete cursor-pointer" title="{{'delete'|translate}}">
+                                                <i nz-icon nzType="delete"></i>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </form>
+</div>

@@ -12,6 +12,8 @@ namespace Msi.Data.Abstractions
 
         IRepository<TSet> GetRepository<TSet>() where TSet : class, IEntity;
 
+        object GetRepository(Type setType);
+
         Task BeginTransactionAsync();
 
         Task CommitAsync(CancellationToken cancellationToken = default);

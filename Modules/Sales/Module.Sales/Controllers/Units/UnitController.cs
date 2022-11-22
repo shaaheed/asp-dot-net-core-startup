@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Msi.Web;
 using System;
-using Module.Sales.Domain.Units;
+using Module.Sales.Domain;
 using Msi.Utilities.Filter;
 
 namespace Module.Sales.Controllers

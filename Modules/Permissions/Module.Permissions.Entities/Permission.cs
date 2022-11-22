@@ -1,15 +1,16 @@
 ﻿using Msi.Data.Entity;
+using System;
 
 namespace Module.Permissions.Entities
 {
-    public class Permission : BaseEntity<long>
+    public class Permission : BaseEntity
     {
         public Permission()
         {
 
         }
 
-        public Permission(long id, string name, string code, long groupId)
+        public Permission(Guid id, string name, string code, Guid groupId)
         {
             Id = id;
             Name = name;
@@ -21,7 +22,7 @@ namespace Module.Permissions.Entities
         public string Code { get; set; }
         public string Description { get; set; }
 
-        public long GroupId { get; set; }
+        public Guid GroupId { get; set; }
         public virtual PermissionGroup Group { get; set; }
     }
 }

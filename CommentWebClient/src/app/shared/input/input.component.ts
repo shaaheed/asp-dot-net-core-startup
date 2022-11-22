@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { AntControlComponent } from '../ant-control.component';
 import { InputConfig } from '../form-page/control.config';
 

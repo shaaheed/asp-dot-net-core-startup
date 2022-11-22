@@ -1,4 +1,6 @@
-﻿namespace Comment.Application.Attributes
+﻿using System;
+
+namespace Comment.Application.Attributes
 {
     public class ResourceAttribute : Attribute
     {

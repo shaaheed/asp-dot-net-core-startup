@@ -57,6 +57,8 @@ export class TableComponent extends BaseComponent {
     margin: 0
   };
 
+  private _fetchApiUrl: string = null;
+
   defaultRowButtons: ButtonConfig[] = [
     {
       label: 'edit',
@@ -92,30 +94,31 @@ export class TableComponent extends BaseComponent {
       this.headerStyle = this.config.headerStyle ?? this.headerStyle;
       this.boxStyle = this.config.boxStyle ?? this.boxStyle;
 
-      if (this.config.getFetchApiUrl) {
-        const url = this.config.getFetchApiUrl();
-        if (url) {
-          this.config.fetchApiUrl = url;
-        }
+      const ctor = this.config.fetchApiUrl?.constructor?.name?.toLowerCase();
+      if (ctor === "string") {
+        this._fetchApiUrl = this.config.fetchApiUrl.toString();
+      }
+      else if (ctor === "function") {
+        this._fetchApiUrl = (this.config.fetchApiUrl as ((data?: any) => string))((snapshot));
       }
 
       if (this.config.filterConfig) {
         this.config.filterConfig.onApply = filter => {
           if (filter) {
-            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this._fetchApiUrl, ...queryParams)));
           }
         }
 
         this.config.filterConfig.onClear = (filterCount?: number) => {
           if (filterCount) {
-            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams)));
+            this.load((queryParams: string[]) => this._httpService.get(this.buildUrl(this._fetchApiUrl, ...queryParams)));
           }
         }
       }
 
       if (!this.fetch && this.config.fetchApiUrl) {
         this.fetch = (queryParams: string[]) => {
-          return this._httpService.get(this.buildUrl(this.config.fetchApiUrl, ...queryParams))
+          return this._httpService.get(this.buildUrl(this._fetchApiUrl, ...queryParams))
         }
       }
 
@@ -310,12 +313,20 @@ export class TableComponent extends BaseComponent {
 
   add() {
     if (this.config?.createPageRoute) {
-      this.router.navigateByUrl(this.config?.createPageRoute);
+      const ctor = this.config.createPageRoute.constructor.name.toLowerCase();
+      let route = "";
+      if (ctor === "string") {
+        route = this.config.createPageRoute.toString();
+      }
+      else if (ctor === "function") {
+        route = (this.config.createPageRoute as (data?: any) => string)(this.activatedRoute.snapshot);
+      }
+      this.router.navigateByUrl(route);
     }
   }
 
   edit(model?) {
-    if (model && this.config?.createPageRoute) {
+    if (model && this.config?.editPageRoute) {
       const route = this.config?.editPageRoute(model);
       this.router.navigateByUrl(route);
     }

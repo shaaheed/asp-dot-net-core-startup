@@ -42,6 +42,11 @@ namespace Msi.Core
             return GetImplementations<T>(null, useCaching);
         }
 
+        public static IEnumerable<Type> GetGenericImplementations<T>(Func<Assembly, bool> predicate = null, bool useCaching = false)
+        {
+            return GetGenericImplementations(typeof(T), predicate, useCaching);
+        }
+
         public static IEnumerable<Type> GetGenericImplementations(Type type, Func<Assembly, bool> predicate = null, bool useCaching = false)
         {
 

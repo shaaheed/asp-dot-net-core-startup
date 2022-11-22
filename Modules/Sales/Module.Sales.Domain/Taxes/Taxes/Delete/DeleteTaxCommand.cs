@@ -1,10 +1,8 @@
 ﻿using Msi.Mediator.Abstractions;
-using System;
 
 namespace Module.Sales.Domain.Taxes
 {
-    public class DeleteTaxCommand : IDeleteCommand<bool>
+    public class DeleteTaxCommand : DeleteCommand
     {
-        public Guid Id { get; set; }
     }
 }

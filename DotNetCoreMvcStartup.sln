@@ -187,6 +187,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Integrations.Entitie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Integrations.Domain", "Modules\Integrations\Integrations\Module.Integrations.Domain\Module.Integrations.Domain.csproj", "{20F06265-6E26-4DD7-A599-F47EDC18AA3E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Seeds", "Modules\Seeds\Module.Seeds.csproj", "{A8885C4C-D0BE-4D38-A56A-013CA0DCD780}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seeds", "Seeds", "{17E1D84C-D070-4292-80AE-29BAF44FDC9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -437,6 +441,10 @@ Global
 		{20F06265-6E26-4DD7-A599-F47EDC18AA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20F06265-6E26-4DD7-A599-F47EDC18AA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20F06265-6E26-4DD7-A599-F47EDC18AA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8885C4C-D0BE-4D38-A56A-013CA0DCD780}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8885C4C-D0BE-4D38-A56A-013CA0DCD780}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8885C4C-D0BE-4D38-A56A-013CA0DCD780}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8885C4C-D0BE-4D38-A56A-013CA0DCD780}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -529,6 +537,8 @@ Global
 		{7A43D5E5-F07F-4DAF-9F7B-952FE57BE146} = {845C6C12-7F99-4BB8-AE6B-08DEAC8DD084}
 		{4CB5D80F-69FF-42E2-AD71-226D77CC64D4} = {845C6C12-7F99-4BB8-AE6B-08DEAC8DD084}
 		{20F06265-6E26-4DD7-A599-F47EDC18AA3E} = {845C6C12-7F99-4BB8-AE6B-08DEAC8DD084}
+		{A8885C4C-D0BE-4D38-A56A-013CA0DCD780} = {17E1D84C-D070-4292-80AE-29BAF44FDC9D}
+		{17E1D84C-D070-4292-80AE-29BAF44FDC9D} = {20B2E10D-8639-43DE-AF2E-E3CA8F9F306D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0F538F95-67C6-4C89-AF99-77F97C28ABBD}

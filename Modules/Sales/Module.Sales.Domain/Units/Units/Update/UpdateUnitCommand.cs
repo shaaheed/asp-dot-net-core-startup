@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class UpdateUnitCommand : CreateUnitCommand
     {

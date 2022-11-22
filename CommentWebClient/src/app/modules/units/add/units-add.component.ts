@@ -1,6 +1,5 @@
 import { Component, HostListener } from '@angular/core';
 import { UntypedFormGroup, UntypedFormArray, AbstractControl } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { forEachObj } from 'src/services/utilities.service';
 import { FormComponent } from 'src/app/shared/form.component';
@@ -18,6 +17,8 @@ export class UnitsAddComponent extends FormComponent {
 
   units: any[] = [];
   formItemStyle = { padding: 0 };
+
+  baseUnitName: string = "";
 
   onSetFormValues = data => {
     this.prepareForm(data);
@@ -50,7 +51,7 @@ export class UnitsAddComponent extends FormComponent {
           if (res?.data?.items) {
             this.units = res.data.items;
             if (!this.units?.length) {
-              setTimeout(() => this.addLineItem(), 0);
+              setTimeout(() => this.addUnit(), 0);
             }
             else {
               this.prepareForm({ units: this.units });
@@ -62,7 +63,7 @@ export class UnitsAddComponent extends FormComponent {
     }
 
     if (this.isAddMode()) {
-      setTimeout(() => this.addLineItem(), 0);
+      setTimeout(() => this.addUnit(), 0);
     }
   }
 
@@ -71,22 +72,27 @@ export class UnitsAddComponent extends FormComponent {
     console.log('keyup..', event);
   }
 
-  addLineItem(item = {}) {
-    this.createLineItemFormGroup(item);
+  addUnit(item = {}) {
+    this.createUnitFormGroup(item);
   }
 
-  deleteLineItem(index) {
-    const lineItems = this.getLineItemsFormArray();
-    if (lineItems.length) {
-      lineItems.removeAt(index);
-      if (!lineItems.length) {
-        this.addLineItem();
+  deleteUnit(index) {
+    const units = this.getUnitsFormArray();
+    if (units.length) {
+      units.removeAt(index);
+      if (!units.length) {
+        this.addUnit();
       }
     }
   }
 
-  onFormKeyup(event: KeyboardEvent) {
-    this.log('onFormKeyup', event);
+  onUnitBaseChanged(i, e) {
+    if (e) {
+      const units = this.getUnitsFormArray();
+      if (units.length) {
+        this.baseUnitName = (units?.controls[i] as any)?.controls?.name?.value || "";
+      }
+    }
   }
 
   private prepareForm(data) {
@@ -100,12 +106,15 @@ export class UnitsAddComponent extends FormComponent {
           conversionRate: x.conversionRate,
           isBaseUnit: x.isBaseUnit,
         }
-        this.createLineItemFormGroup(o);
+        if (x.isBaseUnit) {
+          this.baseUnitName = x.name;
+        }
+        this.createUnitFormGroup(o);
       });
     }
   }
 
-  private createLineItemFormGroup(data: any) {
+  private createUnitFormGroup(data: any) {
     const formGroup = this.fb.group({
       id: [],
       name: [null, [], this.validator.required()],
@@ -118,11 +127,11 @@ export class UnitsAddComponent extends FormComponent {
         (v as AbstractControl).setValue(dataValue);
       }
     });
-    const lineItems = this.getLineItemsFormArray();
-    lineItems.push(formGroup);
+    const units = this.getUnitsFormArray();
+    units.push(formGroup);
   }
 
-  private getLineItemsFormArray(): UntypedFormArray {
+  private getUnitsFormArray(): UntypedFormArray {
     return this.form.get("units") as UntypedFormArray;
   }
 

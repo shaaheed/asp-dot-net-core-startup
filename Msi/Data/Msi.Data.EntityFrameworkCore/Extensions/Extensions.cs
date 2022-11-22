@@ -1,4 +1,5 @@
 ﻿using Msi.Data.Abstractions;
+using System;
 
 namespace Msi.Data.EntityFrameworkCore
 {

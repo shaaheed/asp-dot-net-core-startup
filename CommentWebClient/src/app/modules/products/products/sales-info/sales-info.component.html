@@ -1,0 +1,61 @@
+<div class="product-sales-information">
+    <form nz-form [formGroup]="form">
+        <label class="info-section-title">{{ 'sales'|translate }}</label>
+
+        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currency">
+        </app-select-control>
+
+        <app-input [prefix]="currency" label="base.price" type="number" formControlName="price" placeholder="price">
+        </app-input>
+
+        <app-select-control (onSelected)="onUnitSelected($event)" [disable]="!unitTypeId" label="unit" #unitSelect
+            [formControl]="form.controls.unitId">
+        </app-select-control>
+
+        <app-text label="description" formControlName="description" placeholder="description">
+        </app-text>
+
+        <app-select-control label="currencies" #currenciesSelect [formControl]="form.controls.currencies"
+            mode="multiple">
+        </app-select-control>
+
+        <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #taxSelect [formControl]="form.controls.taxes">
+        </app-select-control>
+
+        <app-select-control label="account" #accountSelect [formControl]="form.controls.accountId">
+        </app-select-control>
+
+        <label class="info-section-title">{{'pricing'|translate }}</label>
+
+        <nz-segmented [nzOptions]="currencies" style="margin-bottom: 10px;"></nz-segmented>
+
+        <div class="block pad-b-10 box-divider sales-pricing">
+            <div class="content">
+                <nz-table nzHideOnSinglePage="true" [nzNoResult]="noData" class="hide-table-placeholder no-hover">
+                    <thead>
+                        <tr>
+                            <th>{{ 'price.level'|translate }}</th>
+                            <th>{{ 'price'|translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container formArrayName="prices">
+                            <ng-container *ngFor="let data of form.get('prices')?.controls; let i = index">
+                                <tr class="bg-white" [formGroupName]="i">
+                                    <td>
+                                        {{ data.controls.name.value }}
+                                    </td>
+                                    <td>
+                                        <app-input [prefix]="priceInputPrefix" [suffix]="priceInputSuffix"
+                                            [formControlStyle]="formItemStyle" type="number" formControlName="price"
+                                            placeholder="price"></app-input>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </form>
+</div>

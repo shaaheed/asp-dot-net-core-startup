@@ -2,8 +2,7 @@
 
 namespace Module.Permissions.Data
 {
-    public class DeletePermissionCommand : ICommand<long>
+    public class DeletePermissionCommand : DeleteCommand
     {
-        public long Id { get; set; }
     }
 }

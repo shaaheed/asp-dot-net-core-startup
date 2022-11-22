@@ -1056,3 +1056,21 @@ div.ant-menu-submenu {
         -moz-appearance: textfield;
     }
 }
+
+.product-info {
+    .ant-tabs-tab:first-child {
+        padding-left: 0 !important;
+    }
+
+    .ant-tabs-tab+.ant-tabs-tab {
+        margin: 0;
+    }
+}
+
+.info-section-title {
+    margin-bottom: 10px;
+    display: inline-block;
+    background: #f5f5f5;
+    width: 100%;
+    padding: 5px;
+}

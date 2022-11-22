@@ -1,4 +1,4 @@
-<app-form (keyup)="onFormKeyup($event)" [content]="content" [component]="self">
+<app-form [content]="content" [component]="self">
     <ng-template #content>
         <form nz-form [formGroup]="form">
             <div class="block pad-t-16 pad-b-10 box-divider">
@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="block pad-b-10 box-divider">
-                <div class="content invoice-items">
+                <div class="content">
                     <nz-table #basicTable nzHideOnSinglePage="true" [nzNoResult]="noData"
                         class="hide-table-placeholder no-hover">
                         <thead>
@@ -22,21 +22,21 @@
                         <tbody>
                             <ng-container formArrayName="units">
                                 <ng-container *ngFor="let data of form.get('units')?.controls; let i = index">
-                                    <tr class="bg-white line-item" [formGroupName]="i">
+                                    <tr class="bg-white" [formGroupName]="i">
                                         <td>
                                             <app-input [formItemStyle]="formItemStyle" formControlName="name" placeholder="name"></app-input>
                                         </td>
                                         <td>
-                                            <app-input type="number" [formItemStyle]="formItemStyle"
+                                            <app-input [suffix]="baseUnitName" type="number" [formItemStyle]="formItemStyle"
                                                 placeholder="conversion.rate" formControlName="conversionRate">
                                             </app-input>
                                         </td>
                                         <td>
-                                            <app-checkbox formControlName="isBaseUnit"></app-checkbox>
+                                            <app-checkbox (onChange)="onUnitBaseChanged(i, $event)" formControlName="isBaseUnit"></app-checkbox>
                                         </td>
                                         <td>
                                             <span class="actions">
-                                                <span class="delete cursor-pointer" (click)="deleteLineItem(i)"
+                                                <span class="delete cursor-pointer" (click)="deleteUnit(i)"
                                                     title="{{'delete'|translate}}">
                                                     <i nz-icon nzType="delete"></i>
                                                 </span>
@@ -48,7 +48,7 @@
                             <tr class="bg-white no-border">
                                 <td style="text-align: left;" class="center bg-white">
                                     <nz-button-group>
-                                        <button nz-button class="btn-custom" type="button" (click)="addLineItem();">
+                                        <button nz-button class="btn-custom" type="button" (click)="addUnit();">
                                             <i nz-icon nzType="plus-circle"></i>
                                             {{'add.new.x0'|translate:{x0: 'unit'|translate } }}
                                         </button>

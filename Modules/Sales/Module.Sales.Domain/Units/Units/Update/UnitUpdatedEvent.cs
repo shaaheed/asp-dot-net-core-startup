@@ -1,6 +1,6 @@
 ﻿using Msi.Mediator.Abstractions;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class UnitUpdatedEvent : EventBase
     {

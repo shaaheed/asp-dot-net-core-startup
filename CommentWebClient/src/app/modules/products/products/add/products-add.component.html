@@ -1,7 +1,8 @@
 <app-form [content]="content" [component]="self">
     <ng-template #content>
         <form nz-form [formGroup]="form">
-            <div nz-row>
+            <div nz-row style="padding: 0 20px">
+                <label class="info-section-title">{{'primary.information'|translate }}</label>
                 <div nz-col nzSpan="12">
                     <app-input label="name" formControlName="name" placeholder="name"></app-input>
 
@@ -9,56 +10,68 @@
 
                     <app-input label="barcode" formControlName="barcode" placeholder="barcode"></app-input>
 
-                    <app-select-control tooltip="category.tooltip" label="product.category" #categoriesSelect [formControl]="form.controls.categories" mode="multiple">
+                    <app-select-control tooltip="category.tooltip" label="product.category" #categoriesSelect
+                        [formControl]="form.controls.categories" mode="multiple">
                     </app-select-control>
 
                     <app-text label="description" formControlName="description" placeholder="description">
                     </app-text>
 
-                    <app-select-control (onChange)="onUnitTypeChanged($event)" label="unit.type" #unitTypeSelect [formControl]="form.controls.unitTypeId">
+                    <app-select-control (onChange)="onUnitTypeChanged($event)" label="unit.type" #unitTypeSelect
+                        [formControl]="form.controls.unitTypeId">
                     </app-select-control>
                 </div>
             </div>
             <nz-space></nz-space>
-            <div nz-row>
-                <div nz-col nzSpan="11">
-                    <app-checkbox #isSaleCheckbox formControlName="isSale" label="sales.information"></app-checkbox>
 
-                    <app-input [disable]="!form.controls.isSale.value" [prefix]="currency" label="price" type="number" formControlName="salesPrice" placeholder="price">
-                    </app-input>
 
-                    <app-select-control [disable]="!form.controls.unitTypeId.value" label="unit" #salesUnitSelect [formControl]="form.controls.salesUnitId">
-                    </app-select-control>
-
-                    <app-text label="description" formControlName="salesDescription" placeholder="description">
-                    </app-text>
-
-                    <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #salesTaxSelect [formControl]="form.controls.salesTaxes">
-                    </app-select-control>
-
-                    <app-select-control label="account" #salesAccountSelect [formControl]="form.controls.salesAccountId">
-                    </app-select-control>
+            <div class="product-info">
+                <div style="padding: 20px;">
+                    <nz-tabset>
+                        <nz-tab nzTitle="{{ 'sales.information'|translate }}">
+                            <app-products-sales-info #salesInfo [unitTypeId]="form.controls.unitTypeId.value">
+                            </app-products-sales-info>
+                        </nz-tab>
+                        <nz-tab nzTitle="{{ 'purchase.information'|translate }}">
+                            <ng-template nz-tab>
+                                <app-products-purchase-info #purchaseInfo [unitTypeId]="form.controls.unitTypeId.value">
+                                </app-products-purchase-info>
+                            </ng-template>
+                        </nz-tab>
+                        <nz-tab nzTitle="{{ 'inventory.information'|translate }}">
+                            <ng-template nz-tab>
+                                inventory.information
+                            </ng-template>
+                        </nz-tab>
+                    </nz-tabset>
                 </div>
-                <div nz-col nzSpan="1"></div>
+            </div>
+
+            <!-- <div nz-row>
                 <div nz-col nzSpan="11">
                     <app-checkbox formControlName="isPurchase" label="purchase.information"></app-checkbox>
 
-                    <app-input [prefix]="currency" label="price" type="number" formControlName="purchasePrice" placeholder="price">
+                    <app-input [prefix]="currency" label="price" type="number" formControlName="purchasePrice"
+                        placeholder="price">
                     </app-input>
 
-                    <app-select-control [disable]="!form.controls.unitTypeId.value" label="unit" #purchaseUnitSelect [formControl]="form.controls.purchaseUnitId">
+                    <app-select-control [disable]="!form.controls.unitTypeId.value" label="unit" #purchaseUnitSelect
+                        [formControl]="form.controls.purchaseUnitId">
                     </app-select-control>
 
                     <app-text label="description" formControlName="purchaseDescription" placeholder="description">
                     </app-text>
 
-                    <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #purchaseTaxSelect [formControl]="form.controls.purchaseTaxes">
+                    <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #purchaseTaxSelect
+                        [formControl]="form.controls.purchaseTaxes">
                     </app-select-control>
 
-                    <app-select-control labelKey='displayName' label="supplier" #supplierSelect [formControl]="form.controls.supplierId">
+                    <app-select-control labelKey='displayName' label="supplier" #supplierSelect
+                        [formControl]="form.controls.supplierId">
                     </app-select-control>
 
-                    <app-select-control label="account" #purchaseAccountSelect [formControl]="form.controls.purchaseAccountId">
+                    <app-select-control label="account" #purchaseAccountSelect
+                        [formControl]="form.controls.purchaseAccountId">
                     </app-select-control>
                 </div>
             </div>
@@ -69,16 +82,19 @@
                         tooltip="enable.inventory.to.track" info="cannot.enable.disable.inventory.tracking">
                     </app-checkbox>
 
-                    <app-input label="initial.quantity.on.hand" type="number" formControlName="stockQuantity" placeholder="quantity">
+                    <app-input label="initial.quantity.on.hand" type="number" formControlName="stockQuantity"
+                        placeholder="quantity">
                     </app-input>
 
-                    <app-input tooltip="low.stock.alert.tooltip" label="low.stock.alert" type="number" formControlName="lowStockQuantity" placeholder="quantity">
+                    <app-input tooltip="low.stock.alert.tooltip" label="low.stock.alert" type="number"
+                        formControlName="lowStockQuantity" placeholder="quantity">
                     </app-input>
 
-                    <app-select-control label="account" #inventoryAccountSelect [formControl]="form.controls.inventoryAccountId">
+                    <app-select-control label="account" #inventoryAccountSelect
+                        [formControl]="form.controls.inventoryAccountId">
                     </app-select-control>
                 </div>
-            </div>
+            </div> -->
             <nz-space></nz-space>
         </form>
     </ng-template>

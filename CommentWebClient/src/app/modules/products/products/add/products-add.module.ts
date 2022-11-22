@@ -16,6 +16,9 @@ import { TextModule } from 'src/app/shared/text/text.module';
 import { SelectControlModule } from 'src/app/shared/select-control/select-control.module';
 import { AppFormModule } from 'src/app/shared/form/form.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { ProductsSalesInfoModule } from '../sales-info/sales-info.module';
+import { ProductsPurchaseInfoModule } from '../purchase-info/purchase-info.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     TextModule,
     SelectControlModule,
     NzIconModule,
-    AppFormModule
+    AppFormModule,
+    NzTabsModule,
+    ProductsSalesInfoModule,
+    ProductsPurchaseInfoModule,
   ],
   exports: [ProductsAddComponent],
   providers: [ProductsHttpService]

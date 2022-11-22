@@ -6,9 +6,9 @@ namespace Module.Systems.Attributes
     public class RequireAnyPermissionAttribute : Attribute
     {
 
-        public long[] _permissions;
+        public string[] _permissions;
 
-        public RequireAnyPermissionAttribute(params long[] permissions)
+        public RequireAnyPermissionAttribute(params string[] permissions)
         {
             _permissions = permissions;
         }

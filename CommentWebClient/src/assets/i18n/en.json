@@ -12,6 +12,7 @@
   "import": "Import",
   "name": "Name",
   "price": "Price",
+  "prices": "Prices",
   "description": "Description",
   "filter": "Filter",
   "create.a.product": "Create a product",
@@ -203,5 +204,16 @@
   "x0.name": "{{x0}} name",
   "base.unit": "Base unit",
   "price.levels": "Price levels",
-  "terms": "Terms"
+  "price.level": "Price level",
+  "terms": "Terms",
+  "pricing": "Pricing",
+  "base.price": "Base price",
+  "base.currency": "Base currency",
+  "currencies": "Currencies",
+  "primary.information": "Primary information",
+  "variants": "Variants",
+  "variant": "Variant",
+  "option": "Option",
+  "days": "Days",
+  "preferred": "Preferred"
 }

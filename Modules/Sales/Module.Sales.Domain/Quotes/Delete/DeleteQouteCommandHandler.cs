@@ -7,7 +7,7 @@ using Msi.Data.Abstractions;
 
 namespace Module.Sales.Domain.Qoutes
 {
-    public class DeleteQouteCommandHandler : ICommandHandler<DeleteQouteCommand, long>
+    public class DeleteQouteCommandHandler : ICommandHandler<DeleteQouteCommand, bool>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,7 @@ namespace Module.Sales.Domain.Qoutes
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<long> Handle(DeleteQouteCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteQouteCommand request, CancellationToken cancellationToken)
         {
             var qouteRepo = _unitOfWork.GetRepository<Quote>();
             var qoute = await qouteRepo.FirstOrDefaultAsync(x => x.Id == request.Id);
@@ -33,7 +33,7 @@ namespace Module.Sales.Domain.Qoutes
             qouteRepo.Remove(qoute);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return result;
+            return result > 0;
         }
     }
 }

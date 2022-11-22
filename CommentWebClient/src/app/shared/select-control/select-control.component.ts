@@ -16,8 +16,9 @@ export class SelectControlComponent extends AntControlComponent {
   @Input() info: (data?: any) => string | Promise<string>;
   @Input() mode: string = 'default';
   @Input() noLabel: boolean = false;
-  @Output() onOpen = new EventEmitter();
   @Input() onItemsLoaded: (items: []) => void;
+  @Output() onOpen = new EventEmitter();
+  @Output() onSelected = new EventEmitter();
 
   @ViewChild('select', { static: true }) select: NzSelectComponent;
 
@@ -112,6 +113,7 @@ export class SelectControlComponent extends AntControlComponent {
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
             this.value = this.items[0][this.idKey];
+            this.onSelected.emit(this.items[0]);
           }
           if (this._onLoadCompleted) {
             this._onLoadCompleted(_items);
@@ -174,6 +176,10 @@ export class SelectControlComponent extends AntControlComponent {
   onValueChange(e) {
     if (this.onChange) {
       this.onChange.emit(e);
+    }
+    const value = this.items.find(x => x[this.idKey] === e);
+    if (value) {
+      this.onSelected.emit(value);
     }
     // this.infoPromise(e);
   }

@@ -3,7 +3,7 @@ using System;
 
 namespace Module.Accounts.Entities
 {
-    public class UserRole : BaseEntity<long>
+    public class UserRole : BaseEntity
     {
         public Guid UserId { get; set; }
         public User User { get; set; }

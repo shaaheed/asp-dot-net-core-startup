@@ -4,8 +4,8 @@ using Module.Systems.Attributes;
 using Module.Permissions.Domain;
 using System.Threading.Tasks;
 using Msi.Web;
-using Module.Systems;
-using static Module.Permissions.Shared.PermissionIds;
+using static Module.Permissions.Shared.PermissionCodes;
+using System;
 
 namespace Module.Permissions
 {
@@ -36,7 +36,7 @@ namespace Module.Permissions
 
         [HttpPut("{id}")]
         [RequireAnyPermission(PermissionUpdate, PermissionFullAccess)]
-        public async Task<ActionResult> Put(long id, [FromBody]UpdatePermissionCommand command)
+        public async Task<ActionResult> Put(Guid id, [FromBody]UpdatePermissionCommand command)
         {
             command.Id = id;
             var result = await _commandBus.SendAsync(command);
@@ -62,7 +62,7 @@ namespace Module.Permissions
 
         [HttpGet("{id}")]
         [RequireAnyPermission(PermissionView, PermissionFullAccess)]
-        public async Task<ActionResult> Get(long id)
+        public async Task<ActionResult> Get(Guid id)
         {
             var result = await _queryBus.SendAsync(new GetPermissionQuery { Id = id });
             return result.ToOkResult();

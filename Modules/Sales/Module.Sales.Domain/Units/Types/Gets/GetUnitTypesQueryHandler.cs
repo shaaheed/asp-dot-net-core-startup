@@ -7,7 +7,7 @@ using System.Linq;
 using Module.Sales.Entities;
 using Module.Systems.Domain;
 
-namespace Module.Sales.Domain.Units
+namespace Module.Sales.Domain
 {
     public class GetUnitTypesQueryHandler : IQueryHandler<GetUnitTypesQuery, PagedCollection<UnitTypeListItemDto>>
     {

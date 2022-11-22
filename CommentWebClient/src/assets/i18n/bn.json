@@ -12,6 +12,7 @@
   "import": "ইম্পোর্ট",
   "name": "নাম",
   "price": "মূল্য",
+  "prices": "মূল্য",
   "description": "বিবরণ",
   "filter": "ছাঁকনি",
   "create.a.product": "একটি পণ্য তৈরি করুন",
@@ -201,5 +202,16 @@
   "x0.name": "{{x0}} নাম",
   "base.unit": "ভিত্তি একক",
   "price.levels": "মূল্যস্তর",
-  "terms": "টার্ম"
+  "price.level": "মূল্যস্তর",
+  "terms": "টার্ম",
+  "pricing": "মূল্য",
+  "base.price": "ভিত্তি মূল্য",
+  "base.currency": "ভিত্তি মুদ্রা",
+  "currencies": "মুদ্রা",
+  "primary.information": "প্রাথমিক তথ্য",
+  "variants": "বৈচিত্র",
+  "variant": "বৈচিত্র",
+  "option": "পছন্দ",
+  "days": "দিন",
+  "preferred": "পছন্দ"
 }

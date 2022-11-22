@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
 import { ValidatorService } from 'src/services/validator.service';
 import { CURRENCY } from 'src/app/modules/organizations/organization.service';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { message } from 'src/constants/message';
 import { of } from 'rxjs';
+import { ProductSalesInfoAddComponent } from '../sales-info/sales-info.component';
 
 @Component({
   selector: 'app-products-add',
@@ -19,9 +20,7 @@ export class ProductsAddComponent extends FormComponent {
   apiUrl = 'products';
   objectName = "product";
 
-  @ViewChild('salesUnitSelect') salesUnitSelect: SelectControlComponent;
-  @ViewChild('salesTaxSelect') salesTaxSelect: SelectControlComponent;
-  @ViewChild('salesAccountSelect') salesAccountSelect: SelectControlComponent;
+  @ViewChild('salesInfo') salesInfo: ProductSalesInfoAddComponent;
 
   @ViewChild('purchaseUnitSelect') purchaseUnitSelect: SelectControlComponent;
   @ViewChild('purchaseTaxSelect') purchaseTaxSelect: SelectControlComponent;
@@ -47,6 +46,10 @@ export class ProductsAddComponent extends FormComponent {
     super();
   }
 
+  productInputTest(e?) {
+    console.log('inputTest', e)
+  }
+
   ngOnInit(): void {
     this.currency = CURRENCY;
     this.createForm({
@@ -60,29 +63,22 @@ export class ProductsAddComponent extends FormComponent {
       description: [],
       unitTypeId: [],
 
-      isSale: [true],
-      salesPrice: [],
-      salesAccountId: [],
-      salesDescription: [],
-      salesTaxes: [],
-      salesUnitId: [null, [], [
-        this.unitValidator().bind(this)
-      ]],
+      // isSale: [true],
+      
+      // isPurchase: [true],
+      // purchasePrice: [],
+      // purchaseAccountId: [],
+      // purchaseDescription: [],
+      // purchaseTaxes: [],
+      // purchaseUnitId: [null, [], [
+      //   this.unitValidator().bind(this)
+      // ]],
+      // supplierId: [],
 
-      isPurchase: [true],
-      purchasePrice: [],
-      purchaseAccountId: [],
-      purchaseDescription: [],
-      purchaseTaxes: [],
-      purchaseUnitId: [null, [], [
-        this.unitValidator().bind(this)
-      ]],
-      supplierId: [],
-
-      isInventory: [true],
-      stockQuantity: [],
-      lowStockQuantity: [],
-      inventoryAccountId: [],
+      // isInventory: [true],
+      // stockQuantity: [],
+      // lowStockQuantity: [],
+      // inventoryAccountId: [],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -96,25 +92,17 @@ export class ProductsAddComponent extends FormComponent {
       return this._httpService.get('units/types');
     });
 
-    this.salesUnitSelect.register((pagination, search) => {
-      return this._httpService.get(this.getUnitUrl());
-    });
+    // this.purchaseUnitSelect.register((pagination, search) => {
+    //   return this._httpService.get(this.getUnitUrl());
+    // });
 
-    this.salesTaxSelect.register((pagination, search) => {
-      return this._httpService.get('taxes');
-    });
+    // this.purchaseTaxSelect.register((pagination, search) => {
+    //   return this._httpService.get('taxes');
+    // });
 
-    this.purchaseUnitSelect.register((pagination, search) => {
-      return this._httpService.get(this.getUnitUrl());
-    });
-
-    this.purchaseTaxSelect.register((pagination, search) => {
-      return this._httpService.get('taxes');
-    });
-
-    this.supplierSelect.register((pagination, search) => {
-      return this._httpService.get('contacts?Search=Type eq 2');
-    });
+    // this.supplierSelect.register((pagination, search) => {
+    //   return this._httpService.get('contacts?Search=Type eq 2');
+    // });
   }
 
   onTaxesLoaded(items: any[]): void {
@@ -126,7 +114,7 @@ export class ProductsAddComponent extends FormComponent {
   }
 
   onUnitTypeChanged(e) {
-    this.salesUnitSelect?.reset();
+    this.salesInfo.reset();
     this.purchaseUnitSelect?.reset();
     console.log('onUnitTypeChanged', e);
   }

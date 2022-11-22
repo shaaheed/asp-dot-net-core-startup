@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { makeRoute } from 'src/constants/route';
 import { DrawerService } from 'src/services/drawer.service';
 import { ORGANIZATION_ROUTE } from '../../organizations/constants';
+import { ORGANIZATION_ID } from '../../organizations/organization.service';
 import { ROLE_ROUTE } from '../../roles/constants';
 import { USER_ROUTE } from '../../users/constants';
 
@@ -37,6 +38,8 @@ export class SettingsService {
       ORGANIZATION_ROUTE.LIST,
       USER_ROUTE.LIST,
       ROLE_ROUTE.LIST,
+      makeRoute(`/organizations/${ORGANIZATION_ID}/currencies`, 'currencies', 'safety'),
+      makeRoute('/variants', 'variants', 'safety'),
       makeRoute('/priceLevels', 'price.levels', 'safety'),
       makeRoute('/units/types', 'units', 'safety'),
       makeRoute('/terms', 'terms', 'safety'),

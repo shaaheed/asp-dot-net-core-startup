@@ -17,6 +17,8 @@ import { BILL_CONFIG } from 'src/app/modules/bills/bill.config';
 import { INVENTORY_ADJUSTMENT_MODULE_CONFIG } from 'src/app/modules/inventories/adjustments/products/adjustment.module.config';
 import { PRICE_LEVEL_MODULE_CONFIG } from 'src/app/modules/price-levels/price-levels.module.config';
 import { TERM_MODULE_CONFIG } from 'src/app/modules/terms/terms.module.config';
+import { VARIATION_MODULE_CONFIG } from 'src/app/modules/variations/variation.module.config';
+import { ORGANIZATION_CURRENCY_CONFIG } from 'src/app/modules/organizations/currencies/organization-currency.config';
 
 const routes: Routes = [
   {
@@ -26,6 +28,7 @@ const routes: Routes = [
     children: [
       { path: 'permissions', loadChildren: () => import('../../permissions/permissions.module').then(m => m.PermissionsModule) },
       ...ORGANIZATION_CONFIG.ROUTES,
+      ...ORGANIZATION_CURRENCY_CONFIG.ROUTES,
       ...USER_MODULE_CONFIG.ROUTES,
       ...ROLE_MODULE_CONFIG.ROUTES,
       ...PRODUCT_MODULE_CONFIG.ROUTES,
@@ -41,7 +44,8 @@ const routes: Routes = [
       // { path: 'invoices', loadChildren: () => import('../../modules/invoices/list/invoices.module').then(m => m.InvoicesModule) }
 
       ...PRICE_LEVEL_MODULE_CONFIG.ROUTES,
-      ...TERM_MODULE_CONFIG.ROUTES
+      ...TERM_MODULE_CONFIG.ROUTES,
+      ...VARIATION_MODULE_CONFIG.ROUTES
     ]
   }
 ];

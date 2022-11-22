@@ -1,4 +1,6 @@
-﻿namespace Msi.Data.Entity
+﻿using System;
+
+namespace Msi.Data.Entity
 {
     [IgnoredEntity]
     public class OrganizationEntity : BaseEntity, IOrganizationEntity

@@ -141,7 +141,7 @@ namespace Msi.Data.EntityFrameworkCore
             {
                 result = await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (Exception ignored)
             {
                 throw;
             }
@@ -176,6 +176,20 @@ namespace Msi.Data.EntityFrameworkCore
 
             var repository = new Repository<TSet>(_dataContext, _appService);
             _repositories.Add(typeof(TSet), repository);
+            return repository;
+        }
+
+        public object GetRepository(Type setType)
+        {
+            if (_repositories.ContainsKey(setType))
+            {
+                return _repositories[setType];
+            }
+
+            var repoType = typeof(Repository<>);
+            repoType = repoType.MakeGenericType(setType);
+            var repository = Activator.CreateInstance(repoType, new object[] { _dataContext, _appService });
+            _repositories.Add(setType, repository);
             return repository;
         }
 

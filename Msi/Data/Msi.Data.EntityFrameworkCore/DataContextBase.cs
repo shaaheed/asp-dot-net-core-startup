@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Msi.Core;
 using Msi.Data.Abstractions;
 using Msi.Data.Entity;
+using System;
+using System.Linq;
 
 namespace Msi.Data.EntityFrameworkCore
 {
@@ -35,11 +37,11 @@ namespace Msi.Data.EntityFrameworkCore
                 }
             }
 
-            var seeds = Global.GetInstances<ISeed<IEntity>>().OrderBy(x => x.Order);
-            foreach (var item in seeds)
-            {
-                modelBuilder.AddSeeds(item);
-            }
+            //var seeds = Global.GetInstances<ISeed<IEntity>>().OrderBy(x => x.Order);
+            //foreach (var item in seeds)
+            //{
+            //    modelBuilder.AddSeeds(item);
+            //}
 
             var modelBuilders = Global.GetInstances<IModelBuilder>();
             foreach (var item in modelBuilders)

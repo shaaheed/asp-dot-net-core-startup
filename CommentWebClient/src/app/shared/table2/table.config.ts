@@ -6,12 +6,11 @@ export interface TableConfig {
     filterConfig?: FilterConfig,
     tableColumns?: TableColumnConfig[];
     pageTitle?: string;
-    createPageRoute?: string;
+    createPageRoute?: string | ((data?: any) => string);
     onClickButton?: (source: any) => void;
     editPageRoute?: (data?: any) => string;
     fetch?: (pagination: string, search?: string) => Observable<Object>;
-    fetchApiUrl?: string;
-    getFetchApiUrl?: (data?: any) => string;
+    fetchApiUrl?: string | ((data?: any) => string);
     getDeleteApiUrl?: (data: any) => string;
     onRowDeleted?: (data: any) => void;
     topRightButtons?: ButtonConfig[];

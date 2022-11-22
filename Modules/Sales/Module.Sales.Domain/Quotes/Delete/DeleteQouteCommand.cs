@@ -1,10 +1,8 @@
 ﻿using Msi.Mediator.Abstractions;
-using System;
 
 namespace Module.Sales.Domain.Qoutes
 {
-    public class DeleteQouteCommand : ICommand<long>
+    public class DeleteQouteCommand : DeleteCommand
     {
-        public Guid Id { get; set; }
     }
 }

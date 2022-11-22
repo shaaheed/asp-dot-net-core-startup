@@ -35,7 +35,7 @@ export class InvoicesViewComponent extends BaseComponent {
   @ViewChild('paymentTable') paymentTable: TableComponent;
 
   paymentTableConfig = <TableConfig>{
-    getFetchApiUrl: x => `${this.apiUrl}/${this.objectId}/payments`,
+    fetchApiUrl: x => `${this.apiUrl}/${this.objectId}/payments`,
     pageTitle: 'payments',
     getDeleteApiUrl: x => `${this.apiUrl}/${this.objectId}/payments/${x.id}`,
     onRowDeleted: data => {
