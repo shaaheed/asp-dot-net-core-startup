@@ -5,7 +5,7 @@ using Msi.Data.Abstractions;
 using Module.Sales.Entities;
 using System;
 using Module.Systems.Entities;
-using Module.Systems.Domain.Addresses;
+using Module.Systems.Domain;
 
 namespace Module.Sales.Domain.Contacts
 {

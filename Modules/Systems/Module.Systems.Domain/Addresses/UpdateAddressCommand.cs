@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Module.Systems.Domain.Addresses
+namespace Module.Systems.Domain
 {
     public class UpdateAddressCommand : CreateAddressCommand
     {

@@ -11,7 +11,12 @@ using Msi.Mediator.Abstractions;
 using Module.Tokens.Domain;
 using Services;
 using Microsoft.OpenApi.Models;
-using Msi.Data.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using Microsoft.AspNetCore.Builder;
 
 namespace AccountingWebHost
 {

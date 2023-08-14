@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Msi\Data\Msi.Data.Abstractions\Msi.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Domain\Msi.Domain.Abstractions\Msi.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Mediator\Msi.Mediator.Abstractions\Msi.Mediator.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Msi\Msi.Core\Msi.Core.csproj" />
+    <ProjectReference Include="..\..\Permissions\Module.Permissions.Entities\Module.Permissions.Entities.csproj" />
+    <ProjectReference Include="..\..\Permissions\Module.Permissions.Shared\Module.Permissions.Shared.csproj" />
+    <ProjectReference Include="..\..\Systems\Module.Systems.Domain\Module.Systems.Domain.csproj" />
+    <ProjectReference Include="..\Module.Constructions.Entities\Module.Constructions.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

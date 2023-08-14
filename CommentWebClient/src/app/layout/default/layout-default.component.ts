@@ -239,8 +239,8 @@ export class LayoutDefaultComponent extends BaseComponent implements OnInit {
           {
             level: 2,
             title: 'units',
-            route: '/units/types',
-            createRoute: '/units/types/create',
+            route: '/units',
+            createRoute: '/units/create',
             fn: () => true,
           },
           {

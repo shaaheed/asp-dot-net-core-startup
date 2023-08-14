@@ -1,4 +1,5 @@
 ﻿using Module.Systems.Entities;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities

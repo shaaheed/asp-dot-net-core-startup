@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Msi.Core;
 using Msi.Data.Abstractions;
+using System;
 
 namespace Msi.Data.Extensions.Microsoft.DependencyInjection
 {

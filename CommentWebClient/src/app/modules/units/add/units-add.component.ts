@@ -12,7 +12,7 @@ import { ValidatorService } from 'src/services/validator.service';
 })
 export class UnitsAddComponent extends FormComponent {
 
-  apiUrl = 'units/types';
+  apiUrl = 'systems/units/types';
   objectName = 'unit';
 
   units: any[] = [];
@@ -41,26 +41,6 @@ export class UnitsAddComponent extends FormComponent {
       name: [null, [], this.validator.required()],
       units: this.fb.array([])
     });
-
-    if (this.isEditMode()) {
-      this.loading = true;
-      this.subscribe(
-        this._httpService.get(`units?Filter=TypeId eq ${this.id}`),
-        (res: any) => {
-          this.loading = false;
-          if (res?.data?.items) {
-            this.units = res.data.items;
-            if (!this.units?.length) {
-              setTimeout(() => this.addUnit(), 0);
-            }
-            else {
-              this.prepareForm({ units: this.units });
-            }
-          }
-        },
-        err => this.loading = false
-      );
-    }
 
     if (this.isAddMode()) {
       setTimeout(() => this.addUnit(), 0);

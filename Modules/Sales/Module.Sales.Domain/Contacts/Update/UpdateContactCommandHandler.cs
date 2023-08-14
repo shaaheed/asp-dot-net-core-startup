@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Msi.Data.Abstractions;
 using Module.Sales.Entities;
 using Msi.Core;
-using Module.Systems.Domain.Addresses;
 using Module.Systems.Entities;
 using System;
+using Module.Systems.Domain;
 
 namespace Module.Sales.Domain.Contacts
 {

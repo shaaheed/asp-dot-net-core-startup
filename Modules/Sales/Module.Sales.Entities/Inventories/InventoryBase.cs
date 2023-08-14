@@ -1,4 +1,6 @@
-﻿using Msi.Data.Entity;
+﻿using Module.Systems.Entities;
+using Msi.Data.Entity;
+using System;
 
 namespace Module.Sales.Entities
 {

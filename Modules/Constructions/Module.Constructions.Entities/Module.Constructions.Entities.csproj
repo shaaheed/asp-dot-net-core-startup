@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Sales\Module.Sales.Entities\Module.Sales.Entities.csproj" />
+    <ProjectReference Include="..\..\Systems\Module.Systems.Entities\Module.Systems.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

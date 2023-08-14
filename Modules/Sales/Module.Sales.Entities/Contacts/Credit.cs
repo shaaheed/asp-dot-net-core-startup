@@ -1,5 +1,6 @@
 ﻿using Module.Payments.Entities;
 using Msi.Data.Entity;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities

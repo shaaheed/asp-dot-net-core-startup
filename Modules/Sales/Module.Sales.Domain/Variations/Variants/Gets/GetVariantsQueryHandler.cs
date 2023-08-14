@@ -6,6 +6,7 @@ using Msi.Utilities.Filter;
 using System.Linq;
 using Module.Sales.Entities;
 using Module.Systems.Domain;
+using Module.Systems.Entities;
 
 namespace Module.Sales.Domain
 {

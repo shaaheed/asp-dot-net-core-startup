@@ -1,4 +1,5 @@
 ﻿using Msi.Data.Entity;
+using System;
 
 namespace Module.Sales.Entities
 {

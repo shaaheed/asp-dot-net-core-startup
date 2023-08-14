@@ -1,4 +1,5 @@
-﻿using Msi.Data.Entity;
+﻿using Module.Systems.Entities;
+using Msi.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;

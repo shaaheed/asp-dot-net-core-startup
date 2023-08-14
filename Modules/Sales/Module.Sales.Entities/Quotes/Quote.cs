@@ -1,4 +1,7 @@
-﻿namespace Module.Sales.Entities
+﻿using System;
+using System.Collections.Generic;
+
+namespace Module.Sales.Entities
 {
     public class Quote : AbstractDocument
     {

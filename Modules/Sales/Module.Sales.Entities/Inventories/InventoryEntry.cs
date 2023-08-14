@@ -1,4 +1,6 @@
-﻿namespace Module.Sales.Entities
+﻿using System;
+
+namespace Module.Sales.Entities
 {
     public class InventoryEntry : InventoryBase
     {

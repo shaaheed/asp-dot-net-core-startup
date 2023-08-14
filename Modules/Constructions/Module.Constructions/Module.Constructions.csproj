@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Msi\Web\Msi.Web\Msi.Web.csproj" />
+    <ProjectReference Include="..\..\Systems\Module.Systems\Module.Systems.csproj" />
+    <ProjectReference Include="..\Module.Constructions.Domain\Module.Constructions.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

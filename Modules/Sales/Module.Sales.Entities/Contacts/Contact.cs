@@ -1,6 +1,7 @@
 ﻿using Module.Systems.Entities;
 using Msi.Data.Entity;
 using Msi.Utilities.Filter;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities

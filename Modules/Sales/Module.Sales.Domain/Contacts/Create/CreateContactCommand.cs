@@ -1,5 +1,5 @@
 ﻿using Module.Sales.Entities;
-using Module.Systems.Domain.Addresses;
+using Module.Systems.Domain;
 using Module.Systems.Domain.Persons;
 using Msi.Mediator.Abstractions;
 using System;

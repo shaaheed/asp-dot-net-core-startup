@@ -7,12 +7,13 @@ const prefix = 'units';
 export const UNIT_MODULE_CONFIG = {
     ROUTES: <Routes>[
         Route.list(prefix, {
+            pageTitle: 'units',
+            fetchApiUrl: 'systems/units/types',
+            getDeleteApiUrl: x => `systems/units/types/${x.id}`,
             tableColumns: [
                 Column.namex(),
-                Column.column('symbol'),
-                Column.column('type', x => x.type?.name),
-                // Column.column('parent.unit', x => x.baseUnit?.)
-                Column.created()
+                Column.column('base.unit', x => x.baseUnit?.name),
+                Column.created(),
             ]
         }),
         ...[
