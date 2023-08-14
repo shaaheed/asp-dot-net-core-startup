@@ -170,8 +170,8 @@ namespace Msi.Data.Abstractions
             var results = query.Select(selector);
             var item = await Task.Run(() => results.FirstOrDefault(), cancellationToken);
 
-            if (item == null)
-                throw new Exception("Item not found");
+            /*if (item == null)
+                throw new Exception("Item not found");*/
 
             return item;
         }

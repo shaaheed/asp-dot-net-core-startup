@@ -21,9 +21,11 @@ export class ControlComponent implements ControlValueAccessor {
 
   @Input() set disable(value: boolean) {
     const action = value ? 'disable' : 'enable';
-    if (this.ngControl?.control) {
-      this.ngControl.control[action]();
-    }
+    setTimeout(() => {
+      if (this.ngControl?.control) {
+        this.ngControl.control[action]();
+      }
+    }, 0);
     this._disable = value ?? false;
   }
 

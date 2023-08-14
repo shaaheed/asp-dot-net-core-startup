@@ -1,6 +1,7 @@
 ﻿using Module.Systems.Entities;
 using Msi.Data.Entity;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.Sales.Entities
 {
@@ -9,6 +10,10 @@ namespace Module.Sales.Entities
     {
         public Guid ItemId { get; set; }
         public virtual Item Item { get; set; }
+
+        // Base Price
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal? Price { get; set; }
 
         public string Description { get; set; }
 
@@ -23,8 +28,7 @@ namespace Module.Sales.Entities
         public Guid? AccountId { get; set; }
         public virtual Account Account { get; set; }
 
-        // Default location for sale/purchase
-        public Guid? LocationId { get; set; }
-        public virtual Location Location { get; set; }
+        public Guid? CurrencyId { get; set; }
+        public virtual Currency Currency { get; set; }
     }
 }

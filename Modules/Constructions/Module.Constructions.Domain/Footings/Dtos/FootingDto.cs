@@ -12,7 +12,7 @@ namespace Module.Constructions.Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public float Nos { get; set; }
-        public FootingType Type { get; set; }
+        //public FootingType Type { get; set; }
         public GuidIdNameDto UnitType { get; set; }
         public float Volumne { get; set; }
         public GuidIdNameDto VolumneUnit { get; set; }
@@ -27,9 +27,9 @@ namespace Module.Constructions.Domain
                 Id = x.Id,
                 Name = x.Name,
                 Nos = x.Nos,
-                Values = x.Values.Select(y => new FootingValueDto { Id = y.Id, Type = y.Type, Value = y.Value.Value, Unit = new GuidIdNameDto { Id = y.Value.UnitId, Name = y.Value.Unit.Name } }),
-                Volumne = x.Volumne,
-                VolumneUnit = new GuidIdNameDto { Id = x.VolumneUnitId, Name = x.VolumneUnit.Name },
+                //Values = x.Values.Select(y => new FootingValueDto { Id = y.Id, Type = y.Type, Value = y.Value.Value, Unit = new GuidIdNameDto { Id = y.Value.UnitId, Name = y.Value.Unit.Name } }),
+                //Volumne = x.Volumne,
+                //VolumneUnit = new GuidIdNameDto { Id = x.VolumneUnitId, Name = x.VolumneUnit.Name },
                 CreatedAt = x.CreatedAt
             };
         }

@@ -12,10 +12,6 @@ namespace Module.Sales.Entities
         [Column(TypeName = "decimal(18,4)")]
         public decimal? AverageCost { get; set; }
 
-        
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal? Cost { get; set; }
-
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal? LastPurchasePrice { get; set; }
@@ -26,6 +22,10 @@ namespace Module.Sales.Entities
 
         public Guid? SupplierId { get; set; }
         public virtual Contact Supplier { get; set; }
+
+        // Preferred location
+        public Guid? LocationId { get; set; }
+        public virtual Location Location { get; set; }
 
     }
 }

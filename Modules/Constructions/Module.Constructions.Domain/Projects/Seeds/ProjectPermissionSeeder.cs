@@ -7,7 +7,7 @@ using Msi.Data.Abstractions;
 
 namespace Module.Constructions.Domain
 {
-    public class ProjectPermissionSeeder : AbstractSeeder<Permission>
+    /*public class ProjectPermissionSeeder : AbstractSeeder<Permission>
     {
         public override int Order => 1;
 
@@ -21,5 +21,5 @@ namespace Module.Constructions.Domain
                 .View(ProjectView, PermissionCodes.ProjectView, Project)
                 .FullAccess(ProjectFullAccess, PermissionCodes.ProjectFullAccess, Project);
         }
-    }
+    }*/
 }

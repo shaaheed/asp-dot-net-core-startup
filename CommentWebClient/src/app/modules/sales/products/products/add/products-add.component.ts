@@ -21,23 +21,10 @@ export class ProductsAddComponent extends FormComponent {
   objectName = "product";
 
   @ViewChild('salesInfo') salesInfo: ProductSalesInfoAddComponent;
-
-  @ViewChild('purchaseUnitSelect') purchaseUnitSelect: SelectControlComponent;
-  @ViewChild('purchaseTaxSelect') purchaseTaxSelect: SelectControlComponent;
-  @ViewChild('purchaseAccountSelect') purchaseAccountSelect: SelectControlComponent;
-  @ViewChild('supplierSelect') supplierSelect: SelectControlComponent;
-
-  @ViewChild('inventoryAccountSelect') inventoryAccountSelect: SelectControlComponent;
-
   @ViewChild('categoriesSelect') categoriesSelect: SelectControlComponent;
-
   @ViewChild('unitTypeSelect') unitTypeSelect: SelectControlComponent;
 
   currency;
-
-  onSetFormValues = data => {
-    console.log('on set form values', data);
-  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,23 +49,6 @@ export class ProductsAddComponent extends FormComponent {
       categories: [],
       description: [],
       unitTypeId: [],
-
-      // isSale: [true],
-      
-      // isPurchase: [true],
-      // purchasePrice: [],
-      // purchaseAccountId: [],
-      // purchaseDescription: [],
-      // purchaseTaxes: [],
-      // purchaseUnitId: [null, [], [
-      //   this.unitValidator().bind(this)
-      // ]],
-      // supplierId: [],
-
-      // isInventory: [true],
-      // stockQuantity: [],
-      // lowStockQuantity: [],
-      // inventoryAccountId: [],
     });
     super.ngOnInit(this.activatedRoute.snapshot);
   }
@@ -115,7 +85,7 @@ export class ProductsAddComponent extends FormComponent {
 
   onUnitTypeChanged(e) {
     this.salesInfo.reset();
-    this.purchaseUnitSelect?.reset();
+    // this.purchaseUnitSelect?.reset();
     console.log('onUnitTypeChanged', e);
   }
 
@@ -127,5 +97,16 @@ export class ProductsAddComponent extends FormComponent {
       return of(true);
     }
   }
+
+  onBeforeSubmit = (payload) => {
+    payload.saleDetails = this.constructObject(this.salesInfo.form.controls);
+    payload.saleDetails.itemId = this.id;
+    console.log('on before submit', payload)
+  }
+
+  onSetFormValues = data => {
+    this.salesInfo.setValues(this.salesInfo.form.controls, data.saleDetails);
+    console.log('on set form values', data);
+  };
 
 }

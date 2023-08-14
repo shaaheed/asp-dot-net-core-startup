@@ -7,7 +7,7 @@ using Module.Constructions.Entities;
 
 namespace Module.Constructions.Domain
 {
-    public class UpdateMaterialCommandHandler : ICommandHandler<UpdateMaterialCommand, long>
+    /*public class UpdateMaterialCommandHandler : ICommandHandler<UpdateMaterialCommand, long>
     {
 
         private readonly IUnitOfWork _unitOfWork;
@@ -31,5 +31,5 @@ namespace Module.Constructions.Domain
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result;
         }
-    }
+    }*/
 }

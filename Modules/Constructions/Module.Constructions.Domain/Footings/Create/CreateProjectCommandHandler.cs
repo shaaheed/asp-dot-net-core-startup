@@ -29,19 +29,19 @@ namespace Module.Constructions.Domain
             }
 
             var count = request.Values?.Count;
-            var distinctCount = request.Values?.DistinctBy(x => x.Type)?.Count();
+            /*var distinctCount = request.Values?.DistinctBy(x => x.Type)?.Count();
 
             if (count != distinctCount)
             {
                 throw new ValidationException("Multiple values are not allowed.");
-            }
+            }*/
 
             var entity = request.Map();
             var footing = await base.Handle(entity, cancellationToken);
             if (footing != null)
             {
                 var unitValueRepo = _unitOfWork.GetRepository<UnitValue>();
-                var footingValueRepo = _unitOfWork.GetRepository<FootingValue>();
+                //var footingValueRepo = _unitOfWork.GetRepository<FootingValue>();
 
                 var units = _unitOfWork.GetRepository<Unit>()
                     .Where(x => x.TypeId == request.UnitTypeId)
@@ -67,16 +67,16 @@ namespace Module.Constructions.Domain
                     await unitValueRepo.AddAsync(unitValue);
                     await _unitOfWork.SaveChangesAsync();
 
-                    var footingValue = new FootingValue {
-                        FootingId = footing.Value,
-                        Type = x.Type,
-                        ValueId = unitValue.Id,
-                        MultiplyBy = x.MultiplyBy,
-                    };
-                    await footingValueRepo.AddAsync(footingValue);
+                    //var footingValue = new FootingValue {
+                    //    FootingId = footing.Value,
+                    //    Type = x.Type,
+                    //    ValueId = unitValue.Id,
+                    //    MultiplyBy = x.MultiplyBy,
+                    //};
+                    //await footingValueRepo.AddAsync(footingValue);
                 }
 
-                entity.Volumne = volume;
+                //entity.Volumne = volume;
                 var result = await _unitOfWork.SaveChangesAsync();
             }
 

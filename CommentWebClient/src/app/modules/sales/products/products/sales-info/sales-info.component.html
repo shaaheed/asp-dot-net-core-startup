@@ -2,10 +2,16 @@
     <form nz-form [formGroup]="form">
         <label class="info-section-title">{{ 'sales'|translate }}</label>
 
-        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currency">
+mode {{ mode }}
+
+        <app-select-control label="currencies" #currenciesSelect [formControl]="form.controls.currencies"
+            mode="multiple">
         </app-select-control>
 
-        <app-input [prefix]="currency" label="base.price" type="number" formControlName="price" placeholder="price">
+        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currencyId">
+        </app-select-control>
+
+        <app-input [prefix]="currency" label="base.price" type="number" [disable]="!form.controls.currencyId.value" formControlName="price" placeholder="price">
         </app-input>
 
         <app-select-control (onSelected)="onUnitSelected($event)" [disable]="!unitTypeId" label="unit" #unitSelect
@@ -15,11 +21,7 @@
         <app-text label="description" formControlName="description" placeholder="description">
         </app-text>
 
-        <app-select-control label="currencies" #currenciesSelect [formControl]="form.controls.currencies"
-            mode="multiple">
-        </app-select-control>
-
-        <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #taxSelect [formControl]="form.controls.taxes">
+        <app-select-control [onItemsLoaded]="onTaxesLoaded" label="tax" #taxSelect [formControl]="form.controls.taxId">
         </app-select-control>
 
         <app-select-control label="account" #accountSelect [formControl]="form.controls.accountId">

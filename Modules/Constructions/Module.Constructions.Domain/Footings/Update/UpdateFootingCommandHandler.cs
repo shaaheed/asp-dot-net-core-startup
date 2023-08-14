@@ -33,15 +33,15 @@ namespace Module.Constructions.Domain
                 throw new ValidationException("Invalid values.");
 
             var count = request.Values?.Count;
-            var distinctCount = request.Values?.DistinctBy(x => x.Type)?.Count();
+            /*var distinctCount = request.Values?.DistinctBy(x => x.Type)?.Count();
 
             if (count != distinctCount)
-                throw new ValidationException("Multiple values are not allowed.");
+                throw new ValidationException("Multiple values are not allowed.");*/
 
             request.Map(entity);
 
             var unitValueRepo = _unitOfWork.GetRepository<UnitValue>();
-            var footingValueRepo = _unitOfWork.GetRepository<FootingValue>();
+            //var footingValueRepo = _unitOfWork.GetRepository<FootingValue>();
 
             var units = _unitOfWork.GetRepository<Unit>()
                 .Where(x => x.TypeId == request.UnitTypeId)
@@ -56,32 +56,32 @@ namespace Module.Constructions.Domain
             float volume = 0;
 
             var requestFootingValueIds = request.Values.Where(x => x.Id.HasValue).Select(x => x.Id.Value);
-            var savedFootingValues = footingValueRepo.Where(x => requestFootingValueIds.Contains(x.Id));
+            //var savedFootingValues = footingValueRepo.Where(x => requestFootingValueIds.Contains(x.Id));
 
             foreach (var x in request.Values)
             {
                 var unit = units.Find(x => x.Id == x.Id);
                 volume *= unit.IsBase ? x.Value : (x.Value * unit.ConversionRate);
 
-                var savedFootingValue = savedFootingValues.FirstOrDefault(y => x.Id == y.Id);
-                if (savedFootingValue == null)
-                {
-                    var unitValue = new UnitValue { Value = x.Value, UnitId = x.UnitId };
-                    await unitValueRepo.AddAsync(unitValue);
-                    await _unitOfWork.SaveChangesAsync();
+                //var savedFootingValue = savedFootingValues.FirstOrDefault(y => x.Id == y.Id);
+                //if (savedFootingValue == null)
+                //{
+                //    var unitValue = new UnitValue { Value = x.Value, UnitId = x.UnitId };
+                //    await unitValueRepo.AddAsync(unitValue);
+                //    await _unitOfWork.SaveChangesAsync();
 
-                    var footingValue = new FootingValue { FootingId = entity.Id, Type = x.Type, ValueId = unitValue.Id };
-                    await footingValueRepo.AddAsync(footingValue);
-                }
-                else
-                {
-                    savedFootingValue.Value.Value = x.Value;
-                    savedFootingValue.Value.UnitId = x.UnitId;
-                    savedFootingValue.Type = x.Type;
-                }
+                //    var footingValue = new FootingValue { FootingId = entity.Id, Type = x.Type, ValueId = unitValue.Id };
+                //    await footingValueRepo.AddAsync(footingValue);
+                //}
+                //else
+                //{
+                //    savedFootingValue.Value.Value = x.Value;
+                //    savedFootingValue.Value.UnitId = x.UnitId;
+                //    savedFootingValue.Type = x.Type;
+                //}
             }
 
-            entity.Volumne = volume;
+            //entity.Volumne = volume;
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
             return result > 0 ? request.Id : null;

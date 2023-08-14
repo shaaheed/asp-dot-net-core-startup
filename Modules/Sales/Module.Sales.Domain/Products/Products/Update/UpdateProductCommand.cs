@@ -12,25 +12,18 @@ namespace Module.Sales.Domain.Products
         public string Barcode { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Guid? UnitTypeId { get; set; }
 
         public List<Guid> Categories { get; set; }
 
         #region Sales Properties
         public bool IsSale { get; set; }
-        public decimal? SalesPrice { get; set; }
-        public decimal? MRP { get; set; }
-        public string SalesDescription { get; set; }
-        public Guid? SalesUnitId { get; set; }
-        public Guid? SalesAccountId { get; set; }
+        public SaleDetailsRequestDto SaleDetails { get; set; }
         #endregion
 
         #region Purchase Properties
         public bool IsPurchase { get; set; }
-        public decimal? PurchasePrice { get; set; }
-        public string PurchaseDescription { get; set; }
-        public Guid? PurchaseUnitId { get; set; }
-        public Guid? PurchaseAccountId { get; set; }
-        public Guid? SupplierId { get; set; }
+        public PurchaseDetailsRequestDto PurchaseDetails { get; set; }
         #endregion
 
         #region Inventory Properties
@@ -57,19 +50,9 @@ namespace Module.Sales.Domain.Products
             entity.Name = Name;
             entity.Code = Code;
             entity.Description = Description;
-
+            entity.UnitTypeId = UnitTypeId;
             entity.IsSale = IsSale;
-            /*entity.SalesPrice = SalesPrice;
-            entity.MRP = MRP;
-            entity.SalesDescription = SalesDescription;
-            entity.SalesUnitId = SalesUnitId;
-            entity.SalesAccountId = SalesAccountId;*/
-
             entity.IsPurchase = IsPurchase;
-            /*entity.PurchasePrice = PurchasePrice;
-            entity.PurchaseDescription = PurchaseDescription;
-            entity.PurchaseUnitId = PurchaseUnitId;
-            entity.PurchaseAccountId = PurchaseAccountId;*/
 
             entity.IsInventory = IsInventory;
             /*entity.InitialStockQuantity = InitialStockQuantity;

@@ -21,16 +21,21 @@ namespace Module.Sales.Domain.Products
 
         public async Task<ProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.GetAsync(x => x.Id == request.Id, ProductDto.Selector(), cancellationToken);
-            var categories = _unitOfWork.GetRepository<ItemCategory>()
-                .Where(x => x.ItemId == request.Id)
-                .Select(x => new GuidIdNameDto
-                {
-                    Id = x.CategoryId,
-                    Name = x.Category.Name
-                });
-            product.Categories = categories;
-            return product;
+            var item = await _unitOfWork.GetAsync(x => x.Id == request.Id, ProductDto.Selector(), cancellationToken);
+            if (item != null)
+            {
+                var categories = _unitOfWork.GetRepository<ItemCategory>()
+                    .Where(x => x.ItemId == request.Id)
+                    .Select(x => new GuidIdNameDto
+                    {
+                        Id = x.CategoryId,
+                        Name = x.Category.Name
+                    });
+                item.Categories = categories;
+                item.SaleDetails = await _unitOfWork.GetAsync(x => x.ItemId == item.Id, SaleDetailsDto.Selector(), cancellationToken);
+                item.PurchaseDetails = await _unitOfWork.GetAsync(x => x.ItemId == item.Id, PurchaseDetailsDto.Selector(), cancellationToken);
+            }
+            return item;
         }
     }
 }

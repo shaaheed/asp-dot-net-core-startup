@@ -5,7 +5,7 @@ using static Module.Constructions.Domain.PermissionGroupIds;
 
 namespace Module.Constructions.Domain
 {
-    public class ProjectPermissionGroupSeeder : AbstractSeeder<PermissionGroup>
+    /*public class ProjectPermissionGroupSeeder : AbstractSeeder<PermissionGroup>
     {
         public override IEnumerable<PermissionGroup> GetSeeds()
         {
@@ -13,5 +13,5 @@ namespace Module.Constructions.Domain
                 new PermissionGroup(Project, "Project")
             };
         }
-    }
+    }*/
 }

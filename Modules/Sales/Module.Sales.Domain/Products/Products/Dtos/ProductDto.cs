@@ -3,6 +3,7 @@ using Module.Systems.Domain;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using Msi.Domain.Abstractions;
 
 namespace Module.Sales.Domain.Products
 {
@@ -11,31 +12,18 @@ namespace Module.Sales.Domain.Products
         public string Barcode { get; set; }
         public string Description { get; set; }
         public IEnumerable<GuidIdNameDto> Categories { get; set; }
+        public IdNameDto UnitType { get; set; }
 
         // Sales Properties
         public bool IsSale { get; set; }
-        public decimal? SalesPrice { get; set; }
-        public decimal? MRP { get; set; }
-        public string SalesDescription { get; set; }
-        public GuidIdNameDto SalesUnit { get; set; }
-        public GuidCodeNameDto SalesAccount { get; set; }
-        public ICollection<GuidCodeNameDto> SalesTaxes { get; set; }
+        public SaleDetailsDto SaleDetails { get; set; }
 
         // Purchase Properties
         public bool IsPurchase { get; set; }
-        public decimal? PurchasePrice { get; set; }
-        public string PurchaseDescription { get; set; }
-        public GuidIdNameDto PurchaseUnit { get; set; }
-        public GuidCodeNameDto PurchaseAccount { get; set; }
-        public ICollection<GuidCodeNameDto> PurchaseTaxes { get; set; }
-        public GuidIdNameDto Supplier { get; set; }
+        public PurchaseDetailsDto PurchaseDetails { get; set; }
 
         // Inventory Properties
         public bool IsInventory { get; set; }
-        public float InitialStockQuantity { get; set; }
-        public float StockQuantity { get; set; }
-        public float LowStockQuantity { get; set; }
-        public GuidCodeNameDto InventoryAccount { get; set; }
 
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
@@ -57,6 +45,11 @@ namespace Module.Sales.Domain.Products
                 Code = x.Code,
                 Barcode = x.Barcode,
                 Description = x.Description,
+                UnitType = x.UnitTypeId != null ? new IdNameDto
+                {
+                    Id = x.UnitType.Id,
+                    Name = x.UnitType.Name
+                } : null,
 
                 IsSale = x.IsSale,
                 /*SalesPrice = x.SalesPrice,

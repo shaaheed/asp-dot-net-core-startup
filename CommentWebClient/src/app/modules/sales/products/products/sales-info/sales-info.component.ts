@@ -61,12 +61,13 @@ export class ProductSalesInfoAddComponent extends FormComponent {
 
     this.currency = CURRENCY;
     this.createForm({
-      currency: [],
+      id: [],
+      currencyId: [],
       currencies: [],
       price: [],
       accountId: [],
       description: [],
-      taxes: [],
+      taxId: [],
       unitId: [null, [], [
         this.unitValidator().bind(this)
       ]],
