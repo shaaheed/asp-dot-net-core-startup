@@ -15,9 +15,9 @@ namespace Module.Sales.Entities
         public virtual VariantOption VariantOption { get; set; }
 
         public Guid? SaleDetailsId { get; set; }
-        public virtual SaleDetails SaleDetails { get; set; }
+        public virtual ItemSaleDetails SaleDetails { get; set; }
 
         public Guid? PurchaseDetailsId { get; set; }
-        public virtual PurchaseDetails PurchaseDetails { get; set; }
+        public virtual ItemPurchaseDetails PurchaseDetails { get; set; }
     }
 }

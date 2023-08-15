@@ -149,7 +149,7 @@ export class BaseComponent {
             if (!ignoreControls.includes(key) && res.hasOwnProperty(key)) {
                 let control = controls[key];
                 const value = res[key];
-                if (!control && (Array.isArray(value) || this.isObject(value))) {
+                if (value && !control && (Array.isArray(value) || this.isObject(value))) {
                     const newKey = `${key}Id`;
                     control = controls[newKey];
                 }
@@ -160,7 +160,7 @@ export class BaseComponent {
 
     setControlValue(control, value) {
         if (control && control instanceof UntypedFormControl) {
-            control.setValue(value);
+            setTimeout(() => control.setValue(value), 0);
         }
     }
 
@@ -255,8 +255,8 @@ export class BaseComponent {
         this.busy(false);
     }
 
-    private isObject(value) : boolean {
-        return typeof(value) === "object";
+    private isObject(value): boolean {
+        return typeof (value) === "object";
     }
 
 }

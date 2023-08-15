@@ -2,7 +2,11 @@
     <form nz-form [formGroup]="form">
         <label class="info-section-title">{{ 'purchase'|translate }}</label>
 
-        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currency">
+        <app-select-control label="currencies" #currenciesSelect [formControl]="form.controls.currencies"
+            mode="multiple">
+        </app-select-control>
+
+        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currencyId">
         </app-select-control>
 
         <app-input [prefix]="currency" label="base.price" type="number" formControlName="price" placeholder="price">

@@ -8,6 +8,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { message } from 'src/constants/message';
 import { of } from 'rxjs';
 import { ProductSalesInfoAddComponent } from '../sales-info/sales-info.component';
+import { ProductPurchaseInfoAddComponent } from '../purchase-info/purchase-info.component';
 
 @Component({
   selector: 'app-products-add',
@@ -15,12 +16,14 @@ import { ProductSalesInfoAddComponent } from '../sales-info/sales-info.component
 })
 export class ProductsAddComponent extends FormComponent {
 
+  data: any = null;
   loading: boolean = false;
   noData: boolean = false;
   apiUrl = 'products';
   objectName = "product";
 
   @ViewChild('salesInfo') salesInfo: ProductSalesInfoAddComponent;
+  @ViewChild('purchaseInfo') purchaseInfo: ProductPurchaseInfoAddComponent;
   @ViewChild('categoriesSelect') categoriesSelect: SelectControlComponent;
   @ViewChild('unitTypeSelect') unitTypeSelect: SelectControlComponent;
 
@@ -31,10 +34,6 @@ export class ProductsAddComponent extends FormComponent {
     private validator: ValidatorService
   ) {
     super();
-  }
-
-  productInputTest(e?) {
-    console.log('inputTest', e)
   }
 
   ngOnInit(): void {
@@ -61,32 +60,11 @@ export class ProductsAddComponent extends FormComponent {
     this.unitTypeSelect.register((pagination, search) => {
       return this._httpService.get('systems/units/types');
     });
-
-    // this.purchaseUnitSelect.register((pagination, search) => {
-    //   return this._httpService.get(this.getUnitUrl());
-    // });
-
-    // this.purchaseTaxSelect.register((pagination, search) => {
-    //   return this._httpService.get('taxes');
-    // });
-
-    // this.supplierSelect.register((pagination, search) => {
-    //   return this._httpService.get('contacts?Search=Type eq 2');
-    // });
-  }
-
-  onTaxesLoaded(items: any[]): void {
-    if (items?.length) {
-      items.forEach(x => {
-        x.name = `${x.name} (${x.rate}%)`
-      })
-    }
   }
 
   onUnitTypeChanged(e) {
-    this.salesInfo.reset();
-    // this.purchaseUnitSelect?.reset();
-    console.log('onUnitTypeChanged', e);
+    this.salesInfo?.reset();
+    this.purchaseInfo?.reset();
   }
 
   unitValidator(error?: string) {
@@ -98,15 +76,23 @@ export class ProductsAddComponent extends FormComponent {
     }
   }
 
+  onPurchaseDetailsUpdated(e) {
+    console.log('onPurchaseDetailsUpdated', e);
+    this.data.purchaseDetails = e;
+  }
+
   onBeforeSubmit = (payload) => {
     payload.saleDetails = this.constructObject(this.salesInfo.form.controls);
     payload.saleDetails.itemId = this.id;
+    if (this.purchaseInfo) {
+      payload.purchaseDetails = this.constructObject(this.purchaseInfo.form.controls);
+      payload.purchaseDetails.itemId = this.id;
+    }
     console.log('on before submit', payload)
   }
 
-  onSetFormValues = data => {
-    this.salesInfo.setValues(this.salesInfo.form.controls, data.saleDetails);
-    console.log('on set form values', data);
+  onGetData = data => {
+    setTimeout(() => this.data = data, 0);
   };
 
 }

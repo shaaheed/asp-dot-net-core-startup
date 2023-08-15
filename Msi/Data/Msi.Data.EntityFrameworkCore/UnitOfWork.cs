@@ -129,7 +129,7 @@ namespace Msi.Data.EntityFrameworkCore
                         }
                         else if (entry.State == EntityState.Modified && entity.OrganizationId != organizationGuid)
                         {
-                            throw new Exception("Permission denied.");
+                            // throw new Exception("Permission denied.");
                         }
                         
                     }

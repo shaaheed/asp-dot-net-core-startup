@@ -2,16 +2,16 @@
     <form nz-form [formGroup]="form">
         <label class="info-section-title">{{ 'sales'|translate }}</label>
 
-mode {{ mode }}
-
-        <app-select-control label="currencies" #currenciesSelect [formControl]="form.controls.currencies"
-            mode="multiple">
+        <app-select-control [serverSearch]="true" label="currencies" #currenciesSelect
+            [formControl]="form.controls.currencies" mode="multiple">
         </app-select-control>
 
-        <app-select-control label="base.currency" #currencySelect [formControl]="form.controls.currencyId">
+        <app-select-control [serverSearch]="true" label="base.currency" #currencySelect
+            [formControl]="form.controls.currencyId">
         </app-select-control>
 
-        <app-input [prefix]="currency" label="base.price" type="number" [disable]="!form.controls.currencyId.value" formControlName="price" placeholder="price">
+        <app-input [prefix]="currency" label="base.price" type="number" [disable]="!form.controls.currencyId.value"
+            formControlName="price" placeholder="price">
         </app-input>
 
         <app-select-control (onSelected)="onUnitSelected($event)" [disable]="!unitTypeId" label="unit" #unitSelect

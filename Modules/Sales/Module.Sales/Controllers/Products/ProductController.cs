@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Msi.Web;
-using Module.Sales.Domain.Products;
+using Module.Sales.Domain.Items;
 using System;
 using Msi.Utilities.Filter;
 
@@ -15,7 +15,7 @@ namespace Module.Sales.Controllers
 
         [HttpPost]
         //[RequirePermission(ProductCreate, ProductManage)]
-        public async Task<IActionResult> Post([FromBody] CreateProductCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateItemCommand command)
         {
             var result = await OkAsync(command);
             return result.ToCreatedResult();
@@ -23,7 +23,7 @@ namespace Module.Sales.Controllers
 
         [HttpPut("{id}")]
         //[RequirePermission(ProductUpdate, ProductManage)]
-        public Task<IActionResult> Put(Guid id, [FromBody] UpdateProductCommand command)
+        public Task<IActionResult> Put(Guid id, [FromBody] UpdateItemCommand command)
         {
             command.Id = id;
             return OkAsync(command);
@@ -31,7 +31,7 @@ namespace Module.Sales.Controllers
 
         [HttpDelete("{id}")]
         //[RequirePermission(ProductDelete, ProductManage)]
-        public Task<IActionResult> Delete([FromRoute] DeleteProductCommand command)
+        public Task<IActionResult> Delete([FromRoute] DeleteItemCommand command)
         {
             return DeleteAsync(command);
         }
@@ -40,7 +40,7 @@ namespace Module.Sales.Controllers
         //[RequirePermission(ProductList, ProductManage)]
         public Task<IActionResult> Gets([FromQuery] FilterOptions filterOptions)
         {
-            return OkAsync(new GetProductsQuery().AddFilterOptions(filterOptions));
+            return OkAsync(new GetItemsQuery().AddFilterOptions(filterOptions));
         }
 
         [HttpGet("transactions")]
@@ -52,7 +52,7 @@ namespace Module.Sales.Controllers
 
         [HttpGet("{id}")]
         //[RequirePermission(ProductView, ProductManage)]
-        public Task<IActionResult> Get([FromRoute] GetProductQuery query)
+        public Task<IActionResult> Get([FromRoute] GetItemQuery query)
         {
             return OkAsync(query);
         }

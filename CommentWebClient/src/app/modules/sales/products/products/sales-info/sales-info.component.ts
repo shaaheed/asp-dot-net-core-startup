@@ -7,7 +7,7 @@ import { CURRENCY } from 'src/app/modules/organizations/organization.service';
 import { AbstractControl, UntypedFormArray, UntypedFormControl } from '@angular/forms';
 import { message } from 'src/constants/message';
 import { of } from 'rxjs';
-import { forEachObj } from 'src/services/utilities.service';
+import { buildFilter, forEachObj } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-products-sales-info',
@@ -19,10 +19,10 @@ export class ProductSalesInfoAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  apiUrl = 'products';
   objectName = "product";
 
   @Input() unitTypeId;
+  @Input() data;
 
   @ViewChild('currencySelect') currencySelect: SelectControlComponent;
   @ViewChild('currenciesSelect') currenciesSelect: SelectControlComponent;
@@ -41,10 +41,6 @@ export class ProductSalesInfoAddComponent extends FormComponent {
 
   formItemStyle = { padding: 0 };
 
-  onSetFormValues = data => {
-    console.log('on set form values', data);
-  };
-
   constructor(
     private route: ActivatedRoute,
     private validator: ValidatorService
@@ -57,8 +53,6 @@ export class ProductSalesInfoAddComponent extends FormComponent {
     if (data?.componentAccessor) {
       data.componentAccessor(this);
     }
-    super.ngOnInit(this.route.snapshot);
-
     this.currency = CURRENCY;
     this.createForm({
       id: [],
@@ -73,17 +67,18 @@ export class ProductSalesInfoAddComponent extends FormComponent {
       ]],
       prices: this.fb.array([])
     });
-
-    this.prepareForm({ prices: this.pricesList })
+    super.ngOnInit(this.route.snapshot);
+    this.data.prices = this.pricesList
+    this.prepareForm({ prices: this.pricesList });
   }
 
   ngAfterViewInit() {
     this.currencySelect.register((pagination, search) => {
-      return this._httpService.get('systems/currencies');
+      return this._httpService.get('systems/currencies', pagination, buildFilter('Name', 'like', search));
     });
 
     this.currenciesSelect.register((pagination, search) => {
-      return this._httpService.get('systems/currencies');
+      return this._httpService.get('systems/currencies', pagination, buildFilter('Name', 'like', search));
     });
 
     this.unitSelect.register((pagination, search) => {
@@ -147,6 +142,7 @@ export class ProductSalesInfoAddComponent extends FormComponent {
         this.createPricesFormGroup(o);
       });
     }
+    this.setValues(this.form.controls, this.data);
   }
 
   private createPricesFormGroup(data: any) {

@@ -3,18 +3,22 @@
         <label [class.required]="mandatory">
             {{label|translate }}
             <ng-container *ngIf="tooltip">
-                <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon
-                    nzType="question-circle" nzTheme="outline"></i>
+                <i nz-tooltip [nzTooltipTitle]="tooltip|translate" nz-icon nzType="question-circle"
+                    nzTheme="outline"></i>
             </ng-container>
         </label>
     </div>
     <nz-form-control #antFormControl [nzErrorTip]="errorTemplate">
-        <nz-select #select [formControl]="ngControl.control" [nzDisabled]="disable" (nzScrollToBottom)="loadMore()" 
+        <nz-select #select [formControl]="ngControl.control" [nzDisabled]="disable" (nzScrollToBottom)="loadMore()"
             [nzLoading]="loading" nzShowSearch (ngModelChange)="onValueChange($event)" [nzMode]="mode" nzAllowClear
-            [nzPlaceHolder]="'select.x0'|translate:{x0: placeholder|translate|lowercase}" [nzDropdownRender]="renderTemplate" [nzNotFoundContent]="notFoundTemplate" (nzOpenChange)="onOpenChange($event)">
-            <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p[idKey]">
-            </nz-option>
-            <nz-option *ngIf="loadingMore" nzDisabled nzCustomContent>
+            [nzPlaceHolder]="'select.x0'|translate:{x0: placeholder|translate|lowercase}"
+            [nzDropdownRender]="(searching || loading) ? null : renderTemplate" [nzNotFoundContent]="notFoundTemplate"
+            [nzServerSearch]="serverSearch" (nzOnSearch)="onSearch($event)" (nzOpenChange)="onOpenChange($event)">
+            <ng-container *ngIf="!searching">
+                <nz-option *ngFor="let p of items" [nzLabel]="p[labelKey]" [nzValue]="p[idKey]">
+                </nz-option>
+            </ng-container>
+            <nz-option *ngIf="loadingMore || searching" nzDisabled nzCustomContent>
                 <i nz-icon nzType="loading" class="loading-icon"></i> {{'loading.data'|translate}}
             </nz-option>
         </nz-select>

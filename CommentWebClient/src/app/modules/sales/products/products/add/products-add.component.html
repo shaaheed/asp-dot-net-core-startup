@@ -24,23 +24,24 @@
             </div>
             <nz-space></nz-space>
 
-
-            <div class="product-info">
+            <div *ngIf="data" class="product-info">
                 <div style="padding: 20px;">
                     <nz-tabset>
-                        <nz-tab nzTitle="{{ 'sales.information'|translate }}">
-                            <app-products-sales-info #salesInfo [unitTypeId]="form.controls.unitTypeId.value">
+                        <nz-tab nzTitle="{{ 'sales'|translate }}">
+                            <app-products-sales-info #salesInfo [unitTypeId]="form.controls.unitTypeId.value"
+                                [data]="data?.saleDetails">
                             </app-products-sales-info>
                         </nz-tab>
-                        <nz-tab nzTitle="{{ 'purchase.information'|translate }}">
+                        <nz-tab nzTitle="{{ 'purchase'|translate }}">
                             <ng-template nz-tab>
-                                <app-products-purchase-info #purchaseInfo [unitTypeId]="form.controls.unitTypeId.value">
+                                <app-products-purchase-info #purchaseInfo [unitTypeId]="form.controls.unitTypeId.value"
+                                    [data]="data?.purchaseDetails" (updated)="onPurchaseDetailsUpdated($event)">
                                 </app-products-purchase-info>
                             </ng-template>
                         </nz-tab>
-                        <nz-tab nzTitle="{{ 'inventory.information'|translate }}">
+                        <nz-tab nzTitle="{{ 'inventory'|translate }}">
                             <ng-template nz-tab>
-                                inventory.information
+                                inventory
                             </ng-template>
                         </nz-tab>
                     </nz-tabset>

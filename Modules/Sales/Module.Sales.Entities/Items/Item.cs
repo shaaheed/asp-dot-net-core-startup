@@ -20,6 +20,9 @@ namespace Module.Sales.Entities
         public Guid? UnitTypeId { get; set; }
         public UnitType UnitType { get; set; }
 
+        public Guid? GroupId { get; set; }
+        public Group Group { get; set; }
+
 
         // Sale
         public bool IsSale { get; set; }
@@ -27,13 +30,13 @@ namespace Module.Sales.Entities
         public bool IsReturnable { get; set; }
         public Guid? SaleDetailsId { get; set; }
         [ForeignKey(nameof(SaleDetailsId))]
-        public virtual SaleDetails SaleDetails { get; set; }
+        public virtual ItemSaleDetails SaleDetails { get; set; }
 
         // Purchase
         public bool IsPurchase { get; set; }
         public Guid? PurchaseDetailsId { get; set; }
         [ForeignKey(nameof(PurchaseDetailsId))]
-        public virtual PurchaseDetails PurchaseDetails { get; set; }
+        public virtual ItemPurchaseDetails PurchaseDetails { get; set; }
 
         // Inventory
         public bool IsInventory { get; set; }

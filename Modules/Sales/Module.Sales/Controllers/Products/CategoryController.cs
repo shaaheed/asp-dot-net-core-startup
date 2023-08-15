@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Msi.Web;
-using Module.Sales.Domain.Products;
+using Module.Sales.Domain.Items;
 using System;
 
 namespace Module.Sales.Controllers

@@ -14,14 +14,14 @@ namespace Module.Sales.Domain
     public class DocumentService : IDocumentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductService _productService;
+        private readonly IItemService _productService;
         private readonly IPaymentService _paymentService;
         private readonly IContactService _contactService;
         private readonly IRepository<LineItem> _lineItemRepo;
 
         public DocumentService(
             IUnitOfWork unitOfWork,
-            IProductService productService,
+            IItemService productService,
             IContactService contactService,
             IPaymentService paymentService)
         {
@@ -158,8 +158,8 @@ namespace Module.Sales.Domain
 
             await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var savedProducts = await _productService.GetSavedProducts(requestProductIds, cancellationToken);
-            _productService.CheckProductNotFound(savedProducts);
+            var savedProducts = await _productService.GetSavedItems(requestProductIds, cancellationToken);
+            _productService.CheckItemNotFound(savedProducts);
 
             var newLineItems = requestLineItems.Select(x =>
             {
@@ -198,8 +198,8 @@ namespace Module.Sales.Domain
                 .ToList();
             await _productService.CheckDuplicate(requestProductIds, cancellationToken);
 
-            var savedProducts = await _productService.GetSavedProducts(requestProductIds, cancellationToken);
-            _productService.CheckProductNotFound(savedProducts);
+            var savedProducts = await _productService.GetSavedItems(requestProductIds, cancellationToken);
+            _productService.CheckItemNotFound(savedProducts);
 
             var savedLineItems = await _lineItemRepo
                 .ListAsyncAsReadOnly(x => x.DocumentId == document.Id && x.TransactionType == transactionType && !x.IsDeleted, x => new
@@ -268,7 +268,7 @@ namespace Module.Sales.Domain
                 {
                     if (requestLineItem.ProductId.HasValue)
                     {
-                        await _productService.CheckProductSelable(requestLineItem.ProductId, requestLineItem.Name, cancellationToken);
+                        await _productService.CheckItemSelable(requestLineItem.ProductId, requestLineItem.Name, cancellationToken);
 
                         result += await OnLineItemQuantityIncreased(requestLineItem.ProductId.Value, requestLineItem.Quantity, cancellationToken);
                     }

@@ -13,11 +13,11 @@ namespace Module.Sales.Domain
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IProductService _productService;
+        private readonly IItemService _productService;
 
         public CreateInventoryAdjustmentCommandHandler(
             IUnitOfWork unitOfWork,
-            IProductService productService)
+            IItemService productService)
         {
             _unitOfWork = unitOfWork;
             _productService = productService;

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, ViewChild, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { FormComponent } from 'src/app/shared/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { SelectControlComponent } from 'src/app/shared/select-control/select-control.component';
@@ -7,7 +7,7 @@ import { CURRENCY } from 'src/app/modules/organizations/organization.service';
 import { AbstractControl, UntypedFormArray, UntypedFormControl } from '@angular/forms';
 import { message } from 'src/constants/message';
 import { of } from 'rxjs';
-import { forEachObj } from 'src/services/utilities.service';
+import { buildFilter, forEachObj } from 'src/services/utilities.service';
 
 @Component({
   selector: 'app-products-purchase-info',
@@ -19,10 +19,14 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
 
   loading: boolean = false;
   noData: boolean = false;
-  apiUrl = 'products';
   objectName = "product";
 
   @Input() unitTypeId;
+  @Input() data;
+  @Output() updated = new EventEmitter();
+
+  @ViewChild('currencySelect') currencySelect: SelectControlComponent;
+  @ViewChild('currenciesSelect') currenciesSelect: SelectControlComponent;
   @ViewChild('unitSelect') unitSelect: SelectControlComponent;
   @ViewChild('accountSelect') accountSelect: SelectControlComponent;
 
@@ -34,9 +38,7 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
 
   formItemStyle = { padding: 0 };
 
-  onSetFormValues = data => {
-    console.log('on set form values', data);
-  };
+  priceInputSuffix: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -50,11 +52,11 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
     if (data?.componentAccessor) {
       data.componentAccessor(this);
     }
-    super.ngOnInit(this.route.snapshot);
-
     this.currency = CURRENCY;
     this.createForm({
-      currency: [],
+      id: [],
+      currencies: [],
+      currencyId: [],
       price: [],
       accountId: [],
       description: [],
@@ -63,19 +65,33 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
       ]],
       suppliers: this.fb.array([])
     });
+    super.ngOnInit(this.route.snapshot);
 
-    this.prepareForm({ suppliers: this.suppliers });
+    this.data.suppliers = this.suppliers;
+    this.prepareForm(this.data);
   }
 
   ngAfterViewInit() {
     this.unitSelect.register((pagination, search) => {
       return this._httpService.get(this.getUnitUrl());
     });
+
+    this.currencySelect.register((pagination, search) => {
+      return this._httpService.get(`systems/currencies`, pagination, buildFilter('Name', 'like', search));
+    });
+
+    this.currenciesSelect.register((pagination, search) => {
+      return this._httpService.get('systems/currencies', pagination, buildFilter('Name', 'like', search));
+    });
+
+    // this.supplierSelect.register((pagination, search) => {
+    //   return this._httpService.get('contacts?Search=Type eq 2');
+    // });
   }
 
   onUnitSelected(e) {
     if (e.name) {
-      // this.priceInputSuffix = `/ ${e.name}`;
+      this.priceInputSuffix = `/ ${e.name}`;
     }
   }
 
@@ -93,11 +109,17 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
   }
 
   getUnitUrl() {
-    let unitUrl = 'units';
+    let unitUrl = 'systems/units';
     if (this.unitTypeId) {
       unitUrl += `?Filter=TypeId eq ${this.unitTypeId}`;
     }
     return unitUrl;
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.data = this.constructObject(this.form.controls);
+    this.updated.emit(this.data);
   }
 
   private prepareForm(data) {
@@ -113,6 +135,7 @@ export class ProductPurchaseInfoAddComponent extends FormComponent {
         this.createSuppliersFormGroup(o);
       });
     }
+    this.setValues(this.form.controls, data);
   }
 
   private createSuppliersFormGroup(data: any) {

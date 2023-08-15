@@ -20,7 +20,7 @@
 
 //                new ChartOfAccount { Id = 5, Name = "Sales", Description = "Payments from your customers for products and services that your business sold.", CategoryId = 3, TypeId = 18 },
 
-//                new ChartOfAccount { Id = 6, Name = "Uncategorized Income", Description = "Income you haven't categorized yet. Categorize it now to keep your records accurate.", CategoryId = 3, TypeId = 21 },
+//                new ChartOfAccount { Id = 6, Name = "Uncategorized Income", Description = "Income you haven't categorized yet. Categorize it now to keep your records accurate.", CategoryId = 3, TypeId = 21 },I
 
 //                new ChartOfAccount { Id = 7, Name = "Foreign exchange gains happen when the exchange rate between your business's home currency and a foreign currency transaction changes and results in a gain. This can happen in the time between a transaction being entered in Wave and being settled, for example, between when you send an invoice and when your customer pays it. This can affect foreign currency invoice payments, bill payments, or foreign currency held in your bank account.", CategoryId = 3, TypeId = 22 },
 

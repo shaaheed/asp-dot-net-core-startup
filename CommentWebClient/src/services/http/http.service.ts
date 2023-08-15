@@ -14,8 +14,13 @@ export class HttpService {
         //
     }
 
-    get(url: string) {
-        return this.http.get(`${environment.baseUrl}/${url}`, { headers: this.getCommonHeader(), withCredentials: true });
+    get(url: string, ...params) {
+        const _params = params?.filter(x => x)?.join('&');
+        let _url = `${environment.baseUrl}/${url}`;
+        if (_params) {
+            _url += `?${_params}`;
+        }
+        return this.http.get(_url, { headers: this.getCommonHeader(), withCredentials: true });
     }
 
     post(url: string, body: any) {
@@ -79,7 +84,7 @@ export class HttpService {
         };
         const token = this.securityService.getAuthData();
         const t = `${localStorage.access_token}`;
-        if(t) {
+        if (t) {
             headers['Authorization'] = `Bearer ${t}`;
         }
         headers['x-organization-id'] = ORGANIZATION_ID;

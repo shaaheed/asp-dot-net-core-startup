@@ -17,6 +17,7 @@ export class SelectControlComponent extends AntControlComponent {
   @Input() mode: string = 'default';
   @Input() noLabel: boolean = false;
   @Input() onItemsLoaded: (items: []) => void;
+  @Input() serverSearch: false;
   @Output() onOpen = new EventEmitter();
   @Output() onSelected = new EventEmitter();
 
@@ -25,6 +26,7 @@ export class SelectControlComponent extends AntControlComponent {
   infoText: string = '';
 
   loading: boolean = false;
+  searching: boolean = false;
   loadingMore: boolean = false;
   items = [];
 
@@ -55,7 +57,6 @@ export class SelectControlComponent extends AntControlComponent {
   writeValue(val: any) {
     if (val) {
       if (Array.isArray(val)) {
-        this.value = val.map(x => x[this.idKey]);
         const items = val.map(x => {
           return {
             [this.idKey]: x[this.idKey],
@@ -63,15 +64,16 @@ export class SelectControlComponent extends AntControlComponent {
           };
         });
         this.items = items;
+        this.value = this.items.map(x => x[this.idKey]);
       }
       else if (typeof (val) === "object") {
-        this.value = val[this.idKey];
         const obj = {
           [this.idKey]: val[this.idKey],
           [this.labelKey]: val[this.labelKey] || val['name']
         };
         const items = [obj];
         this.items = items;
+        this.value = obj[this.idKey];
       }
       else {
         this.value = val;
@@ -94,22 +96,21 @@ export class SelectControlComponent extends AntControlComponent {
     if (this.fetchFn) {
       this.fetchCalled = true;
       this.busy(true);
+      if (this.searching) {
+        this.offset = 0;
+      }
       const pagination = `offset=${this.offset}&limit=${this.limit}`;
       const subscription = this.fetchFn(pagination, search).subscribe(
         (res: any) => {
-          this.loading = false;
-          this.loadingMore = false;
           let items: any[] = res.data.items || [];
           this.lastLoadingMoreFetchItems = items;
-          if (clearOnFetch) {
+          if (clearOnFetch || this.searching) {
             this.items = [];
           }
           invoke(this.onItemsLoaded, items);
           const filtered = items.filter(x => !this.items.find(y => y[this.idKey] == x[this.idKey]));
           const _items = [...this.items, ...filtered];
-          setTimeout(() => {
-            this.items = _items
-          }, 0);
+          setTimeout(() => this.items = _items, 0);
           this.busy(false);
           if (this._selectFirstOption && this.items.length > 0) {
             this.value = this.items[0][this.idKey];
@@ -118,6 +119,9 @@ export class SelectControlComponent extends AntControlComponent {
           if (this._onLoadCompleted) {
             this._onLoadCompleted(_items);
           }
+          this.searching = false;
+          this.loading = false;
+          this.loadingMore = false;
         },
         err => {
           this.busy(false);
@@ -198,6 +202,11 @@ export class SelectControlComponent extends AntControlComponent {
     }
     this.openCount++;
     console.log('openChange', this.openCount);
+  }
+
+  onSearch(e) {
+    this.searching = true;
+    this.fetch(e);
   }
 
   reset() {

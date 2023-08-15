@@ -187,3 +187,10 @@ export function beep(vol = 90, freq = 500, duration = 150) {
     v.start(a.currentTime)
     v.stop(a.currentTime + duration * 0.001)
 }
+
+export function buildFilter(fieldName, operator, value) {
+    if (value) {
+        return `Filter=${fieldName} ${operator} ${value}`;
+    }
+    return "";
+}
