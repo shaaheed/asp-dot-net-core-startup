@@ -7,7 +7,7 @@ namespace Comment.Application.Common
 {
     public class QueryBehaviourHandler<TRequest, TResponse> : IQueryBehaviour<TResponse, TResponse>
     {
-        public async Task<TResponse> Handle(TResponse request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TResponse request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             // before
             var response = await next();

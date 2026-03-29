@@ -19,7 +19,7 @@ namespace Msi.Mediator.Extensions.Microsoft.DependencyInjection
             if (_options.Assemblies == null || _options.Assemblies.Count <= 0)
                 throw new ArgumentException($"{nameof(_options.Assemblies)} can not be null or empty");
 
-            services.AddMediatR(_options.Assemblies.ToArray());
+            services.AddMediatR(c => c.RegisterServicesFromAssemblies(_options.Assemblies.ToArray()));
 
             // var assemblies = Global.GetGenericImplementations(typeof(ICommand<>));
 

@@ -10,13 +10,13 @@ using Module.Systems.Filters;
 using Msi.Mediator.Abstractions;
 using Module.Tokens.Domain;
 using Services;
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.OpenApi;
 
 namespace AccountingWebHost
 {
